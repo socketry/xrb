@@ -100,8 +100,6 @@ module Trenni
 			end
 		end
 		
-		protected
-		
 		def options(options)
 			saved_options = @options
 			@options = options
@@ -110,6 +108,8 @@ module Trenni
 			
 			@options = saved_options
 		end
+		
+		protected
 		
 		def attributes_xml(attributes)
 			buffer = ''
