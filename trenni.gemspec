@@ -10,11 +10,11 @@ Gem::Specification.new do |gem|
 	gem.email         = ["samuel.williams@oriontransfer.co.nz"]
 	gem.description   = <<-EOF
 	Trenni is a templating system that evaluates textual strings containing Ruby
-	code. It compiles templates into native Ruby code including string 
-	interpolations which means that you generally get the best possible speed.
-	
+	code. It compiles templates directly into native code which means that you
+	generally get the best possible performance.
+
 	In addition, Trenni includes an SGML/XML builder to assist with the generation
-	of valid nicely formatted markup.
+	of pleasantly formatted markup.
 	EOF
 	gem.summary       = %q{A fast native templating system that compiles directly to Ruby code.}
 	gem.homepage      = "https://github.com/ioquatix/trenni"
