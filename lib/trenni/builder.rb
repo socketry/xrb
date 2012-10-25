@@ -50,7 +50,7 @@ module Trenni
 		def instruct(attributes = nil)
 			attributes ||= INSTRUCT_ATTRIBUTES
 			
-			@output.puts "<?xml#{attributes_xml(attributes)}?>"
+			@output.puts "<?xml#{tag_attributes(attributes)}?>"
 		end
 		
 		def doctype(attributes = 'html')
@@ -73,7 +73,7 @@ module Trenni
 		def tag(name, attributes = {}, &block)
 			if block_given?
 				@output.puts if indent? and @level.last > 0
-				@output.write indent + "<#{name}#{attributes_xml(attributes)}>"
+				@output.write indent + "<#{name}#{tag_attributes(attributes)}>"
 				@output.puts if indent?
 				
 				@level[@level.size-1] += 1
@@ -85,7 +85,7 @@ module Trenni
 				@output.puts if indent?
 				@output.write indent + "</#{name}>"
 			else
-				@output.write indent + "<#{name}#{attributes_xml(attributes)}/>"
+				@output.write indent + "<#{name}#{tag_attributes(attributes)}/>"
 			end
 		end
 		
@@ -109,16 +109,27 @@ module Trenni
 			@options = saved_options
 		end
 		
-		protected
+		def tag_attributes(attributes)
+			self.class.tag_attributes(attributes, @options[:strict])
+		end
 		
-		def attributes_xml(attributes)
-			buffer = ''
+		# Convert a set of attributes into a string suitable for use within a <tag>.
+		def self.tag_attributes(attributes, strict = false)
+			buffer = []
 			
 			attributes.each do |key, value|
-				buffer += " #{key}=\"#{value.gsub('"', '&quot;')}\""
+				if value == true
+					buffer << (strict ? "#{key}=\"#{key}\"" : key)
+				elsif value
+					buffer << "#{key}=\"#{value.to_s.gsub('"', '&quot;')}\""
+				end
 			end
 			
-			return buffer
+			if buffer.size > 0
+				return ' ' + buffer.join(' ')
+			else
+				return ''
+			end
 		end
 	end
 	

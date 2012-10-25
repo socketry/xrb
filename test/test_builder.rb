@@ -23,6 +23,7 @@
 require 'pathname'
 require 'test/unit'
 require 'stringio'
+require 'digest/md5'
 
 require 'trenni'
 
@@ -37,11 +38,11 @@ class BuilderTest < Test::Unit::TestCase
 			builder.text("apples and oranges")
 		end
 		
-		assert_equal output.string, "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<foo bar=\"baz\">apples and oranges</foo>"
+		assert_equal "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<foo bar=\"baz\">apples and oranges</foo>", output.string
 	end
 	
 	def test_html
-		output = $stdout
+		output = StringIO.new
 		
 		builder = Trenni::Builder.new(:output => output, :indent => "\t")
 		builder.options(:indent => "\t") do
@@ -56,5 +57,24 @@ class BuilderTest < Test::Unit::TestCase
 				end
 			end
 		end
+		
+		assert_equal "<!DOCTYPE html>\n<html>\n\t<head>\n\t\t<title>\n\t\t\tHello World\n\t\t</title>\n\t</head>\n\t<body>\n\n\t</body>\n</html>", output.string
+	end
+	
+	def test_attributes
+		# Non-strict output (e.g. HTML)
+		text = Trenni::Builder.tag_attributes({:required => true})
+		assert_equal " required", text
+		
+		# Strict output (e.g. XML)
+		text = Trenni::Builder.tag_attributes({:required => true}, true)
+		assert_equal " required=\"required\"", text
+		
+		text = Trenni::Builder.tag_attributes({:required => false})
+		assert_equal "", text
+		
+		# Check the order is correct
+		text = Trenni::Builder.tag_attributes([[:a, 10], [:b, 20]])
+		assert_equal " a=\"10\" b=\"20\"", text
 	end
 end
