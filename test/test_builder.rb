@@ -27,7 +27,7 @@ require 'digest/md5'
 
 require 'trenni'
 
-class BuilderTest < Test::Unit::TestCase
+class TestBuilder < Test::Unit::TestCase
 	def test_tags
 		output = StringIO.new
 		

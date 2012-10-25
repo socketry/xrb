@@ -26,7 +26,7 @@ require 'stringio'
 
 require 'trenni'
 
-class TemplateTest < Test::Unit::TestCase
+class TestTemplate < Test::Unit::TestCase
 	def test_template_each
 		template = Trenni::Template.new('<?r items.each do |item| ?>#{item}<?r end ?>')
 		
