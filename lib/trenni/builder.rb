@@ -132,7 +132,7 @@ module Trenni
 		def tag_attributes(attributes)
 			buffer = []
 			
-			attributes.each do |key, value|
+			attributes.sort.each do |key, value|
 				if value == true
 					buffer << Strings::to_simple_attribute(key, @strict)
 				elsif value
