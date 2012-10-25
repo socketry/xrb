@@ -30,12 +30,27 @@ module Trenni
 	class Builder
 		INDENT = "\t"
 		
+		# A helper to generate fragments of markup.
+		def self.fragment(builder = nil, &block)
+			if builder
+				yield builder
+				
+				return nil
+			else
+				builder = Builder.new
+				
+				yield builder
+				
+				return builder.output.string
+			end
+		end
+		
 		def initialize(options = {})
 			@strict = options[:strict]
 			
 			@output = options[:output] || StringIO.new
 			@indentation = options[:indentation] || INDENT
-			@indent = options[:indent]
+			@indent = options.fetch(:indent, true)
 			
 			@escape = options[:escape]
 			
@@ -93,13 +108,18 @@ module Trenni
 		end
 		
 		def text(data)
+			append to_html(data)
+		end
+		
+		# Append pre-existing markup:
+		def append(data)
 			# The parent has one more child:
 			@level[-1] += 1
 			
-			data = to_html(data)
-			
 			if @indent
-				data.split(/\n/).each_with_index do |line, i|
+				lines = data.strip.split(/\n/)
+				
+				lines.each_with_index do |line, i|
 					@output.puts if i > 0
 					@output.write indentation + line
 				end
