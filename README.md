@@ -1,14 +1,13 @@
 # Trenni
 
-[![Build Status](https://secure.travis-ci.org/ioquatix/relaxo.png)](http://travis-ci.org/ioquatix/relaxo)
-
 Trenni is a templating system that evaluates textual strings containing Ruby
-code. It compiles templates into native Ruby code including string 
-interpolations which means that you generally get the best possible speed.
+code. It compiles templates directly into native code which means that you
+generally get the best possible performance.
 
 In addition, Trenni includes an SGML/XML builder to assist with the generation
-of valid nicely formatted markup.
+of pleasantly formatted markup.
 
+* [![Build Status](https://secure.travis-ci.org/ioquatix/trenni.png)](http://travis-ci.org/ioquatix/trenni)
 * Released under the MIT license.
 * Copyright (c) 2012 [Samuel G. D. Williams](http://www.codeotaku.com/samuel-williams/).
 
