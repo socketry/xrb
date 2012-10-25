@@ -18,6 +18,8 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+require 'trenni/strings'
+
 module Trenni
 	
 	INSTRUCT_ATTRIBUTES = [
@@ -119,9 +121,9 @@ module Trenni
 			
 			attributes.each do |key, value|
 				if value == true
-					buffer << (strict ? "#{key}=\"#{key}\"" : key)
+					buffer << Strings::to_simple_attribute(key, strict)
 				elsif value
-					buffer << "#{key}=\"#{value.to_s.gsub('"', '&quot;')}\""
+					buffer << Strings::to_attribute(key, value.to_s)
 				end
 			end
 			
