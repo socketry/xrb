@@ -7,9 +7,7 @@ generally get the best possible performance.
 In addition, Trenni includes an SGML/XML builder to assist with the generation
 of pleasantly formatted markup.
 
-* [![Build Status](https://secure.travis-ci.org/ioquatix/trenni.png)](http://travis-ci.org/ioquatix/trenni)
-* Released under the MIT license.
-* Copyright (c) 2012 [Samuel G. D. Williams](http://www.codeotaku.com/samuel-williams/).
+[![Build Status](https://secure.travis-ci.org/ioquatix/trenni.png)](http://travis-ci.org/ioquatix/trenni)
 
 ## Installation
 
@@ -47,7 +45,9 @@ The code above demonstraights the only two constructs, `<?r expression ?>` and `
 
 ## License
 
-Copyright (c) 2012 Samuel G. D. Williams.
+Released under the MIT license.
+
+Copyright (c) 2012 [Samuel G. D. Williams](http://www.codeotaku.com/samuel-williams/).
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the
