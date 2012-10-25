@@ -101,5 +101,9 @@ class TestBuilder < Test::Unit::TestCase
 		builder = Trenni::Builder.new(:strict => true)
 		builder.tag :t, [[:a, 10], [:b, 20]]
 		assert_equal %Q{<t a="10" b="20"/>}, builder.output.string
+		
+		builder = Trenni::Builder.new(:strict => true)
+		builder.tag :t, :b => 20, :a => 10
+		assert_equal %Q{<t a="10" b="20"/>}, builder.output.string
 	end
 end
