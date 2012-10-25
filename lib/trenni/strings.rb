@@ -12,8 +12,9 @@ module Trenni
 			'"' + string.gsub('"', '\\"').gsub(/\r/, "\\r").gsub(/\n/, "\\n") + '"'
 		end
 		
+		# `value` must already be escaped.
 		def self.to_attribute(key, value)
-			%Q{#{key}="#{to_html(value)}"}
+			%Q{#{key}="#{value}"}
 		end
 		
 		def self.to_simple_attribute(key, strict)

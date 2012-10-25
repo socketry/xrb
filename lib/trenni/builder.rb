@@ -28,22 +28,26 @@ module Trenni
 	].freeze
 	
 	class Builder
+		INDENT = "\t"
+		
 		def initialize(options = {})
-			@output = options[:output] || StringIO.new
+			@strict = options[:strict]
 			
-			@options = options
+			@output = options[:output] || StringIO.new
+			@indentation = options[:indentation] || INDENT
+			@indent = options[:indent]
+			
+			@escape = options[:escape]
 			
 			@level = [0]
 			@children = [0]
 		end
 		
-		def indent?
-			@options[:indent] != nil
-		end
+		attr :output
 		
-		def indent
-			if indent?
-				@options[:indent] * (@level.size - 1)
+		def indentation
+			if @indent
+				@indentation * (@level.size - 1)
 			else
 				''
 			end
@@ -72,58 +76,47 @@ module Trenni
 			@output.puts "<!DOCTYPE#{text}>"
 		end
 		
+		# Begin a block tag.
 		def tag(name, attributes = {}, &block)
-			if block_given?
-				@output.puts if indent? and @level.last > 0
-				@output.write indent + "<#{name}#{tag_attributes(attributes)}>"
-				@output.puts if indent?
-				
-				@level[@level.size-1] += 1
-				
-				@level << 0
-				yield self
-				@level.pop
-				
-				@output.puts if indent?
-				@output.write indent + "</#{name}>"
-			else
-				@output.write indent + "<#{name}#{tag_attributes(attributes)}/>"
+			full_tag(name, attributes, @indent, @indent, &block)
+		end
+		
+		# Begin an inline tag.
+		def inline(name, attributes = {}, &block)
+			indent = @indent
+			
+			full_tag(name, attributes, @indent, false) do
+				@indent = false
+				yield
+				@indent = indent
 			end
 		end
 		
 		def text(data)
-			if indent?
+			# The parent has one more child:
+			@level[-1] += 1
+			
+			data = to_html(data)
+			
+			if @indent
 				data.split(/\n/).each_with_index do |line, i|
 					@output.puts if i > 0
-					@output.write indent + line
+					@output.write indentation + line
 				end
 			else
 				@output.write data
 			end
 		end
 		
-		def options(options)
-			saved_options = @options
-			@options = options
-			
-			yield
-			
-			@options = saved_options
-		end
-		
-		def tag_attributes(attributes)
-			self.class.tag_attributes(attributes, @options[:strict])
-		end
-		
 		# Convert a set of attributes into a string suitable for use within a <tag>.
-		def self.tag_attributes(attributes, strict = false)
+		def tag_attributes(attributes)
 			buffer = []
 			
 			attributes.each do |key, value|
 				if value == true
-					buffer << Strings::to_simple_attribute(key, strict)
+					buffer << Strings::to_simple_attribute(key, @strict)
 				elsif value
-					buffer << Strings::to_attribute(key, value.to_s)
+					buffer << Strings::to_attribute(key, to_html(value))
 				end
 			end
 			
@@ -131,6 +124,43 @@ module Trenni
 				return ' ' + buffer.join(' ')
 			else
 				return ''
+			end
+		end
+		
+		protected
+		
+		def to_html(data)
+			@escape ? Strings::to_html(data) : data
+		end
+		
+		# A normal block level/container tag.
+		def full_tag(name, attributes, indent_outer, indent_inner, &block)
+			if block_given?
+				if indent_outer
+					@output.puts if @level.last > 0
+					@output.write indentation
+				end
+				
+				@output.write "<#{name}#{tag_attributes(attributes)}>"
+				@output.puts if indent_inner
+				
+				# The parent has one more child:
+				@level[-1] += 1
+				
+				@level << 0
+				
+				yield
+				
+				children = @level.pop
+				
+				if indent_inner
+					@output.puts if children > 0
+					@output.write indentation
+				end
+				
+				@output.write "</#{name}>"
+			else
+				@output.write indentation + "<#{name}#{tag_attributes(attributes)}/>"
 			end
 		end
 	end

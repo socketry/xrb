@@ -29,52 +29,77 @@ require 'trenni'
 
 class TestBuilder < Test::Unit::TestCase
 	def test_tags
-		output = StringIO.new
-		
-		builder = Trenni::Builder.new(:output => output)
+		builder = Trenni::Builder.new(:indent => false)
 
 		builder.instruct
 		builder.tag('foo', 'bar' => 'baz') do
 			builder.text("apples and oranges")
 		end
 		
-		assert_equal "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<foo bar=\"baz\">apples and oranges</foo>", output.string
+		assert_equal "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<foo bar=\"baz\">apples and oranges</foo>", builder.output.string
 	end
 	
-	def test_html
-		output = StringIO.new
+	def test_full_html
+		builder = Trenni::Builder.new(:indent => true)
 		
-		builder = Trenni::Builder.new(:output => output, :indent => "\t")
-		builder.options(:indent => "\t") do
-			builder.doctype
-			builder.tag('html') do
-				builder.tag('head') do
-					builder.tag('title') do
-						builder.text('Hello World')
-					end
+		builder.doctype
+		builder.tag('html') do
+			builder.tag('head') do
+				builder.inline('title') do
+					builder.text('Hello World')
 				end
-				builder.tag('body') do
-				end
+			end
+			builder.tag('body') do
 			end
 		end
 		
-		assert_equal "<!DOCTYPE html>\n<html>\n\t<head>\n\t\t<title>\n\t\t\tHello World\n\t\t</title>\n\t</head>\n\t<body>\n\n\t</body>\n</html>", output.string
+		assert_equal "<!DOCTYPE html>\n<html>\n\t<head>\n\t\t<title>Hello World</title>\n\t</head>\n\t<body>\n\t</body>\n</html>", builder.output.string
 	end
 	
-	def test_attributes
-		# Non-strict output (e.g. HTML)
-		text = Trenni::Builder.tag_attributes({:required => true})
-		assert_equal " required", text
+	def test_inline_html
+		builder = Trenni::Builder.new(:indent => true)
 		
-		# Strict output (e.g. XML)
-		text = Trenni::Builder.tag_attributes({:required => true}, true)
-		assert_equal " required=\"required\"", text
+		builder.inline("div") do
+			builder.tag("strong") do
+				builder.text("Hello")
+			end
+			
+			builder.text "World!"
+		end
 		
-		text = Trenni::Builder.tag_attributes({:required => false})
-		assert_equal "", text
+		assert_equal "<div><strong>Hello</strong>World!</div>", builder.output.string
+	end
+	
+	def test_indentation
+		builder = Trenni::Builder.new(:indent => "\t")
 		
-		# Check the order is correct
-		text = Trenni::Builder.tag_attributes([[:a, 10], [:b, 20]])
-		assert_equal " a=\"10\" b=\"20\"", text
+		puts builder.output.string
+	end
+	
+	def test_escaping
+		builder = Trenni::Builder.new(:escape => true)
+		builder.inline :foo, :bar => %Q{"Hello World"} do
+			builder.text %Q{if x < 10}
+		end
+		
+		assert_equal %Q{<foo bar="&quot;Hello World&quot;">if x &lt; 10</foo>}, builder.output.string
+	end
+	
+	def test_attributes_strict
+		builder = Trenni::Builder.new(:strict => true)
+		builder.tag :option, :required => true
+		assert_equal %Q{<option required="required"/>}, builder.output.string
+	end
+	
+	def test_attributes_compact
+		builder = Trenni::Builder.new(:strict => false)
+		builder.tag :option, :required => true
+		assert_equal %Q{<option required/>}, builder.output.string
+	end
+	
+	def test_attributes_order
+		builder = Trenni::Builder.new(:strict => true)
+		builder.tag :t, [[:a, 10], [:b, 20]]
+		assert_equal %Q{<t a="10" b="20"/>}, builder.output.string
 	end
 end
