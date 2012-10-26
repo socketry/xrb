@@ -70,6 +70,15 @@ module Trenni
 		
 		def initialize(delegate)
 			@delegate = delegate
+			# The delegate must respond to:
+			# .begin_parse(scanner)
+			# .text(escaped-data)
+			# .cdata(unescaped-data)
+			# .attribute(name, value-or-true)
+			# .begin_tag(name, :opened or :closed)
+			# .end_tag(begin_tag_type, :opened or :closed)
+			# .comment(comment-text)
+			# .instruction(instruction-text)
 		end
 
 		def parse(string)
