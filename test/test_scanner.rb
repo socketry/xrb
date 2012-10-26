@@ -38,6 +38,10 @@ class TestScanner < Test::Unit::TestCase
 		def method_missing(*args)
 			@events << args
 		end
+		
+		def begin_parse(scanner)
+			# ignore this event
+		end
 	end
 	
 	def test_markup

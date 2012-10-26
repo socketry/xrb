@@ -83,6 +83,7 @@ module Trenni
 
 		def parse(string)
 			scanner = StringScanner.new(string)
+			@delegate.begin_parse(scanner)
 
 			until scanner.eos?
 				start_pos = scanner.pos
