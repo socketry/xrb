@@ -22,49 +22,54 @@
 require 'strscan'
 
 module Trenni
-	# This scanner processes general markup into a sequence of events which are passed to a delegate.
-	class Scanner
+	# This parser processes general markup into a sequence of events which are passed to a delegate.
+	class Parser
 		OPENED_TAG = :opened
 		CLOSED_TAG = :closed
 		
-		class ScanError < StandardError
+		def self.line_at_offset(input, input_offset)
+			line_number = 1
+			line_offset = offset = 0
+
+			input.each_line do |line|
+				line_offset = offset
+				offset += line.size
+
+				if offset >= input_offset
+					return {
+						# The line that contains the input_offset:
+						:line_number => line_number,
+						# The offset to the start of that line:
+						:line_offset => line_offset,
+						# The number of characters from the start of the line to the input_offset:
+						:character_offset => input_offset - line_offset,
+						# The line of text itself:
+						:text => line.chomp
+					}
+				end
+
+				line_number += 1
+			end
+			
+			return nil
+		end
+		
+		class ParseError < StandardError
 			def initialize(message, scanner)
 				@message = message
 
-				@pos = scanner.pos
-				@offset = calculate_line_number(scanner)
+				@position = scanner.pos
+				@line = Parser.line_at_offset(scanner.string, @position)
 			end
 
 			attr :offset
 
 			def to_s
 				if @offset
-					"Scan Error: #{@message} @ [#{@offset[0]}:#{@offset[2]}]: #{@offset[4]}"
+					"Parse Error: #{@message} @ [#{@line[0]}:#{@line[2]}]: #{@line[4]}"
 				else
-					"Scan Error [#{@pos}]: #{@message}"
+					"Parse Error [#{@position}]: #{@message}"
 				end
-			end
-			
-			protected
-			
-			def calculate_line_number(scanner)
-				at = scanner.pos
-				
-				line_no = 1
-				line_offset = offset = 0
-				
-				scanner.string.lines.each do |line|
-					line_offset = offset
-					offset += line.size
-					
-					if offset >= at
-						return [line_no, line_offset, at - line_offset, offset, line]
-					end
-					
-					line_no += 1
-				end
-				
-				return nil
 			end
 		end
 		
@@ -92,7 +97,7 @@ module Trenni
 				scan_tag(scanner)
 
 				if start_pos == scanner.pos
-					raise ScanError.new("Scanner didn't move", scanner)
+					raise ParseError.new("Scanner didn't move", scanner)
 				end
 			end
 		end
@@ -144,17 +149,17 @@ module Trenni
 				
 				if scanner.scan(/\/>/)
 					if begin_tag_type == CLOSED_TAG
-						raise ScanError.new("Tag cannot be closed at both ends!", scanner)
+						raise ParseError.new("Tag cannot be closed at both ends!", scanner)
 					else
 						@delegate.finish_tag(begin_tag_type, CLOSED_TAG)
 					end
 				elsif scanner.scan(/>/)
 					@delegate.finish_tag(begin_tag_type, OPENED_TAG)
 				else
-					raise ScanError.new("Invalid characters in tag!", scanner)
+					raise ParseError.new("Invalid characters in tag!", scanner)
 				end
 			else
-				raise ScanError.new("Invalid tag!", scanner)
+				raise ParseError.new("Invalid tag!", scanner)
 			end
 		end
 
@@ -162,7 +167,7 @@ module Trenni
 			if scanner.scan_until(/(.*?)\]\]>/m)
 				@delegate.cdata(scanner[1])
 			else
-				raise ScanError.new("CDATA segment is not closed!", scanner)
+				raise ParseError.new("CDATA segment is not closed!", scanner)
 			end
 		end
 		
@@ -171,13 +176,13 @@ module Trenni
 				if scanner.scan_until(/(.*?)-->/m)
 					@delegate.comment("--" + scanner[1] + "--")
 				else
-					raise ScanError.new("Comment is not closed!", scanner)
+					raise ParseError.new("Comment is not closed!", scanner)
 				end
 			else
 				if scanner.scan_until(/(.*?)>/)
 					@delegate.comment(scanner[1])
 				else
-					raise ScanError.new("Comment is not closed!", scanner)
+					raise ParseError.new("Comment is not closed!", scanner)
 				end
 			end
 		end

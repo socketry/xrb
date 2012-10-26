@@ -25,10 +25,10 @@ require 'test/unit'
 require 'stringio'
 require 'digest/md5'
 
-require 'trenni/scanner'
+require 'trenni/parser'
 
-class TestScanner < Test::Unit::TestCase
-	class ScannerDelegate
+class TestParser < Test::Unit::TestCase
+	class ParserDelegate
 		def initialize
 			@events = []
 		end
@@ -45,8 +45,8 @@ class TestScanner < Test::Unit::TestCase
 	end
 	
 	def test_markup
-		delegate = ScannerDelegate.new
-		scanner = Trenni::Scanner.new(delegate)
+		delegate = ParserDelegate.new
+		scanner = Trenni::Parser.new(delegate)
 
 		scanner.parse(%Q{<foo bar="20" baz>Hello World</foo>})
 
@@ -64,8 +64,8 @@ class TestScanner < Test::Unit::TestCase
 	end
 	
 	def test_cdata
-		delegate = ScannerDelegate.new
-		scanner = Trenni::Scanner.new(delegate)
+		delegate = ParserDelegate.new
+		scanner = Trenni::Parser.new(delegate)
 
 		scanner.parse(%Q{<test><![CDATA[Hello World]]></test>})
 
@@ -81,19 +81,30 @@ class TestScanner < Test::Unit::TestCase
 	end
 	
 	def test_errors
-		delegate = ScannerDelegate.new
-		scanner = Trenni::Scanner.new(delegate)
+		delegate = ParserDelegate.new
+		scanner = Trenni::Parser.new(delegate)
 
-		assert_raise Trenni::Scanner::ScanError do
+		assert_raise Trenni::Parser::ParseError do
 			scanner.parse(%Q{<foo})
 		end
 		
-		assert_raise Trenni::Scanner::ScanError do
+		assert_raise Trenni::Parser::ParseError do
 			scanner.parse(%Q{<foo bar=>})
 		end
 		
-		assert_nothing_raised Trenni::Scanner::ScanError do
+		assert_nothing_raised Trenni::Parser::ParseError do
 			scanner.parse(%Q{<foo bar="" baz>})
 		end
+	end
+	
+	def test_line_at_offset
+		data = %Q{Hello\nWorld\nFoo\nBar!}
+		
+		line = Trenni::Parser.line_at_offset(data, 7)
+		
+		assert_equal "World", line[:text]
+		assert_equal 2, line[:line_number]
+		assert_equal 6, line[:line_offset]
+		assert_equal 1, line[:character_offset]
 	end
 end
