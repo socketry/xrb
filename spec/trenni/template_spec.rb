@@ -20,17 +20,15 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-require 'pathname'
-require 'test/unit'
-require 'stringio'
-
 require 'trenni'
 
-class TestTemplate < Test::Unit::TestCase
-	def test_template_each
-		template = Trenni::Template.new('<?r items.each do |item| ?>#{item}<?r end ?>')
+module Trenni::TemplateSpec
+	describe Trenni::Template do
+		it "should process list of items" do
+			template = Trenni::Template.new('<?r items.each do |item| ?>#{item}<?r end ?>')
 		
-		items = 1..4
-		assert_equal "1234", template.result(binding)
+			items = 1..4
+			expect(template.result(binding)).to be == "1234"
+		end
 	end
 end
