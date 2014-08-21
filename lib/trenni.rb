@@ -20,7 +20,3 @@
 
 require 'trenni/builder'
 require 'trenni/template'
-
-if RUBY_VERSION < "1.9.0"
-	require 'trenni/extensions/symbol-1.8.7'
-end
