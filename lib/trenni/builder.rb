@@ -102,7 +102,7 @@ module Trenni
 			
 			full_tag(name, attributes, @indent, false) do
 				@indent = false
-				yield
+				yield if block_given?
 				@indent = indent
 			end
 		end
