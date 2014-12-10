@@ -22,7 +22,8 @@
 
 require 'trenni'
 require 'benchmark'
-require 'ruby-prof'
+
+# require 'ruby-prof'
 
 module Trenni::TemplateSpec
 	describe Trenni::Template do
