@@ -1,4 +1,4 @@
-#!/usr/bin/env ruby
+#!/usr/bin/env rspec
 
 # Copyright, 2012, by Samuel G. D. Williams. <http://www.codeotaku.com>
 # 
@@ -90,6 +90,14 @@ module Trenni::BuilderSpec
 			builder.tag :option, :required => true
 			
 			expect(builder.output.string).to be == %Q{<option required/>}
+		end
+		
+		it "should output without changing escaped characters" do
+			builder = Trenni::Builder.new(:strict => false)
+			
+			builder.tag "section", :'data-text' => 'foo\nbar'
+			
+			expect(builder.output.string).to be == '<section data-text="foo\nbar"/>'
 		end
 		
 		it "should order attributes as specified" do
