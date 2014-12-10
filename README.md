@@ -31,9 +31,11 @@ Trenni templates work essentially the same way as all other templating systems:
 	
 	items = 1..4
 	
-	assert_equal "1234", template.result(binding)
+	template.to_string(binding) # => "1234"
 
-The code above demonstraights the only two constructs, `<?r expression ?>` and `#{output}`.
+The code above demonstrate  the only two constructs, `<?r expression ?>` and `#{output}`.
+
+Trenni provides a slightly higher performance API using objects rather than bindings. If you provide an object instance, `instance_eval` would be used instead.
 
 ## Contributing
 

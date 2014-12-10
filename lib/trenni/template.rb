@@ -19,6 +19,7 @@
 # THE SOFTWARE.
 
 require 'strscan'
+require 'stringio'
 
 module Trenni
 	# The output variable that will be used in templates:
@@ -62,12 +63,12 @@ module Trenni
 			end
 
 			def code
-				parts = ["#{OUT} = [] ; "] + @parts + ["#{OUT}.join"]
+				parts = ["#{OUT} = [] ; "] + @parts + ["#{OUT}"]
 
 				code = parts.join
 			end
 		end
-
+		
 		class Scanner < StringScanner
 			TEXT = /([^<#]|<(?!\?r)|#(?!\{)){1,1024}/m
 			
@@ -146,24 +147,42 @@ module Trenni
 		def initialize(template, filename = '<Trenni>')
 			@template = template
 			@filename = filename
-			compile!
 		end
 
-		def evaluate(binding)
-			eval(@code, binding, @filename)
+		def to_string(scope = nil)
+			to_array(scope).join
+		end
+
+		# Legacy functions:
+		alias evaluate to_string
+		alias result to_string
+
+		def to_array(scope)
+			if Binding === scope
+				eval(code, scope, @filename)
+			else
+				# This can sometimes be a bit faster:
+				scope.instance_eval(&to_proc)
+			end
 		end
 		
-		alias result evaluate
+		def to_proc
+			@compiled_proc ||= eval("proc{\n#{code}\n}", binding, @filename, 0)
+		end
 		
 		protected
 		
-		def compile!(filename = @filename)
+		def code
+			@code ||= compile!
+		end
+		
+		def compile!
 			buffer = Buffer.new
 			scanner = Scanner.new(buffer, @template)
 			
 			scanner.parse
 			
-			@code = buffer.code
+			buffer.code
 		end
 	end
 end

@@ -1,4 +1,4 @@
-#!/usr/bin/env ruby
+#!/usr/bin/env rspec
 
 # Copyright, 2012, by Samuel G. D. Williams. <http://www.codeotaku.com>
 # 
@@ -21,6 +21,8 @@
 # THE SOFTWARE.
 
 require 'trenni'
+require 'benchmark'
+require 'ruby-prof'
 
 module Trenni::TemplateSpec
 	describe Trenni::Template do
@@ -28,7 +30,34 @@ module Trenni::TemplateSpec
 			template = Trenni::Template.new('<?r items.each do |item| ?>#{item}<?r end ?>')
 		
 			items = 1..4
-			expect(template.result(binding)).to be == "1234"
+			expect(template.to_string(binding)).to be == "1234"
+		end
+		
+		let(:large_template) {Trenni::Template.load File.join(__dir__, "large.trenni")}
+
+		it "should have better performance using instance" do
+			n = 1_000
+			
+			#RubyProf.start
+			
+			object_time = Benchmark.realtime{n.times{large_template.to_string(self)}}
+			binding_time = Benchmark.realtime{n.times{large_template.to_string(binding)}}
+			
+			#result = RubyProf.stop
+			
+			# Print a flat profile to text
+			#printer = RubyProf::FlatPrinter.new(result)
+			#printer.print(STDOUT)
+			
+			expect(object_time).to be < binding_time
+		end
+		
+		let(:escaped_template) {Trenni::Template.load  File.join(__dir__, "escaped.trenni")}
+		
+		it "should process escaped characters" do
+			expect(escaped_template.to_string).to be == 
+				"This\\nisn't one line.\n" +
+				"\\tIndentation is the best."
 		end
 	end
 end
