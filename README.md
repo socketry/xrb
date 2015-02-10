@@ -8,6 +8,8 @@ In addition, Trenni includes an SGML/XML builder to assist with the generation
 of pleasantly formatted markup.
 
 [![Build Status](https://secure.travis-ci.org/ioquatix/trenni.png)](http://travis-ci.org/ioquatix/trenni)
+[![Code Climate](https://codeclimate.com/github/ioquatix/trenni.png)](https://codeclimate.com/github/ioquatix/trenni)
+[![Coverage Status](https://coveralls.io/repos/ioquatix/trenni/badge.svg)](https://coveralls.io/r/ioquatix/trenni)
 
 ## Installation
 
