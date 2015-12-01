@@ -21,7 +21,6 @@
 require 'trenni/strings'
 
 module Trenni
-	
 	INSTRUCT_ATTRIBUTES = [
 		['version', '1.0'],
 		['encoding', 'UTF-8']
@@ -180,6 +179,9 @@ module Trenni
 				
 				@output.write "</#{name}>"
 			else
+				# The parent has one more child:
+				@level[-1] += 1
+				
 				@output.write indentation + "<#{name}#{tag_attributes(attributes)}/>"
 			end
 		end

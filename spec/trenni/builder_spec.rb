@@ -52,6 +52,14 @@ module Trenni::BuilderSpec
 			expect(builder.output.string).to be == "<!DOCTYPE html>\n<html>\n\t<head>\n\t\t<title>Hello World</title>\n\t</head>\n\t<body>\n\t</body>\n</html>"
 		end
 		
+		it "should indent self-closing tag correctly" do
+			builder = Trenni::Builder.new
+			
+			builder.tag('foo') { builder.tag('bar') }
+			
+			expect(builder.output.string).to be == "<foo>\n\t<bar/>\n</foo>"
+		end
+		
 		it "should produce inline html" do
 			builder = Trenni::Builder.new(:indent => true)
 			
