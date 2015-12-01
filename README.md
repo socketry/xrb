@@ -15,17 +15,19 @@ of pleasantly formatted markup.
 
 Add this line to your application's Gemfile:
 
-    gem 'trenni'
+	gem 'trenni'
 
 And then execute:
 
-    $ bundle
+	$ bundle
 
 Or install it yourself as:
 
-    $ gem install trenni
+	$ gem install trenni
 
 ## Usage
+
+### Templates
 
 Trenni templates work essentially the same way as all other templating systems:
 
@@ -38,6 +40,23 @@ Trenni templates work essentially the same way as all other templating systems:
 The code above demonstrate  the only two constructs, `<?r expression ?>` and `#{output}`.
 
 Trenni provides a slightly higher performance API using objects rather than bindings. If you provide an object instance, `instance_eval` would be used instead.
+
+### Builder
+
+Trenni can help construct XML/HTML using a simple DSL:
+
+	Trenni::Builder.fragment do |builder|
+		builder.inline 'p' do
+			builder.tag 'strong' do
+				builder.text 'Hello'
+			end
+			builder.text ' World'
+		end
+		builder.tag 'script', type: 'text/html' do
+			builder.text 'console.log("Hello World")'
+		end
+	end
+	# => "<p><strong>Hello</strong> World</p>\n<script type=\"text/html\">\n\tconsole.log(\"Hello World\")\n</script>"
 
 ## Contributing
 
