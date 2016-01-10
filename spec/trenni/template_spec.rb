@@ -29,8 +29,9 @@ module Trenni::TemplateSpec
 	describe Trenni::Template do
 		it "should process list of items" do
 			template = Trenni::Template.new('<?r items.each do |item| ?>#{item}<?r end ?>')
-		
+			
 			items = 1..4
+			
 			expect(template.to_string(binding)).to be == "1234"
 		end
 		

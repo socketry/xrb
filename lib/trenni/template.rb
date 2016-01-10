@@ -31,7 +31,7 @@ module Trenni
 			out = eval(OUT, block.binding)
 			top = out.size
 			
-			block.call *args
+			block.call(*args)
 			
 			return out.pop(out.size - top).join
 		end
@@ -65,7 +65,7 @@ module Trenni
 			def code
 				parts = ["#{OUT} = [] ; "] + @parts + ["#{OUT}"]
 
-				code = parts.join
+				return parts.join
 			end
 		end
 		
