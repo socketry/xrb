@@ -26,49 +26,81 @@ module Trenni
 		OPENED_TAG = :opened
 		CLOSED_TAG = :closed
 		
-		def self.line_at_offset(input, input_offset)
-			line_number = 1
-			line_offset = offset = 0
-
-			input.each_line do |line|
-				line_offset = offset
-				offset += line.size
-
-				if offset >= input_offset
-					return {
-						# The line that contains the input_offset:
-						:line_number => line_number,
-						# The offset to the start of that line:
-						:line_offset => line_offset,
-						# The number of characters from the start of the line to the input_offset:
-						:character_offset => input_offset - line_offset,
-						# The line of text itself:
-						:text => line.chomp
-					}
+		class Location
+			def initialize(input, offset)
+				raise ArgumentError.new("Offset #{index} is past end of input #{input.bytesize}") if offset > input.bytesize
+				
+				@offset = offset
+				@line_index = 0
+				line_offset = next_line_offset = 0
+				
+				input.each_line do |line|
+					line_offset = next_line_offset
+					next_line_offset += line.bytesize
+					
+					# Is our input offset within this line?
+					if next_line_offset >= offset
+						@line_text = line.chomp
+						@line_range = line_offset...next_line_offset
+						break
+					else
+						@line_index += 1
+					end
 				end
-
-				line_number += 1
 			end
 			
-			return nil
+			def to_i
+				@offset
+			end
+			
+			def to_s
+				"[#{self.line_number}:#{self.line_range}]"
+			end
+			
+			# The line that contains the @offset (base 0 indexing).
+			attr :line_index
+			
+			# The line index, but base-1.
+			def line_number
+				@line_index + 1
+			end
+			
+			# The byte offset to the start of that line.
+			attr :line_range
+			
+			# The number of bytes from the start of the line to the given offset in the input.
+			def line_offset
+				@offset - @line_range.min
+			end
+			
+			attr :line_text
+			
+			def to_hash
+				{
+					:line_number => self.line_number,
+					:line_offset => self.line_range.min,
+					:character_offset => self.line_offset,
+					:text => self.line_text.chomp
+				}
+			end
+		end
+		
+		def self.line_at_offset(input, input_offset)
+			warn "#{self.class}::line_at_offset is deprecated, use Location.new(input, input_offset) directly!"
+			
+			Location.new(input, input_offset).to_hash rescue nil
 		end
 		
 		class ParseError < StandardError
 			def initialize(message, scanner)
 				@message = message
-
-				@position = scanner.pos
-				@line = Parser.line_at_offset(scanner.string, @position)
+				@location = Location.new(scanner.string, scanner.pos)
 			end
-
-			attr :offset
+			
+			attr :location
 
 			def to_s
-				if @offset
-					"Parse Error: #{@message} @ [#{@line[0]}:#{@line[2]}]: #{@line[4]}"
-				else
-					"Parse Error [#{@position}]: #{@message}"
-				end
+				"#{@message} at #{@location}"
 			end
 		end
 		

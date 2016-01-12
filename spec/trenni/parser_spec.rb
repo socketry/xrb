@@ -90,13 +90,24 @@ module Trenni::ParserSpec
 		it "should know about line numbers" do
 			data = %Q{Hello\nWorld\nFoo\nBar!}
 		
-			line = Trenni::Parser.line_at_offset(data, 7)
+			location = Trenni::Parser::Location.new(data, 7)
 		
-			expect(line[:text]).to be == "World"
+			expect(location.line_text).to be == "World"
 			
-			expect(line[:line_number]).to be == 2
-			expect(line[:line_offset]).to be == 6
-			expect(line[:character_offset]).to be == 1
+			expect(location.line_number).to be == 2
+			expect(location.line_range.min).to be == 6
+			expect(location.line_offset).to be == 1
+		end
+		
+		it "should know about line numbers when input contains multi-byte characters" do
+			delegate = ParserDelegate.new
+			scanner = Trenni::Parser.new(delegate)
+			
+			data = %Q{<p>\nこんにちは\nWorld\n<p}
+			error = scanner.parse(data) rescue $!
+			
+			expect(error).to be_kind_of Trenni::Parser::ParseError
+			expect(error.location.line_number).to be == 4
 		end
 	end
 end
