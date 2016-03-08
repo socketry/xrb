@@ -4,12 +4,10 @@ source 'https://rubygems.org'
 gemspec
 
 group :development do
-	gem "ruby-prof"
+	gem 'pry'
+	gem 'ruby-prof', platforms: [:mri]
 end
 
 group :test do
-	gem 'pry'
-	
-	gem 'simplecov'
-	gem 'coveralls', require: false
+	gem 'coveralls', platforms: [:mri]
 end
