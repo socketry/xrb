@@ -33,6 +33,18 @@ module Trenni::TemplateSpec
 			expect(capture_template.to_string.strip).to be == 'TEST TEST TEST'
 		end
 		
+		let(:buffer_template) {Trenni::Template.load_file File.expand_path('template_spec/buffer.trenni', __dir__)}
+		
+		it "should be able to fetch output buffer" do
+			expect(buffer_template.to_string).to be == 'test'
+		end
+		
+		let(:nested_template) {Trenni::Template.load_file File.expand_path('template_spec/nested.trenni', __dir__)}
+		
+		it "should be able to handle nested interpolations" do
+			expect(nested_template.to_string).to be == "Hello world!"
+		end
+		
 		it "should process list of items" do
 			template = Trenni::Template.new('<?r items.each do |item| ?>#{item}<?r end ?>')
 			
