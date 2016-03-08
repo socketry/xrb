@@ -196,7 +196,7 @@ module Trenni
 			if scanner.scan_until(/(.*?)>/)
 				@delegate.doctype(scanner[1].strip.freeze)
 			else
-				raise ParseError.new("Comment is not closed!", scanner)
+				raise ParseError.new("DOCTYPE is not closed!", scanner)
 			end
 		end
 		

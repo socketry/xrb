@@ -43,11 +43,28 @@ module Trenni::ParserSpec
 		let(:delegate) {ParserDelegate.new}
 		let(:parser) {Trenni::Parser.new(delegate)}
 		
+		it "should parse self-closing tags correctly" do
+			parser.parse("<br/>")
+			
+			expect(delegate.events).to be == [
+				[:begin_tag, "br", :opened],
+				[:finish_tag, :opened, :closed],
+			]
+		end
+		
 		it "should parse doctype correctly" do
 			parser.parse("<!DOCTYPE html>")
 			
 			expect(delegate.events).to be == [
 				[:doctype, "html"]
+			]
+		end
+		
+		it "Should parse instruction correctly" do
+			parser.parse("<?foo=bar?>")
+			
+			expect(delegate.events).to be == [
+				[:instruction, "foo=bar"]
 			]
 		end
 		
