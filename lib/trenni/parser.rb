@@ -102,13 +102,14 @@ module Trenni
 			@delegate = delegate
 			# The delegate must respond to:
 			# .begin_parse(scanner)
-			# .text(escaped-data)
-			# .cdata(unescaped-data)
-			# .attribute(name, value-or-true)
+			# .text(escaped_data)
+			# .cdata(unescaped_data)
+			# .attribute(name, value_or_true)
 			# .begin_tag(name, :opened or :closed)
 			# .end_tag(begin_tag_type, :opened or :closed)
-			# .comment(comment-text)
-			# .instruction(instruction-text)
+			# .doctype(doctype_attributes)
+			# .comment(comment_text)
+			# .instruction(instruction_text)
 		end
 
 		def parse(string)
@@ -142,8 +143,10 @@ module Trenni
 					scan_tag_normal(scanner, CLOSED_TAG)
 				elsif scanner.scan(/!\[CDATA\[/)
 					scan_tag_cdata(scanner)
-				elsif scanner.scan(/!/)
+				elsif scanner.scan(/!--/)
 					scan_tag_comment(scanner)
+				elsif scanner.scan(/!DOCTYPE/)
+					scan_doctype(scanner)
 				elsif scanner.scan(/\?/)
 					scan_tag_instruction(scanner)
 				else
@@ -188,7 +191,15 @@ module Trenni
 				raise ParseError.new("Invalid tag!", scanner)
 			end
 		end
-
+		
+		def scan_doctype(scanner)
+			if scanner.scan_until(/(.*?)>/)
+				@delegate.doctype(scanner[1].strip.freeze)
+			else
+				raise ParseError.new("Comment is not closed!", scanner)
+			end
+		end
+		
 		def scan_tag_cdata(scanner)
 			if scanner.scan_until(/(.*?)\]\]>/m)
 				@delegate.cdata(scanner[1].freeze)
@@ -198,18 +209,10 @@ module Trenni
 		end
 		
 		def scan_tag_comment(scanner)
-			if scanner.scan(/--/)
-				if scanner.scan_until(/(.*?)-->/m)
-					@delegate.comment(scanner[1].freeze)
-				else
-					raise ParseError.new("Comment is not closed!", scanner)
-				end
+			if scanner.scan_until(/(.*?)-->/m)
+				@delegate.comment(scanner[1].freeze)
 			else
-				if scanner.scan_until(/(.*?)>/)
-					@delegate.comment(scanner[1])
-				else
-					raise ParseError.new("Comment is not closed!", scanner)
-				end
+				raise ParseError.new("Comment is not closed!", scanner)
 			end
 		end
 		

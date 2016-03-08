@@ -43,6 +43,14 @@ module Trenni::ParserSpec
 		let(:delegate) {ParserDelegate.new}
 		let(:parser) {Trenni::Parser.new(delegate)}
 		
+		it "should parse doctype correctly" do
+			parser.parse("<!DOCTYPE html>")
+			
+			expect(delegate.events).to be == [
+				[:doctype, "html"]
+			]
+		end
+		
 		it "should parse comment correctly" do
 			parser.parse(%Q{<!--comment-->})
 			
