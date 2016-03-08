@@ -74,15 +74,6 @@ module Trenni
 			end
 			
 			attr :line_text
-			
-			def to_hash
-				{
-					:line_number => self.line_number,
-					:line_offset => self.line_range.min,
-					:character_offset => self.line_offset,
-					:text => self.line_text.chomp
-				}
-			end
 		end
 		
 		class ParseError < StandardError
