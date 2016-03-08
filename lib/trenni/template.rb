@@ -155,7 +155,7 @@ module Trenni
 			@path = path
 		end
 
-		def to_string(scope = nil)
+		def to_string(scope = Object.new)
 			to_array(scope).join
 		end
 
