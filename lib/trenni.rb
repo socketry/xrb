@@ -18,5 +18,5 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-require 'trenni/builder'
-require 'trenni/template'
+require_relative 'trenni/builder'
+require_relative 'trenni/template'

@@ -8,6 +8,8 @@ group :development do
 end
 
 group :test do
+	gem 'pry'
+	
 	gem 'simplecov'
 	gem 'coveralls', require: false
 end

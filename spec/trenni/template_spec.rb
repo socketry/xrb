@@ -27,6 +27,12 @@ require 'benchmark'
 
 module Trenni::TemplateSpec
 	describe Trenni::Template do
+		let(:capture_template) {Trenni::Template.load_file File.expand_path('template_spec/capture.trenni', __dir__)}
+		
+		it "should be able to capture output" do
+			expect(capture_template.to_string.strip).to be == 'TEST TEST TEST'
+		end
+		
 		it "should process list of items" do
 			template = Trenni::Template.new('<?r items.each do |item| ?>#{item}<?r end ?>')
 			
@@ -35,7 +41,7 @@ module Trenni::TemplateSpec
 			expect(template.to_string(binding)).to be == "1234"
 		end
 		
-		let(:large_template) {Trenni::Template.load File.join(__dir__, "large.trenni")}
+		let(:large_template) {Trenni::Template.load_file File.expand_path('template_spec/large.trenni', __dir__)}
 
 		it "should have better performance using instance" do
 			n = 1_000
@@ -54,7 +60,7 @@ module Trenni::TemplateSpec
 			expect(object_time).to be < binding_time
 		end
 		
-		let(:escaped_template) {Trenni::Template.load  File.join(__dir__, "escaped.trenni")}
+		let(:escaped_template) {Trenni::Template.load_file File.expand_path('template_spec/escaped.trenni', __dir__)}
 		
 		it "should process escaped characters" do
 			expect(escaped_template.to_string).to be == 

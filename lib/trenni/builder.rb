@@ -18,7 +18,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-require 'trenni/strings'
+require_relative 'strings'
 
 module Trenni
 	INSTRUCT_ATTRIBUTES = [
@@ -27,7 +27,7 @@ module Trenni
 	].freeze
 	
 	class Builder
-		INDENT = "\t"
+		DEFAULT_INDENTATION = "\t".freeze
 		
 		# A helper to generate fragments of markup.
 		def self.fragment(builder = nil, &block)
@@ -40,18 +40,21 @@ module Trenni
 				
 				yield builder
 				
-				return builder.output.string
+				return builder.output
 			end
 		end
 		
-		def initialize(options = {})
-			@strict = options[:strict]
+		def initialize(strict: false, indent: true, indentation: DEFAULT_INDENTATION, escape: false, output: String.new)
+			@strict = strict
 			
-			@output = options[:output] || StringIO.new
-			@indentation = options[:indentation] || INDENT
-			@indent = options.fetch(:indent, true)
+			@indent = indent
 			
-			@escape = options[:escape]
+			@indentation = indentation
+			# This field gets togged in #inline so we keep track of it separately from @indentation.
+			
+			@escape = escape
+			
+			@output = output
 			
 			@level = [0]
 			@children = [0]
@@ -70,24 +73,11 @@ module Trenni
 		def instruct(attributes = nil)
 			attributes ||= INSTRUCT_ATTRIBUTES
 			
-			@output.puts "<?xml#{tag_attributes(attributes)}?>"
+			@output << "<?xml#{tag_attributes(attributes)}?>\n"
 		end
 		
 		def doctype(attributes = 'html')
-			if Array === attributes
-				text = ''
-				attributes.each do |value|
-					if value.match(/[\s"]/)
-						value = '"' + value.gsub('"', '&quot;') + '"'
-					end
-					
-					text += ' ' + value
-				end
-			else
-				text = ' ' + attributes
-			end
-			
-			@output.puts "<!DOCTYPE#{text}>"
+			@output << "<!DOCTYPE #{attributes}>\n"
 		end
 		
 		# Begin a block tag.
@@ -116,14 +106,11 @@ module Trenni
 			@level[-1] += 1
 			
 			if @indent
-				lines = data.strip.split(/\n/)
-				
-				lines.each_with_index do |line, i|
-					@output.puts if i > 0
-					@output.write indentation + line
+				data.each_line.with_index do |line, i|
+					@output << indentation << line
 				end
 			else
-				@output.write data
+				@output << data
 			end
 		end
 		
@@ -156,12 +143,12 @@ module Trenni
 		def full_tag(name, attributes, indent_outer, indent_inner, &block)
 			if block_given?
 				if indent_outer
-					@output.puts if @level.last > 0
-					@output.write indentation
+					@output << "\n" if @level.last > 0
+					@output << indentation
 				end
 				
-				@output.write "<#{name}#{tag_attributes(attributes)}>"
-				@output.puts if indent_inner
+				@output << "<#{name}#{tag_attributes(attributes)}>"
+				@output << "\n" if indent_inner
 				
 				# The parent has one more child:
 				@level[-1] += 1
@@ -173,16 +160,16 @@ module Trenni
 				children = @level.pop
 				
 				if indent_inner
-					@output.puts if children > 0
-					@output.write indentation
+					@output << "\n" if children > 0
+					@output << indentation
 				end
 				
-				@output.write "</#{name}>"
+				@output << "</#{name}>"
 			else
 				# The parent has one more child:
 				@level[-1] += 1
 				
-				@output.write indentation + "<#{name}#{tag_attributes(attributes)}/>"
+				@output << indentation + "<#{name}#{tag_attributes(attributes)}/>"
 			end
 		end
 	end

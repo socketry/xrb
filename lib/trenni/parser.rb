@@ -54,7 +54,7 @@ module Trenni
 			end
 			
 			def to_s
-				"[#{self.line_number}:#{self.line_range}]"
+				":#{self.line_number}"
 			end
 			
 			# The line that contains the @offset (base 0 indexing).
@@ -83,12 +83,6 @@ module Trenni
 					:text => self.line_text.chomp
 				}
 			end
-		end
-		
-		def self.line_at_offset(input, input_offset)
-			warn "#{self.class}::line_at_offset is deprecated, use Location.new(input, input_offset) directly!"
-			
-			Location.new(input, input_offset).to_hash rescue nil
 		end
 		
 		class ParseError < StandardError
@@ -161,9 +155,10 @@ module Trenni
 		def scan_attributes(scanner)
 			# Parse an attribute in the form of key="value" or key.
 			while scanner.scan(/\s*([^\s=\/>]+)/um)
-				name = scanner[1]
+				name = scanner[1].freeze
 				if scanner.scan(/=((['"])(.*?)\2)/um)
-					@delegate.attribute(name, scanner[3])
+					value = scanner[3].freeze
+					@delegate.attribute(name, value)
 				else
 					@delegate.attribute(name, true)
 				end
@@ -172,7 +167,7 @@ module Trenni
 		
 		def scan_tag_normal(scanner, begin_tag_type = OPENED_TAG)
 			if scanner.scan(/[^\s\/>]+/)
-				@delegate.begin_tag(scanner.matched, begin_tag_type)
+				@delegate.begin_tag(scanner.matched.freeze, begin_tag_type)
 				
 				scanner.scan(/\s*/)
 				self.scan_attributes(scanner)
@@ -196,7 +191,7 @@ module Trenni
 
 		def scan_tag_cdata(scanner)
 			if scanner.scan_until(/(.*?)\]\]>/m)
-				@delegate.cdata(scanner[1])
+				@delegate.cdata(scanner[1].freeze)
 			else
 				raise ParseError.new("CDATA segment is not closed!", scanner)
 			end
@@ -205,7 +200,7 @@ module Trenni
 		def scan_tag_comment(scanner)
 			if scanner.scan(/--/)
 				if scanner.scan_until(/(.*?)-->/m)
-					@delegate.comment("--" + scanner[1] + "--")
+					@delegate.comment(scanner[1].freeze)
 				else
 					raise ParseError.new("Comment is not closed!", scanner)
 				end
@@ -220,7 +215,7 @@ module Trenni
 		
 		def scan_tag_instruction(scanner)
 			if scanner.scan_until(/(.*)\?>/)
-				@delegate.instruction(scanner[1])
+				@delegate.instruction(scanner[1].freeze)
 			end
 		end
 	end

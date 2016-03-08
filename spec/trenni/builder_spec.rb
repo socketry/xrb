@@ -23,20 +23,49 @@
 require 'trenni'
 
 module Trenni::BuilderSpec
+	describe 'Trenni::Builder#fragment' do
+		let(:builder) {Trenni::Builder.new}
+		
+		it "should use an existing builder" do
+			result = Trenni::Builder.fragment do |builder|
+			end
+			
+			expect(result).to_not be == nil
+		end
+		
+		it "should use an existing builder" do
+			expect(Trenni::Builder).to receive(:new).and_call_original
+			
+			result = Trenni::Builder.fragment(builder) do |builder|
+			end
+			
+			expect(result).to be == nil
+		end
+	end
+	
 	describe Trenni::Builder do
+		it 'should append existing markup' do
+			subject.tag("outer") do
+				subject.append("<inner>\n\t<nested/>\n</inner>")
+			end
+			
+			expect(subject.output).to be == "<outer>\n\t<inner>\n\t\t<nested/>\n\t</inner>\n</outer>"
+		end
+		
 		it "should produce valid xml output" do
-			builder = Trenni::Builder.new(:indent => false)
+			builder = Trenni::Builder.new(indent: false)
 			
 			builder.instruct
 			builder.tag('foo', 'bar' => 'baz') do
-				builder.text("apples and oranges")
+				builder.text('apples and oranges')
+				builder.tag('baz')
 			end
 			
-			expect(builder.output.string).to be == "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<foo bar=\"baz\">apples and oranges</foo>"
+			expect(builder.output).to be == "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<foo bar=\"baz\">apples and oranges<baz/></foo>"
 		end
 		
 		it "should produce valid html" do
-			builder = Trenni::Builder.new(:indent => true)
+			builder = Trenni::Builder.new(indent: true)
 			
 			builder.doctype
 			builder.tag('html') do
@@ -49,7 +78,7 @@ module Trenni::BuilderSpec
 				end
 			end
 			
-			expect(builder.output.string).to be == "<!DOCTYPE html>\n<html>\n\t<head>\n\t\t<title>Hello World</title>\n\t</head>\n\t<body>\n\t</body>\n</html>"
+			expect(builder.output).to be == "<!DOCTYPE html>\n<html>\n\t<head>\n\t\t<title>Hello World</title>\n\t</head>\n\t<body>\n\t</body>\n</html>"
 		end
 		
 		it "should indent self-closing tag correctly" do
@@ -57,7 +86,7 @@ module Trenni::BuilderSpec
 			
 			builder.tag('foo') { builder.tag('bar') }
 			
-			expect(builder.output.string).to be == "<foo>\n\t<bar/>\n</foo>"
+			expect(builder.output).to be == "<foo>\n\t<bar/>\n</foo>"
 		end
 		
 		it "should produce inline html" do
@@ -71,7 +100,7 @@ module Trenni::BuilderSpec
 				builder.text "World!"
 			end
 			
-			expect(builder.output.string).to be == "<div><strong>Hello</strong>World!</div>"
+			expect(builder.output).to be == "<div><strong>Hello</strong>World!</div>"
 		end
 		
 		it "escapes attributes and text correctly" do
@@ -81,7 +110,7 @@ module Trenni::BuilderSpec
 				builder.text %Q{if x < 10}
 			end
 			
-			expect(builder.output.string).to be == %Q{<foo bar="&quot;Hello World&quot;">if x &lt; 10</foo>}
+			expect(builder.output).to be == %Q{<foo bar="&quot;Hello World&quot;">if x &lt; 10</foo>}
 		end
 		
 		it "should support strict attributes" do
@@ -89,7 +118,7 @@ module Trenni::BuilderSpec
 			
 			builder.tag :option, :required => true
 			
-			expect(builder.output.string).to be == %Q{<option required="required"/>}
+			expect(builder.output).to be == %Q{<option required="required"/>}
 		end
 		
 		it "should support compact attributes" do
@@ -97,7 +126,7 @@ module Trenni::BuilderSpec
 			
 			builder.tag :option, :required => true
 			
-			expect(builder.output.string).to be == %Q{<option required/>}
+			expect(builder.output).to be == %Q{<option required/>}
 		end
 		
 		it "should output without changing escaped characters" do
@@ -105,17 +134,17 @@ module Trenni::BuilderSpec
 			
 			builder.tag "section", :'data-text' => 'foo\nbar'
 			
-			expect(builder.output.string).to be == '<section data-text="foo\nbar"/>'
+			expect(builder.output).to be == '<section data-text="foo\nbar"/>'
 		end
 		
 		it "should order attributes as specified" do
 			builder = Trenni::Builder.new(:strict => true)
 			builder.tag :t, [[:a, 10], [:b, 20]]
-			expect(builder.output.string).to be == %Q{<t a="10" b="20"/>}
+			expect(builder.output).to be == %Q{<t a="10" b="20"/>}
 			
 			builder = Trenni::Builder.new(:strict => true)
 			builder.tag :t, :b => 20, :a => 10
-			expect(builder.output.string).to be == %Q{<t b="20" a="10"/>}
+			expect(builder.output).to be == %Q{<t b="20" a="10"/>}
 		end
 	end
 end

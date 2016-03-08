@@ -48,24 +48,26 @@ module Trenni
 
 			attr :parts
 
+			# Output raw text to the template.
 			def text(text)
-				text = text.gsub('\\', '\\\\\\').gsub('@', '\\@')
-
-				@parts << "#{OUT} << %q@#{text}@ ; "
+				@parts << "#{OUT}<<#{text.dump};"
 			end
 
+			# Output a ruby expression (or part of).
 			def expression(text)
-				@parts << "#{text} ; "
+				@parts << "#{text};"
+			end
+			
+			# Output a string interpolation.
+			def interpolation(text)
+				@parts << "#{OUT}<<(#{text});"
 			end
 
-			def output(text)
-				@parts << "#{OUT} << (#{text}) ; "
-			end
+			CODE_PREFIX = "#{OUT}=[];".freeze
+			CODE_POSTFIX = "#{OUT}".freeze
 
 			def code
-				parts = ["#{OUT} = [] ; "] + @parts + ["#{OUT}"]
-
-				return parts.join
+				return [CODE_PREFIX, *@parts, CODE_POSTFIX].join
 			end
 		end
 		
@@ -126,7 +128,7 @@ module Trenni
 					end
 
 					if level == 0
-						@callback.output(code)
+						@callback.interpolation(code)
 					else
 						raise StandardError.new "Could not find end of expression #{self}!"
 					end
@@ -140,13 +142,17 @@ module Trenni
 			end
 		end
 
-		def self.load(path)
-			return self.new(File.read(path), path)
+		def self.load_file(path)
+			self.new(File.read(path), path)
 		end
 
-		def initialize(template, filename = '<Trenni>')
-			@template = template
-			@filename = filename
+		def self.load(io, path = io.inspect)
+			self.new(io.read, path)
+		end
+
+		def initialize(text, path = '<Trenni>')
+			@text = text
+			@path = path
 		end
 
 		def to_string(scope = nil)
@@ -159,7 +165,7 @@ module Trenni
 
 		def to_array(scope)
 			if Binding === scope
-				eval(code, scope, @filename)
+				eval(code, scope, @path)
 			else
 				# This can sometimes be a bit faster:
 				scope.instance_eval(&to_proc)
@@ -167,7 +173,7 @@ module Trenni
 		end
 		
 		def to_proc
-			@compiled_proc ||= eval("proc{\n#{code}\n}", binding, @filename, 0)
+			@compiled_proc ||= eval("proc{\n#{code}\n}", binding, @path, 0)
 		end
 		
 		protected
@@ -178,7 +184,7 @@ module Trenni
 		
 		def compile!
 			buffer = Buffer.new
-			scanner = Scanner.new(buffer, @template)
+			scanner = Scanner.new(buffer, @text)
 			
 			scanner.parse
 			
