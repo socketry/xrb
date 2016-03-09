@@ -44,6 +44,10 @@ module Trenni::BuilderSpec
 	end
 	
 	describe Trenni::Builder do
+		it 'should be able to append nil' do
+			expect{subject.append(nil)}.to_not raise_error(TypeError)
+		end
+		
 		it 'should append existing markup' do
 			subject.tag("outer") do
 				subject.append("<inner>\n\t<nested/>\n</inner>")

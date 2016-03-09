@@ -102,6 +102,8 @@ module Trenni
 		
 		# Append pre-existing markup:
 		def append(data)
+			return unless data
+			
 			# The parent has one more child:
 			@level[-1] += 1
 			
