@@ -72,6 +72,8 @@ Trenni can help construct XML/HTML using a simple DSL:
 
 There is a [language-trenni](https://atom.io/packages/language-trenni) package for the [Atom text editor](https://atom.io). It provides syntax highlighting and integration when Trenni is used with the [utopia web framework](https://github.com/ioquatix/utopia).
 
+[Trenni Formatters](https://github.com/ioquatix/trenni-formatters) is a separate gem that uses `Trenni::Builder` to generate HTML forms easily.
+
 ## Contributing
 
 1. Fork it
