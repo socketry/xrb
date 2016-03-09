@@ -165,9 +165,10 @@ module Trenni
 
 		def to_array(scope)
 			if Binding === scope
+				# Slow code path, evaluate the code string in the given binding (scope).
 				eval(code, scope, @path)
 			else
-				# This can sometimes be a bit faster:
+				# Faster code path, use instance_eval on a compiled Proc.
 				scope.instance_eval(&to_proc)
 			end
 		end

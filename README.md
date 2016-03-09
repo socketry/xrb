@@ -11,6 +11,16 @@ of pleasantly formatted markup.
 [![Code Climate](https://codeclimate.com/github/ioquatix/trenni.png)](https://codeclimate.com/github/ioquatix/trenni)
 [![Coverage Status](https://coveralls.io/repos/ioquatix/trenni/badge.svg)](https://coveralls.io/r/ioquatix/trenni)
 
+## Motivation
+
+Trenni was designed for [Utopia](https://github.com/ioquatix/utopia). When I originally looked at template engines, I was surprised by the level of complexity and the effort involved in processing a template to produce useful output. In particular, many template engines generate an AST and walk over it to generate output (e.g. ERB, at least at the time I last checked). This is exceedingly slow in Ruby.
+
+At the time (around 2008?) I was playing around with [ramaze](https://github.com/Ramaze/ramaze) and found a template engine I really liked the design of, called [ezamar](https://github.com/manveru/ezamar). The template compilation process actually generates Ruby code which can then be compiled and executed efficiently. Another engine, by the same author, [nagoro](https://github.com/manveru/nagoro), also provided some inspiration.
+
+More recently I was doing some investigation regarding using `eval` for executing the code. The problem is that it's [not possible to replace the binding](http://stackoverflow.com/questions/27391909/replace-evalcode-string-binding-with-lambda/27392437) of a `Proc` once it's created, so template engines that evaluate code in a given binding cannot use a compiled proc, they must parse the code every time. By using a `Proc` we can generate a Ruby function which *can* be compiled to a faster representation by the VM.
+
+In addition, I wanted a simple parser and builder for HTML style markup. These are used heavily by Utopia for implementing it's tag based evaluation. The (event based) `Trenni::Parser` is designed so that some day it could be easily written in C. `Trenni::Builder` is a simple and efficient way to generate markup, it's not particularly notable, except that it doesn't use `method_missing` to [implement normal behaviour](https://github.com/sparklemotion/nokogiri/blob/b6679e928924529b56dcc0f3164224c040d14555/lib/nokogiri/xml/builder.rb#L355) which is sort of slow.
+
 ## Installation
 
 Add this line to your application's Gemfile:
