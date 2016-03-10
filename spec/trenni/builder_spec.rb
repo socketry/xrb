@@ -45,7 +45,7 @@ module Trenni::BuilderSpec
 	
 	describe Trenni::Builder do
 		it 'should be able to append nil' do
-			expect{subject.append(nil)}.to_not raise_error(TypeError)
+			expect{subject.append(nil)}.to_not raise_error
 		end
 		
 		it 'should append existing markup' do

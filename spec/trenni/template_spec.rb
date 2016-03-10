@@ -74,6 +74,10 @@ module Trenni::TemplateSpec
 		
 		let(:escaped_template) {Trenni::Template.load_file File.expand_path('template_spec/escaped.trenni', __dir__)}
 		
+		it "should have the same number of lines as input" do
+			expect(escaped_template.send(:code).lines.count).to be == 2
+		end
+		
 		it "should process escaped characters" do
 			expect(escaped_template.to_string).to be == 
 				"This\\nisn't one line.\n" +
