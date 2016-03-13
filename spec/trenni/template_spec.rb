@@ -46,7 +46,8 @@ module Trenni::TemplateSpec
 		end
 		
 		it "should process list of items" do
-			template = Trenni::Template.new('<?r items.each do |item| ?>#{item}<?r end ?>')
+			buffer = Trenni::Buffer.new('<?r items.each do |item| ?>#{item}<?r end ?>')
+			template = Trenni::Template.new(buffer)
 			
 			items = 1..4
 			
@@ -82,6 +83,15 @@ module Trenni::TemplateSpec
 			expect(escaped_template.to_string).to be == 
 				"This\\nisn't one line.\n" +
 				"\\tIndentation is the best."
+		end
+		
+		it "should fail to parse" do
+			buffer = Trenni::Buffer.new('<img src="#{poi_product.photo.thumbnail_url" />')
+			broken_template = Trenni::Template.new(buffer)
+			
+			expect{broken_template.to_proc}.to raise_error(Trenni::ParseError) do |error|
+				expect(error.to_s).to include("<string>[1]: Could not find end of interpolation!")
+			end
 		end
 	end
 end

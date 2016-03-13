@@ -1,4 +1,4 @@
-# Copyright, 2012, by Samuel G. D. Williams. <http://www.codeotaku.com>
+# Copyright, 2016, by Samuel G. D. Williams. <http://www.codeotaku.com>
 # 
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -19,5 +19,61 @@
 # THE SOFTWARE.
 
 module Trenni
-	VERSION = "1.6.0"
+	class Buffer
+		def initialize(string, path: '<string>')
+			@string = string
+			@path = path
+		end
+		
+		attr :path
+		
+		def read
+			@string
+		end
+		
+		def self.load_file(path)
+			FileBuffer.new(path)
+		end
+		
+		def self.load(string)
+			Buffer.new(string)
+		end
+		
+		def to_buffer
+			self
+		end
+	end
+	
+	class FileBuffer
+		def initialize(path)
+			@path = path
+		end
+		
+		attr :path
+		
+		def read
+			@buffer ||= File.read(@path)
+		end
+		
+		def to_buffer
+			Buffer.new(self.read, @path)
+		end
+	end
+	
+	class IOBuffer
+		def initialize(io, path: io.inspect)
+			@io = io
+			@path = path
+		end
+		
+		attr :path
+		
+		def read
+			@io.read
+		end
+		
+		def to_buffer
+			Buffer.new(self.read, path: @path)
+		end
+	end
 end

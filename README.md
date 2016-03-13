@@ -41,13 +41,14 @@ Or install it yourself as:
 
 Trenni templates work essentially the same way as all other templating systems:
 
-	template = Trenni::Template.new('<?r items.each do |item| ?>#{item}<?r end ?>')
+	buffer = Trenni::Buffer.new('<?r items.each do |item| ?>#{item}<?r end ?>')
+	template = Trenni::Template.new(buffer)
 		
 	items = 1..4
 		
 	template.to_string(binding) # => "1234"
 	
-The code above demonstrate  the only two constructs, `<?r expression ?>` and `#{output}`.
+The code above demonstrate the only two constructs, `<?r expression ?>` and `#{output}`.
 
 Trenni provides a slightly higher performance API using objects rather than bindings. If you provide an object instance, `instance_eval` would be used instead.
 

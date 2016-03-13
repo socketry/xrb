@@ -18,8 +18,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-require 'strscan'
-require 'stringio'
+require_relative 'scanner'
 
 module Trenni
 	# The output variable that will be used in templates:
@@ -41,7 +40,7 @@ module Trenni
 			eval(OUT, binding)
 		end
 		
-		class Buffer
+		class Assembler
 			def initialize
 				@parts = []
 			end
@@ -76,91 +75,108 @@ module Trenni
 		end
 		
 		class Scanner < StringScanner
-			TEXT = /([^<#]|<(?!\?r)|#(?!\{)){1,1024}/m
-			
-			def initialize(callback, string)
-				@callback = callback
-				super(string)
+			def initialize(buffer, delegate)
+				super(buffer)
+				
+				@delegate = delegate
 			end
-
-			def parse
+			
+			def parse!
 				until eos?
-					pos = self.pos
+					start_pos = self.pos
 
 					scan_text
-					scan_expression
-
-					if pos == self.pos
-						raise StandardError.new "Could not scan current input #{self.pos} #{eos?}!"
-					end
+					scan_expression or scan_interpolation
+					
+					raise_if_stuck(start_pos)
 				end
 			end
 
+			# This is formulated specifically so that it matches up until the start of a code block.
+			TEXT = /([^<#]|<(?!\?r)|#(?!\{)){1,}/m
+
 			def scan_text
 				if scan(TEXT)
-					@callback.text(matched)
+					@delegate.text(self.matched)
 				end
 			end
 
 			def scan_expression
+				start_pos = self.pos
+				
+				if scan(/<\?r/)
+					if scan_until(/(.*?)\?>/m)
+						@delegate.expression(self[1])
+					else
+						parse_error!("Could not find end of expression!", [start_pos, self.pos])
+					end
+					
+					return true
+				end
+				
+				return false
+			end
+
+			def scan_interpolation
+				start_pos = self.pos
+				
 				if scan(/\#\{/)
 					level = 1
-					code = ""
+					code = String.new
 
-					until eos? || level == 0
+					until eos?
+						current_pos = self.pos
+						
+						# Scan anything other than something which causes nesting:
 						if scan(/[^"'\{\}]+/m)
 							code << matched
 						end
-
-						if scan(/"(\\"|[^"])*"/m)
+						
+						# Scan a quoted string:
+						if scan(/'(\\'|[^'])*'/m) or scan(/"(\\"|[^"])*"/m)
 							code << matched
 						end
-
-						if scan(/'(\\'|[^'])*'/m)
-							code << matched
-						end
-
+						
+						# Scan something which nests:
 						if scan(/\{/)
 							code << matched
 							level += 1
 						end
 
 						if scan(/\}/)
-							code << matched if level > 1
 							level -= 1
+							if level == 0
+								@delegate.interpolation(code)
+								return true
+							else
+								code << matched
+							end
 						end
+						
+						break if stuck?(current_pos)
 					end
-
-					if level == 0
-						@callback.interpolation(code)
-					else
-						raise StandardError.new "Could not find end of expression #{self}!"
-					end
-				elsif scan(/<\?r/)
-					if scan_until(/(.*?)\?>/m)
-						@callback.expression(self[1])
-					else
-						raise StandardError.new "Could not find end of expression #{self}!"
-					end
+					
+					parse_error!("Could not find end of interpolation!", [start_pos, self.pos])
 				end
+				
+				return false
 			end
 		end
 
 		def self.load_file(path)
-			self.new(File.read(path), path)
+			self.new(FileBuffer.new(path))
 		end
 
-		def self.load(io, path = io.inspect)
-			self.new(io.read, path)
-		end
-
-		def initialize(text, path = '<Trenni>')
-			@text = text
-			@path = path
+		def initialize(buffer)
+			@buffer = buffer
 		end
 
 		def to_string(scope = Object.new)
 			to_array(scope).join
+		end
+		
+		def to_buffer(scope)
+			Buffer.new(to_array(scope).join, path: @buffer.path)
 		end
 
 		# Legacy functions:
@@ -170,7 +186,7 @@ module Trenni
 		def to_array(scope)
 			if Binding === scope
 				# Slow code path, evaluate the code string in the given binding (scope).
-				eval(code, scope, @path)
+				eval(code, scope, @buffer.path)
 			else
 				# Faster code path, use instance_eval on a compiled Proc.
 				scope.instance_eval(&to_proc)
@@ -178,7 +194,7 @@ module Trenni
 		end
 		
 		def to_proc
-			@compiled_proc ||= eval("proc{\n#{code}\n}", binding, @path, 0)
+			@compiled_proc ||= eval("proc{;#{code};}", binding, @buffer.path)
 		end
 		
 		protected
@@ -188,12 +204,11 @@ module Trenni
 		end
 		
 		def compile!
-			buffer = Buffer.new
-			scanner = Scanner.new(buffer, @text)
+			assembler = Assembler.new
 			
-			scanner.parse
+			Scanner.new(@buffer, assembler).parse!
 			
-			buffer.code
+			assembler.code
 		end
 	end
 end

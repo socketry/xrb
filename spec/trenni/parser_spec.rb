@@ -40,11 +40,16 @@ module Trenni::ParserSpec
 	end
 	
 	describe Trenni::Parser do
-		let(:delegate) {ParserDelegate.new}
-		let(:parser) {Trenni::Parser.new(delegate)}
+		def parse(input)
+			delegate = ParserDelegate.new
+			buffer = Trenni::Buffer.new(input)
+			Trenni::Parser.new(buffer, delegate).parse!
+			
+			return delegate
+		end
 		
 		it "should parse self-closing tags correctly" do
-			parser.parse("<br/>")
+			delegate = parse("<br/>")
 			
 			expect(delegate.events).to be == [
 				[:begin_tag, "br", :opened],
@@ -53,7 +58,7 @@ module Trenni::ParserSpec
 		end
 		
 		it "should parse doctype correctly" do
-			parser.parse("<!DOCTYPE html>")
+			delegate = parse("<!DOCTYPE html>")
 			
 			expect(delegate.events).to be == [
 				[:doctype, "html"]
@@ -61,7 +66,7 @@ module Trenni::ParserSpec
 		end
 		
 		it "Should parse instruction correctly" do
-			parser.parse("<?foo=bar?>")
+			delegate = parse("<?foo=bar?>")
 			
 			expect(delegate.events).to be == [
 				[:instruction, "foo=bar"]
@@ -69,7 +74,7 @@ module Trenni::ParserSpec
 		end
 		
 		it "should parse comment correctly" do
-			parser.parse(%Q{<!--comment-->})
+			delegate = parse(%Q{<!--comment-->})
 			
 			expect(delegate.events).to be == [
 				[:comment, "comment"]
@@ -77,7 +82,7 @@ module Trenni::ParserSpec
 		end
 		
 		it "should parse markup correctly" do
-			parser.parse(%Q{<foo bar="20" baz>Hello World</foo>})
+			delegate = parse(%Q{<foo bar="20" baz>Hello World</foo>})
 
 			expected_events = [
 				[:begin_tag, "foo", :opened],
@@ -93,7 +98,7 @@ module Trenni::ParserSpec
 		end
 		
 		it "should parse CDATA correctly" do
-			parser.parse(%Q{<test><![CDATA[Hello World]]></test>})
+			delegate = parse(%Q{<test><![CDATA[Hello World]]></test>})
 
 			expected_events = [
 				[:begin_tag, "test", :opened],
@@ -107,20 +112,20 @@ module Trenni::ParserSpec
 		end
 		
 		it "should generate errors on incorrect input" do
-			expect{parser.parse(%Q{<foo})}.to raise_error Trenni::Parser::ParseError
+			expect{parse(%Q{<foo})}.to raise_error Trenni::ParseError
 			
-			expect{parser.parse(%Q{<foo bar=>})}.to raise_error Trenni::Parser::ParseError
+			expect{parse(%Q{<foo bar=>})}.to raise_error Trenni::ParseError
 			
-			expect{parser.parse(%Q{<foo bar="" baz>})}.to_not raise_error
+			expect{parse(%Q{<foo bar="" baz>})}.to_not raise_error
 		end
 		
 		it "should know about line numbers" do
 			data = %Q{Hello\nWorld\nFoo\nBar!}
 		
-			location = Trenni::Parser::Location.new(data, 7)
+			location = Trenni::Location.new(data, 7)
 			
 			expect(location.to_i).to be == 7
-			expect(location.to_s).to be == ":2"
+			expect(location.to_s).to be == "[2]"
 			expect(location.line_text).to be == "World"
 			
 			expect(location.line_number).to be == 2
@@ -130,9 +135,9 @@ module Trenni::ParserSpec
 		
 		it "should know about line numbers when input contains multi-byte characters" do
 			data = %Q{<p>\nこんにちは\nWorld\n<p}
-			error = parser.parse(data) rescue $!
+			error = parse(data) rescue $!
 			
-			expect(error).to be_kind_of Trenni::Parser::ParseError
+			expect(error).to be_kind_of Trenni::ParseError
 			expect(error.location.line_number).to be == 4
 		end
 	end

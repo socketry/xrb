@@ -18,81 +18,21 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-require 'strscan'
+require_relative 'scanner'
 
 module Trenni
 	# This parser processes general markup into a sequence of events which are passed to a delegate.
-	class Parser
+	class Parser < StringScanner
 		OPENED_TAG = :opened
 		CLOSED_TAG = :closed
 		
-		class Location
-			def initialize(input, offset)
-				raise ArgumentError.new("Offset #{index} is past end of input #{input.bytesize}") if offset > input.bytesize
-				
-				@offset = offset
-				@line_index = 0
-				line_offset = next_line_offset = 0
-				
-				input.each_line do |line|
-					line_offset = next_line_offset
-					next_line_offset += line.bytesize
-					
-					# Is our input offset within this line?
-					if next_line_offset >= offset
-						@line_text = line.chomp
-						@line_range = line_offset...next_line_offset
-						break
-					else
-						@line_index += 1
-					end
-				end
-			end
+		def initialize(buffer, delegate)
+			super(buffer)
 			
-			def to_i
-				@offset
-			end
-			
-			def to_s
-				":#{self.line_number}"
-			end
-			
-			# The line that contains the @offset (base 0 indexing).
-			attr :line_index
-			
-			# The line index, but base-1.
-			def line_number
-				@line_index + 1
-			end
-			
-			# The byte offset to the start of that line.
-			attr :line_range
-			
-			# The number of bytes from the start of the line to the given offset in the input.
-			def line_offset
-				@offset - @line_range.min
-			end
-			
-			attr :line_text
-		end
-		
-		class ParseError < StandardError
-			def initialize(message, scanner)
-				@message = message
-				@location = Location.new(scanner.string, scanner.pos)
-			end
-			
-			attr :location
-
-			def to_s
-				"#{@message} at #{@location}"
-			end
-		end
-		
-		def initialize(delegate)
 			@delegate = delegate
+			
 			# The delegate must respond to:
-			# .begin_parse(scanner)
+			# .begin_parse(self)
 			# .text(escaped_data)
 			# .cdata(unescaped_data)
 			# .attribute(name, value_or_true)
@@ -103,55 +43,52 @@ module Trenni
 			# .instruction(instruction_text)
 		end
 
-		def parse(string)
-			scanner = StringScanner.new(string)
-			@delegate.begin_parse(scanner)
+		def parse!
+			@delegate.begin_parse(self)
 
-			until scanner.eos?
-				start_pos = scanner.pos
+			until eos?
+				start_pos = self.pos
 
-				scan_text(scanner)
-				scan_tag(scanner)
+				scan_text
+				scan_tag
 
-				if start_pos == scanner.pos
-					raise ParseError.new("Scanner didn't move", scanner)
-				end
+				raise_if_stuck(start_pos)
 			end
 		end
 
 		protected
 
-		def scan_text(scanner)
+		def scan_text
 			# Match any character data except the open tag character.
-			if scanner.scan(/[^<]+/m)
-				@delegate.text(scanner.matched)
+			if self.scan(/[^<]+/m)
+				@delegate.text(self.matched)
 			end
 		end
 		
-		def scan_tag(scanner)
-			if scanner.scan(/</)
-				if scanner.scan(/\//)
-					scan_tag_normal(scanner, CLOSED_TAG)
-				elsif scanner.scan(/!\[CDATA\[/)
-					scan_tag_cdata(scanner)
-				elsif scanner.scan(/!--/)
-					scan_tag_comment(scanner)
-				elsif scanner.scan(/!DOCTYPE/)
-					scan_doctype(scanner)
-				elsif scanner.scan(/\?/)
-					scan_tag_instruction(scanner)
+		def scan_tag
+			if self.scan(/</)
+				if self.scan(/\//)
+					scan_tag_normal(CLOSED_TAG)
+				elsif self.scan(/!\[CDATA\[/)
+					scan_tag_cdata
+				elsif self.scan(/!--/)
+					scan_tag_comment
+				elsif self.scan(/!DOCTYPE/)
+					scan_doctype
+				elsif self.scan(/\?/)
+					scan_tag_instruction
 				else
-					scan_tag_normal(scanner)
+					scan_tag_normal
 				end
 			end
 		end
 
-		def scan_attributes(scanner)
+		def scan_attributes
 			# Parse an attribute in the form of key="value" or key.
-			while scanner.scan(/\s*([^\s=\/>]+)/um)
-				name = scanner[1].freeze
-				if scanner.scan(/=((['"])(.*?)\2)/um)
-					value = scanner[3].freeze
+			while self.scan(/\s*([^\s=\/>]+)/um)
+				name = self[1].freeze
+				if self.scan(/=((['"])(.*?)\2)/um)
+					value = self[3].freeze
 					@delegate.attribute(name, value)
 				else
 					@delegate.attribute(name, true)
@@ -159,57 +96,57 @@ module Trenni
 			end
 		end
 		
-		def scan_tag_normal(scanner, begin_tag_type = OPENED_TAG)
-			if scanner.scan(/[^\s\/>]+/)
-				@delegate.begin_tag(scanner.matched.freeze, begin_tag_type)
+		def scan_tag_normal(begin_tag_type = OPENED_TAG)
+			if self.scan(/[^\s\/>]+/)
+				@delegate.begin_tag(self.matched.freeze, begin_tag_type)
 				
-				scanner.scan(/\s*/)
-				self.scan_attributes(scanner)
-				scanner.scan(/\s*/)
+				self.scan(/\s*/)
+				self.scan_attributes
+				self.scan(/\s*/)
 				
-				if scanner.scan(/\/>/)
+				if self.scan(/\/>/)
 					if begin_tag_type == CLOSED_TAG
-						raise ParseError.new("Tag cannot be closed at both ends!", scanner)
+						parse_error!("Tag cannot be closed at both ends!")
 					else
 						@delegate.finish_tag(begin_tag_type, CLOSED_TAG)
 					end
-				elsif scanner.scan(/>/)
+				elsif self.scan(/>/)
 					@delegate.finish_tag(begin_tag_type, OPENED_TAG)
 				else
-					raise ParseError.new("Invalid characters in tag!", scanner)
+					parse_error!("Invalid characters in tag!")
 				end
 			else
-				raise ParseError.new("Invalid tag!", scanner)
+				parse_error!("Invalid tag!")
 			end
 		end
 		
-		def scan_doctype(scanner)
-			if scanner.scan_until(/(.*?)>/)
-				@delegate.doctype(scanner[1].strip.freeze)
+		def scan_doctype
+			if self.scan_until(/(.*?)>/)
+				@delegate.doctype(self[1].strip.freeze)
 			else
-				raise ParseError.new("DOCTYPE is not closed!", scanner)
+				parse_error!("DOCTYPE is not closed!")
 			end
 		end
 		
-		def scan_tag_cdata(scanner)
-			if scanner.scan_until(/(.*?)\]\]>/m)
-				@delegate.cdata(scanner[1].freeze)
+		def scan_tag_cdata
+			if self.scan_until(/(.*?)\]\]>/m)
+				@delegate.cdata(self[1].freeze)
 			else
-				raise ParseError.new("CDATA segment is not closed!", scanner)
+				parse_error!("CDATA segment is not closed!")
 			end
 		end
 		
-		def scan_tag_comment(scanner)
-			if scanner.scan_until(/(.*?)-->/m)
-				@delegate.comment(scanner[1].freeze)
+		def scan_tag_comment
+			if self.scan_until(/(.*?)-->/m)
+				@delegate.comment(self[1].freeze)
 			else
-				raise ParseError.new("Comment is not closed!", scanner)
+				parse_error!("Comment is not closed!")
 			end
 		end
 		
-		def scan_tag_instruction(scanner)
-			if scanner.scan_until(/(.*)\?>/)
-				@delegate.instruction(scanner[1].freeze)
+		def scan_tag_instruction
+			if self.scan_until(/(.*)\?>/)
+				@delegate.instruction(self[1].freeze)
 			end
 		end
 	end
