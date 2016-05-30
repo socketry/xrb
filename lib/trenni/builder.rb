@@ -117,14 +117,16 @@ module Trenni
 		end
 		
 		# Convert a set of attributes into a string suitable for use within a <tag>.
-		def tag_attributes(attributes)
-			buffer = []
-			
+		def tag_attributes(attributes, buffer = [], prefix = nil)
 			attributes.each do |key, value|
+				attribute_key = prefix ? "#{prefix}-#{key}" : key
+				
 				if value == true
-					buffer << Strings::to_simple_attribute(key, @strict)
+					buffer << Strings::to_simple_attribute(attribute_key, @strict)
+				elsif value.is_a? Hash
+					tag_attributes(value, buffer, attribute_key)
 				elsif value
-					buffer << Strings::to_attribute(key, to_html(value))
+					buffer << Strings::to_attribute(attribute_key, to_html(value))
 				end
 			end
 			

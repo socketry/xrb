@@ -23,6 +23,14 @@
 require 'trenni'
 
 module Trenni::BuilderSpec
+	describe 'Trenni::Builder#tag_attributes' do
+		subject {Trenni::Builder.new}
+		
+		it "should format nested attributes" do
+			expect(subject.tag_attributes(data: {id: 10})).to be == ' data-id="10"'
+		end
+	end
+	
 	describe 'Trenni::Builder#fragment' do
 		let(:builder) {Trenni::Builder.new}
 		
