@@ -22,17 +22,21 @@ require_relative 'scanner'
 
 module Trenni
 	# The output variable that will be used in templates:
-	OUT = '_out'
+	OUT = :_out
 	
 	class Template
 		# Returns the output produced by calling the given block.
 		def self.capture(*args, &block)
-			out = eval(OUT, block.binding)
-			top = out.size
+			out = block.binding.local_variable_get(OUT)
+			copy = out.clone
+			out.replace("")
 			
 			block.call(*args)
+			result = out.clone
 			
-			return out.pop(out.size - top).join
+			out.replace(copy)
+			
+			return result
 		end
 		
 		# Returns the buffer used for capturing output.
@@ -66,7 +70,7 @@ module Trenni
 				@parts << "#{OUT}<<(#{text});"
 			end
 
-			CODE_PREFIX = "#{OUT}=[];".freeze
+			CODE_PREFIX = "#{OUT}=String.new;".freeze
 			CODE_POSTFIX = "#{OUT}".freeze
 
 			def code
@@ -172,26 +176,22 @@ module Trenni
 		end
 
 		def to_string(scope = Object.new)
-			to_array(scope).join
-		end
-		
-		def to_buffer(scope)
-			Buffer.new(to_array(scope).join, path: @buffer.path)
-		end
-
-		# Legacy functions:
-		alias evaluate to_string
-		alias result to_string
-
-		def to_array(scope)
 			if Binding === scope
 				# Slow code path, evaluate the code string in the given binding (scope).
-				eval(code, scope, @buffer.path)
+				scope.eval(code, @buffer.path)
 			else
 				# Faster code path, use instance_eval on a compiled Proc.
 				scope.instance_eval(&to_proc)
 			end
 		end
+		
+		def to_buffer(scope)
+			Buffer.new(to_string(scope), path: @buffer.path)
+		end
+
+		# Legacy functions:
+		alias evaluate to_string
+		alias result to_string
 		
 		def to_proc
 			@compiled_proc ||= eval("proc{;#{code};}", binding, @buffer.path)
