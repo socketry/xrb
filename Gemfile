@@ -6,6 +6,8 @@ gemspec
 group :development do
 	gem 'pry'
 	gem 'ruby-prof', platforms: [:mri]
+	
+	gem "benchmark-ips"
 end
 
 group :test do
