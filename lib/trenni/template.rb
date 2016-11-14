@@ -181,13 +181,7 @@ module Trenni
 		end
 
 		def to_string(scope = Object.new)
-			if Binding === scope
-				# Slow code path, evaluate the code string in the given binding (scope).
-				scope.eval(code, @buffer.path)
-			else
-				# Faster code path, use instance_eval on a compiled Proc.
-				scope.instance_eval(&to_proc)
-			end
+			scope.instance_eval(&to_proc)
 		end
 		
 		def to_buffer(scope)

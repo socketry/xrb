@@ -23,8 +23,6 @@
 require 'trenni'
 require 'benchmark'
 
-# require 'ruby-prof'
-
 module Trenni::TemplateSpec
 	describe Trenni::Template do
 		let(:capture_template) {Trenni::Template.load_file File.expand_path('template_spec/capture.trenni', __dir__)}
@@ -45,32 +43,13 @@ module Trenni::TemplateSpec
 			expect(nested_template.to_string).to be == "Hello world!"
 		end
 		
+		let(:items) {1..4}
+		
 		it "should process list of items" do
 			buffer = Trenni::Buffer.new('<?r items.each do |item| ?>#{item}<?r end ?>')
 			template = Trenni::Template.new(buffer)
 			
-			items = 1..4
-			
-			expect(template.to_string(binding)).to be == "1234"
-		end
-		
-		let(:large_template) {Trenni::Template.load_file File.expand_path('template_spec/large.trenni', __dir__)}
-
-		it "should have better performance using instance" do
-			n = 1_000
-			
-			#RubyProf.start
-			
-			object_time = Benchmark.realtime{n.times{large_template.to_string(self)}}
-			binding_time = Benchmark.realtime{n.times{large_template.to_string(binding)}}
-			
-			#result = RubyProf.stop
-			
-			# Print a flat profile to text
-			#printer = RubyProf::FlatPrinter.new(result)
-			#printer.print(STDOUT)
-			
-			expect(object_time).to be < binding_time
+			expect(template.to_string(self)).to be == "1234"
 		end
 		
 		let(:escaped_template) {Trenni::Template.load_file File.expand_path('template_spec/escaped.trenni', __dir__)}
