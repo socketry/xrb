@@ -27,26 +27,30 @@ module Trenni
 	class Template
 		# Returns the output produced by calling the given block.
 		def self.capture(*args, &block)
-			out = block.binding.local_variable_get(OUT)
-			copy = out.clone
-			out.replace("")
+			scope = block.binding
+			output_buffer = scope.local_variable_get(OUT)
 			
-			block.call(*args)
-			result = out.clone
+			capture_buffer = String.new
+			scope.local_variable_set(OUT, capture_buffer)
 			
-			out.replace(copy)
+			begin
+				block.call(*args)
+			ensure
+				scope.local_variable_set(OUT, output_buffer)
+			end
 			
-			return result
+			return capture_buffer
 		end
 		
 		# Returns the buffer used for capturing output.
 		def self.buffer(binding)
-			eval(OUT, binding)
+			binding.local_variable_get(OUT)
 		end
 		
 		class Assembler
-			def initialize
+			def initialize(filter: String)
 				@parts = []
+				@filter = filter
 			end
 
 			attr :parts
@@ -67,7 +71,7 @@ module Trenni
 			
 			# Output a string interpolation.
 			def interpolation(text)
-				@parts << "#{OUT}<<(#{text});"
+				@parts << "#{OUT}<<#{@filter}(#{text});"
 			end
 
 			CODE_PREFIX = "#{OUT}=String.new;".freeze
@@ -167,12 +171,13 @@ module Trenni
 			end
 		end
 
-		def self.load_file(path)
-			self.new(FileBuffer.new(path))
+		def self.load_file(path, **options)
+			self.new(FileBuffer.new(path), **options)
 		end
 
-		def initialize(buffer)
+		def initialize(buffer, filter: String)
 			@buffer = buffer
+			@filter = filter
 		end
 
 		def to_string(scope = Object.new)
@@ -204,7 +209,7 @@ module Trenni
 		end
 		
 		def compile!
-			assembler = Assembler.new
+			assembler = Assembler.new(filter: @filter)
 			
 			Scanner.new(@buffer, assembler).parse!
 			
