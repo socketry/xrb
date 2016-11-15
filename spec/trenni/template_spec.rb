@@ -23,54 +23,52 @@
 require 'trenni'
 require 'benchmark'
 
-module Trenni::TemplateSpec
-	describe Trenni::Template do
-		let(:capture_template) {Trenni::Template.load_file File.expand_path('template_spec/capture.trenni', __dir__)}
+RSpec.describe Trenni::Template do
+	let(:capture_template) {Trenni::Template.load_file File.expand_path('template_spec/capture.trenni', __dir__)}
+	
+	it "should be able to capture output" do
+		expect(capture_template.to_string).to be == '"TEST TEST TEST\n"'
+	end
+	
+	let(:buffer_template) {Trenni::Template.load_file File.expand_path('template_spec/buffer.trenni', __dir__)}
+	
+	it "should be able to fetch output buffer" do
+		expect(buffer_template.to_string).to be == 'test'
+	end
+	
+	let(:nested_template) {Trenni::Template.load_file File.expand_path('template_spec/nested.trenni', __dir__)}
+	
+	it "should be able to handle nested interpolations" do
+		expect(nested_template.to_string).to be == "Hello world!"
+	end
+	
+	let(:items) {1..4}
+	
+	it "should process list of items" do
+		buffer = Trenni::Buffer.new('<?r items.each do |item| ?>#{item}<?r end ?>')
+		template = Trenni::Template.new(buffer)
 		
-		it "should be able to capture output" do
-			expect(capture_template.to_string.strip).to be == 'TEST TEST TEST'
-		end
+		expect(template.to_string(self)).to be == "1234"
+	end
+	
+	let(:escaped_template) {Trenni::Template.load_file File.expand_path('template_spec/escaped.trenni', __dir__)}
+	
+	it "should have the same number of lines as input" do
+		expect(escaped_template.send(:code).lines.count).to be == 2
+	end
+	
+	it "should process escaped characters" do
+		expect(escaped_template.to_string).to be == 
+			"This\\nisn't one line.\n" +
+			"\\tIndentation is the best."
+	end
+	
+	it "should fail to parse" do
+		buffer = Trenni::Buffer.new('<img src="#{poi_product.photo.thumbnail_url" />')
+		broken_template = Trenni::Template.new(buffer)
 		
-		let(:buffer_template) {Trenni::Template.load_file File.expand_path('template_spec/buffer.trenni', __dir__)}
-		
-		it "should be able to fetch output buffer" do
-			expect(buffer_template.to_string).to be == 'test'
-		end
-		
-		let(:nested_template) {Trenni::Template.load_file File.expand_path('template_spec/nested.trenni', __dir__)}
-		
-		it "should be able to handle nested interpolations" do
-			expect(nested_template.to_string).to be == "Hello world!"
-		end
-		
-		let(:items) {1..4}
-		
-		it "should process list of items" do
-			buffer = Trenni::Buffer.new('<?r items.each do |item| ?>#{item}<?r end ?>')
-			template = Trenni::Template.new(buffer)
-			
-			expect(template.to_string(self)).to be == "1234"
-		end
-		
-		let(:escaped_template) {Trenni::Template.load_file File.expand_path('template_spec/escaped.trenni', __dir__)}
-		
-		it "should have the same number of lines as input" do
-			expect(escaped_template.send(:code).lines.count).to be == 2
-		end
-		
-		it "should process escaped characters" do
-			expect(escaped_template.to_string).to be == 
-				"This\\nisn't one line.\n" +
-				"\\tIndentation is the best."
-		end
-		
-		it "should fail to parse" do
-			buffer = Trenni::Buffer.new('<img src="#{poi_product.photo.thumbnail_url" />')
-			broken_template = Trenni::Template.new(buffer)
-			
-			expect{broken_template.to_proc}.to raise_error(Trenni::ParseError) do |error|
-				expect(error.to_s).to include("<string>[1]: Could not find end of interpolation!")
-			end
+		expect{broken_template.to_proc}.to raise_error(Trenni::ParseError) do |error|
+			expect(error.to_s).to include("<string>[1]: Could not find end of interpolation!")
 		end
 	end
 end

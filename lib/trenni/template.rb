@@ -112,8 +112,8 @@ module Trenni
 			def scan_expression
 				start_pos = self.pos
 				
-				if scan(/<\?r/)
-					if scan_until(/(.*?)\?>/m)
+				if scan(/\p{Blank}*<\?r/)
+					if scan_until(/(.*?)\?>(\p{Blank}*\n)?/m)
 						@delegate.expression(self[1])
 					else
 						parse_error!("Could not find end of expression!", [start_pos, self.pos])

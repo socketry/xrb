@@ -26,6 +26,7 @@ module Trenni
 		['encoding', 'UTF-8']
 	].freeze
 	
+	# Build HTML5 markup quickly and efficiently.
 	class Builder
 		include Markup
 		
@@ -35,24 +36,19 @@ module Trenni
 		def self.fragment(builder = nil, &block)
 			if builder
 				yield builder
-				
-				return nil
 			else
-				builder = Builder.new
+				builder = self.new
 				
 				yield builder
-				
-				return builder.output
 			end
+			
+			return builder
 		end
 		
-		def initialize(strict: false, indent: true, indentation: DEFAULT_INDENTATION, output: String.new)
-			@strict = strict
-			
+		def initialize(output = String.new)
 			# This field gets togged in #inline so we keep track of it separately from @indentation.
-			@indent = indent
-			
-			@indentation = indentation
+			@indent = true
+			@indentation = DEFAULT_INDENTATION
 			
 			@output = output
 			
@@ -68,14 +64,6 @@ module Trenni
 			else
 				''
 			end
-		end
-		
-		def instruct(attributes = nil)
-			attributes ||= INSTRUCT_ATTRIBUTES
-			
-			@output << "<?xml"
-			tag_attributes(attributes)
-			@output << "?>\n"
 		end
 		
 		def doctype(attributes = 'html')
@@ -133,11 +121,7 @@ module Trenni
 				when Hash
 					tag_attributes(value, attribute_key)
 				when TrueClass
-					if @strict
-						@output << ' ' << attribute_key.to_s << '="' << attribute_key.to_s << '"'
-					else
-						@output << ' ' << attribute_key.to_s
-					end
+					@output << ' ' << attribute_key.to_s
 				else
 					@output << ' ' << attribute_key.to_s << '="' << escape(value.to_s) << '"'
 				end
@@ -182,5 +166,4 @@ module Trenni
 			end
 		end
 	end
-	
 end
