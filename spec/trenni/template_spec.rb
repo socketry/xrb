@@ -30,6 +30,13 @@ RSpec.describe Trenni::Template do
 		expect(capture_template.to_string).to be == '"TEST TEST TEST\n"'
 	end
 	
+	it "compiled template should match line numbers" do
+		code_lines = capture_template.send(:code).lines
+		
+		expect(code_lines.count).to be == 4
+		expect(code_lines[3]).to include("inspect")
+	end
+	
 	let(:buffer_template) {Trenni::Template.load_file File.expand_path('template_spec/buffer.trenni', __dir__)}
 	
 	it "should be able to fetch output buffer" do

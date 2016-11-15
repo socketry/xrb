@@ -60,13 +60,16 @@ module Trenni
 				text = text.gsub("'", "\\\\'")
 				@parts << "#{OUT}<<'#{text}';"
 				
+				
 				# This is an interesting approach, but it doens't preserve newlines or tabs as raw characters, so template line numbers don't match up.
 				# @parts << "#{OUT}<<#{text.dump};"
 			end
 
 			# Output a ruby expression (or part of).
-			def expression(text)
-				@parts << "#{text};"
+			def expression(prefix, text, postfix = nil)
+				postfix ||= ';'
+				
+				@parts << prefix << text << postfix
 			end
 			
 			# Output a string interpolation.
@@ -112,9 +115,11 @@ module Trenni
 			def scan_expression
 				start_pos = self.pos
 				
-				if scan(/\p{Blank}*<\?r/)
+				# We capture whitespace (including newlines) so the code matches up as much as possible with the source file:
+				if scan(/(\p{Blank}*)<\?r/)
+					prefix = self[1]
 					if scan_until(/(.*?)\?>(\p{Blank}*\n)?/m)
-						@delegate.expression(self[1])
+						@delegate.expression(prefix, self[1], self[2])
 					else
 						parse_error!("Could not find end of expression!", [start_pos, self.pos])
 					end
