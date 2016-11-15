@@ -30,7 +30,7 @@ module Trenni
 	class Builder
 		include Markup
 		
-		DEFAULT_INDENTATION = "\t".freeze
+		INDENT = "\t".freeze
 		
 		# A helper to generate fragments of markup.
 		def self.fragment(builder = nil, &block)
@@ -48,7 +48,6 @@ module Trenni
 		def initialize(output = String.new)
 			# This field gets togged in #inline so we keep track of it separately from @indentation.
 			@indent = true
-			@indentation = DEFAULT_INDENTATION
 			
 			@output = output
 			
@@ -58,9 +57,18 @@ module Trenni
 		
 		attr :output
 		
+		# Required for output to buffer.
+		def to_str
+			@output
+		end
+		
+		def == other
+			to_str == other
+		end
+		
 		def indentation
 			if @indent
-				@indentation * (@level.size - 1)
+				INDENT * (@level.size - 1)
 			else
 				''
 			end

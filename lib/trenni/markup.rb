@@ -21,12 +21,16 @@
 module Trenni
 	# A wrapper which indicates that `value` can be appended to the output buffer without any changes.
 	module Markup
-		# This is only casually related to HTML, it's just enough so that it would not be mis-interpreted by `Trenni::Parser`.
-		ESCAPE = {"&" => "&amp;", "<" => "&lt;", ">" => "&gt;", "\"" => "&quot;"}
-		ESCAPE_PATTERN = Regexp.new("[" + Regexp.quote(ESCAPE.keys.join) + "]")
-		
-		def self.escape(string)
-			string.gsub(ESCAPE_PATTERN){|c| ESCAPE[c]}
+		# Generates a string suitable for concatenating with the output buffer.
+		def self.escape(value)
+			if value.is_a? Markup
+				value
+			elsif value
+				MarkupString.new(value.to_s)
+			else
+				# String#<< won't accept nil, so we return an empty string, thus ensuring a fixed point function:
+				EMPTY
+			end
 		end
 		
 		def escape(value)
@@ -41,22 +45,20 @@ module Trenni
 	class MarkupString < String
 		include Markup
 		
+		# This is only casually related to HTML, it's just enough so that it would not be mis-interpreted by `Trenni::Parser`.
+		ESCAPE = {"&" => "&amp;", "<" => "&lt;", ">" => "&gt;", "\"" => "&quot;"}
+		ESCAPE_PATTERN = Regexp.new("[" + Regexp.quote(ESCAPE.keys.join) + "]")
+		
 		def initialize(string)
 			super
 			
 			gsub!(ESCAPE_PATTERN){|c| ESCAPE[c]}
 		end
-		
-		def self.escape(value)
-			if value.is_a? Markup
-				value
-			elsif value
-				MarkupString.new(value.to_s)
-			end
-		end
 	end
 	
 	def self.MarkupString(value)
-		MarkupString.escape(value)
+		Markup.escape(value)
 	end
+	
+	Markup::EMPTY = RawString.new.freeze
 end

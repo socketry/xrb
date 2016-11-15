@@ -41,4 +41,8 @@ RSpec.describe Trenni::MarkupString do
 		
 		expect(template.to_string(model)).to be == html_text
 	end
+	
+	it "should convert nil to empty string" do
+		expect(Trenni::MarkupString(nil)).to be == ""
+	end
 end
