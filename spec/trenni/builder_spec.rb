@@ -27,7 +27,9 @@ module Trenni::BuilderSpec
 		subject {Trenni::Builder.new}
 		
 		it "should format nested attributes" do
-			expect(subject.tag_attributes(data: {id: 10})).to be == ' data-id="10"'
+			subject.tag('div', data: {id: 10})
+			
+			expect(subject.output).to be == '<div data-id="10"/>'
 		end
 	end
 	
@@ -116,7 +118,7 @@ module Trenni::BuilderSpec
 		end
 		
 		it "escapes attributes and text correctly" do
-			builder = Trenni::Builder.new(:escape => true)
+			builder = Trenni::Builder.new
 			
 			builder.inline :foo, :bar => %Q{"Hello World"} do
 				builder.text %Q{if x < 10}
@@ -157,6 +159,12 @@ module Trenni::BuilderSpec
 			builder = Trenni::Builder.new(:strict => true)
 			builder.tag :t, :b => 20, :a => 10
 			expect(builder.output).to be == %Q{<t b="20" a="10"/>}
+		end
+		
+		it "shouldn't output attributes with nil value" do
+			builder = Trenni::Builder.new
+			builder.tag :t, [[:a, 10], [:b, nil]]
+			expect(builder.output).to be == %Q{<t a="10"/>}
 		end
 	end
 end

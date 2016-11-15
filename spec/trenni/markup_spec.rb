@@ -1,4 +1,6 @@
-# Copyright, 2016, by Samuel G. D. Williams. <http://www.codeotaku.com>
+#!/usr/bin/env rspec
+
+# Copyright, 2012, by Samuel G. D. Williams. <http://www.codeotaku.com>
 # 
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -18,31 +20,25 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-module Trenni
-	# A wrapper which indicates that `value` can be appended to the output buffer without any changes.
-	class SafeString
-		def initialize(value)
-			@value = value
-		end
+require 'trenni'
+require 'trenni/markup'
+
+RSpec.describe Trenni::MarkupString do
+	let(:template) {Trenni::MarkupTemplate.load_file File.expand_path('template_spec/basic.trenni', __dir__)}
+	
+	let(:html_text) {"<h1>Hello World</h1>"}
+	
+	it "should escape unsafe text" do
+		model = double(text: html_text)
 		
-		def to_s
-			@value.to_s
-		end
-		
-		# This is only casually related to HTML, it's just enough so that it would not be mis-interpreted by `Trenni::Parser`.
-		ESCAPE = {"&" => "&amp;", "<" => "&lt;", ">" => "&gt;", "\"" => "&quot;"}
-		ESCAPE_PATTERN = Regexp.new("[" + Regexp.quote(ESCAPE.keys.join) + "]")
-		
-		def self.escape(string)
-			string.gsub(ESCAPE_PATTERN){|c| ESCAPE[c]}
-		end
+		expect(template.to_string(model)).to be == "&lt;h1&gt;Hello World&lt;/h1&gt;"
 	end
 	
-	def self.SafeString(value)
-		if value.is_a? SafeString
-			value.to_s
-		elsif value
-			SafeString.escape(value.to_s)
-		end
+	let(:safe_html_text) {Trenni::RawString.new(html_text)}
+	
+	it "should not escape safe text" do
+		model = double(text: safe_html_text)
+		
+		expect(template.to_string(model)).to be == html_text
 	end
 end

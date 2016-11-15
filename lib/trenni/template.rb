@@ -210,4 +210,10 @@ module Trenni
 			assembler.code
 		end
 	end
+	
+	class MarkupTemplate < Template
+		def initialize(buffer, filter: MarkupString)
+			super
+		end
+	end
 end

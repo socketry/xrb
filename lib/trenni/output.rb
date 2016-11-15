@@ -1,4 +1,4 @@
-# Copyright, 2012, by Samuel G. D. Williams. <http://www.codeotaku.com>
+# Copyright, 2016, by Samuel G. D. Williams. <http://www.codeotaku.com>
 # 
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -19,5 +19,18 @@
 # THE SOFTWARE.
 
 module Trenni
-	VERSION = "2.0.0"
+	class SafeOutputBuffer
+		def initialize(buffer = String.new)
+			@buffer = buffer
+		end
+			
+		# Append any value, assume that it needs to be filtered in some way.
+		def << value
+			@buffer << value.to_s
+		end
+		
+		def write string
+			@buffer << string
+		end
+	end
 end

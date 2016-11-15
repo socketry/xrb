@@ -1,6 +1,4 @@
-#!/usr/bin/env rspec
-
-# Copyright, 2012, by Samuel G. D. Williams. <http://www.codeotaku.com>
+# Copyright, 2016, by Samuel G. D. Williams. <http://www.codeotaku.com>
 # 
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -20,25 +18,45 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-require 'trenni'
-require 'trenni/safe_string'
-
-RSpec.describe Trenni::SafeString do
-	let(:template) {Trenni::Template.load_file File.expand_path('template_spec/basic.trenni', __dir__), filter: Trenni::SafeString}
-	
-	let(:html_text) {"<h1>Hello World</h1>"}
-	
-	it "should escape unsafe text" do
-		model = double(text: html_text)
+module Trenni
+	# A wrapper which indicates that `value` can be appended to the output buffer without any changes.
+	module Markup
+		# This is only casually related to HTML, it's just enough so that it would not be mis-interpreted by `Trenni::Parser`.
+		ESCAPE = {"&" => "&amp;", "<" => "&lt;", ">" => "&gt;", "\"" => "&quot;"}
+		ESCAPE_PATTERN = Regexp.new("[" + Regexp.quote(ESCAPE.keys.join) + "]")
 		
-		expect(template.to_string(model)).to be == "&lt;h1&gt;Hello World&lt;/h1&gt;"
+		def self.escape(string)
+			string.gsub(ESCAPE_PATTERN){|c| ESCAPE[c]}
+		end
+		
+		def escape(value)
+			Markup.escape(value)
+		end
 	end
 	
-	let(:safe_html_text) {Trenni::SafeString.new(html_text)}
+	class RawString < String
+		include Markup
+	end
 	
-	it "should not escape safe text" do
-		model = double(text: safe_html_text)
+	class MarkupString < String
+		include Markup
 		
-		expect(template.to_string(model)).to be == html_text
+		def initialize(string)
+			super
+			
+			gsub!(ESCAPE_PATTERN){|c| ESCAPE[c]}
+		end
+		
+		def self.escape(value)
+			if value.is_a? Markup
+				value
+			elsif value
+				MarkupString.new(value.to_s)
+			end
+		end
+	end
+	
+	def self.MarkupString(value)
+		MarkupString.escape(value)
 	end
 end

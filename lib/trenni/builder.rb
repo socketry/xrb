@@ -18,7 +18,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-require_relative 'strings'
+require_relative 'markup'
 
 module Trenni
 	INSTRUCT_ATTRIBUTES = [
@@ -27,6 +27,8 @@ module Trenni
 	].freeze
 	
 	class Builder
+		include Markup
+		
 		DEFAULT_INDENTATION = "\t".freeze
 		
 		# A helper to generate fragments of markup.
@@ -44,15 +46,13 @@ module Trenni
 			end
 		end
 		
-		def initialize(strict: false, indent: true, indentation: DEFAULT_INDENTATION, escape: false, output: String.new)
+		def initialize(strict: false, indent: true, indentation: DEFAULT_INDENTATION, output: String.new)
 			@strict = strict
 			
+			# This field gets togged in #inline so we keep track of it separately from @indentation.
 			@indent = indent
 			
 			@indentation = indentation
-			# This field gets togged in #inline so we keep track of it separately from @indentation.
-			
-			@escape = escape
 			
 			@output = output
 			
@@ -73,7 +73,9 @@ module Trenni
 		def instruct(attributes = nil)
 			attributes ||= INSTRUCT_ATTRIBUTES
 			
-			@output << "<?xml#{tag_attributes(attributes)}?>\n"
+			@output << "<?xml"
+			tag_attributes(attributes)
+			@output << "?>\n"
 		end
 		
 		def doctype(attributes = 'html')
@@ -97,7 +99,7 @@ module Trenni
 		end
 		
 		def text(data)
-			append to_html(data)
+			append escape(data)
 		end
 		
 		# Append pre-existing markup:
@@ -116,31 +118,30 @@ module Trenni
 			end
 		end
 		
-		# Convert a set of attributes into a string suitable for use within a <tag>.
-		def tag_attributes(attributes, buffer = [], prefix = nil)
-			attributes.each do |key, value|
-				attribute_key = prefix ? "#{prefix}-#{key}" : key
-				
-				if value == true
-					buffer << Strings::to_simple_attribute(attribute_key, @strict)
-				elsif value.is_a? Hash
-					tag_attributes(value, buffer, attribute_key)
-				elsif value
-					buffer << Strings::to_attribute(attribute_key, to_html(value))
-				end
-			end
-			
-			if buffer.size > 0
-				return ' ' + buffer.join(' ')
-			else
-				return ''
-			end
-		end
-		
 		protected
 		
-		def to_html(data)
-			@escape ? Strings::to_html(data) : data
+		# Convert a set of attributes into a string suitable for use within a <tag>.
+		def tag_attributes(attributes, prefix = nil)
+			return if attributes.empty?
+			
+			attributes.each do |key, value|
+				next unless value
+				
+				attribute_key = prefix ? "#{prefix}-#{key}" : key
+				
+				case value
+				when Hash
+					tag_attributes(value, attribute_key)
+				when TrueClass
+					if @strict
+						@output << ' ' << attribute_key.to_s << '="' << attribute_key.to_s << '"'
+					else
+						@output << ' ' << attribute_key.to_s
+					end
+				else
+					@output << ' ' << attribute_key.to_s << '="' << escape(value.to_s) << '"'
+				end
+			end
 		end
 		
 		# A normal block level/container tag.
@@ -151,7 +152,9 @@ module Trenni
 					@output << indentation
 				end
 				
-				@output << "<#{name}#{tag_attributes(attributes)}>"
+				@output << "<" << name.to_s
+				tag_attributes(attributes)
+				@output << ">"
 				@output << "\n" if indent_inner
 				
 				# The parent has one more child:
@@ -168,12 +171,14 @@ module Trenni
 					@output << indentation
 				end
 				
-				@output << "</#{name}>"
+				@output << "</" << name.to_s << ">"
 			else
 				# The parent has one more child:
 				@level[-1] += 1
 				
-				@output << indentation + "<#{name}#{tag_attributes(attributes)}/>"
+				@output << indentation + "<" << name.to_s
+				tag_attributes(attributes)
+				@output << "/>"
 			end
 		end
 	end

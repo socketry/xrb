@@ -9,18 +9,28 @@ Benchmark.ips do |x|
 	
 	# These two tests look at the cost of simply writing to a buffer.
 	
-	x.report("String (Amortized)") do |i|
+	x.report("String\#<<") do |i|
 		buffer = String.new
 		
-		i.times do
+		while (i -= 1) > 0
 			buffer << "String #{i}"
 		end
 	end
 	
-	x.report("StringIO (Amortized)") do |i|
+	x.report("Array\#<<") do |i|
+		buffer = []
+		
+		while (i -= 1) > 0
+			buffer << "String #{i}"
+		end
+		
+		buffer.join
+	end
+	
+	x.report("StringIO") do |i|
 		buffer = StringIO.new
 		
-		i.times do
+		while (i -= 1) > 0
 			buffer << "String #{i}"
 		end
 	end
