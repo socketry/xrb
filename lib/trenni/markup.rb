@@ -38,10 +38,12 @@ module Trenni
 		end
 	end
 	
+	# Initialized from text which contains HTML entities.
 	class RawString < String
 		include Markup
 	end
 	
+	# Initialized from text which is escaped to use HTML entities.
 	class MarkupString < String
 		include Markup
 		
@@ -49,6 +51,7 @@ module Trenni
 		ESCAPE = {"&" => "&amp;", "<" => "&lt;", ">" => "&gt;", "\"" => "&quot;"}
 		ESCAPE_PATTERN = Regexp.new("[" + Regexp.quote(ESCAPE.keys.join) + "]")
 		
+		# Convert ESCAPE characters into their corresponding entities.
 		def initialize(string)
 			super
 			
