@@ -76,4 +76,15 @@ module Trenni
 			Buffer.new(self.read, path: @path)
 		end
 	end
+	
+	def self.Buffer(value)
+		case value
+		when String
+			Buffer.new(value)
+		when Buffer, FileBuffer, IOBuffer
+			value
+		else
+			value.to_buffer
+		end
+	end
 end
