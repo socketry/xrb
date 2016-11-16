@@ -21,138 +21,190 @@
 # THE SOFTWARE.
 
 require 'trenni/parser'
+require 'yaml'
 
-module Trenni::ParserSpec
-	class ParserDelegate
-		def initialize
-			@events = []
-		end
-		
-		attr :events
-		
-		def method_missing(*args)
-			@events << args
-		end
-		
-		def begin_parse(scanner)
-			# ignore this event
+RSpec.shared_context "valid markup" do
+	let(:delegate) {Trenni::ParserDelegate.new}
+	let(:buffer) {Trenni::Buffer(subject)}
+	let(:parser) {Trenni::Parser.new(buffer, delegate)}
+	let(:events) {parser.parse!; delegate.events}
+	
+	it "should parse without error" do
+		expect{events}.to_not raise_error
+	end
+end
+
+RSpec.describe "<br/>" do
+	include_context "valid markup"
+	
+	it "should parse self-closing tag" do
+		expect(events).to be == [
+			[:begin_tag, "br", :opened],
+			[:finish_tag, :opened, :closed],
+		]
+	end
+end
+
+RSpec.describe "<!DOCTYPE html>" do
+	include_context "valid markup"
+	
+	it "should parse doctype" do
+		expect(events).to be == [
+			[:doctype, "html"]
+		]
+	end
+end
+
+RSpec.describe "<?foo=bar?>" do
+	include_context "valid markup"
+	
+	it "should parse instruction" do
+		expect(events).to be == [
+			[:instruction, "foo=bar"]
+		]
+	end
+end
+
+RSpec.describe %Q{<!--comment-->} do
+	include_context "valid markup"
+	
+	it "should parse comment" do
+		expect(events).to be == [
+			[:comment, "comment"]
+		]
+	end
+end
+
+RSpec.describe "<tag key=\"A&amp;B\" />" do
+	include_context "valid markup"
+	
+	it "should parse escaped attributes" do
+		expect(events).to be == [
+			[:begin_tag, "tag", :opened],
+			# TODO: What is the expected output here?
+			# will content be double escape when output?
+			[:attribute, "key", "A&amp;B"],
+			[:finish_tag, :opened, :closed]
+		]
+	end
+end
+
+RSpec.describe "<foo bar=\"20\" baz>Hello World</foo>" do
+	include_context "valid markup"
+	
+	it "should parse tag with content" do
+		expect(events).to be == [
+			[:begin_tag, "foo", :opened],
+			[:attribute, "bar", "20"],
+			[:attribute, "baz", true],
+			[:finish_tag, :opened, :opened],
+			[:text, "Hello World"],
+			[:begin_tag, "foo", :closed],
+			[:finish_tag, :closed, :opened],
+		]
+	end
+end
+
+RSpec.describe "<test><![CDATA[Hello World]]></test>" do
+	include_context "valid markup"
+	
+	it "should parse CDATA" do
+		expect(events).to be == [
+			[:begin_tag, "test", :opened],
+			[:finish_tag, :opened, :opened],
+			[:cdata, "Hello World"],
+			[:begin_tag, "test", :closed],
+			[:finish_tag, :closed, :opened],
+		]
+	end
+end
+
+RSpec.describe "<foo bar=\"\" baz>" do
+	include_context "valid markup"
+	
+	it "should parse empty attributes" do
+		expect(events).to be == [
+			[:begin_tag, "foo", :opened],
+			[:attribute, "bar", ""],
+			[:attribute, "baz", true],
+			[:finish_tag, :opened, :opened],
+		]
+	end
+end
+
+RSpec.shared_examples "valid markup file" do |base|
+	let(:xhtml_path) {File.join(__dir__, base + '.xhtml')}
+	let(:events_path) {File.join(__dir__, base + '.rb')}
+	
+	subject {Trenni::FileBuffer.new(xhtml_path)}
+	let(:expected_events) {eval(File.read(events_path), nil, events_path)}
+	
+	include_context "valid markup"
+	
+	def dump_events!
+		File.open(events_path, "w+") do |output|
+			output.puts "["
+			events.each do |event|
+				output.puts "\t#{event.inspect},"
+			end
+			output.puts "]"
 		end
 	end
 	
-	describe Trenni::Parser do
-		def parse(input)
-			delegate = ParserDelegate.new
-			buffer = Trenni::Buffer.new(input)
-			Trenni::Parser.new(buffer, delegate).parse!
-			
-			return delegate
-		end
+	it "should match events" do
+		# dump_events!
 		
-		it "should parse self-closing tags correctly" do
-			delegate = parse("<br/>")
-			
-			expect(delegate.events).to be == [
-				[:begin_tag, "br", :opened],
-				[:finish_tag, :opened, :closed],
-			]
-		end
-		
-		it "should parse doctype correctly" do
-			delegate = parse("<!DOCTYPE html>")
-			
-			expect(delegate.events).to be == [
-				[:doctype, "html"]
-			]
-		end
-		
-		it "Should parse instruction correctly" do
-			delegate = parse("<?foo=bar?>")
-			
-			expect(delegate.events).to be == [
-				[:instruction, "foo=bar"]
-			]
-		end
-		
-		it "should parse comment correctly" do
-			delegate = parse(%Q{<!--comment-->})
-			
-			expect(delegate.events).to be == [
-				[:comment, "comment"]
-			]
-		end
-		
-		it "should parse escaped attributes correctly" do
-			delegate = parse(%Q{<tag key="A&amp;B" />})
-			
-			expected_events = [
-				[:begin_tag, "tag", :opened],
-				# TODO: What is the expected output here?
-				# will content be double escape when output?
-				[:attribute, "key", "A&amp;B"],
-				[:finish_tag, :opened, :closed]
-			]
-		
-			expect(delegate.events).to be == expected_events
-		end
-		
-		it "should parse markup correctly" do
-			delegate = parse(%Q{<foo bar="20" baz>Hello World</foo>})
+		expect(events).to be == expected_events
+	end
+end
 
-			expected_events = [
-				[:begin_tag, "foo", :opened],
-				[:attribute, "bar", "20"],
-				[:attribute, "baz", true],
-				[:finish_tag, :opened, :opened],
-				[:text, "Hello World"],
-				[:begin_tag, "foo", :closed],
-				[:finish_tag, :closed, :opened],
-			]
-		
-			expect(delegate.events).to be == expected_events
-		end
-		
-		it "should parse CDATA correctly" do
-			delegate = parse(%Q{<test><![CDATA[Hello World]]></test>})
+RSpec.describe "performance_spec/large" do
+	it_behaves_like "valid markup file", description
+end
 
-			expected_events = [
-				[:begin_tag, "test", :opened],
-				[:finish_tag, :opened, :opened],
-				[:cdata, "Hello World"],
-				[:begin_tag, "test", :closed],
-				[:finish_tag, :closed, :opened],
-			]
+RSpec.shared_context "invalid markup" do
+	let(:delegate) {Trenni::ParserDelegate.new}
+	let(:buffer) {Trenni::Buffer.new(subject)}
+	let(:parser) {Trenni::Parser.new(buffer, delegate)}
+	let(:events) {parser.parse!; delegate.events}
+	
+	it "should fail to parse" do
+		expect{events}.to raise_error Trenni::ParseError
+	end
+end
+
+RSpec.describe "<foo" do
+	include_context "invalid markup"
+end
+
+RSpec.describe "<foo bar=>" do
+	include_context "invalid markup"
+end
+
+RSpec.describe "<p>\nこんにちは\nWorld\n<p" do
+	include_context "invalid markup"
+
+	let(:error) {events rescue $!}
+	
+	it "should fail on line 4" do
+		expect(error.location.line_number).to be == 4
+	end
+	
+	it "should fail at offset 2" do
+		expect(error.location.line_offset).to be == 2
+	end
+end
+
+RSpec.describe Trenni::Location do
+	subject{described_class.new("Hello\nWorld\nFoo\nBar!", 7)}
+	
+	it "should know about line numbers" do
+		expect(subject.to_i).to be == 7
+		expect(subject.to_s).to be == "[2]"
+		expect(subject.line_text).to be == "World"
 		
-			expect(delegate.events).to be == expected_events
-		end
-		
-		it "should generate errors on incorrect input" do
-			expect{parse(%Q{<foo})}.to raise_error Trenni::ParseError
-			
-			expect{parse(%Q{<foo bar=>})}.to raise_error Trenni::ParseError
-			
-			expect{parse(%Q{<foo bar="" baz>})}.to_not raise_error
-		end
-		
-		it "should know about line numbers" do
-			data = %Q{Hello\nWorld\nFoo\nBar!}
-		
-			location = Trenni::Location.new(data, 7)
-			
-			expect(location.to_i).to be == 7
-			expect(location.to_s).to be == "[2]"
-			expect(location.line_text).to be == "World"
-			
-			expect(location.line_number).to be == 2
-			expect(location.line_range.min).to be == 6
-			expect(location.line_offset).to be == 1
-		end
-		
-		it "should know about line numbers when input contains multi-byte characters" do
-			data = %Q{<p>\nこんにちは\nWorld\n<p}
-			error = parse(data) rescue $!
-			
-			expect(error).to be_kind_of Trenni::ParseError
-			expect(error.location.line_number).to be == 4
-		end
+		expect(subject.line_number).to be == 2
+		expect(subject.line_range.min).to be == 6
+		expect(subject.line_offset).to be == 1
 	end
 end
