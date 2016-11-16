@@ -81,6 +81,20 @@ module Trenni::ParserSpec
 			]
 		end
 		
+		it "should parse escaped attributes correctly" do
+			delegate = parse(%Q{<tag key="A&amp;B" />})
+			
+			expected_events = [
+				[:begin_tag, "tag", :opened],
+				# TODO: What is the expected output here?
+				# will content be double escape when output?
+				[:attribute, "key", "A&amp;B"],
+				[:finish_tag, :opened, :closed]
+			]
+		
+			expect(delegate.events).to be == expected_events
+		end
+		
 		it "should parse markup correctly" do
 			delegate = parse(%Q{<foo bar="20" baz>Hello World</foo>})
 
