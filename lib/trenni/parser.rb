@@ -150,4 +150,21 @@ module Trenni
 			end
 		end
 	end
+	
+	# This is a sample delegate for capturing all events. It's only use is for testing.
+	class ParserDelegate
+		def initialize
+			@events = []
+		end
+		
+		attr :events
+		
+		def method_missing(*args)
+			@events << args
+		end
+		
+		def begin_parse(scanner)
+			# ignore this event
+		end
+	end
 end
