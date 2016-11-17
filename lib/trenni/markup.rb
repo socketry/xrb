@@ -41,6 +41,12 @@ module Trenni
 	# Initialized from text which contains HTML entities.
 	class RawString < String
 		include Markup
+		
+		%w{+ concat <<}.each do |method_name|
+			define_method(method_name) do |other_string|
+				super(self.escape(other_string))
+			end
+		end
 	end
 	
 	# Initialized from text which is escaped to use HTML entities.

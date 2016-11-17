@@ -21,6 +21,7 @@
 # THE SOFTWARE.
 
 require 'trenni/parser'
+require 'trenni/template'
 require 'yaml'
 
 RSpec.shared_context "valid markup" do
@@ -129,6 +130,19 @@ RSpec.describe "<foo bar=\"\" baz>" do
 			[:attribute, "baz", true],
 			[:finish_tag, :opened, :opened],
 		]
+	end
+end
+
+RSpec.describe "<p attr=\"foo&amp;bar\">&quot;</p>" do
+	include_context "valid markup"
+	
+	let(:template_text) {%q{<p attr="#{events[1][2]}">#{events[3][1]}</p>}}
+	let(:template_buffer) {Trenni::Buffer(template_text)}
+	let(:template) {Trenni::MarkupTemplate.new(template_buffer)}
+	
+	it "generates same output as input" do
+		result = template.to_string(self)
+		expect(result).to be == subject
 	end
 end
 

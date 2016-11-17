@@ -60,7 +60,6 @@ module Trenni
 				text = text.gsub("'", "\\\\'")
 				@parts << "#{OUT}<<'#{text}';"
 				
-				
 				# This is an interesting approach, but it doens't preserve newlines or tabs as raw characters, so template line numbers don't match up.
 				# @parts << "#{OUT}<<#{text.dump};"
 			end
@@ -175,7 +174,7 @@ module Trenni
 				return false
 			end
 		end
-
+		
 		def self.load_file(path, **options)
 			self.new(FileBuffer.new(path), **options)
 		end

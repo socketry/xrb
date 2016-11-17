@@ -19,6 +19,7 @@
 # THE SOFTWARE.
 
 require_relative 'scanner'
+require_relative 'markup'
 
 module Trenni
 	# This parser processes general markup into a sequence of events which are passed to a delegate.
@@ -61,7 +62,7 @@ module Trenni
 		def scan_text
 			# Match any character data except the open tag character.
 			if self.scan(/[^<]+/m)
-				@delegate.text(self.matched)
+				@delegate.text(RawString.new(self.matched))
 			end
 		end
 		
@@ -89,7 +90,7 @@ module Trenni
 				name = self[1].freeze
 				if self.scan(/=((['"])(.*?)\2)/um)
 					value = self[3].freeze
-					@delegate.attribute(name, value)
+					@delegate.attribute(name, RawString.new(value))
 				else
 					@delegate.attribute(name, true)
 				end
