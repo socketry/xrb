@@ -1,6 +1,4 @@
-#!/usr/bin/env rspec
-
-# Copyright, 2012, by Samuel G. D. Williams. <http://www.codeotaku.com>
+# Copyright, 2016, by Samuel G. D. Williams. <http://www.codeotaku.com>
 # 
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -20,37 +18,42 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-require 'trenni'
-require 'trenni/markup'
-
-RSpec.describe Trenni::MarkupString do
-	let(:template) {Trenni::MarkupTemplate.load_file File.expand_path('template_spec/basic.trenni', __dir__)}
-	
-	let(:html_text) {"<h1>Hello World</h1>"}
-	
-	it "should escape unsafe text" do
-		model = double(text: html_text)
+module Trenni
+	class Substitutions
+		def initialize(substitutions)
+			@substitutions = substitutions
+			@pattern = Regexp.union(patterns)
+		end
 		
-		expect(template.to_string(model)).to be == "&lt;h1&gt;Hello World&lt;/h1&gt;"
-	end
-	
-	let(:safe_html_text) {Trenni::RawString.new(html_text)}
-	
-	it "should not escape safe text" do
-		model = double(text: safe_html_text)
+		def patterns
+			@substitutions.keys
+		end
 		
-		expect(template.to_string(model)).to be == html_text
+		attr :substitutions
+		
+		def gsub(string)
+			string.gsub(@pattern){|match| @substitutions[match]}
+		end
+		
+		def gsub!(string)
+			string.gsub!(@pattern){|match| @substitutions[match]}
+		end
 	end
 	
-	it "should convert nil to empty string" do
-		expect(Trenni::MarkupString(nil)).to be == ""
-	end
-end
-
-RSpec.describe Trenni::RawString do
-	let(:raw_string) {Trenni::RawString.new("foo&amp;bar")}
-	
-	it "should perform operations safely" do
-		expect(raw_string + "<bob>").to be == "foo&amp;bar&lt;bob&gt;"
+	class UnicodeEntities < Substitutions
+		def initialize(substitutions)
+		end
+		
+		def patterns
+			super + [/&\#\d+;/, /&x[0-9a-fA-F]+;/]
+		end
+		
+		def gsub(string)
+			string.gsub(@pattern){|match| @substitutions[match]}
+		end
+		
+		def gsub!(string)
+			string.gsub!(@pattern){|match| @substitutions[match]}
+		end
 	end
 end

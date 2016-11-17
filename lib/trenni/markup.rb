@@ -18,6 +18,8 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+require_relative 'substitutions'
+
 module Trenni
 	# A wrapper which indicates that `value` can be appended to the output buffer without any changes.
 	module Markup
@@ -42,10 +44,12 @@ module Trenni
 	class RawString < String
 		include Markup
 		
-		%w{+ concat <<}.each do |method_name|
-			define_method(method_name) do |other_string|
-				super(self.escape(other_string))
-			end
+		ENTITIES = Substitutions.new("&amp;" => "&", "&lt;" => "<", "&gt;" => ">", "&quot;" => "\"")
+		
+		def initialize(string = "")
+			super
+			
+			ENTITIES.gsub!(self)
 		end
 	end
 	
@@ -54,14 +58,13 @@ module Trenni
 		include Markup
 		
 		# This is only casually related to HTML, it's just enough so that it would not be mis-interpreted by `Trenni::Parser`.
-		ESCAPE = {"&" => "&amp;", "<" => "&lt;", ">" => "&gt;", "\"" => "&quot;"}
-		ESCAPE_PATTERN = Regexp.new("[" + Regexp.quote(ESCAPE.keys.join) + "]")
+		ESCAPE = Substitutions.new("&" => "&amp;", "<" => "&lt;", ">" => "&gt;", "\"" => "&quot;")
 		
 		# Convert ESCAPE characters into their corresponding entities.
 		def initialize(string)
 			super
 			
-			gsub!(ESCAPE_PATTERN){|c| ESCAPE[c]}
+			ESCAPE.gsub!(self)
 		end
 	end
 	
