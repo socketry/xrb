@@ -84,7 +84,7 @@ RSpec.describe "<tag key=\"A&amp;B\" />" do
 			[:begin_tag, "tag", :opened],
 			# TODO: What is the expected output here?
 			# will content be double escape when output?
-			[:attribute, "key", "A&amp;B"],
+			[:attribute, "key", "A&B"],
 			[:finish_tag, :opened, :closed]
 		]
 	end

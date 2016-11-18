@@ -29,31 +29,28 @@ module Trenni
 			@substitutions.keys
 		end
 		
+		def substitute(match)
+			@substitutions[match]
+		end
+		
 		attr :substitutions
 		
 		def gsub(string)
-			string.gsub(@pattern){|match| @substitutions[match]}
+			string.gsub(@pattern, &self.method(:substitute))
 		end
 		
 		def gsub!(string)
-			string.gsub!(@pattern){|match| @substitutions[match]}
+			string.gsub!(@pattern, &self.method(:substitute))
 		end
 	end
 	
 	class UnicodeEntities < Substitutions
-		def initialize(substitutions)
-		end
-		
 		def patterns
 			super + [/&\#\d+;/, /&x[0-9a-fA-F]+;/]
 		end
 		
-		def gsub(string)
-			string.gsub(@pattern){|match| @substitutions[match]}
-		end
-		
-		def gsub!(string)
-			string.gsub!(@pattern){|match| @substitutions[match]}
+		def substitute(match)
+			$1 ? $1.to_i(10).chr(Encoding::UTF_8): $2 ? $2.to_i(16).chr(Encoding::UTF_8) : @substitutions[match]
 		end
 	end
 end

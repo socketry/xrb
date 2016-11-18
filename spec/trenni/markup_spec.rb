@@ -34,7 +34,7 @@ RSpec.describe Trenni::MarkupString do
 		expect(template.to_string(model)).to be == "&lt;h1&gt;Hello World&lt;/h1&gt;"
 	end
 	
-	let(:safe_html_text) {Trenni::RawString.new(html_text)}
+	let(:safe_html_text) {Trenni::Builder.tag('h1', 'Hello World')}
 	
 	it "should not escape safe text" do
 		model = double(text: safe_html_text)
@@ -44,13 +44,5 @@ RSpec.describe Trenni::MarkupString do
 	
 	it "should convert nil to empty string" do
 		expect(Trenni::MarkupString(nil)).to be == ""
-	end
-end
-
-RSpec.describe Trenni::RawString do
-	let(:raw_string) {Trenni::RawString.new("foo&amp;bar")}
-	
-	it "should perform operations safely" do
-		expect(raw_string + "<bob>").to be == "foo&amp;bar&lt;bob&gt;"
 	end
 end

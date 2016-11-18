@@ -18,10 +18,12 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+require_relative 'substitutions'
+
 module Trenni
 	# We only support a small subset of markup entities.
 	module Entities
-		MAP = {
+		HTML_NAMED_ENTITIES = {
 			"&Aacute;" => "\u{c1}",
 			"&Aacute" => "\u{c1}",
 			"&aacute;" => "\u{e1}",
@@ -2255,5 +2257,6 @@ module Trenni
 			"&zwnj;" => "\u{200c}",
 		}
 		
+		HTML = UnicodeEntities.new(HTML_NAMED_ENTITIES)
 	end
 end

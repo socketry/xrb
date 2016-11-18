@@ -45,6 +45,14 @@ module Trenni
 			return builder
 		end
 		
+		def self.tag(name, content, **attributes)
+			self.fragment do |builder|
+				builder.inline(name, attributes) do
+					builder.text content
+				end
+			end
+		end
+		
 		def initialize(output = String.new)
 			# This field gets togged in #inline so we keep track of it separately from @indentation.
 			@indent = true

@@ -19,7 +19,7 @@
 # THE SOFTWARE.
 
 require_relative 'scanner'
-require_relative 'markup'
+require_relative 'entities'
 
 module Trenni
 	# This parser processes general markup into a sequence of events which are passed to a delegate.
@@ -27,20 +27,20 @@ module Trenni
 		OPENED_TAG = :opened
 		CLOSED_TAG = :closed
 		
-		def initialize(buffer, delegate)
+		def initialize(buffer, delegate, entities: Entities::HTML)
 			super(buffer)
 			
 			@delegate = delegate
 			
 			# The delegate must respond to:
 			# .begin_parse(self)
-			# .text(escaped_data)
+			# .text(escaped_data) - contains HTML entities.
 			# .cdata(unescaped_data)
-			# .attribute(name, value_or_true)
+			# .attribute(name, value_or_true) - value contains HTML entities.
 			# .begin_tag(name, :opened or :closed)
 			# .end_tag(begin_tag_type, :opened or :closed)
 			# .doctype(doctype_attributes)
-			# .comment(comment_text)
+			# .comment(comment_text) - contains HTML entities.
 			# .instruction(instruction_text)
 		end
 
@@ -59,10 +59,14 @@ module Trenni
 
 		protected
 
+		def convert_entities(string_with_entities)
+			@entities.gsub(string_with_entities)
+		end
+
 		def scan_text
 			# Match any character data except the open tag character.
 			if self.scan(/[^<]+/m)
-				@delegate.text(RawString.new(self.matched))
+				@delegate.text(convert_entities(self.matched))
 			end
 		end
 		
@@ -89,8 +93,8 @@ module Trenni
 			while self.scan(/\s*([^\s=\/>]+)/um)
 				name = self[1].freeze
 				if self.scan(/=((['"])(.*?)\2)/um)
-					value = self[3].freeze
-					@delegate.attribute(name, RawString.new(value))
+					value = convert_entities(self[3])
+					@delegate.attribute(name, value)
 				else
 					@delegate.attribute(name, true)
 				end

@@ -40,19 +40,6 @@ module Trenni
 		end
 	end
 	
-	# Initialized from text which contains HTML entities.
-	class RawString < String
-		include Markup
-		
-		ENTITIES = Substitutions.new("&amp;" => "&", "&lt;" => "<", "&gt;" => ">", "&quot;" => "\"")
-		
-		def initialize(string = "")
-			super
-			
-			ENTITIES.gsub!(self)
-		end
-	end
-	
 	# Initialized from text which is escaped to use HTML entities.
 	class MarkupString < String
 		include Markup
@@ -72,5 +59,5 @@ module Trenni
 		Markup.escape(value)
 	end
 	
-	Markup::EMPTY = RawString.new.freeze
+	Markup::EMPTY = String.new.extend(Markup).freeze
 end
