@@ -22,7 +22,7 @@
 
 require 'trenni/parser'
 require 'trenni/template'
-require 'yaml'
+require 'trenni/markup'
 
 RSpec.shared_context "valid markup" do
 	let(:delegate) {Trenni::ParserDelegate.new}
@@ -40,8 +40,8 @@ RSpec.describe "<br/>" do
 	
 	it "should parse self-closing tag" do
 		expect(events).to be == [
-			[:begin_tag, "br", :opened],
-			[:finish_tag, :opened, :closed],
+			[:open_tag_begin, "br"],
+			[:open_tag_end, true],
 		]
 	end
 end
@@ -51,17 +51,17 @@ RSpec.describe "<!DOCTYPE html>" do
 	
 	it "should parse doctype" do
 		expect(events).to be == [
-			[:doctype, "html"]
+			[:doctype, "<!DOCTYPE html>"]
 		]
 	end
 end
 
-RSpec.describe "<?foo=bar?>" do
+RSpec.describe "<?r foo=bar?>" do
 	include_context "valid markup"
 	
 	it "should parse instruction" do
 		expect(events).to be == [
-			[:instruction, "foo=bar"]
+			[:instruction, "r", "foo=bar"]
 		]
 	end
 end
@@ -71,7 +71,7 @@ RSpec.describe %Q{<!--comment-->} do
 	
 	it "should parse comment" do
 		expect(events).to be == [
-			[:comment, "comment"]
+			[:comment, "<!--comment-->"]
 		]
 	end
 end
@@ -81,11 +81,9 @@ RSpec.describe "<tag key=\"A&amp;B\" />" do
 	
 	it "should parse escaped attributes" do
 		expect(events).to be == [
-			[:begin_tag, "tag", :opened],
-			# TODO: What is the expected output here?
-			# will content be double escape when output?
+			[:open_tag_begin, "tag"],
 			[:attribute, "key", "A&B"],
-			[:finish_tag, :opened, :closed]
+			[:open_tag_end, true],
 		]
 	end
 end
@@ -95,13 +93,12 @@ RSpec.describe "<foo bar=\"20\" baz>Hello World</foo>" do
 	
 	it "should parse tag with content" do
 		expect(events).to be == [
-			[:begin_tag, "foo", :opened],
+			[:open_tag_begin, "foo"],
 			[:attribute, "bar", "20"],
 			[:attribute, "baz", true],
-			[:finish_tag, :opened, :opened],
+			[:open_tag_end, false],
 			[:text, "Hello World"],
-			[:begin_tag, "foo", :closed],
-			[:finish_tag, :closed, :opened],
+			[:close_tag, "foo"],
 		]
 	end
 end
@@ -111,24 +108,23 @@ RSpec.describe "<test><![CDATA[Hello World]]></test>" do
 	
 	it "should parse CDATA" do
 		expect(events).to be == [
-			[:begin_tag, "test", :opened],
-			[:finish_tag, :opened, :opened],
-			[:cdata, "Hello World"],
-			[:begin_tag, "test", :closed],
-			[:finish_tag, :closed, :opened],
+			[:open_tag_begin, "test"],
+			[:open_tag_end, false],
+			[:cdata, "<![CDATA[Hello World]]>"],
+			[:close_tag, "test"],
 		]
 	end
 end
 
-RSpec.describe "<foo bar=\"\" baz>" do
+RSpec.describe "<foo bar=\"\" baz />" do
 	include_context "valid markup"
 	
 	it "should parse empty attributes" do
 		expect(events).to be == [
-			[:begin_tag, "foo", :opened],
+			[:open_tag_begin, "foo"],
 			[:attribute, "bar", ""],
 			[:attribute, "baz", true],
-			[:finish_tag, :opened, :opened],
+			[:open_tag_end, true],
 		]
 	end
 end
@@ -166,9 +162,11 @@ RSpec.shared_examples "valid markup file" do |base|
 	end
 	
 	it "should match events" do
-		# dump_events!
+		#dump_events!
 		
-		expect(events).to be == expected_events
+		expected_events.each_with_index do |event, index|
+			expect(events[index]).to be == event
+		end
 	end
 end
 

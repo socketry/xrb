@@ -52,7 +52,7 @@ module Trenni
 		attr :path
 		
 		def read
-			@buffer ||= File.read(@path)
+			@cache ||= File.read(@path)
 		end
 		
 		def to_buffer
@@ -69,7 +69,7 @@ module Trenni
 		attr :path
 		
 		def read
-			@io.read
+			@cache ||= @io.read
 		end
 		
 		def to_buffer

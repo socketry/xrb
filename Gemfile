@@ -8,6 +8,8 @@ group :development do
 	gem 'ruby-prof', platforms: [:mri]
 	
 	gem "benchmark-ips"
+	
+	gem "rake-compiler"
 end
 
 group :test do

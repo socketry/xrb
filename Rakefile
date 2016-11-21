@@ -27,3 +27,25 @@ task :fetch_entities do
 	end
 	puts "}"
 end
+
+require "rake/extensiontask"
+
+Rake::ExtensionTask.new "trenni" do |ext|
+	ext.lib_dir = "lib/trenni/native"
+end
+
+task :generate_lexer do
+	Dir.chdir("ext/trenni") do
+		sh("ragel", "-C", "Lexer.rl", "-G2")
+	end
+end
+
+task :environment do
+	$LOAD_PATH.unshift File.expand_path('lib', __dir__)
+end
+
+task :console => :environment do
+	require 'pry'
+	
+	Pry.start
+end

@@ -18,39 +18,49 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-require_relative 'buffer'
-require 'strscan'
-
 module Trenni
-	class StringScanner < ::StringScanner
-		def initialize(buffer)
-			@buffer = buffer
-			
-			super(buffer.read)
+	# This is a sample delegate for capturing all events. It's only use is for testing.
+	class ParserDelegate
+		def initialize
+			@events = []
 		end
 		
-		attr :buffer
+		attr :events
 		
-		def path
-			@buffer.path
+		def text(text)
+			@events << [:text, text]
 		end
 		
-		STUCK_MESSAGE = "Parser is stuck!".freeze
-		
-		def stuck?(position)
-			self.pos == position
-		end
-			
-		def raise_if_stuck(position, message = STUCK_MESSAGE)
-			if stuck?(position)
-				parse_error!(message)
-			end
+		def cdata(data)
+			@events << [:cdata, data]
 		end
 		
-		def parse_error!(message, positions = nil)
-			positions ||= [self.pos]
-			
-			raise ParseError.new(message, @buffer, positions.first)
+		def open_tag_begin(name)
+			@events << [:open_tag_begin, name]
+		end
+		
+		def attribute(name, value)
+			@events << [:attribute, name, value]
+		end
+		
+		def open_tag_end(self_closing)
+			@events << [:open_tag_end, self_closing]
+		end
+		
+		def close_tag(name)
+			@events << [:close_tag, name]
+		end
+		
+		def doctype(data)
+			@events << [:doctype, data]
+		end
+		
+		def comment(data)
+			@events << [:comment, data]
+		end
+		
+		def instruction(name, text)
+			@events << [:instruction, name, text]
 		end
 	end
 end
