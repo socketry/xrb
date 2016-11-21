@@ -8,10 +8,6 @@ typedef struct {
 	const char * end;
 } Token;
 
-static VALUE Trenni_string(const char * begin, const char * end) {
-	return rb_str_new(begin, end - begin);
-}
-
 static VALUE Trenni_token(Token token) {
 	return rb_str_new(token.begin, token.end - token.begin);
 }
@@ -26,15 +22,9 @@ static void Trenni_Parser_append_token(VALUE * buffer, rb_encoding * encoding, T
 	}
 }
 
-static void Trenni_Parser_append_string(VALUE * buffer, rb_encoding * encoding, const char * string) {
-	if (*buffer == Qnil) {
-		*buffer = rb_enc_str_new_cstr(string, encoding);
-	} else {
-		rb_str_buf_cat2(*buffer, string);
-	}
-}
-
 static void Trenni_Parser_append_codepoint(VALUE * buffer, rb_encoding * encoding, unsigned long codepoint) {
+	printf("Trenni_Parser_append_codepoint %ul %ul\n", buffer, codepoint);
+	
 	if (*buffer == Qnil) {
 		*buffer = rb_enc_str_new("", 0, encoding);
 	}
@@ -84,7 +74,7 @@ static void Trenni_Parser_append_codepoint(VALUE * buffer, rb_encoding * encodin
 	action entity_hex {
 		entity.end = p;
 		
-		char * end = entity.end;
+		char * end = (char *)entity.end;
 		unsigned long codepoint = strtoul(entity.begin, &end, 16);
 		
 		Trenni_Parser_append_codepoint(&pcdata, encoding, codepoint);
@@ -93,7 +83,7 @@ static void Trenni_Parser_append_codepoint(VALUE * buffer, rb_encoding * encodin
 	action entity_number {
 		entity.end = p;
 		
-		char * end = entity.end;
+		char * end = (char *)entity.end;
 		unsigned long codepoint = strtoul(entity.begin, &end, 10);
 		
 		Trenni_Parser_append_codepoint(&pcdata, encoding, codepoint);
@@ -243,11 +233,9 @@ void Trenni_Parser_parse_buffer(VALUE buffer, VALUE delegate) {
 	const char * p = s;
 	const char * pe = p + RSTRING_LEN(string);
 	const char * eof = pe;
-	const char * ts = 0;
-	const char * te = 0;
-	
-	unsigned long cs, act;
-	unsigned long top;
+
+	unsigned long cs;
+	unsigned long top = 0;
 	unsigned long stack[2] = {0};
 	
 	Token identifier, cdata, characters, entity, doctype, comment, instruction_text;

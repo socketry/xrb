@@ -10,10 +10,6 @@ typedef struct {
 	const char * end;
 } Token;
 
-static VALUE Trenni_string(const char * begin, const char * end) {
-	return rb_str_new(begin, end - begin);
-}
-
 static VALUE Trenni_token(Token token) {
 	return rb_str_new(token.begin, token.end - token.begin);
 }
@@ -28,15 +24,9 @@ static void Trenni_Parser_append_token(VALUE * buffer, rb_encoding * encoding, T
 	}
 }
 
-static void Trenni_Parser_append_string(VALUE * buffer, rb_encoding * encoding, const char * string) {
-	if (*buffer == Qnil) {
-		*buffer = rb_enc_str_new_cstr(string, encoding);
-	} else {
-		rb_str_buf_cat2(*buffer, string);
-	}
-}
-
 static void Trenni_Parser_append_codepoint(VALUE * buffer, rb_encoding * encoding, unsigned long codepoint) {
+	printf("Trenni_Parser_append_codepoint %ul %ul\n", buffer, codepoint);
+	
 	if (*buffer == Qnil) {
 		*buffer = rb_enc_str_new("", 0, encoding);
 	}
@@ -47,232 +37,16 @@ static void Trenni_Parser_append_codepoint(VALUE * buffer, rb_encoding * encodin
 #define entity_codepoint(number) Trenni_Parser_append_codepoint(&pcdata, encoding, number)
 
 
-#line 51 "lexer.c"
-static const char _trenni_lexer_actions[] = {
-	0, 1, 0, 1, 1, 1, 2, 1, 
-	3, 1, 4, 1, 5, 1, 6, 1, 
-	7, 1, 8, 1, 9, 1, 11, 1, 
-	12, 1, 14, 1, 15, 1, 17, 1, 
-	18, 1, 19, 1, 22, 1, 27, 1, 
-	29, 1, 30, 1, 32, 1, 33, 1, 
-	36, 1, 37, 2, 1, 20, 2, 1, 
-	26, 2, 2, 4, 2, 3, 35, 2, 
-	5, 3, 2, 5, 4, 2, 6, 30, 
-	2, 23, 0, 2, 24, 26, 2, 25, 
-	26, 2, 34, 2, 2, 36, 3, 2, 
-	36, 4, 2, 37, 3, 2, 37, 4, 
-	3, 1, 20, 22, 3, 1, 26, 22, 
-	3, 5, 3, 35, 3, 11, 34, 2, 
-	3, 14, 34, 2, 3, 18, 34, 2, 
-	3, 24, 26, 22, 3, 25, 26, 22, 
-	3, 27, 34, 2, 3, 29, 34, 2, 
-	3, 32, 34, 2, 3, 34, 2, 4, 
-	3, 36, 3, 35, 3, 37, 3, 35, 
-	4, 11, 34, 2, 4, 4, 14, 34, 
-	2, 4, 4, 18, 34, 2, 4, 4, 
-	27, 34, 2, 4, 4, 29, 34, 2, 
-	4, 4, 32, 34, 2, 4, 6, 21, 
-	28, 16, 13, 10, 31, 7, 11, 21, 
-	28, 16, 13, 10, 31, 7, 14, 21, 
-	28, 16, 13, 10, 31, 7, 18, 21, 
-	28, 16, 13, 10, 31, 7, 27, 21, 
-	28, 16, 13, 10, 31, 7, 29, 21, 
-	28, 16, 13, 10, 31, 7, 32, 21, 
-	28, 16, 13, 10, 31, 8, 3, 35, 
-	21, 28, 16, 13, 10, 31, 9, 5, 
-	3, 35, 21, 28, 16, 13, 10, 31, 
-	9, 36, 3, 35, 21, 28, 16, 13, 
-	10, 31, 9, 37, 3, 35, 21, 28, 
-	16, 13, 10, 31
-};
-
-static const unsigned char _trenni_lexer_key_offsets[] = {
-	0, 0, 3, 6, 9, 21, 37, 53, 
-	70, 71, 72, 75, 78, 83, 86, 89, 
-	92, 95, 101, 108, 109, 110, 111, 114, 
-	115, 116, 117, 118, 121, 126, 129, 130, 
-	131, 132, 134, 135, 136, 137, 138, 139, 
-	140, 141, 142, 143, 144, 145, 146, 147, 
-	148, 149, 151, 161, 172, 182, 197, 201, 
-	202, 204, 210, 217, 218, 219, 220, 221, 
-	222, 223, 224, 226, 228, 230, 232, 234, 
-	236, 238, 240, 242, 244
-};
-
-static const char _trenni_lexer_trans_keys[] = {
-	35, 97, 113, 120, 48, 57, 59, 48, 
-	57, 33, 47, 63, 96, 0, 44, 59, 
-	64, 91, 94, 123, 127, 32, 47, 62, 
-	96, 0, 8, 9, 13, 14, 44, 59, 
-	64, 91, 94, 123, 127, 32, 47, 62, 
-	96, 0, 8, 9, 13, 14, 44, 59, 
-	64, 91, 94, 123, 127, 32, 47, 61, 
-	62, 96, 0, 8, 9, 13, 14, 44, 
-	59, 64, 91, 94, 123, 127, 62, 34, 
-	34, 38, 60, 34, 38, 60, 32, 47, 
-	62, 9, 13, 35, 97, 113, 120, 48, 
-	57, 59, 48, 57, 34, 38, 60, 48, 
-	57, 65, 70, 97, 102, 59, 48, 57, 
-	65, 70, 97, 102, 109, 112, 59, 34, 
-	38, 60, 117, 111, 116, 59, 34, 38, 
-	60, 32, 47, 62, 9, 13, 45, 68, 
-	91, 45, 45, 45, 45, 62, 79, 67, 
-	84, 89, 80, 69, 62, 67, 68, 65, 
-	84, 65, 91, 93, 93, 62, 93, 47, 
-	96, 0, 44, 59, 64, 91, 94, 123, 
-	127, 47, 62, 96, 0, 44, 59, 64, 
-	91, 94, 123, 127, 47, 96, 0, 44, 
-	59, 64, 91, 94, 123, 127, 32, 47, 
-	96, 0, 8, 9, 13, 14, 44, 59, 
-	64, 91, 94, 123, 127, 32, 63, 9, 
-	13, 63, 62, 63, 48, 57, 65, 70, 
-	97, 102, 59, 48, 57, 65, 70, 97, 
-	102, 109, 112, 59, 117, 111, 116, 59, 
-	38, 60, 38, 60, 38, 60, 38, 60, 
-	38, 60, 38, 60, 38, 60, 38, 60, 
-	38, 60, 38, 60, 38, 60, 0
-};
-
-static const char _trenni_lexer_single_lengths[] = {
-	0, 3, 1, 1, 4, 4, 4, 5, 
-	1, 1, 3, 3, 3, 3, 1, 1, 
-	3, 0, 1, 1, 1, 1, 3, 1, 
-	1, 1, 1, 3, 3, 3, 1, 1, 
-	1, 2, 1, 1, 1, 1, 1, 1, 
-	1, 1, 1, 1, 1, 1, 1, 1, 
-	1, 2, 2, 3, 2, 3, 2, 1, 
-	2, 0, 1, 1, 1, 1, 1, 1, 
-	1, 1, 2, 2, 2, 2, 2, 2, 
-	2, 2, 2, 2, 2
-};
-
-static const char _trenni_lexer_range_lengths[] = {
-	0, 0, 1, 1, 4, 6, 6, 6, 
-	0, 0, 0, 0, 1, 0, 1, 1, 
-	0, 3, 3, 0, 0, 0, 0, 0, 
-	0, 0, 0, 0, 1, 0, 0, 0, 
-	0, 0, 0, 0, 0, 0, 0, 0, 
-	0, 0, 0, 0, 0, 0, 0, 0, 
-	0, 0, 4, 4, 4, 6, 1, 0, 
-	0, 3, 3, 0, 0, 0, 0, 0, 
-	0, 0, 0, 0, 0, 0, 0, 0, 
-	0, 0, 0, 0, 0
-};
-
-static const short _trenni_lexer_index_offsets[] = {
-	0, 0, 4, 7, 10, 19, 30, 41, 
-	53, 55, 57, 61, 65, 70, 74, 77, 
-	80, 84, 88, 93, 95, 97, 99, 103, 
-	105, 107, 109, 111, 115, 120, 124, 126, 
-	128, 130, 133, 135, 137, 139, 141, 143, 
-	145, 147, 149, 151, 153, 155, 157, 159, 
-	161, 163, 166, 173, 181, 188, 198, 202, 
-	204, 207, 211, 216, 218, 220, 222, 224, 
-	226, 228, 230, 233, 236, 239, 242, 245, 
-	248, 251, 254, 257, 260
-};
-
-static const unsigned char _trenni_lexer_indicies[] = {
-	1, 2, 3, 0, 5, 4, 0, 7, 
-	6, 0, 10, 11, 12, 9, 9, 9, 
-	9, 9, 8, 14, 15, 16, 9, 9, 
-	14, 9, 9, 9, 9, 13, 18, 19, 
-	20, 9, 9, 18, 9, 9, 9, 9, 
-	17, 22, 23, 24, 25, 9, 9, 22, 
-	9, 9, 9, 9, 21, 20, 9, 26, 
-	9, 28, 29, 9, 27, 31, 32, 9, 
-	30, 33, 34, 35, 33, 9, 37, 38, 
-	39, 36, 41, 40, 36, 43, 42, 36, 
-	45, 46, 9, 44, 47, 47, 47, 36, 
-	49, 48, 48, 48, 36, 50, 36, 51, 
-	36, 52, 36, 54, 55, 9, 53, 56, 
-	36, 57, 36, 58, 36, 59, 36, 61, 
-	62, 9, 60, 63, 64, 65, 63, 9, 
-	66, 68, 69, 67, 70, 67, 71, 70, 
-	72, 70, 72, 73, 70, 74, 67, 75, 
-	67, 76, 67, 77, 67, 78, 67, 79, 
-	67, 80, 79, 81, 67, 82, 67, 83, 
-	67, 84, 67, 85, 67, 86, 67, 87, 
-	86, 88, 86, 89, 88, 86, 9, 9, 
-	9, 9, 9, 9, 90, 9, 92, 9, 
-	9, 9, 9, 9, 91, 94, 94, 94, 
-	94, 94, 94, 93, 96, 94, 94, 94, 
-	96, 94, 94, 94, 94, 95, 98, 99, 
-	98, 97, 101, 100, 102, 101, 100, 103, 
-	103, 103, 0, 105, 104, 104, 104, 0, 
-	106, 0, 107, 0, 108, 0, 109, 0, 
-	110, 0, 111, 0, 112, 0, 114, 115, 
-	113, 117, 118, 116, 120, 121, 119, 123, 
-	124, 122, 126, 127, 125, 129, 130, 128, 
-	132, 133, 131, 135, 136, 134, 138, 139, 
-	137, 141, 142, 140, 144, 145, 143, 0
-};
-
-static const char _trenni_lexer_trans_targs[] = {
-	0, 2, 59, 62, 3, 57, 3, 68, 
-	5, 0, 29, 50, 52, 5, 6, 8, 
-	69, 7, 6, 8, 69, 7, 6, 8, 
-	9, 69, 10, 11, 28, 13, 11, 12, 
-	13, 6, 8, 69, 0, 14, 19, 23, 
-	15, 17, 15, 16, 11, 12, 13, 18, 
-	18, 16, 20, 21, 22, 11, 12, 13, 
-	24, 25, 26, 27, 11, 12, 13, 6, 
-	8, 69, 30, 0, 34, 41, 31, 32, 
-	33, 70, 35, 36, 37, 38, 39, 40, 
-	71, 42, 43, 44, 45, 46, 47, 48, 
-	49, 72, 51, 51, 73, 53, 0, 53, 
-	54, 55, 54, 56, 55, 56, 74, 58, 
-	58, 68, 60, 61, 75, 63, 64, 65, 
-	76, 67, 1, 4, 67, 1, 4, 67, 
-	1, 4, 67, 1, 4, 67, 1, 4, 
-	67, 1, 4, 67, 1, 4, 67, 1, 
-	4, 67, 1, 4, 67, 1, 4, 67, 
-	1, 4
-};
-
-static const short _trenni_lexer_trans_actions[] = {
-	13, 0, 0, 0, 15, 0, 0, 19, 
-	1, 41, 0, 0, 0, 0, 51, 96, 
-	51, 72, 0, 35, 0, 0, 54, 100, 
-	3, 54, 0, 57, 0, 5, 66, 63, 
-	11, 75, 120, 75, 69, 0, 0, 0, 
-	15, 0, 0, 19, 9, 7, 0, 15, 
-	0, 17, 0, 0, 0, 87, 84, 47, 
-	0, 0, 0, 0, 93, 90, 49, 78, 
-	124, 78, 0, 0, 0, 0, 0, 0, 
-	0, 0, 0, 0, 0, 0, 0, 0, 
-	0, 0, 0, 0, 0, 0, 0, 0, 
-	0, 0, 1, 0, 3, 1, 33, 0, 
-	3, 29, 29, 29, 0, 0, 0, 15, 
-	0, 17, 0, 0, 0, 0, 0, 0, 
-	0, 140, 81, 182, 66, 11, 246, 9, 
-	0, 237, 167, 128, 213, 157, 112, 197, 
-	152, 108, 189, 177, 136, 229, 172, 132, 
-	221, 162, 116, 205, 87, 47, 256, 93, 
-	49, 266
-};
-
-static const short _trenni_lexer_eof_actions[] = {
-	0, 13, 13, 13, 41, 41, 41, 41, 
-	41, 41, 41, 41, 41, 69, 69, 69, 
-	41, 69, 69, 69, 69, 69, 41, 69, 
-	69, 69, 69, 41, 41, 0, 0, 27, 
-	27, 27, 0, 0, 0, 0, 0, 0, 
-	23, 0, 0, 0, 0, 0, 0, 45, 
-	45, 45, 41, 41, 33, 33, 33, 33, 
-	33, 13, 13, 13, 13, 13, 13, 13, 
-	13, 13, 0, 104, 60, 37, 25, 21, 
-	43, 39, 31, 144, 148
-};
-
-static const int trenni_lexer_start = 66;
-static const int trenni_lexer_first_final = 66;
+#line 41 "lexer.c"
+static const int trenni_lexer_start = 56;
+static const int trenni_lexer_first_final = 56;
 static const int trenni_lexer_error = 0;
 
-static const int trenni_lexer_en_main = 66;
+static const int trenni_lexer_en_parse_entity = 40;
+static const int trenni_lexer_en_main = 56;
 
 
-#line 224 "lexer.rl"
+#line 214 "lexer.rl"
 
 
 static void Trenni_Parser_parse_error(const char * message, VALUE buffer, size_t offset) {
@@ -295,257 +69,766 @@ void Trenni_Parser_parse_buffer(VALUE buffer, VALUE delegate) {
 	const char * p = s;
 	const char * pe = p + RSTRING_LEN(string);
 	const char * eof = pe;
-	const char * ts = 0;
-	const char * te = 0;
-	
-	unsigned long cs, act;
-	unsigned long top;
+
+	unsigned long cs;
+	unsigned long top = 0;
 	unsigned long stack[2] = {0};
 	
 	Token identifier, cdata, characters, entity, doctype, comment, instruction_text;
 	unsigned self_closing = 0, has_value = 0;
 	
 	
-#line 310 "lexer.c"
+#line 82 "lexer.c"
 	{
 	cs = trenni_lexer_start;
+	top = 0;
 	}
 
-#line 315 "lexer.c"
+#line 88 "lexer.c"
 	{
-	int _klen;
-	unsigned int _trans;
-	const char *_acts;
-	unsigned int _nacts;
-	const char *_keys;
-
 	if ( p == pe )
 		goto _test_eof;
-	if ( cs == 0 )
-		goto _out;
+	goto _resume;
+
+_again:
+	switch ( cs ) {
+		case 56: goto st56;
+		case 57: goto st57;
+		case 58: goto st58;
+		case 1: goto st1;
+		case 2: goto st2;
+		case 0: goto st0;
+		case 3: goto st3;
+		case 4: goto st4;
+		case 5: goto st5;
+		case 59: goto st59;
+		case 6: goto st6;
+		case 7: goto st7;
+		case 8: goto st8;
+		case 9: goto st9;
+		case 10: goto st10;
+		case 11: goto st11;
+		case 12: goto st12;
+		case 13: goto st13;
+		case 14: goto st14;
+		case 15: goto st15;
+		case 16: goto st16;
+		case 60: goto st60;
+		case 17: goto st17;
+		case 18: goto st18;
+		case 19: goto st19;
+		case 20: goto st20;
+		case 21: goto st21;
+		case 22: goto st22;
+		case 23: goto st23;
+		case 61: goto st61;
+		case 24: goto st24;
+		case 25: goto st25;
+		case 26: goto st26;
+		case 27: goto st27;
+		case 28: goto st28;
+		case 29: goto st29;
+		case 30: goto st30;
+		case 31: goto st31;
+		case 32: goto st32;
+		case 62: goto st62;
+		case 33: goto st33;
+		case 34: goto st34;
+		case 63: goto st63;
+		case 35: goto st35;
+		case 36: goto st36;
+		case 37: goto st37;
+		case 38: goto st38;
+		case 39: goto st39;
+		case 64: goto st64;
+		case 40: goto st40;
+		case 41: goto st41;
+		case 42: goto st42;
+		case 65: goto st65;
+		case 43: goto st43;
+		case 44: goto st44;
+		case 45: goto st45;
+		case 46: goto st46;
+		case 47: goto st47;
+		case 48: goto st48;
+		case 49: goto st49;
+		case 50: goto st50;
+		case 51: goto st51;
+		case 52: goto st52;
+		case 53: goto st53;
+		case 54: goto st54;
+		case 55: goto st55;
+	default: break;
+	}
+
+	if ( ++p == pe )
+		goto _test_eof;
 _resume:
-	_keys = _trenni_lexer_trans_keys + _trenni_lexer_key_offsets[cs];
-	_trans = _trenni_lexer_index_offsets[cs];
-
-	_klen = _trenni_lexer_single_lengths[cs];
-	if ( _klen > 0 ) {
-		const char *_lower = _keys;
-		const char *_mid;
-		const char *_upper = _keys + _klen - 1;
-		while (1) {
-			if ( _upper < _lower )
-				break;
-
-			_mid = _lower + ((_upper-_lower) >> 1);
-			if ( (*p) < *_mid )
-				_upper = _mid - 1;
-			else if ( (*p) > *_mid )
-				_lower = _mid + 1;
-			else {
-				_trans += (unsigned int)(_mid - _keys);
-				goto _match;
-			}
-		}
-		_keys += _klen;
-		_trans += _klen;
-	}
-
-	_klen = _trenni_lexer_range_lengths[cs];
-	if ( _klen > 0 ) {
-		const char *_lower = _keys;
-		const char *_mid;
-		const char *_upper = _keys + (_klen<<1) - 2;
-		while (1) {
-			if ( _upper < _lower )
-				break;
-
-			_mid = _lower + (((_upper-_lower) >> 1) & ~1);
-			if ( (*p) < _mid[0] )
-				_upper = _mid - 2;
-			else if ( (*p) > _mid[1] )
-				_lower = _mid + 2;
-			else {
-				_trans += (unsigned int)((_mid - _keys)>>1);
-				goto _match;
-			}
-		}
-		_trans += _klen;
-	}
-
-_match:
-	_trans = _trenni_lexer_indicies[_trans];
-	cs = _trenni_lexer_trans_targs[_trans];
-
-	if ( _trenni_lexer_trans_actions[_trans] == 0 )
-		goto _again;
-
-	_acts = _trenni_lexer_actions + _trenni_lexer_trans_actions[_trans];
-	_nacts = (unsigned int) *_acts++;
-	while ( _nacts-- > 0 )
+	switch ( cs )
 	{
-		switch ( *_acts++ )
-		{
-	case 0:
-#line 51 "lexer.rl"
-	{ identifier.begin = p; }
-	break;
-	case 1:
-#line 52 "lexer.rl"
-	{ identifier.end = p; }
-	break;
-	case 2:
-#line 54 "lexer.rl"
-	{
-		pcdata = Qnil;
+st56:
+	if ( ++p == pe )
+		goto _test_eof56;
+case 56:
+	switch( (*p) ) {
+		case 38: goto tr96;
+		case 60: goto tr97;
 	}
-	break;
-	case 3:
-#line 58 "lexer.rl"
-	{
-		// Buffer is ready.
-	}
-	break;
-	case 4:
-#line 62 "lexer.rl"
-	{
-		characters.begin = p;
-	}
-	break;
-	case 5:
-#line 66 "lexer.rl"
+	goto tr95;
+tr98:
+#line 56 "lexer.rl"
 	{
 		characters.end = p;
 		
 		Trenni_Parser_append_token(&pcdata, encoding, characters);
 	}
-	break;
-	case 6:
-#line 72 "lexer.rl"
+#line 52 "lexer.rl"
 	{
-		Trenni_Parser_parse_error("could not parse entity", buffer, p-s);
+		characters.begin = p;
 	}
-	break;
-	case 7:
-#line 76 "lexer.rl"
+	goto st57;
+tr101:
+#line 52 "lexer.rl"
 	{
-		entity.begin = p;
+		characters.begin = p;
 	}
-	break;
-	case 8:
-#line 84 "lexer.rl"
+	goto st57;
+tr95:
+#line 202 "lexer.rl"
 	{
-		entity.end = p;
-		
-		char * end = entity.end;
-		unsigned long codepoint = strtoul(entity.begin, &end, 16);
-		
-		Trenni_Parser_append_codepoint(&pcdata, encoding, codepoint);
+	
 	}
-	break;
-	case 9:
-#line 93 "lexer.rl"
+#line 44 "lexer.rl"
 	{
-		entity.end = p;
-		
-		char * end = entity.end;
-		unsigned long codepoint = strtoul(entity.begin, &end, 10);
-		
-		Trenni_Parser_append_codepoint(&pcdata, encoding, codepoint);
+		pcdata = Qnil;
 	}
-	break;
-	case 10:
-#line 102 "lexer.rl"
+#line 52 "lexer.rl"
 	{
-		doctype.begin = p;
+		characters.begin = p;
 	}
-	break;
-	case 11:
-#line 106 "lexer.rl"
+	goto st57;
+tr104:
+#line 173 "lexer.rl"
 	{
-		doctype.end = p;
-		
-		rb_funcall(delegate, id_doctype, 1, Trenni_token(doctype));
+		rb_funcall(delegate, id_open_tag_end, 1, self_closing == 1 ? Qtrue : Qfalse);
 	}
-	break;
-	case 13:
-#line 116 "lexer.rl"
+#line 202 "lexer.rl"
 	{
-		comment.begin = p;
+	
 	}
-	break;
-	case 14:
-#line 120 "lexer.rl"
+#line 44 "lexer.rl"
+	{
+		pcdata = Qnil;
+	}
+#line 52 "lexer.rl"
+	{
+		characters.begin = p;
+	}
+	goto st57;
+tr107:
+#line 110 "lexer.rl"
 	{
 		comment.end = p;
 		
 		rb_funcall(delegate, id_comment, 1, Trenni_token(comment));
 	}
-	break;
-	case 16:
-#line 130 "lexer.rl"
+#line 202 "lexer.rl"
 	{
+	
 	}
-	break;
-	case 17:
-#line 133 "lexer.rl"
+#line 44 "lexer.rl"
 	{
-		instruction_text.begin = p;
+		pcdata = Qnil;
 	}
-	break;
-	case 18:
-#line 137 "lexer.rl"
+#line 52 "lexer.rl"
+	{
+		characters.begin = p;
+	}
+	goto st57;
+tr110:
+#line 96 "lexer.rl"
+	{
+		doctype.end = p;
+		
+		rb_funcall(delegate, id_doctype, 1, Trenni_token(doctype));
+	}
+#line 202 "lexer.rl"
+	{
+	
+	}
+#line 44 "lexer.rl"
+	{
+		pcdata = Qnil;
+	}
+#line 52 "lexer.rl"
+	{
+		characters.begin = p;
+	}
+	goto st57;
+tr113:
+#line 192 "lexer.rl"
+	{
+		cdata.end = p;
+		
+		rb_funcall(delegate, id_cdata, 1, Trenni_token(cdata));
+	}
+#line 202 "lexer.rl"
+	{
+	
+	}
+#line 44 "lexer.rl"
+	{
+		pcdata = Qnil;
+	}
+#line 52 "lexer.rl"
+	{
+		characters.begin = p;
+	}
+	goto st57;
+tr116:
+#line 180 "lexer.rl"
+	{
+		rb_funcall(delegate, id_close_tag, 1, Trenni_token(identifier));
+	}
+#line 202 "lexer.rl"
+	{
+	
+	}
+#line 44 "lexer.rl"
+	{
+		pcdata = Qnil;
+	}
+#line 52 "lexer.rl"
+	{
+		characters.begin = p;
+	}
+	goto st57;
+tr119:
+#line 127 "lexer.rl"
 	{
 		instruction_text.end = p-2;
 		
 		rb_funcall(delegate, id_instruction, 2, Trenni_token(identifier), Trenni_token(instruction_text));
 	}
-	break;
-	case 19:
-#line 143 "lexer.rl"
+#line 202 "lexer.rl"
+	{
+	
+	}
+#line 44 "lexer.rl"
+	{
+		pcdata = Qnil;
+	}
+#line 52 "lexer.rl"
+	{
+		characters.begin = p;
+	}
+	goto st57;
+st57:
+	if ( ++p == pe )
+		goto _test_eof57;
+case 57:
+#line 331 "lexer.c"
+	switch( (*p) ) {
+		case 38: goto tr99;
+		case 60: goto tr100;
+	}
+	goto tr98;
+tr99:
+#line 56 "lexer.rl"
+	{
+		characters.end = p;
+		
+		Trenni_Parser_append_token(&pcdata, encoding, characters);
+	}
+#line 13 "entities.rl"
+	{{stack[top++] = 58; goto st40;}}
+	goto st58;
+tr102:
+#line 13 "entities.rl"
+	{{stack[top++] = 58; goto st40;}}
+	goto st58;
+tr96:
+#line 202 "lexer.rl"
+	{
+	
+	}
+#line 44 "lexer.rl"
+	{
+		pcdata = Qnil;
+	}
+#line 13 "entities.rl"
+	{{stack[top++] = 58; goto st40;}}
+	goto st58;
+tr105:
+#line 173 "lexer.rl"
+	{
+		rb_funcall(delegate, id_open_tag_end, 1, self_closing == 1 ? Qtrue : Qfalse);
+	}
+#line 202 "lexer.rl"
+	{
+	
+	}
+#line 44 "lexer.rl"
+	{
+		pcdata = Qnil;
+	}
+#line 13 "entities.rl"
+	{{stack[top++] = 58; goto st40;}}
+	goto st58;
+tr108:
+#line 110 "lexer.rl"
+	{
+		comment.end = p;
+		
+		rb_funcall(delegate, id_comment, 1, Trenni_token(comment));
+	}
+#line 202 "lexer.rl"
+	{
+	
+	}
+#line 44 "lexer.rl"
+	{
+		pcdata = Qnil;
+	}
+#line 13 "entities.rl"
+	{{stack[top++] = 58; goto st40;}}
+	goto st58;
+tr111:
+#line 96 "lexer.rl"
+	{
+		doctype.end = p;
+		
+		rb_funcall(delegate, id_doctype, 1, Trenni_token(doctype));
+	}
+#line 202 "lexer.rl"
+	{
+	
+	}
+#line 44 "lexer.rl"
+	{
+		pcdata = Qnil;
+	}
+#line 13 "entities.rl"
+	{{stack[top++] = 58; goto st40;}}
+	goto st58;
+tr114:
+#line 192 "lexer.rl"
+	{
+		cdata.end = p;
+		
+		rb_funcall(delegate, id_cdata, 1, Trenni_token(cdata));
+	}
+#line 202 "lexer.rl"
+	{
+	
+	}
+#line 44 "lexer.rl"
+	{
+		pcdata = Qnil;
+	}
+#line 13 "entities.rl"
+	{{stack[top++] = 58; goto st40;}}
+	goto st58;
+tr117:
+#line 180 "lexer.rl"
+	{
+		rb_funcall(delegate, id_close_tag, 1, Trenni_token(identifier));
+	}
+#line 202 "lexer.rl"
+	{
+	
+	}
+#line 44 "lexer.rl"
+	{
+		pcdata = Qnil;
+	}
+#line 13 "entities.rl"
+	{{stack[top++] = 58; goto st40;}}
+	goto st58;
+tr120:
+#line 127 "lexer.rl"
+	{
+		instruction_text.end = p-2;
+		
+		rb_funcall(delegate, id_instruction, 2, Trenni_token(identifier), Trenni_token(instruction_text));
+	}
+#line 202 "lexer.rl"
+	{
+	
+	}
+#line 44 "lexer.rl"
+	{
+		pcdata = Qnil;
+	}
+#line 13 "entities.rl"
+	{{stack[top++] = 58; goto st40;}}
+	goto st58;
+st58:
+	if ( ++p == pe )
+		goto _test_eof58;
+case 58:
+#line 471 "lexer.c"
+	switch( (*p) ) {
+		case 38: goto tr102;
+		case 60: goto tr103;
+	}
+	goto tr101;
+tr97:
+#line 144 "lexer.rl"
+	{
+	}
+#line 177 "lexer.rl"
+	{
+	}
+#line 120 "lexer.rl"
+	{
+	}
+#line 106 "lexer.rl"
+	{
+		comment.begin = p;
+	}
+#line 92 "lexer.rl"
+	{
+		doctype.begin = p;
+	}
+#line 188 "lexer.rl"
+	{
+		cdata.begin = p;
+	}
+	goto st1;
+tr100:
+#line 56 "lexer.rl"
+	{
+		characters.end = p;
+		
+		Trenni_Parser_append_token(&pcdata, encoding, characters);
+	}
+#line 48 "lexer.rl"
+	{
+		// Buffer is ready.
+	}
+#line 206 "lexer.rl"
+	{
+		// Entities are handled separately:
+		rb_funcall(delegate, id_text, 1, pcdata);
+	}
+#line 144 "lexer.rl"
+	{
+	}
+#line 177 "lexer.rl"
+	{
+	}
+#line 120 "lexer.rl"
+	{
+	}
+#line 106 "lexer.rl"
+	{
+		comment.begin = p;
+	}
+#line 92 "lexer.rl"
+	{
+		doctype.begin = p;
+	}
+#line 188 "lexer.rl"
+	{
+		cdata.begin = p;
+	}
+	goto st1;
+tr103:
+#line 48 "lexer.rl"
+	{
+		// Buffer is ready.
+	}
+#line 206 "lexer.rl"
+	{
+		// Entities are handled separately:
+		rb_funcall(delegate, id_text, 1, pcdata);
+	}
+#line 144 "lexer.rl"
+	{
+	}
+#line 177 "lexer.rl"
+	{
+	}
+#line 120 "lexer.rl"
+	{
+	}
+#line 106 "lexer.rl"
+	{
+		comment.begin = p;
+	}
+#line 92 "lexer.rl"
+	{
+		doctype.begin = p;
+	}
+#line 188 "lexer.rl"
+	{
+		cdata.begin = p;
+	}
+	goto st1;
+tr106:
+#line 173 "lexer.rl"
+	{
+		rb_funcall(delegate, id_open_tag_end, 1, self_closing == 1 ? Qtrue : Qfalse);
+	}
+#line 144 "lexer.rl"
+	{
+	}
+#line 177 "lexer.rl"
+	{
+	}
+#line 120 "lexer.rl"
+	{
+	}
+#line 106 "lexer.rl"
+	{
+		comment.begin = p;
+	}
+#line 92 "lexer.rl"
+	{
+		doctype.begin = p;
+	}
+#line 188 "lexer.rl"
+	{
+		cdata.begin = p;
+	}
+	goto st1;
+tr109:
+#line 110 "lexer.rl"
+	{
+		comment.end = p;
+		
+		rb_funcall(delegate, id_comment, 1, Trenni_token(comment));
+	}
+#line 144 "lexer.rl"
+	{
+	}
+#line 177 "lexer.rl"
+	{
+	}
+#line 120 "lexer.rl"
+	{
+	}
+#line 106 "lexer.rl"
+	{
+		comment.begin = p;
+	}
+#line 92 "lexer.rl"
+	{
+		doctype.begin = p;
+	}
+#line 188 "lexer.rl"
+	{
+		cdata.begin = p;
+	}
+	goto st1;
+tr112:
+#line 96 "lexer.rl"
+	{
+		doctype.end = p;
+		
+		rb_funcall(delegate, id_doctype, 1, Trenni_token(doctype));
+	}
+#line 144 "lexer.rl"
+	{
+	}
+#line 177 "lexer.rl"
+	{
+	}
+#line 120 "lexer.rl"
+	{
+	}
+#line 106 "lexer.rl"
+	{
+		comment.begin = p;
+	}
+#line 92 "lexer.rl"
+	{
+		doctype.begin = p;
+	}
+#line 188 "lexer.rl"
+	{
+		cdata.begin = p;
+	}
+	goto st1;
+tr115:
+#line 192 "lexer.rl"
+	{
+		cdata.end = p;
+		
+		rb_funcall(delegate, id_cdata, 1, Trenni_token(cdata));
+	}
+#line 144 "lexer.rl"
+	{
+	}
+#line 177 "lexer.rl"
+	{
+	}
+#line 120 "lexer.rl"
+	{
+	}
+#line 106 "lexer.rl"
+	{
+		comment.begin = p;
+	}
+#line 92 "lexer.rl"
+	{
+		doctype.begin = p;
+	}
+#line 188 "lexer.rl"
+	{
+		cdata.begin = p;
+	}
+	goto st1;
+tr118:
+#line 180 "lexer.rl"
+	{
+		rb_funcall(delegate, id_close_tag, 1, Trenni_token(identifier));
+	}
+#line 144 "lexer.rl"
+	{
+	}
+#line 177 "lexer.rl"
+	{
+	}
+#line 120 "lexer.rl"
+	{
+	}
+#line 106 "lexer.rl"
+	{
+		comment.begin = p;
+	}
+#line 92 "lexer.rl"
+	{
+		doctype.begin = p;
+	}
+#line 188 "lexer.rl"
+	{
+		cdata.begin = p;
+	}
+	goto st1;
+tr121:
+#line 127 "lexer.rl"
+	{
+		instruction_text.end = p-2;
+		
+		rb_funcall(delegate, id_instruction, 2, Trenni_token(identifier), Trenni_token(instruction_text));
+	}
+#line 144 "lexer.rl"
+	{
+	}
+#line 177 "lexer.rl"
+	{
+	}
+#line 120 "lexer.rl"
+	{
+	}
+#line 106 "lexer.rl"
+	{
+		comment.begin = p;
+	}
+#line 92 "lexer.rl"
+	{
+		doctype.begin = p;
+	}
+#line 188 "lexer.rl"
+	{
+		cdata.begin = p;
+	}
+	goto st1;
+st1:
+	if ( ++p == pe )
+		goto _test_eof1;
+case 1:
+#line 744 "lexer.c"
+	switch( (*p) ) {
+		case 33: goto st12;
+		case 47: goto st33;
+		case 63: goto st35;
+		case 96: goto tr1;
+	}
+	if ( (*p) < 59 ) {
+		if ( 0 <= (*p) && (*p) <= 44 )
+			goto tr1;
+	} else if ( (*p) > 64 ) {
+		if ( (*p) > 94 ) {
+			if ( 123 <= (*p) )
+				goto tr1;
+		} else if ( (*p) >= 91 )
+			goto tr1;
+	} else
+		goto tr1;
+	goto tr0;
+tr0:
+#line 41 "lexer.rl"
+	{ identifier.begin = p; }
+	goto st2;
+st2:
+	if ( ++p == pe )
+		goto _test_eof2;
+case 2:
+#line 771 "lexer.c"
+	switch( (*p) ) {
+		case 32: goto tr6;
+		case 47: goto tr7;
+		case 62: goto tr8;
+		case 96: goto tr1;
+	}
+	if ( (*p) < 14 ) {
+		if ( (*p) > 8 ) {
+			if ( 9 <= (*p) && (*p) <= 13 )
+				goto tr6;
+		} else if ( (*p) >= 0 )
+			goto tr1;
+	} else if ( (*p) > 44 ) {
+		if ( (*p) < 91 ) {
+			if ( 59 <= (*p) && (*p) <= 64 )
+				goto tr1;
+		} else if ( (*p) > 94 ) {
+			if ( 123 <= (*p) )
+				goto tr1;
+		} else
+			goto tr1;
+	} else
+		goto tr1;
+	goto st2;
+tr1:
+#line 184 "lexer.rl"
+	{
+		Trenni_Parser_parse_error("could not parse tag", buffer, p-s);
+	}
+	goto st0;
+tr62:
+#line 133 "lexer.rl"
 	{
 		Trenni_Parser_parse_error("could not parse instruction", buffer, p-s);
 	}
-	break;
-	case 20:
-#line 147 "lexer.rl"
+	goto st0;
+tr71:
+#line 62 "lexer.rl"
+	{
+		Trenni_Parser_parse_error("could not parse entity", buffer, p-s);
+	}
+	goto st0;
+#line 814 "lexer.c"
+st0:
+cs = 0;
+	goto _out;
+tr6:
+#line 42 "lexer.rl"
+	{ identifier.end = p; }
+#line 137 "lexer.rl"
 	{
 		// Reset self-closing state - we don't know yet.
 		self_closing = 0;
 		
 		rb_funcall(delegate, id_open_tag_begin, 1, Trenni_token(identifier));
 	}
-	break;
-	case 21:
-#line 154 "lexer.rl"
-	{
-	}
-	break;
-	case 22:
-#line 157 "lexer.rl"
-	{
-		self_closing = 1;
-	}
-	break;
-	case 23:
-#line 161 "lexer.rl"
-	{
-		has_value = 0;
-	}
-	break;
-	case 24:
-#line 165 "lexer.rl"
-	{
-		has_value = 1;
-	}
-	break;
-	case 25:
-#line 169 "lexer.rl"
-	{
-		has_value = 2;
-	}
-	break;
-	case 26:
-#line 173 "lexer.rl"
+	goto st3;
+tr14:
+#line 42 "lexer.rl"
+	{ identifier.end = p; }
+#line 163 "lexer.rl"
 	{
 		if (has_value == 1) {
 			rb_funcall(delegate, id_attribute, 2, Trenni_token(identifier), pcdata);
@@ -555,199 +838,1178 @@ _match:
 			rb_funcall(delegate, id_attribute, 2, Trenni_token(identifier), Qtrue);
 		}
 	}
-	break;
-	case 27:
-#line 183 "lexer.rl"
+	goto st3;
+tr25:
+#line 155 "lexer.rl"
 	{
-		rb_funcall(delegate, id_open_tag_end, 1, self_closing == 1 ? Qtrue : Qfalse);
+		has_value = 1;
 	}
-	break;
-	case 28:
-#line 187 "lexer.rl"
+#line 163 "lexer.rl"
 	{
-	}
-	break;
-	case 29:
-#line 190 "lexer.rl"
-	{
-		rb_funcall(delegate, id_close_tag, 1, Trenni_token(identifier));
-	}
-	break;
-	case 30:
-#line 194 "lexer.rl"
-	{
-		Trenni_Parser_parse_error("could not parse tag", buffer, p-s);
-	}
-	break;
-	case 31:
-#line 198 "lexer.rl"
-	{
-		cdata.begin = p;
-	}
-	break;
-	case 32:
-#line 202 "lexer.rl"
-	{
-		cdata.end = p;
-		
-		rb_funcall(delegate, id_cdata, 1, Trenni_token(cdata));
-	}
-	break;
-	case 34:
-#line 212 "lexer.rl"
-	{
-	
-	}
-	break;
-	case 35:
-#line 216 "lexer.rl"
-	{
-		// Entities are handled separately:
-		rb_funcall(delegate, id_text, 1, pcdata);
-	}
-	break;
-	case 36:
-#line 5 "entities.rl"
-	{entity_codepoint(38);}
-	break;
-	case 37:
-#line 6 "entities.rl"
-	{entity_codepoint(34);}
-	break;
-#line 618 "lexer.c"
+		if (has_value == 1) {
+			rb_funcall(delegate, id_attribute, 2, Trenni_token(identifier), pcdata);
+		} else if (has_value == 2) {
+			rb_funcall(delegate, id_attribute, 2, Trenni_token(identifier), empty_string);
+		} else {
+			rb_funcall(delegate, id_attribute, 2, Trenni_token(identifier), Qtrue);
 		}
 	}
-
-_again:
-	if ( cs == 0 )
-		goto _out;
-	if ( ++p != pe )
-		goto _resume;
-	_test_eof: {}
-	if ( p == eof )
+	goto st3;
+tr31:
+#line 159 "lexer.rl"
 	{
-	const char *__acts = _trenni_lexer_actions + _trenni_lexer_eof_actions[cs];
-	unsigned int __nacts = (unsigned int) *__acts++;
-	while ( __nacts-- > 0 ) {
-		switch ( *__acts++ ) {
-	case 3:
-#line 58 "lexer.rl"
-	{
-		// Buffer is ready.
+		has_value = 2;
 	}
-	break;
-	case 5:
-#line 66 "lexer.rl"
+#line 163 "lexer.rl"
+	{
+		if (has_value == 1) {
+			rb_funcall(delegate, id_attribute, 2, Trenni_token(identifier), pcdata);
+		} else if (has_value == 2) {
+			rb_funcall(delegate, id_attribute, 2, Trenni_token(identifier), empty_string);
+		} else {
+			rb_funcall(delegate, id_attribute, 2, Trenni_token(identifier), Qtrue);
+		}
+	}
+	goto st3;
+st3:
+	if ( ++p == pe )
+		goto _test_eof3;
+case 3:
+#line 879 "lexer.c"
+	switch( (*p) ) {
+		case 32: goto st3;
+		case 47: goto tr11;
+		case 62: goto st59;
+		case 96: goto tr1;
+	}
+	if ( (*p) < 14 ) {
+		if ( (*p) > 8 ) {
+			if ( 9 <= (*p) && (*p) <= 13 )
+				goto st3;
+		} else if ( (*p) >= 0 )
+			goto tr1;
+	} else if ( (*p) > 44 ) {
+		if ( (*p) < 91 ) {
+			if ( 59 <= (*p) && (*p) <= 64 )
+				goto tr1;
+		} else if ( (*p) > 94 ) {
+			if ( 123 <= (*p) )
+				goto tr1;
+		} else
+			goto tr1;
+	} else
+		goto tr1;
+	goto tr9;
+tr9:
+#line 151 "lexer.rl"
+	{
+		has_value = 0;
+	}
+#line 41 "lexer.rl"
+	{ identifier.begin = p; }
+	goto st4;
+st4:
+	if ( ++p == pe )
+		goto _test_eof4;
+case 4:
+#line 916 "lexer.c"
+	switch( (*p) ) {
+		case 32: goto tr14;
+		case 47: goto tr15;
+		case 61: goto tr16;
+		case 62: goto tr17;
+		case 96: goto tr1;
+	}
+	if ( (*p) < 14 ) {
+		if ( (*p) > 8 ) {
+			if ( 9 <= (*p) && (*p) <= 13 )
+				goto tr14;
+		} else if ( (*p) >= 0 )
+			goto tr1;
+	} else if ( (*p) > 44 ) {
+		if ( (*p) < 91 ) {
+			if ( 59 <= (*p) && (*p) <= 64 )
+				goto tr1;
+		} else if ( (*p) > 94 ) {
+			if ( 123 <= (*p) )
+				goto tr1;
+		} else
+			goto tr1;
+	} else
+		goto tr1;
+	goto st4;
+tr7:
+#line 42 "lexer.rl"
+	{ identifier.end = p; }
+#line 137 "lexer.rl"
+	{
+		// Reset self-closing state - we don't know yet.
+		self_closing = 0;
+		
+		rb_funcall(delegate, id_open_tag_begin, 1, Trenni_token(identifier));
+	}
+#line 147 "lexer.rl"
+	{
+		self_closing = 1;
+	}
+	goto st5;
+tr11:
+#line 147 "lexer.rl"
+	{
+		self_closing = 1;
+	}
+	goto st5;
+tr15:
+#line 42 "lexer.rl"
+	{ identifier.end = p; }
+#line 163 "lexer.rl"
+	{
+		if (has_value == 1) {
+			rb_funcall(delegate, id_attribute, 2, Trenni_token(identifier), pcdata);
+		} else if (has_value == 2) {
+			rb_funcall(delegate, id_attribute, 2, Trenni_token(identifier), empty_string);
+		} else {
+			rb_funcall(delegate, id_attribute, 2, Trenni_token(identifier), Qtrue);
+		}
+	}
+#line 147 "lexer.rl"
+	{
+		self_closing = 1;
+	}
+	goto st5;
+tr26:
+#line 155 "lexer.rl"
+	{
+		has_value = 1;
+	}
+#line 163 "lexer.rl"
+	{
+		if (has_value == 1) {
+			rb_funcall(delegate, id_attribute, 2, Trenni_token(identifier), pcdata);
+		} else if (has_value == 2) {
+			rb_funcall(delegate, id_attribute, 2, Trenni_token(identifier), empty_string);
+		} else {
+			rb_funcall(delegate, id_attribute, 2, Trenni_token(identifier), Qtrue);
+		}
+	}
+#line 147 "lexer.rl"
+	{
+		self_closing = 1;
+	}
+	goto st5;
+tr32:
+#line 159 "lexer.rl"
+	{
+		has_value = 2;
+	}
+#line 163 "lexer.rl"
+	{
+		if (has_value == 1) {
+			rb_funcall(delegate, id_attribute, 2, Trenni_token(identifier), pcdata);
+		} else if (has_value == 2) {
+			rb_funcall(delegate, id_attribute, 2, Trenni_token(identifier), empty_string);
+		} else {
+			rb_funcall(delegate, id_attribute, 2, Trenni_token(identifier), Qtrue);
+		}
+	}
+#line 147 "lexer.rl"
+	{
+		self_closing = 1;
+	}
+	goto st5;
+st5:
+	if ( ++p == pe )
+		goto _test_eof5;
+case 5:
+#line 1025 "lexer.c"
+	if ( (*p) == 62 )
+		goto st59;
+	goto tr1;
+tr8:
+#line 42 "lexer.rl"
+	{ identifier.end = p; }
+#line 137 "lexer.rl"
+	{
+		// Reset self-closing state - we don't know yet.
+		self_closing = 0;
+		
+		rb_funcall(delegate, id_open_tag_begin, 1, Trenni_token(identifier));
+	}
+	goto st59;
+tr17:
+#line 42 "lexer.rl"
+	{ identifier.end = p; }
+#line 163 "lexer.rl"
+	{
+		if (has_value == 1) {
+			rb_funcall(delegate, id_attribute, 2, Trenni_token(identifier), pcdata);
+		} else if (has_value == 2) {
+			rb_funcall(delegate, id_attribute, 2, Trenni_token(identifier), empty_string);
+		} else {
+			rb_funcall(delegate, id_attribute, 2, Trenni_token(identifier), Qtrue);
+		}
+	}
+	goto st59;
+tr27:
+#line 155 "lexer.rl"
+	{
+		has_value = 1;
+	}
+#line 163 "lexer.rl"
+	{
+		if (has_value == 1) {
+			rb_funcall(delegate, id_attribute, 2, Trenni_token(identifier), pcdata);
+		} else if (has_value == 2) {
+			rb_funcall(delegate, id_attribute, 2, Trenni_token(identifier), empty_string);
+		} else {
+			rb_funcall(delegate, id_attribute, 2, Trenni_token(identifier), Qtrue);
+		}
+	}
+	goto st59;
+tr33:
+#line 159 "lexer.rl"
+	{
+		has_value = 2;
+	}
+#line 163 "lexer.rl"
+	{
+		if (has_value == 1) {
+			rb_funcall(delegate, id_attribute, 2, Trenni_token(identifier), pcdata);
+		} else if (has_value == 2) {
+			rb_funcall(delegate, id_attribute, 2, Trenni_token(identifier), empty_string);
+		} else {
+			rb_funcall(delegate, id_attribute, 2, Trenni_token(identifier), Qtrue);
+		}
+	}
+	goto st59;
+st59:
+	if ( ++p == pe )
+		goto _test_eof59;
+case 59:
+#line 1090 "lexer.c"
+	switch( (*p) ) {
+		case 38: goto tr105;
+		case 60: goto tr106;
+	}
+	goto tr104;
+tr16:
+#line 42 "lexer.rl"
+	{ identifier.end = p; }
+	goto st6;
+st6:
+	if ( ++p == pe )
+		goto _test_eof6;
+case 6:
+#line 1104 "lexer.c"
+	if ( (*p) == 34 )
+		goto st7;
+	goto tr1;
+st7:
+	if ( ++p == pe )
+		goto _test_eof7;
+case 7:
+	switch( (*p) ) {
+		case 34: goto st11;
+		case 38: goto tr21;
+		case 60: goto tr1;
+	}
+	goto tr19;
+tr19:
+#line 44 "lexer.rl"
+	{
+		pcdata = Qnil;
+	}
+#line 52 "lexer.rl"
+	{
+		characters.begin = p;
+	}
+	goto st8;
+tr22:
+#line 56 "lexer.rl"
 	{
 		characters.end = p;
 		
 		Trenni_Parser_append_token(&pcdata, encoding, characters);
 	}
-	break;
-	case 6:
-#line 72 "lexer.rl"
+#line 52 "lexer.rl"
+	{
+		characters.begin = p;
+	}
+	goto st8;
+tr28:
+#line 52 "lexer.rl"
+	{
+		characters.begin = p;
+	}
+	goto st8;
+st8:
+	if ( ++p == pe )
+		goto _test_eof8;
+case 8:
+#line 1150 "lexer.c"
+	switch( (*p) ) {
+		case 34: goto tr23;
+		case 38: goto tr24;
+		case 60: goto tr1;
+	}
+	goto tr22;
+tr23:
+#line 56 "lexer.rl"
+	{
+		characters.end = p;
+		
+		Trenni_Parser_append_token(&pcdata, encoding, characters);
+	}
+#line 48 "lexer.rl"
+	{
+		// Buffer is ready.
+	}
+	goto st9;
+tr29:
+#line 48 "lexer.rl"
+	{
+		// Buffer is ready.
+	}
+	goto st9;
+st9:
+	if ( ++p == pe )
+		goto _test_eof9;
+case 9:
+#line 1179 "lexer.c"
+	switch( (*p) ) {
+		case 32: goto tr25;
+		case 47: goto tr26;
+		case 62: goto tr27;
+	}
+	if ( 9 <= (*p) && (*p) <= 13 )
+		goto tr25;
+	goto tr1;
+tr21:
+#line 44 "lexer.rl"
+	{
+		pcdata = Qnil;
+	}
+#line 13 "entities.rl"
+	{{stack[top++] = 10; goto st40;}}
+	goto st10;
+tr24:
+#line 56 "lexer.rl"
+	{
+		characters.end = p;
+		
+		Trenni_Parser_append_token(&pcdata, encoding, characters);
+	}
+#line 13 "entities.rl"
+	{{stack[top++] = 10; goto st40;}}
+	goto st10;
+tr30:
+#line 13 "entities.rl"
+	{{stack[top++] = 10; goto st40;}}
+	goto st10;
+st10:
+	if ( ++p == pe )
+		goto _test_eof10;
+case 10:
+#line 1214 "lexer.c"
+	switch( (*p) ) {
+		case 34: goto tr29;
+		case 38: goto tr30;
+		case 60: goto tr1;
+	}
+	goto tr28;
+st11:
+	if ( ++p == pe )
+		goto _test_eof11;
+case 11:
+	switch( (*p) ) {
+		case 32: goto tr31;
+		case 47: goto tr32;
+		case 62: goto tr33;
+	}
+	if ( 9 <= (*p) && (*p) <= 13 )
+		goto tr31;
+	goto tr1;
+st12:
+	if ( ++p == pe )
+		goto _test_eof12;
+case 12:
+	switch( (*p) ) {
+		case 45: goto st13;
+		case 68: goto st17;
+		case 91: goto st24;
+	}
+	goto st0;
+st13:
+	if ( ++p == pe )
+		goto _test_eof13;
+case 13:
+	if ( (*p) == 45 )
+		goto st14;
+	goto st0;
+st14:
+	if ( ++p == pe )
+		goto _test_eof14;
+case 14:
+	if ( (*p) == 45 )
+		goto st15;
+	goto st14;
+st15:
+	if ( ++p == pe )
+		goto _test_eof15;
+case 15:
+	if ( (*p) == 45 )
+		goto st16;
+	goto st14;
+st16:
+	if ( ++p == pe )
+		goto _test_eof16;
+case 16:
+	switch( (*p) ) {
+		case 45: goto st16;
+		case 62: goto st60;
+	}
+	goto st14;
+st60:
+	if ( ++p == pe )
+		goto _test_eof60;
+case 60:
+	switch( (*p) ) {
+		case 38: goto tr108;
+		case 60: goto tr109;
+	}
+	goto tr107;
+st17:
+	if ( ++p == pe )
+		goto _test_eof17;
+case 17:
+	if ( (*p) == 79 )
+		goto st18;
+	goto st0;
+st18:
+	if ( ++p == pe )
+		goto _test_eof18;
+case 18:
+	if ( (*p) == 67 )
+		goto st19;
+	goto st0;
+st19:
+	if ( ++p == pe )
+		goto _test_eof19;
+case 19:
+	if ( (*p) == 84 )
+		goto st20;
+	goto st0;
+st20:
+	if ( ++p == pe )
+		goto _test_eof20;
+case 20:
+	if ( (*p) == 89 )
+		goto st21;
+	goto st0;
+st21:
+	if ( ++p == pe )
+		goto _test_eof21;
+case 21:
+	if ( (*p) == 80 )
+		goto st22;
+	goto st0;
+st22:
+	if ( ++p == pe )
+		goto _test_eof22;
+case 22:
+	if ( (*p) == 69 )
+		goto st23;
+	goto st0;
+st23:
+	if ( ++p == pe )
+		goto _test_eof23;
+case 23:
+	if ( (*p) == 62 )
+		goto st61;
+	goto st23;
+st61:
+	if ( ++p == pe )
+		goto _test_eof61;
+case 61:
+	switch( (*p) ) {
+		case 38: goto tr111;
+		case 60: goto tr112;
+	}
+	goto tr110;
+st24:
+	if ( ++p == pe )
+		goto _test_eof24;
+case 24:
+	if ( (*p) == 67 )
+		goto st25;
+	goto st0;
+st25:
+	if ( ++p == pe )
+		goto _test_eof25;
+case 25:
+	if ( (*p) == 68 )
+		goto st26;
+	goto st0;
+st26:
+	if ( ++p == pe )
+		goto _test_eof26;
+case 26:
+	if ( (*p) == 65 )
+		goto st27;
+	goto st0;
+st27:
+	if ( ++p == pe )
+		goto _test_eof27;
+case 27:
+	if ( (*p) == 84 )
+		goto st28;
+	goto st0;
+st28:
+	if ( ++p == pe )
+		goto _test_eof28;
+case 28:
+	if ( (*p) == 65 )
+		goto st29;
+	goto st0;
+st29:
+	if ( ++p == pe )
+		goto _test_eof29;
+case 29:
+	if ( (*p) == 91 )
+		goto st30;
+	goto st0;
+st30:
+	if ( ++p == pe )
+		goto _test_eof30;
+case 30:
+	if ( (*p) == 93 )
+		goto st31;
+	goto st30;
+st31:
+	if ( ++p == pe )
+		goto _test_eof31;
+case 31:
+	if ( (*p) == 93 )
+		goto st32;
+	goto st30;
+st32:
+	if ( ++p == pe )
+		goto _test_eof32;
+case 32:
+	switch( (*p) ) {
+		case 62: goto st62;
+		case 93: goto st32;
+	}
+	goto st30;
+st62:
+	if ( ++p == pe )
+		goto _test_eof62;
+case 62:
+	switch( (*p) ) {
+		case 38: goto tr114;
+		case 60: goto tr115;
+	}
+	goto tr113;
+st33:
+	if ( ++p == pe )
+		goto _test_eof33;
+case 33:
+	switch( (*p) ) {
+		case 47: goto tr1;
+		case 96: goto tr1;
+	}
+	if ( (*p) < 59 ) {
+		if ( 0 <= (*p) && (*p) <= 44 )
+			goto tr1;
+	} else if ( (*p) > 64 ) {
+		if ( (*p) > 94 ) {
+			if ( 123 <= (*p) )
+				goto tr1;
+		} else if ( (*p) >= 91 )
+			goto tr1;
+	} else
+		goto tr1;
+	goto tr58;
+tr58:
+#line 41 "lexer.rl"
+	{ identifier.begin = p; }
+	goto st34;
+st34:
+	if ( ++p == pe )
+		goto _test_eof34;
+case 34:
+#line 1442 "lexer.c"
+	switch( (*p) ) {
+		case 47: goto tr1;
+		case 62: goto tr60;
+		case 96: goto tr1;
+	}
+	if ( (*p) < 59 ) {
+		if ( 0 <= (*p) && (*p) <= 44 )
+			goto tr1;
+	} else if ( (*p) > 64 ) {
+		if ( (*p) > 94 ) {
+			if ( 123 <= (*p) )
+				goto tr1;
+		} else if ( (*p) >= 91 )
+			goto tr1;
+	} else
+		goto tr1;
+	goto st34;
+tr60:
+#line 42 "lexer.rl"
+	{ identifier.end = p; }
+	goto st63;
+st63:
+	if ( ++p == pe )
+		goto _test_eof63;
+case 63:
+#line 1468 "lexer.c"
+	switch( (*p) ) {
+		case 38: goto tr117;
+		case 60: goto tr118;
+	}
+	goto tr116;
+st35:
+	if ( ++p == pe )
+		goto _test_eof35;
+case 35:
+	switch( (*p) ) {
+		case 47: goto tr62;
+		case 96: goto tr62;
+	}
+	if ( (*p) < 59 ) {
+		if ( 0 <= (*p) && (*p) <= 44 )
+			goto tr62;
+	} else if ( (*p) > 64 ) {
+		if ( (*p) > 94 ) {
+			if ( 123 <= (*p) )
+				goto tr62;
+		} else if ( (*p) >= 91 )
+			goto tr62;
+	} else
+		goto tr62;
+	goto tr61;
+tr61:
+#line 41 "lexer.rl"
+	{ identifier.begin = p; }
+	goto st36;
+st36:
+	if ( ++p == pe )
+		goto _test_eof36;
+case 36:
+#line 1502 "lexer.c"
+	switch( (*p) ) {
+		case 32: goto tr64;
+		case 47: goto tr62;
+		case 96: goto tr62;
+	}
+	if ( (*p) < 14 ) {
+		if ( (*p) > 8 ) {
+			if ( 9 <= (*p) && (*p) <= 13 )
+				goto tr64;
+		} else if ( (*p) >= 0 )
+			goto tr62;
+	} else if ( (*p) > 44 ) {
+		if ( (*p) < 91 ) {
+			if ( 59 <= (*p) && (*p) <= 64 )
+				goto tr62;
+		} else if ( (*p) > 94 ) {
+			if ( 123 <= (*p) )
+				goto tr62;
+		} else
+			goto tr62;
+	} else
+		goto tr62;
+	goto st36;
+tr64:
+#line 42 "lexer.rl"
+	{ identifier.end = p; }
+	goto st37;
+tr66:
+#line 123 "lexer.rl"
+	{
+		instruction_text.begin = p;
+	}
+	goto st37;
+st37:
+	if ( ++p == pe )
+		goto _test_eof37;
+case 37:
+#line 1540 "lexer.c"
+	switch( (*p) ) {
+		case 32: goto tr66;
+		case 63: goto tr67;
+	}
+	if ( 9 <= (*p) && (*p) <= 13 )
+		goto tr66;
+	goto tr65;
+tr65:
+#line 123 "lexer.rl"
+	{
+		instruction_text.begin = p;
+	}
+	goto st38;
+st38:
+	if ( ++p == pe )
+		goto _test_eof38;
+case 38:
+#line 1558 "lexer.c"
+	if ( (*p) == 63 )
+		goto st39;
+	goto st38;
+tr67:
+#line 123 "lexer.rl"
+	{
+		instruction_text.begin = p;
+	}
+	goto st39;
+st39:
+	if ( ++p == pe )
+		goto _test_eof39;
+case 39:
+#line 1572 "lexer.c"
+	switch( (*p) ) {
+		case 62: goto st64;
+		case 63: goto st39;
+	}
+	goto st38;
+st64:
+	if ( ++p == pe )
+		goto _test_eof64;
+case 64:
+	switch( (*p) ) {
+		case 38: goto tr120;
+		case 60: goto tr121;
+	}
+	goto tr119;
+st40:
+	if ( ++p == pe )
+		goto _test_eof40;
+case 40:
+	switch( (*p) ) {
+		case 35: goto st41;
+		case 97: goto st45;
+		case 103: goto st48;
+		case 108: goto st50;
+		case 113: goto st52;
+	}
+	goto tr71;
+st41:
+	if ( ++p == pe )
+		goto _test_eof41;
+case 41:
+	if ( (*p) == 120 )
+		goto st43;
+	if ( 48 <= (*p) && (*p) <= 57 )
+		goto tr77;
+	goto tr71;
+tr77:
+#line 66 "lexer.rl"
+	{
+		entity.begin = p;
+	}
+	goto st42;
+st42:
+	if ( ++p == pe )
+		goto _test_eof42;
+case 42:
+#line 1618 "lexer.c"
+	if ( (*p) == 59 )
+		goto tr80;
+	if ( 48 <= (*p) && (*p) <= 57 )
+		goto st42;
+	goto tr71;
+tr80:
+#line 83 "lexer.rl"
+	{
+		entity.end = p;
+		
+		char * end = (char *)entity.end;
+		unsigned long codepoint = strtoul(entity.begin, &end, 10);
+		
+		Trenni_Parser_append_codepoint(&pcdata, encoding, codepoint);
+	}
+#line 11 "entities.rl"
+	{{cs = stack[--top];goto _again;}}
+	goto st65;
+tr83:
+#line 74 "lexer.rl"
+	{
+		entity.end = p;
+		
+		char * end = (char *)entity.end;
+		unsigned long codepoint = strtoul(entity.begin, &end, 16);
+		
+		Trenni_Parser_append_codepoint(&pcdata, encoding, codepoint);
+	}
+#line 11 "entities.rl"
+	{{cs = stack[--top];goto _again;}}
+	goto st65;
+tr86:
+#line 5 "entities.rl"
+	{entity_codepoint(38);}
+#line 11 "entities.rl"
+	{{cs = stack[--top];goto _again;}}
+	goto st65;
+tr88:
+#line 8 "entities.rl"
+	{entity_codepoint(62);}
+#line 11 "entities.rl"
+	{{cs = stack[--top];goto _again;}}
+	goto st65;
+tr90:
+#line 7 "entities.rl"
+	{entity_codepoint(60);}
+#line 11 "entities.rl"
+	{{cs = stack[--top];goto _again;}}
+	goto st65;
+tr94:
+#line 6 "entities.rl"
+	{entity_codepoint(34);}
+#line 11 "entities.rl"
+	{{cs = stack[--top];goto _again;}}
+	goto st65;
+st65:
+	if ( ++p == pe )
+		goto _test_eof65;
+case 65:
+#line 1678 "lexer.c"
+	goto st0;
+st43:
+	if ( ++p == pe )
+		goto _test_eof43;
+case 43:
+	if ( (*p) < 65 ) {
+		if ( 48 <= (*p) && (*p) <= 57 )
+			goto tr81;
+	} else if ( (*p) > 70 ) {
+		if ( 97 <= (*p) && (*p) <= 102 )
+			goto tr81;
+	} else
+		goto tr81;
+	goto tr71;
+tr81:
+#line 66 "lexer.rl"
+	{
+		entity.begin = p;
+	}
+	goto st44;
+st44:
+	if ( ++p == pe )
+		goto _test_eof44;
+case 44:
+#line 1703 "lexer.c"
+	if ( (*p) == 59 )
+		goto tr83;
+	if ( (*p) < 65 ) {
+		if ( 48 <= (*p) && (*p) <= 57 )
+			goto st44;
+	} else if ( (*p) > 70 ) {
+		if ( 97 <= (*p) && (*p) <= 102 )
+			goto st44;
+	} else
+		goto st44;
+	goto tr71;
+st45:
+	if ( ++p == pe )
+		goto _test_eof45;
+case 45:
+	if ( (*p) == 109 )
+		goto st46;
+	goto tr71;
+st46:
+	if ( ++p == pe )
+		goto _test_eof46;
+case 46:
+	if ( (*p) == 112 )
+		goto st47;
+	goto tr71;
+st47:
+	if ( ++p == pe )
+		goto _test_eof47;
+case 47:
+	if ( (*p) == 59 )
+		goto tr86;
+	goto tr71;
+st48:
+	if ( ++p == pe )
+		goto _test_eof48;
+case 48:
+	if ( (*p) == 116 )
+		goto st49;
+	goto tr71;
+st49:
+	if ( ++p == pe )
+		goto _test_eof49;
+case 49:
+	if ( (*p) == 59 )
+		goto tr88;
+	goto tr71;
+st50:
+	if ( ++p == pe )
+		goto _test_eof50;
+case 50:
+	if ( (*p) == 116 )
+		goto st51;
+	goto tr71;
+st51:
+	if ( ++p == pe )
+		goto _test_eof51;
+case 51:
+	if ( (*p) == 59 )
+		goto tr90;
+	goto tr71;
+st52:
+	if ( ++p == pe )
+		goto _test_eof52;
+case 52:
+	if ( (*p) == 117 )
+		goto st53;
+	goto tr71;
+st53:
+	if ( ++p == pe )
+		goto _test_eof53;
+case 53:
+	if ( (*p) == 111 )
+		goto st54;
+	goto tr71;
+st54:
+	if ( ++p == pe )
+		goto _test_eof54;
+case 54:
+	if ( (*p) == 116 )
+		goto st55;
+	goto tr71;
+st55:
+	if ( ++p == pe )
+		goto _test_eof55;
+case 55:
+	if ( (*p) == 59 )
+		goto tr94;
+	goto tr71;
+	}
+	_test_eof56: cs = 56; goto _test_eof; 
+	_test_eof57: cs = 57; goto _test_eof; 
+	_test_eof58: cs = 58; goto _test_eof; 
+	_test_eof1: cs = 1; goto _test_eof; 
+	_test_eof2: cs = 2; goto _test_eof; 
+	_test_eof3: cs = 3; goto _test_eof; 
+	_test_eof4: cs = 4; goto _test_eof; 
+	_test_eof5: cs = 5; goto _test_eof; 
+	_test_eof59: cs = 59; goto _test_eof; 
+	_test_eof6: cs = 6; goto _test_eof; 
+	_test_eof7: cs = 7; goto _test_eof; 
+	_test_eof8: cs = 8; goto _test_eof; 
+	_test_eof9: cs = 9; goto _test_eof; 
+	_test_eof10: cs = 10; goto _test_eof; 
+	_test_eof11: cs = 11; goto _test_eof; 
+	_test_eof12: cs = 12; goto _test_eof; 
+	_test_eof13: cs = 13; goto _test_eof; 
+	_test_eof14: cs = 14; goto _test_eof; 
+	_test_eof15: cs = 15; goto _test_eof; 
+	_test_eof16: cs = 16; goto _test_eof; 
+	_test_eof60: cs = 60; goto _test_eof; 
+	_test_eof17: cs = 17; goto _test_eof; 
+	_test_eof18: cs = 18; goto _test_eof; 
+	_test_eof19: cs = 19; goto _test_eof; 
+	_test_eof20: cs = 20; goto _test_eof; 
+	_test_eof21: cs = 21; goto _test_eof; 
+	_test_eof22: cs = 22; goto _test_eof; 
+	_test_eof23: cs = 23; goto _test_eof; 
+	_test_eof61: cs = 61; goto _test_eof; 
+	_test_eof24: cs = 24; goto _test_eof; 
+	_test_eof25: cs = 25; goto _test_eof; 
+	_test_eof26: cs = 26; goto _test_eof; 
+	_test_eof27: cs = 27; goto _test_eof; 
+	_test_eof28: cs = 28; goto _test_eof; 
+	_test_eof29: cs = 29; goto _test_eof; 
+	_test_eof30: cs = 30; goto _test_eof; 
+	_test_eof31: cs = 31; goto _test_eof; 
+	_test_eof32: cs = 32; goto _test_eof; 
+	_test_eof62: cs = 62; goto _test_eof; 
+	_test_eof33: cs = 33; goto _test_eof; 
+	_test_eof34: cs = 34; goto _test_eof; 
+	_test_eof63: cs = 63; goto _test_eof; 
+	_test_eof35: cs = 35; goto _test_eof; 
+	_test_eof36: cs = 36; goto _test_eof; 
+	_test_eof37: cs = 37; goto _test_eof; 
+	_test_eof38: cs = 38; goto _test_eof; 
+	_test_eof39: cs = 39; goto _test_eof; 
+	_test_eof64: cs = 64; goto _test_eof; 
+	_test_eof40: cs = 40; goto _test_eof; 
+	_test_eof41: cs = 41; goto _test_eof; 
+	_test_eof42: cs = 42; goto _test_eof; 
+	_test_eof65: cs = 65; goto _test_eof; 
+	_test_eof43: cs = 43; goto _test_eof; 
+	_test_eof44: cs = 44; goto _test_eof; 
+	_test_eof45: cs = 45; goto _test_eof; 
+	_test_eof46: cs = 46; goto _test_eof; 
+	_test_eof47: cs = 47; goto _test_eof; 
+	_test_eof48: cs = 48; goto _test_eof; 
+	_test_eof49: cs = 49; goto _test_eof; 
+	_test_eof50: cs = 50; goto _test_eof; 
+	_test_eof51: cs = 51; goto _test_eof; 
+	_test_eof52: cs = 52; goto _test_eof; 
+	_test_eof53: cs = 53; goto _test_eof; 
+	_test_eof54: cs = 54; goto _test_eof; 
+	_test_eof55: cs = 55; goto _test_eof; 
+
+	_test_eof: {}
+	if ( p == eof )
+	{
+	switch ( cs ) {
+	case 40: 
+	case 41: 
+	case 42: 
+	case 43: 
+	case 44: 
+	case 45: 
+	case 46: 
+	case 47: 
+	case 48: 
+	case 49: 
+	case 50: 
+	case 51: 
+	case 52: 
+	case 53: 
+	case 54: 
+	case 55: 
+#line 62 "lexer.rl"
 	{
 		Trenni_Parser_parse_error("could not parse entity", buffer, p-s);
 	}
 	break;
-	case 11:
-#line 106 "lexer.rl"
+	case 61: 
+#line 96 "lexer.rl"
 	{
 		doctype.end = p;
 		
 		rb_funcall(delegate, id_doctype, 1, Trenni_token(doctype));
 	}
 	break;
-	case 12:
-#line 112 "lexer.rl"
+	case 23: 
+#line 102 "lexer.rl"
 	{
 		Trenni_Parser_parse_error("could not parse doctype", buffer, p-s);
 	}
 	break;
-	case 14:
-#line 120 "lexer.rl"
+	case 60: 
+#line 110 "lexer.rl"
 	{
 		comment.end = p;
 		
 		rb_funcall(delegate, id_comment, 1, Trenni_token(comment));
 	}
 	break;
-	case 15:
-#line 126 "lexer.rl"
+	case 14: 
+	case 15: 
+	case 16: 
+#line 116 "lexer.rl"
 	{
 		Trenni_Parser_parse_error("could not parse comment", buffer, p-s);
 	}
 	break;
-	case 18:
-#line 137 "lexer.rl"
+	case 64: 
+#line 127 "lexer.rl"
 	{
 		instruction_text.end = p-2;
 		
 		rb_funcall(delegate, id_instruction, 2, Trenni_token(identifier), Trenni_token(instruction_text));
 	}
 	break;
-	case 19:
-#line 143 "lexer.rl"
+	case 35: 
+	case 36: 
+	case 37: 
+	case 38: 
+	case 39: 
+#line 133 "lexer.rl"
 	{
 		Trenni_Parser_parse_error("could not parse instruction", buffer, p-s);
 	}
 	break;
-	case 27:
-#line 183 "lexer.rl"
+	case 59: 
+#line 173 "lexer.rl"
 	{
 		rb_funcall(delegate, id_open_tag_end, 1, self_closing == 1 ? Qtrue : Qfalse);
 	}
 	break;
-	case 29:
-#line 190 "lexer.rl"
+	case 63: 
+#line 180 "lexer.rl"
 	{
 		rb_funcall(delegate, id_close_tag, 1, Trenni_token(identifier));
 	}
 	break;
-	case 30:
-#line 194 "lexer.rl"
+	case 1: 
+	case 2: 
+	case 3: 
+	case 4: 
+	case 5: 
+	case 6: 
+	case 7: 
+	case 8: 
+	case 9: 
+	case 10: 
+	case 11: 
+	case 33: 
+	case 34: 
+#line 184 "lexer.rl"
 	{
 		Trenni_Parser_parse_error("could not parse tag", buffer, p-s);
 	}
 	break;
-	case 32:
-#line 202 "lexer.rl"
+	case 62: 
+#line 192 "lexer.rl"
 	{
 		cdata.end = p;
 		
 		rb_funcall(delegate, id_cdata, 1, Trenni_token(cdata));
 	}
 	break;
-	case 33:
-#line 208 "lexer.rl"
+	case 30: 
+	case 31: 
+	case 32: 
+#line 198 "lexer.rl"
 	{
 		Trenni_Parser_parse_error("could not parse cdata", buffer, p-s);
 	}
 	break;
-	case 35:
-#line 216 "lexer.rl"
+	case 58: 
+#line 48 "lexer.rl"
+	{
+		// Buffer is ready.
+	}
+#line 206 "lexer.rl"
 	{
 		// Entities are handled separately:
 		rb_funcall(delegate, id_text, 1, pcdata);
 	}
 	break;
-	case 36:
-#line 5 "entities.rl"
-	{entity_codepoint(38);}
+	case 57: 
+#line 56 "lexer.rl"
+	{
+		characters.end = p;
+		
+		Trenni_Parser_append_token(&pcdata, encoding, characters);
+	}
+#line 48 "lexer.rl"
+	{
+		// Buffer is ready.
+	}
+#line 206 "lexer.rl"
+	{
+		// Entities are handled separately:
+		rb_funcall(delegate, id_text, 1, pcdata);
+	}
 	break;
-	case 37:
-#line 6 "entities.rl"
-	{entity_codepoint(34);}
-	break;
-#line 743 "lexer.c"
-		}
+#line 2006 "lexer.c"
 	}
 	}
 
 	_out: {}
 	}
 
-#line 259 "lexer.rl"
+#line 247 "lexer.rl"
 
 	
 	if (p != eof) {

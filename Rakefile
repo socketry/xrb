@@ -45,7 +45,8 @@ end
 
 task :generate_lexer do
 	Dir.chdir("ext/trenni") do
-		sh("ragel", "-C", "lexer.rl")
+		sh("ragel", "-C", "lexer.rl", "-G2")
+		sh("ragel -Vp lexer.rl | dot -Tpdf -o lexer.pdf && open lexer.pdf")
 	end
 end
 
