@@ -15,9 +15,14 @@ task :fetch_entities do
 	require 'open-uri'
 	require 'json'
 	
-	url = "https://www.w3.org/TR/html5/entities.json"
+	entites_json_path = File.expand_path("entities.json", __dir__)
 	
-	@entities = JSON.parse(open(url).read).delete_if{|string, _| !string.end_with? ';'}
+	unless File.exist? entites_json_path
+		url = "https://www.w3.org/TR/html5/entities.json"
+		File.write(entites_json_path, open(url).read)
+	end
+	
+	@entities = JSON.parse(File.read(entites_json_path)).delete_if{|string, _| !string.end_with? ';'}
 end
 
 task :update_entities => :fetch_entities do
@@ -43,10 +48,15 @@ Rake::ExtensionTask.new "trenni" do |ext|
 	ext.lib_dir = "lib/trenni/native"
 end
 
-task :generate_lexer do
+task :generate_lexer => :update_entities do
 	Dir.chdir("ext/trenni") do
-		sh("ragel", "-C", "lexer.rl", "-G2")
-		sh("ragel -Vp lexer.rl | dot -Tpdf -o lexer.pdf && open lexer.pdf")
+		sh("ragel", "-C", "lexer.rl", "-F1")
+	end
+end
+
+task :visualize_lexer do
+	Dir.chdir("ext/trenni") do
+		sh("ragel -Vp lexer.rl -M main | dot -Tpdf -o lexer.pdf && open lexer.pdf")
 	end
 end
 

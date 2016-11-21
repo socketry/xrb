@@ -23,8 +23,6 @@ static void Trenni_Parser_append_token(VALUE * buffer, rb_encoding * encoding, T
 }
 
 static void Trenni_Parser_append_codepoint(VALUE * buffer, rb_encoding * encoding, unsigned long codepoint) {
-	printf("Trenni_Parser_append_codepoint %ul %ul\n", buffer, codepoint);
-	
 	if (*buffer == Qnil) {
 		*buffer = rb_enc_str_new("", 0, encoding);
 	}
@@ -32,7 +30,7 @@ static void Trenni_Parser_append_codepoint(VALUE * buffer, rb_encoding * encodin
 	rb_str_concat(*buffer, ULONG2NUM(codepoint));
 }
 
-#define entity_codepoint(number) Trenni_Parser_append_codepoint(&pcdata, encoding, number)
+#define append_codepoint(number) Trenni_Parser_append_codepoint(&pcdata, encoding, number)
 
 %%{
 	machine trenni_lexer;

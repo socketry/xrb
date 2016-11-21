@@ -9,5 +9,5 @@
 		'#' [0-9]+ >entity_begin %entity_number ';'
 	) @{fret;} @err(entity_error);
 	
-	entity = '&' %{fcall parse_entity;};
+	entity = '&' @{fcall parse_entity;};
 }%%
