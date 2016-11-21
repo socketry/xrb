@@ -17,15 +17,24 @@ task :fetch_entities do
 	
 	url = "https://www.w3.org/TR/html5/entities.json"
 	
-	entities = JSON.parse(open(url).read)
-	map = {}
+	@entities = JSON.parse(open(url).read).delete_if{|string, _| !string.end_with? ';'}
+end
+
+task :update_entities => :fetch_entities do
+	require 'trenni/template'
 	
-	puts "{"
-	entities.each do |string, metadata|
-		map[string] = metadata['characters']
-		puts "\t#{string.dump} => #{metadata['characters'].dump}, \# #{metadata['characters'].inspect}"
+	paths = {
+		'ext/trenni/entities.rl' => 'ext/trenni/entities.trenni',
+		'lib/trenni/entities.rb' => 'lib/trenni/entities.trenni',
+	}
+	
+	paths.each do |output_path, template_path|
+		template = Trenni::Template.load_file(template_path)
+		
+		output = template.to_string(@entities)
+		
+		File.write(output_path, output)
 	end
-	puts "}"
 end
 
 require "rake/extensiontask"
@@ -36,7 +45,7 @@ end
 
 task :generate_lexer do
 	Dir.chdir("ext/trenni") do
-		sh("ragel", "-C", "Lexer.rl", "-G2")
+		sh("ragel", "-C", "lexer.rl")
 	end
 end
 

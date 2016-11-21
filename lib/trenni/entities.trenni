@@ -18,40 +18,17 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+require_relative 'substitutions'
+
 module Trenni
-	class Substitutions
-		def initialize(substitutions)
-			@substitutions = substitutions
-		end
+	# We only support a small subset of markup entities.
+	module Entities
+		HTML_NAMED_ENTITIES = {
+			<?r self.each do |string, metadata| ?>
+			#{string.inspect} => #{metadata['characters'].inspect} # #{metadata['characters'].inspect}
+			<?r end ?>
+		}
 		
-		def patterns
-			@substitutions.keys
-		end
-		
-		def pattern
-			@pattern ||= Regexp.union(patterns)
-		end
-		
-		attr :substitutions
-		
-		def gsub!(string)
-			string.gsub!(pattern) {|match| @substitutions[match]}
-		end
-		
-		def gsub(string)
-			result = string.dup
-			gsub!(result)
-			return result
-		end
-	end
-	
-	class UnicodeEntities < Substitutions
-		def patterns
-			super + [/&\#(\d+);/, /&\#x([0-9a-fA-F]+);/]
-		end
-		
-		def gsub!(string)
-			string.gsub!(pattern) {|match| $1 ? $1.to_i(10).chr(Encoding::UTF_8) : $2 ? $2.to_i(16).chr(Encoding::UTF_8) : @substitutions[match]}
-		end
+		HTML = UnicodeEntities.new(HTML_NAMED_ENTITIES)
 	end
 end

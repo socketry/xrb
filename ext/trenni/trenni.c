@@ -1,6 +1,6 @@
-// Include the Ruby headers and goodies
-#include "ruby.h"
-#include "Lexer.h"
+
+#include "trenni.h"
+#include "lexer.h"
 
 VALUE rb_Trenni = Qnil, rb_Trenni_Parser = Qnil, rb_Trenni_ParseError = Qnil;
 ID id_cdata, id_open_tag_begin, id_open_tag_end, id_attribute, id_close_tag, id_text, id_doctype, id_comment, id_instruction, id_read;
@@ -22,14 +22,14 @@ static VALUE Trenni_Parser_allocate(VALUE klass) {
 	return Data_Wrap_Struct(klass, Trenni_Parser_mark, Trenni_Parser_free, parser);
 }
 
-static VALUE Trenni_Parser_initialize(VALUE self, VALUE buffer, VALUE delegate) {
+static VALUE Trenni_Parser_initialize(VALUE self, VALUE buffer, VALUE delegate, VALUE entities) {
 	Trenni_Parser * parser;
 
 	Data_Get_Struct(self, Trenni_Parser, parser);
 
 	parser->buffer = buffer;
 	parser->delegate = delegate;
-
+	
 	return Qnil;
 }
 

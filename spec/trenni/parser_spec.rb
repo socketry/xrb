@@ -193,17 +193,17 @@ RSpec.describe "<foo bar=>" do
 	include_context "invalid markup"
 end
 
-RSpec.describe "<p>\nこんにちは\nWorld\n<p" do
+RSpec.describe "<p>\nこんにちは World<p" do
 	include_context "invalid markup"
 
 	let(:error) {events rescue $!}
 	
-	it "should fail on line 4" do
-		expect(error.location.line_number).to be == 4
+	it "should fail on line 2" do
+		expect(error.location.line_number).to be == 2
 	end
 	
-	it "should fail at offset 2" do
-		expect(error.location.line_offset).to be == 2
+	it "should fail at offset 23" do
+		expect(error.location.line_offset).to be == 23
 	end
 end
 

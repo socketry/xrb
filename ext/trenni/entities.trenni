@@ -1,0 +1,15 @@
+%%{
+	machine entities;
+	
+	parse_entity := (
+		<?r self.each do |string, metadata| 
+			literal = metadata['characters'].bytes.collect{|byte| "\\x#{byte.to_s(16)}"}.join
+		?>
+		#{string.sub(/^&/, '').dump} %{<?r metadata['codepoints'].each do |codepoint| ?>append_codepoint(#{codepoint});<?r end ?>} |
+		<?r end ?>
+		'#x' [0-9a-fA-F]+ >entity_begin %entity_hex ';' |
+		'#' [0-9]+ >entity_begin %entity_number ';'
+	) @err(entity_error) %{fret;};
+	
+	entity = '&' %{fcall parse_entity;};
+}%%
