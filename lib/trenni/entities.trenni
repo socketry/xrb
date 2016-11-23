@@ -25,7 +25,7 @@ module Trenni
 	module Entities
 		HTML_NAMED_ENTITIES = {
 			<?r self.each do |string, metadata| ?>
-			#{string.inspect} => #{metadata['characters'].inspect} # #{metadata['characters'].inspect}
+			#{string.gsub(/^&|;$/, '').inspect} => #{metadata['characters'].dump}, # #{metadata['characters'].inspect}
 			<?r end ?>
 		}
 		

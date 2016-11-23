@@ -30,7 +30,7 @@
 	}
 	
 	action pcdata_begin {
-		pcdata = nil
+		pcdata = ""
 	}
 
 	action pcdata_end {
@@ -47,7 +47,7 @@
 	}
 
 	action entity_error {
-		raise ParseError("could not parse entity", buffer, p)
+		raise ParseError.new("could not parse entity", buffer, p)
 	}
 
 	action entity_begin {
@@ -58,6 +58,7 @@
 		entity_end = p
 		
 		name = data[entity_begin...entity_end]
+		puts "Entity: #{name.inspect} => #{entities[name]}"
 		
 		pcdata << entities[name]
 	}
@@ -85,7 +86,7 @@
 	}
 
 	action doctype_error {
-		raise ParseError("could not parse doctype", buffer, p)
+		raise ParseError.new("could not parse doctype", buffer, p)
 	}
 
 	action comment_begin {
@@ -109,12 +110,14 @@
 		instruction_text_begin = p
 	}
 
+	action instruction_text_end {
+		instruction_text_end = p
+	}
+
 	action instruction_end {
-		instruction_text_end = p-2
-		
 		delegate.instruction(
 			data[identifier_begin...identifier_end],
-			data[instruction_text_begin, instruction_text_end]
+			data[instruction_text_begin...instruction_text_end]
 		)
 	}
 	
@@ -136,24 +139,23 @@
 	}
 	
 	action attribute_begin {
-		has_value = 0
+		has_value = false
+		pcdata = ""
 	}
 
 	action attribute_value {
-		has_value = 1
+		has_value = true
 	}
 
 	action attribute_empty {
-		has_value = 2
+		has_value = true
 	}
 
 	action attribute {
-		value = true
-		
-		if has_value == 1
+		if has_value
 			value = pcdata
-		elsif has_value == 2
-			value = ""
+		else
+			value = true
 		end
 		
 		delegate.attribute(data[identifier_begin...identifier_end], value)

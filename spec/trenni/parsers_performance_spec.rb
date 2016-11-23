@@ -19,7 +19,7 @@ RSpec.shared_context "profile" do
 	end
 end
 
-RSpec.describe Trenni::Parsers do
+RSpec.xdescribe Trenni::Parsers do
 	# include_context "profile"
 	
 	let(:xhtml_path) {File.expand_path('performance_spec/large.xhtml', __dir__)}

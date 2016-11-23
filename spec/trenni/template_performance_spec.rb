@@ -6,7 +6,7 @@ require 'erb'
 
 # require 'ruby-prof'
 
-RSpec.describe Trenni::Template do
+RSpec.xdescribe Trenni::Template do
 	class Model
 		def name
 			"Bob Dole"

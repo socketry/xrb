@@ -25,12 +25,17 @@ require 'trenni/entities'
 require 'trenni/template'
 require 'trenni/markup'
 
-RSpec.shared_context "valid markup" do
+
+RSpec.shared_context "html parsers" do
 	let(:delegate) {Trenni::ParserDelegate.new}
 	let(:buffer) {Trenni::Buffer(subject)}
 	let(:parsers) {Trenni::Parsers}
 	let(:entities) {Trenni::Entities::HTML5}
 	let(:events) {parsers.parse_markup(buffer, delegate, entities); delegate.events}
+end
+
+RSpec.shared_context "valid markup" do
+	include_context "html parsers"
 	
 	it "should parse without error" do
 		expect{events}.to_not raise_error
@@ -177,10 +182,7 @@ RSpec.describe "performance_spec/large" do
 end
 
 RSpec.shared_context "invalid markup" do
-	let(:delegate) {Trenni::ParserDelegate.new}
-	let(:buffer) {Trenni::Buffer.new(subject)}
-	let(:parser) {Trenni::Parser.new(buffer, delegate)}
-	let(:events) {parser.parse!; delegate.events}
+	include_context "html parsers"
 	
 	it "should fail to parse" do
 		expect{events}.to raise_error Trenni::ParseError
