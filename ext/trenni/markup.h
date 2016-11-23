@@ -3,4 +3,4 @@
 
 #include "trenni.h"
 
-VALUE Trenni_parse_markup(VALUE buffer, VALUE delegate, VALUE entities);
+VALUE Trenni_Native_parse_markup(VALUE self, VALUE buffer, VALUE delegate, VALUE entities);

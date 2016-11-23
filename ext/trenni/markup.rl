@@ -3,21 +3,23 @@
 
 #include <ruby/encoding.h>
 
-#define append_codepoint(number) Trenni_append_codepoint(&pcdata, encoding, number)
-
 %%{
 	machine Trenni_markup_parser;
 	
 	# Track the location of an identifier (tag name, attribute name, etc)
-	action identifier_begin { identifier.begin = p; }
-	action identifier_end { identifier.end = p; }
+	action identifier_begin {
+		identifier.begin = p;
+	}
+	
+	action identifier_end {
+		identifier.end = p;
+	}
 	
 	action pcdata_begin {
 		pcdata = Qnil;
 	}
 	
 	action pcdata_end {
-		// Buffer is ready.
 	}
 	
 	action characters_begin {
@@ -40,6 +42,10 @@
 	
 	action entity_name {
 		entity.end = p;
+		
+		VALUE result = rb_funcall(entities, rb_intern("[]"), 1, Trenni_token(entity));
+		
+		Trenni_append_string(&pcdata, encoding, result);
 	}
 	
 	action entity_hex {
@@ -95,9 +101,11 @@
 		instruction_text.begin = p;
 	}
 	
+	action instruction_text_end {
+		instruction_text.end = p;
+	}
+
 	action instruction_end {
-		instruction_text.end = p-2;
-		
 		rb_funcall(delegate, id_instruction, 2, Trenni_token(identifier), Trenni_token(instruction_text));
 	}
 	
@@ -184,13 +192,7 @@
 	write data;
 }%%
 
-static void Trenni_raise_error(const char * message, VALUE buffer, size_t offset) {
-	VALUE exception = rb_funcall(rb_Trenni_ParseError, rb_intern("new"), 3, rb_str_new_cstr(message), buffer, UINT2NUM(offset));
-	
-	rb_exc_raise(exception);
-}
-
-VALUE Trenni_parse_markup(VALUE buffer, VALUE delegate, VALUE entities) {
+VALUE Trenni_Native_parse_markup(VALUE self, VALUE buffer, VALUE delegate, VALUE entities) {
 	VALUE string = rb_funcall(buffer, id_read, 0);
 	
 	rb_encoding *encoding = rb_enc_get(string);

@@ -216,7 +216,7 @@ RSpec.describe Trenni::Location do
 	
 	it "should know about line numbers" do
 		expect(subject.to_i).to be == 7
-		expect(subject.to_s).to be == "[2]"
+		expect(subject.to_s).to be == "[2:1]"
 		expect(subject.line_text).to be == "World"
 		
 		expect(subject.line_number).to be == 2

@@ -213,6 +213,16 @@ module Trenni
 			eof = data.size
 			stack = []
 			
+			pcdata = nil
+			characters_begin = characters_end = nil
+			entity_begin = entity_end = nil
+			identifier_begin = identifier_end = nil
+			doctype_begin = doctype_end = nil
+			comment_begin = comment_end = nil
+			instruction_text_begin = instruction_text_end = nil
+			cdata_begin = cdata_end = nil
+			has_value = false
+			
 			%% write init;
 			%% write exec;
 			

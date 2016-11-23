@@ -91,6 +91,14 @@ RSpec.shared_examples "template parser" do
 	end
 end
 
-RSpec.describe Trenni::Fallback do
-	it_behaves_like "template parser"
+if defined? Trenni::Fallback
+	RSpec.describe Trenni::Fallback do
+		it_behaves_like "template parser"
+	end
+end
+
+if defined? Trenni::Native
+	RSpec.describe Trenni::Native do
+		it_behaves_like "template parser"
+	end
 end
