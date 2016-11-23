@@ -20,38 +20,27 @@
 
 module Trenni
 	class Substitutions
-		def initialize(substitutions)
-			@substitutions = substitutions
+		def initialize(tokens)
+			@tokens = tokens
 		end
 		
 		def patterns
-			@substitutions.keys
+			@tokens.keys
 		end
 		
 		def pattern
 			@pattern ||= Regexp.union(patterns)
 		end
 		
-		attr :substitutions
+		attr :tokens
 		
 		def gsub!(string)
-			string.gsub!(pattern) {|match| @substitutions[match]}
+			string.gsub!(pattern) {|match| @tokens[match]}
 		end
 		
 		def gsub(string)
-			result = string.dup
-			gsub!(result)
-			return result
+			string.gsub(pattern) {|match| @tokens[match]}
 		end
 	end
-	
-	class UnicodeEntities < Substitutions
-		def patterns
-			super + [/&\#(\d+);/, /&\#x([0-9a-fA-F]+);/]
-		end
-		
-		def gsub!(string)
-			string.gsub!(pattern) {|match| $1 ? $1.to_i(10).chr(Encoding::UTF_8) : $2 ? $2.to_i(16).chr(Encoding::UTF_8) : @substitutions[match]}
-		end
-	end
+
 end

@@ -1,40 +1,225 @@
+
+#include "markup.h"
+
+#include <ruby/encoding.h>
+
+#define append_codepoint(number) Trenni_append_codepoint(&pcdata, encoding, number)
+
 %%{
-	machine markup;
+	machine Trenni_markup_parser;
 	
-	unicode = any - ascii;
-	identifier_character = unicode | [a-zA-Z0-9\-_\.:];
+	# Track the location of an identifier (tag name, attribute name, etc)
+	action identifier_begin { identifier.begin = p; }
+	action identifier_end { identifier.end = p; }
 	
-	# > is called on entering, % is called on exiting.
-	identifier = identifier_character+ >identifier_begin %identifier_end;
+	action pcdata_begin {
+		pcdata = Qnil;
+	}
 	
-	cdata_text = (any* -- ']]>');
-	cdata = '<![CDATA[' >cdata_begin (cdata_text ']]>') %cdata_end @err(cdata_error);
+	action pcdata_end {
+		// Buffer is ready.
+	}
 	
-	include entities "entities.rl";
+	action characters_begin {
+		characters.begin = p;
+	}
 	
-	pcdata_character = (any - [<&]);
-	pcdata_characters = (pcdata_character+) >characters_begin %characters_end;
-	pcdata = (pcdata_characters | entity)+ >pcdata_begin %pcdata_end;
+	action characters_end {
+		characters.end = p;
+		
+		Trenni_append_token(&pcdata, encoding, characters);
+	}
 	
-	text = pcdata $(greedy_text,1) >text_begin %text_end;
+	action entity_error {
+		Trenni_raise_error("could not parse entity", buffer, p-s);
+	}
 	
-	doctype_text = (any* -- '>');
-	doctype = '<!DOCTYPE' >doctype_begin (doctype_text '>') %doctype_end @err(doctype_error);
+	action entity_begin {
+		entity.begin = p;
+	}
 	
-	comment_text = (any* -- '-->');
-	comment = '<!--' >comment_begin (comment_text '-->') %comment_end @err(comment_error);
+	action entity_name {
+		entity.end = p;
+	}
 	
-	# Markup Instructions
-	instruction_text = (any* -- '?>');
-	instruction = '<?' >instruction_begin (identifier space+ instruction_text >instruction_text_begin '?>') %instruction_end @err(instruction_error);
+	action entity_hex {
+		entity.end = p;
+		
+		char * end = (char *)entity.end;
+		unsigned long codepoint = strtoul(entity.begin, &end, 16);
+		
+		Trenni_append_codepoint(&pcdata, encoding, codepoint);
+	}
 	
-	attribute_quoted_value = '"' (pcdata -- '"') '"' %attribute_value | '""' %attribute_empty;
-	attribute = identifier >attribute_begin ('=' attribute_quoted_value)? %attribute;
+	action entity_number {
+		entity.end = p;
+		
+		char * end = (char *)entity.end;
+		unsigned long codepoint = strtoul(entity.begin, &end, 10);
+		
+		Trenni_append_codepoint(&pcdata, encoding, codepoint);
+	}
 	
-	# The @err handler will be triggered if the parser finishes in any state except the final accepting state.
-	tag_opening = '<' >tag_opening_begin (identifier %tag_name (space+ attribute)* space* ('/' >tag_self_closing)? '>') %tag_opening_end @err(tag_error);
+	action doctype_begin {
+		doctype.begin = p;
+	}
 	
-	tag_closing = '</' >tag_closing_begin (identifier '>') %tag_closing_end @err(tag_error);
+	action doctype_end {
+		doctype.end = p;
+		
+		rb_funcall(delegate, id_doctype, 1, Trenni_token(doctype));
+	}
 	
-	main := (text >(greedy_text,0) | tag_opening | tag_closing | instruction | comment | doctype | cdata)*;
+	action doctype_error {
+		Trenni_raise_error("could not parse doctype", buffer, p-s);
+	}
+	
+	action comment_begin {
+		comment.begin = p;
+	}
+	
+	action comment_end {
+		comment.end = p;
+		
+		rb_funcall(delegate, id_comment, 1, Trenni_token(comment));
+	}
+	
+	action comment_error {
+		Trenni_raise_error("could not parse comment", buffer, p-s);
+	}
+	
+	action instruction_begin {
+	}
+	
+	action instruction_text_begin {
+		instruction_text.begin = p;
+	}
+	
+	action instruction_end {
+		instruction_text.end = p-2;
+		
+		rb_funcall(delegate, id_instruction, 2, Trenni_token(identifier), Trenni_token(instruction_text));
+	}
+	
+	action instruction_error {
+		Trenni_raise_error("could not parse instruction", buffer, p-s);
+	}
+	
+	action tag_name {
+		// Reset self-closing state - we don't know yet.
+		self_closing = 0;
+		
+		rb_funcall(delegate, id_open_tag_begin, 1, Trenni_token(identifier));
+	}
+	
+	action tag_opening_begin {
+	}
+	
+	action tag_self_closing {
+		self_closing = 1;
+	}
+	
+	action attribute_begin {
+		has_value = 0;
+	}
+	
+	action attribute_value {
+		has_value = 1;
+	}
+	
+	action attribute_empty {
+		has_value = 2;
+	}
+	
+	action attribute {
+		if (has_value == 1) {
+			rb_funcall(delegate, id_attribute, 2, Trenni_token(identifier), pcdata);
+		} else if (has_value == 2) {
+			rb_funcall(delegate, id_attribute, 2, Trenni_token(identifier), empty_string);
+		} else {
+			rb_funcall(delegate, id_attribute, 2, Trenni_token(identifier), Qtrue);
+		}
+	}
+	
+	action tag_opening_end {
+		rb_funcall(delegate, id_open_tag_end, 1, self_closing == 1 ? Qtrue : Qfalse);
+	}
+	
+	action tag_closing_begin {
+	}
+	
+	action tag_closing_end {
+		rb_funcall(delegate, id_close_tag, 1, Trenni_token(identifier));
+	}
+	
+	action tag_error {
+		Trenni_raise_error("could not parse tag", buffer, p-s);
+	}
+	
+	action cdata_begin {
+		cdata.begin = p;
+	}
+	
+	action cdata_end {
+		cdata.end = p;
+		
+		rb_funcall(delegate, id_cdata, 1, Trenni_token(cdata));
+	}
+	
+	action cdata_error {
+		Trenni_raise_error("could not parse cdata", buffer, p-s);
+	}
+	
+	action text_begin {
+	
+	}
+	
+	action text_end {
+		// Entities are handled separately:
+		rb_funcall(delegate, id_text, 1, pcdata);
+	}
+	
+	include markup "trenni/markup.rl";
+	
+	write data;
 }%%
+
+static void Trenni_raise_error(const char * message, VALUE buffer, size_t offset) {
+	VALUE exception = rb_funcall(rb_Trenni_ParseError, rb_intern("new"), 3, rb_str_new_cstr(message), buffer, UINT2NUM(offset));
+	
+	rb_exc_raise(exception);
+}
+
+VALUE Trenni_parse_markup(VALUE buffer, VALUE delegate, VALUE entities) {
+	VALUE string = rb_funcall(buffer, id_read, 0);
+	
+	rb_encoding *encoding = rb_enc_get(string);
+	
+	VALUE pcdata = Qnil;
+	
+	VALUE empty_string = rb_enc_str_new("", 0, encoding);
+	rb_obj_freeze_inline(empty_string);
+	
+	const char * s = RSTRING_PTR(string);
+	const char * p = s;
+	const char * pe = p + RSTRING_LEN(string);
+	const char * eof = pe;
+
+	unsigned long cs;
+	unsigned long top = 0;
+	unsigned long stack[2] = {0};
+	
+	Token identifier, cdata, characters, entity, doctype, comment, instruction_text;
+	unsigned self_closing = 0, has_value = 0;
+	
+	%%{
+		write init;
+		write exec;
+	}%%
+	
+	if (p != eof) {
+		Trenni_raise_error("could not parse all input", buffer, p-s);
+	}
+	
+	return Qnil;
+}

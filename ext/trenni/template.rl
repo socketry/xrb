@@ -1,36 +1,5 @@
 
-#include <lexer.h>
-
-#include <ruby/encoding.h>
-
-typedef struct {
-	const char * begin;
-	const char * end;
-} Token;
-
-static VALUE Trenni_token(Token token) {
-	return rb_str_new(token.begin, token.end - token.begin);
-}
-
-static void Trenni_Parser_append_token(VALUE * buffer, rb_encoding * encoding, Token token) {
-	if (*buffer == Qnil) {
-		// Allocate a buffer exactly the right size:
-		*buffer = rb_enc_str_new(token.begin, token.end - token.begin, encoding);
-	} else {
-		// Append the characters to the existing buffer:
-		rb_str_buf_cat(*buffer, token.begin, token.end - token.begin);
-	}
-}
-
-static void Trenni_Parser_append_codepoint(VALUE * buffer, rb_encoding * encoding, unsigned long codepoint) {
-	if (*buffer == Qnil) {
-		*buffer = rb_enc_str_new("", 0, encoding);
-	}
-	
-	rb_str_concat(*buffer, ULONG2NUM(codepoint));
-}
-
-#define append_codepoint(number) Trenni_Parser_append_codepoint(&pcdata, encoding, number)
+#include "template.h"
 
 %%{
 	machine trenni_lexer;

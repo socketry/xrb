@@ -1,6 +1,7 @@
 
 require 'benchmark/ips'
-require 'trenni/parser'
+require 'trenni/parsers'
+require 'trenni/entities'
 
 require 'ruby-prof'
 
@@ -18,11 +19,12 @@ RSpec.shared_context "profile" do
 	end
 end
 
-RSpec.describe Trenni::Parser do
+RSpec.describe Trenni::Parsers do
 	# include_context "profile"
 	
 	let(:xhtml_path) {File.expand_path('performance_spec/large.xhtml', __dir__)}
 	let(:xhtml_buffer) {Trenni::FileBuffer.new(xhtml_path)}
+	let(:entities) {Trenni::Entities::HTML5}
 	
 	it "should be fast to parse large documents" do
 		Benchmark.ips do |x|
@@ -30,7 +32,7 @@ RSpec.describe Trenni::Parser do
 				delegate = Trenni::ParserDelegate.new
 				
 				while (times -= 1) >= 0
-					Trenni::Parser.new(xhtml_buffer, delegate).parse!
+					Trenni::Parsers.parse_markup(xhtml_buffer, delegate, entities)
 					
 					delegate.events.clear
 				end

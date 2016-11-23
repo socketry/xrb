@@ -18,7 +18,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-require_relative 'scanner'
+require_relative 'parsers'
 
 module Trenni
 	# The output variable that will be used in templates:
@@ -49,129 +49,29 @@ module Trenni
 		
 		class Assembler
 			def initialize(filter: String)
-				@parts = []
+				@code = String.new
 				@filter = filter
 			end
 
-			attr :parts
+			attr :code
 
 			# Output raw text to the template.
 			def text(text)
 				text = text.gsub("'", "\\\\'")
-				@parts << "#{OUT}<<'#{text}';"
+				@code << "#{OUT}<<'#{text}';"
 				
 				# This is an interesting approach, but it doens't preserve newlines or tabs as raw characters, so template line numbers don't match up.
 				# @parts << "#{OUT}<<#{text.dump};"
 			end
 
 			# Output a ruby expression (or part of).
-			def expression(prefix, text, postfix = nil)
-				postfix ||= ';'
-				
-				@parts << prefix << text << postfix
+			def instruction(text, postfix = nil)
+				@code << text << (postfix || ';')
 			end
 			
 			# Output a string interpolation.
-			def interpolation(text)
-				@parts << "#{OUT}<<#{@filter}(#{text});"
-			end
-
-			CODE_PREFIX = "#{OUT}=String.new;".freeze
-			CODE_POSTFIX = "#{OUT}".freeze
-
-			def code
-				return [CODE_PREFIX, *@parts, CODE_POSTFIX].join
-			end
-		end
-		
-		class Scanner < StringScanner
-			def initialize(buffer, delegate)
-				super(buffer)
-				
-				@delegate = delegate
-			end
-			
-			def parse!
-				until eos?
-					start_pos = self.pos
-
-					scan_text
-					scan_expression or scan_interpolation
-					
-					raise_if_stuck(start_pos)
-				end
-			end
-
-			# This is formulated specifically so that it matches up until the start of a code block.
-			TEXT = /([^<#]|<(?!\?r)|#(?!\{)){1,}/m
-
-			def scan_text
-				if scan(TEXT)
-					@delegate.text(self.matched)
-				end
-			end
-
-			def scan_expression
-				start_pos = self.pos
-				
-				# We capture whitespace (including newlines) so the code matches up as much as possible with the source file:
-				if scan(/(\p{Blank}*)<\?r/)
-					prefix = self[1]
-					if scan_until(/(.*?)\?>(\p{Blank}*\n)?/m)
-						@delegate.expression(prefix, self[1], self[2])
-					else
-						parse_error!("Could not find end of expression!", [start_pos, self.pos])
-					end
-					
-					return true
-				end
-				
-				return false
-			end
-
-			def scan_interpolation
-				start_pos = self.pos
-				
-				if scan(/\#\{/)
-					level = 1
-					code = String.new
-
-					until eos?
-						current_pos = self.pos
-						
-						# Scan anything other than something which causes nesting:
-						if scan(/[^"'\{\}]+/m)
-							code << matched
-						end
-						
-						# Scan a quoted string:
-						if scan(/'(\\'|[^'])*'/m) or scan(/"(\\"|[^"])*"/m)
-							code << matched
-						end
-						
-						# Scan something which nests:
-						if scan(/\{/)
-							code << matched
-							level += 1
-						end
-
-						if scan(/\}/)
-							level -= 1
-							if level == 0
-								@delegate.interpolation(code)
-								return true
-							else
-								code << matched
-							end
-						end
-						
-						break if stuck?(current_pos)
-					end
-					
-					parse_error!("Could not find end of interpolation!", [start_pos, self.pos])
-				end
-				
-				return false
+			def expression(text)
+				@code << "#{OUT}<<#{@filter}(#{text});"
 			end
 		end
 		
@@ -184,8 +84,8 @@ module Trenni
 			@filter = filter
 		end
 
-		def to_string(scope = Object.new)
-			scope.instance_eval(&to_proc)
+		def to_string(scope = Object.new, output = String.new)
+			scope.instance_exec(output, &to_proc)
 		end
 		
 		def to_buffer(scope)
@@ -197,7 +97,7 @@ module Trenni
 		alias result to_string
 		
 		def to_proc
-			@compiled_proc ||= eval("proc{;#{code};}", binding, @buffer.path)
+			@compiled_proc ||= eval("proc{|#{OUT}|;#{code};#{OUT}}", binding, @buffer.path)
 		end
 		
 		protected
@@ -209,7 +109,7 @@ module Trenni
 		def compile!
 			assembler = Assembler.new(filter: @filter)
 			
-			Scanner.new(@buffer, assembler).parse!
+			Parsers.parse_template(@buffer, assembler)
 			
 			assembler.code
 		end

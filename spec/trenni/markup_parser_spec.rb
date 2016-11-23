@@ -20,15 +20,17 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-require 'trenni/parser'
+require 'trenni/parsers'
+require 'trenni/entities'
 require 'trenni/template'
 require 'trenni/markup'
 
 RSpec.shared_context "valid markup" do
 	let(:delegate) {Trenni::ParserDelegate.new}
 	let(:buffer) {Trenni::Buffer(subject)}
-	let(:parser) {Trenni::Parser.new(buffer, delegate)}
-	let(:events) {parser.parse!; delegate.events}
+	let(:parsers) {Trenni::Parsers}
+	let(:entities) {Trenni::Entities::HTML5}
+	let(:events) {parsers.parse_markup(buffer, delegate, entities); delegate.events}
 	
 	it "should parse without error" do
 		expect{events}.to_not raise_error

@@ -1,6 +1,6 @@
 
 require 'benchmark/ips'
-require 'trenni/parser'
+require 'trenni/parsers'
 require 'trenni/template'
 require 'erb'
 

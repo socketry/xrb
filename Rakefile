@@ -36,9 +36,11 @@ task :update_entities => :fetch_entities do
 	paths.each do |output_path, template_path|
 		template = Trenni::Template.load_file(template_path)
 		
-		output = template.to_string(@entities)
+		puts template.send(:code)
 		
-		File.write(output_path, output)
+		#output = template.to_string(@entities)
+		
+		#File.write(output_path, output)
 	end
 end
 
@@ -48,15 +50,31 @@ Rake::ExtensionTask.new "trenni" do |ext|
 	ext.lib_dir = "lib/trenni/native"
 end
 
+task :generate_fallback_parsers do
+	parsers_directory = File.expand_path("parsers", __dir__)
+	fallback_directory = File.expand_path("lib/trenni/fallback", __dir__)
+	
+	Dir.chdir(fallback_directory) do
+		Dir.glob("*.rl").each do |parser_path|
+			sh("ragel", "-I", parsers_directory, "-R", parser_path)
+		end
+	end
+end
+
 task :generate_lexer => :update_entities do
+	
+	
 	Dir.chdir("ext/trenni") do
-		sh("ragel", "-C", "lexer.rl", "-F1")
+		# -G2 generates a slightly faster parser but it doens't compile when handling entities.
+		sh("ragel", "-I", parsers_directory, "-C", "markup.rl", "-F1")
+		sh("ragel", "-I", parsers_directory, "-C", "template.rl", "-F1")
 	end
 end
 
 task :visualize_lexer do
 	Dir.chdir("ext/trenni") do
-		sh("ragel -Vp lexer.rl -M main | dot -Tpdf -o lexer.pdf && open lexer.pdf")
+		sh("ragel -Vp markup.rl -M main | dot -Tpdf -o markup.pdf && open lexer.pdf")
+		sh("ragel -Vp template.rl -M main | dot -Tpdf -o template.pdf && open lexer.pdf")
 	end
 end
 

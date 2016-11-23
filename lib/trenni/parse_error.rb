@@ -69,7 +69,7 @@ module Trenni
 		end
 		
 		def to_s
-			"[#{self.line_number}]"
+			"[#{self.line_number}:#{self.line_offset}]"
 		end
 		
 		# The line that contains the @offset (base 0 indexing).

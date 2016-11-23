@@ -20,7 +20,8 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-require 'trenni'
+require 'trenni/template'
+require 'trenni/parsers'
 require 'benchmark'
 
 RSpec.describe Trenni::Template do
@@ -58,6 +59,13 @@ RSpec.describe Trenni::Template do
 		expect(template.to_string(self)).to be == "1234"
 	end
 	
+	it "should have correct indentation" do
+		buffer = Trenni::Buffer.new("\t<?r items.each do |item| ?>\n\t\#{item}\n\t<?r end ?>\n")
+		template = Trenni::Template.new(buffer)
+		
+		expect(template.to_string(self)).to be == "\t1\n\t2\n\t3\n\t4\n"
+	end
+	
 	let(:escaped_template) {Trenni::Template.load_file File.expand_path('template_spec/escaped.trenni', __dir__)}
 	
 	it "should have the same number of lines as input" do
@@ -69,13 +77,20 @@ RSpec.describe Trenni::Template do
 			"This\\nisn't one line.\n" +
 			"\\tIndentation is the best."
 	end
+end
+
+RSpec.shared_examples "template parser" do
+	let(:delegate) {Trenni::ParserDelegate.new}
 	
 	it "should fail to parse" do
 		buffer = Trenni::Buffer.new('<img src="#{poi_product.photo.thumbnail_url" />')
-		broken_template = Trenni::Template.new(buffer)
 		
-		expect{broken_template.to_proc}.to raise_error(Trenni::ParseError) do |error|
-			expect(error.to_s).to include("<string>[1]: Could not find end of interpolation!")
-		end
+		expect{
+			subject.parse_template(buffer, delegate)
+		}.to raise_error(Trenni::ParseError)
 	end
+end
+
+RSpec.describe Trenni::Fallback do
+	it_behaves_like "template parser"
 end

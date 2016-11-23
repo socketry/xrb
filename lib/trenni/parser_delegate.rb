@@ -27,40 +27,8 @@ module Trenni
 		
 		attr :events
 		
-		def text(text)
-			@events << [:text, text]
-		end
-		
-		def cdata(data)
-			@events << [:cdata, data]
-		end
-		
-		def open_tag_begin(name)
-			@events << [:open_tag_begin, name]
-		end
-		
-		def attribute(name, value)
-			@events << [:attribute, name, value]
-		end
-		
-		def open_tag_end(self_closing)
-			@events << [:open_tag_end, self_closing]
-		end
-		
-		def close_tag(name)
-			@events << [:close_tag, name]
-		end
-		
-		def doctype(data)
-			@events << [:doctype, data]
-		end
-		
-		def comment(data)
-			@events << [:comment, data]
-		end
-		
-		def instruction(name, text)
-			@events << [:instruction, name, text]
+		def method_missing(*args)
+			@events << args
 		end
 	end
 end

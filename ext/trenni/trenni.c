@@ -1,67 +1,54 @@
 
 #include "trenni.h"
-#include "lexer.h"
+
+#include "markup.h"
+#include "template.h"
 
 VALUE rb_Trenni = Qnil, rb_Trenni_Parser = Qnil, rb_Trenni_ParseError = Qnil;
 ID id_cdata, id_open_tag_begin, id_open_tag_end, id_attribute, id_close_tag, id_text, id_doctype, id_comment, id_instruction, id_read;
 
-#define NewObject(type) (type*)malloc(sizeof(type))
-
-static void Trenni_Parser_mark(Trenni_Parser * parser) {
-	rb_gc_mark(parser->buffer);
-	rb_gc_mark(parser->delegate);
+void Trenni_raise_error(const char * message, VALUE buffer, size_t offset) {
+	VALUE exception = rb_funcall(rb_Trenni_ParseError, rb_intern("new"), 3, rb_str_new_cstr(message), buffer, UINT2NUM(offset));
+	
+	rb_exc_raise(exception);
 }
 
-static void Trenni_Parser_free(Trenni_Parser * parser) {
-	free(parser);
+void Trenni_append_token(VALUE * buffer, rb_encoding * encoding, Token token) {
+	if (*buffer == Qnil) {
+		// Allocate a buffer exactly the right size:
+		*buffer = rb_enc_str_new(token.begin, token.end - token.begin, encoding);
+	} else {
+		// Append the characters to the existing buffer:
+		rb_str_buf_cat(*buffer, token.begin, token.end - token.begin);
+	}
 }
 
-static VALUE Trenni_Parser_allocate(VALUE klass) {
-	Trenni_Parser * parser = NewObject(Trenni_Parser);
-
-	return Data_Wrap_Struct(klass, Trenni_Parser_mark, Trenni_Parser_free, parser);
-}
-
-static VALUE Trenni_Parser_initialize(VALUE self, VALUE buffer, VALUE delegate, VALUE entities) {
-	Trenni_Parser * parser;
-
-	Data_Get_Struct(self, Trenni_Parser, parser);
-
-	parser->buffer = buffer;
-	parser->delegate = delegate;
+void Trenni_append_codepoint(VALUE * buffer, rb_encoding * encoding, unsigned long codepoint) {
+	if (*buffer == Qnil) {
+		*buffer = rb_enc_str_new("", 0, encoding);
+	}
 	
-	return Qnil;
-}
-
-static VALUE Trenni_Parser_parse(VALUE self) {
-	Trenni_Parser * parser = 0;
-	
-	Data_Get_Struct(self, Trenni_Parser, parser);
-	
-	Trenni_Parser_parse_buffer(parser->buffer, parser->delegate);
-	
-	return Qnil;
+	rb_str_concat(*buffer, ULONG2NUM(codepoint));
 }
 
 void Init_trenni() {
-	id_cdata = rb_intern("cdata");
 	id_open_tag_begin = rb_intern("open_tag_begin");
 	id_open_tag_end = rb_intern("open_tag_end");
+	id_close_tag = rb_intern("close_tag");
+
+	id_cdata = rb_intern("cdata");
 	id_attribute = rb_intern("attribute");
 	id_comment = rb_intern("comment");
 	id_text = rb_intern("text");
 	id_doctype = rb_intern("doctype");
 	id_instruction = rb_intern("instruction");
-	id_read = rb_intern("read");
 	
-	id_close_tag = rb_intern("close_tag");
+	id_read = rb_intern("read");
 	
 	rb_Trenni = rb_define_module("Trenni");
 	
 	rb_Trenni_ParseError = rb_const_get_at(rb_Trenni, rb_intern("ParseError"));
-	
-	rb_Trenni_Parser = rb_define_class_under(rb_Trenni, "Parser", rb_cObject);
-	rb_define_alloc_func(rb_Trenni_Parser, Trenni_Parser_allocate);
-	rb_define_method(rb_Trenni_Parser, "initialize", Trenni_Parser_initialize, 2);
-	rb_define_method(rb_Trenni_Parser, "parse!", Trenni_Parser_parse, 0);
+		
+	rb_define_method(rb_Trenni, "parse_markup!", Trenni_parse_markup, 3);
+	rb_define_method(rb_Trenni, "parse_template!", Trenni_parse_markup, 3);
 }
