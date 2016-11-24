@@ -30,11 +30,15 @@
 	}
 	
 	action emit_instruction {
-		delegate.instruction(data[instruction_begin...instruction_end])
+		delegate.instruction(data.byteslice(instruction_begin...instruction_end))
 	}
 	
 	action emit_instruction_line {
-		delegate.instruction(data[instruction_begin...instruction_end], "\n")
+		delegate.instruction(data.byteslice(instruction_begin...instruction_end), "\n")
+	}
+	
+	action instruction_error {
+		raise ParseError.new("failed to parse instruction", buffer, p)
 	}
 	
 	action expression_begin {
@@ -46,7 +50,7 @@
 	}
 	
 	action emit_expression {
-		delegate.expression(data[expression_begin...expression_end])
+		delegate.expression(data.byteslice(expression_begin...expression_end))
 	}
 	
 	action expression_error {
@@ -54,8 +58,11 @@
 	}
 	
 	action emit_text {
-		delegate.text(data[ts...te])
+		delegate.text(data.byteslice(ts...te))
 	}
+	
+	# This magic ensures that we process bytes.
+	getkey bytes[p];
 	
 	include template "trenni/template.rl";
 }%%
@@ -68,9 +75,10 @@ module Trenni
 		
 		def self.parse_template(buffer, delegate)
 			data = buffer.read
+			bytes = data.bytes
 			
 			p = 0
-			eof = data.size
+			pe = eof = data.bytesize
 			stack = []
 			
 			expression_begin = expression_end = nil
@@ -79,7 +87,7 @@ module Trenni
 			%% write init;
 			%% write exec;
 			
-			if p != data.size
+			if p != eof
 				raise ParseError.new("could not consume all input", buffer, p)
 			end
 			

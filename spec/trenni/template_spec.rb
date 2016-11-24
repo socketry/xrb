@@ -82,8 +82,16 @@ end
 RSpec.shared_examples "template parser" do
 	let(:delegate) {Trenni::ParserDelegate.new}
 	
-	it "should fail to parse" do
+	it "should fail to parse incomplete expression" do
 		buffer = Trenni::Buffer.new('<img src="#{poi_product.photo.thumbnail_url" />')
+		
+		expect{
+			subject.parse_template(buffer, delegate)
+		}.to raise_error(Trenni::ParseError)
+	end
+	
+	it "should fail to parse incomplete instruction" do
+		buffer = Trenni::Buffer.new('<?r foo')
 		
 		expect{
 			subject.parse_template(buffer, delegate)

@@ -21,7 +21,7 @@
 # THE SOFTWARE.
 
 
-# line 201 "markup.rl"
+# line 203 "markup.rl"
 
 
 require_relative '../parse_error'
@@ -425,13 +425,15 @@ end
 self.markup_en_main = 46;
 
 
-# line 208 "markup.rl"
+# line 210 "markup.rl"
 		
 		def self.parse_markup(buffer, delegate, entities)
 			data = buffer.read
+			bytes = data.bytes
 			
 			p = 0
-			eof = data.size
+			# Must set pe here or it gets incorrectly set to data.length
+			pe = eof = data.bytesize
 			stack = []
 			
 			pcdata = nil
@@ -445,7 +447,7 @@ self.markup_en_main = 46;
 			has_value = false
 			
 			
-# line 449 "markup.rb"
+# line 451 "markup.rb"
 begin
 	p ||= 0
 	pe ||= data.length
@@ -453,9 +455,9 @@ begin
 	top = 0
 end
 
-# line 227 "markup.rl"
+# line 231 "markup.rl"
 			
-# line 459 "markup.rb"
+# line 461 "markup.rb"
 begin
 	testEof = false
 	_slen, _trans, _keys, _inds, _acts, _nacts = nil
@@ -480,7 +482,7 @@ begin
 	_keys = cs << 1
 	_inds = _markup_index_offsets[cs]
 	_slen = _markup_key_spans[cs]
-	_wide = data[p].ord
+	_wide = ( bytes[p])
 	_trans = if (   _slen > 0 && 
 			_markup_trans_keys[_keys] <= _wide && 
 			_wide <= _markup_trans_keys[_keys + 1] 
@@ -528,31 +530,31 @@ begin
 		entity_begin = p
 			end
 	when 26 then
-# line 109 "markup.rl"
+# line 108 "markup.rl"
 		begin
 
 		instruction_text_begin = p
 			end
 	when 28 then
-# line 113 "markup.rl"
+# line 112 "markup.rl"
 		begin
 
 		instruction_text_end = p
 			end
 	when 25 then
-# line 124 "markup.rl"
+# line 123 "markup.rl"
 		begin
 
 		raise ParseError.new("could not parse instruction", buffer, p)
 			end
 	when 6 then
-# line 137 "markup.rl"
+# line 136 "markup.rl"
 		begin
 
 		self_closing = true
 			end
 	when 1 then
-# line 175 "markup.rl"
+# line 174 "markup.rl"
 		begin
 
 		raise ParseError.new("could not parse tag", buffer, p)
@@ -574,12 +576,12 @@ begin
 
 		identifier_end = p
 			end
-# line 128 "markup.rl"
+# line 127 "markup.rl"
 		begin
 
 		self_closing = false
 		
-		delegate.open_tag_begin(data[identifier_begin...identifier_end])
+		delegate.open_tag_begin(data.byteslice(identifier_begin...identifier_end))
 			end
 	when 7 then
 # line 28 "markup.rl"
@@ -587,7 +589,7 @@ begin
 
 		identifier_end = p
 			end
-# line 154 "markup.rl"
+# line 153 "markup.rl"
 		begin
 
 		if has_value
@@ -596,7 +598,7 @@ begin
 			value = true
 		end
 		
-		delegate.attribute(data[identifier_begin...identifier_end], value)
+		delegate.attribute(data.byteslice(identifier_begin...identifier_end), value)
 			end
 	when 10 then
 # line 32 "markup.rl"
@@ -631,7 +633,7 @@ begin
 
 		characters_end = p
 		
-		pcdata << data[characters_begin...characters_end]
+		pcdata << data.byteslice(characters_begin...characters_end)
 			end
 # line 36 "markup.rl"
 		begin
@@ -643,7 +645,7 @@ begin
 
 		characters_end = p
 		
-		pcdata << data[characters_begin...characters_end]
+		pcdata << data.byteslice(characters_begin...characters_end)
 			end
 # line 39 "markup.rl"
 		begin
@@ -656,7 +658,7 @@ begin
 
 		characters_end = p
 		
-		pcdata << data[characters_begin...characters_end]
+		pcdata << data.byteslice(characters_begin...characters_end)
 			end
 # line 10 "/Users/samuel/Documents/Programming/ioquatix/trenni/parsers/trenni/entities.rl"
 		begin
@@ -674,8 +676,7 @@ begin
 
 		entity_end = p
 		
-		name = data[entity_begin...entity_end]
-		puts "Entity: #{name.inspect} => #{entities[name]}"
+		name = data.byteslice(entity_begin...entity_end)
 		
 		pcdata << entities[name]
 			end
@@ -689,12 +690,12 @@ begin
 	end
 		end
 	when 32 then
-# line 66 "markup.rl"
+# line 65 "markup.rl"
 		begin
 
 		entity_end = p
 		
-		pcdata << data[entity_begin...entity_end].to_i(16)
+		pcdata << data.byteslice(entity_begin...entity_end).to_i(16)
 			end
 # line 8 "/Users/samuel/Documents/Programming/ioquatix/trenni/parsers/trenni/entities.rl"
 		begin
@@ -706,12 +707,12 @@ begin
 	end
 		end
 	when 31 then
-# line 72 "markup.rl"
+# line 71 "markup.rl"
 		begin
 
 		entity_end = p
 		
-		pcdata << data[entity_begin...entity_end].to_i(10)
+		pcdata << data.byteslice(entity_begin...entity_end).to_i(10)
 			end
 # line 8 "/Users/samuel/Documents/Programming/ioquatix/trenni/parsers/trenni/entities.rl"
 		begin
@@ -723,18 +724,18 @@ begin
 	end
 		end
 	when 27 then
-# line 109 "markup.rl"
+# line 108 "markup.rl"
 		begin
 
 		instruction_text_begin = p
 			end
-# line 113 "markup.rl"
+# line 112 "markup.rl"
 		begin
 
 		instruction_text_end = p
 			end
 	when 5 then
-# line 141 "markup.rl"
+# line 140 "markup.rl"
 		begin
 
 		has_value = false
@@ -746,12 +747,12 @@ begin
 		identifier_begin = p
 			end
 	when 15 then
-# line 146 "markup.rl"
+# line 145 "markup.rl"
 		begin
 
 		has_value = true
 			end
-# line 154 "markup.rl"
+# line 153 "markup.rl"
 		begin
 
 		if has_value
@@ -760,15 +761,15 @@ begin
 			value = true
 		end
 		
-		delegate.attribute(data[identifier_begin...identifier_end], value)
+		delegate.attribute(data.byteslice(identifier_begin...identifier_end), value)
 			end
 	when 20 then
-# line 150 "markup.rl"
+# line 149 "markup.rl"
 		begin
 
 		has_value = true
 			end
-# line 154 "markup.rl"
+# line 153 "markup.rl"
 		begin
 
 		if has_value
@@ -777,7 +778,7 @@ begin
 			value = true
 		end
 		
-		delegate.attribute(data[identifier_begin...identifier_end], value)
+		delegate.attribute(data.byteslice(identifier_begin...identifier_end), value)
 			end
 	when 4 then
 # line 28 "markup.rl"
@@ -785,14 +786,14 @@ begin
 
 		identifier_end = p
 			end
-# line 128 "markup.rl"
+# line 127 "markup.rl"
 		begin
 
 		self_closing = false
 		
-		delegate.open_tag_begin(data[identifier_begin...identifier_end])
+		delegate.open_tag_begin(data.byteslice(identifier_begin...identifier_end))
 			end
-# line 137 "markup.rl"
+# line 136 "markup.rl"
 		begin
 
 		self_closing = true
@@ -803,7 +804,7 @@ begin
 
 		identifier_end = p
 			end
-# line 154 "markup.rl"
+# line 153 "markup.rl"
 		begin
 
 		if has_value
@@ -812,20 +813,20 @@ begin
 			value = true
 		end
 		
-		delegate.attribute(data[identifier_begin...identifier_end], value)
+		delegate.attribute(data.byteslice(identifier_begin...identifier_end), value)
 			end
-# line 137 "markup.rl"
+# line 136 "markup.rl"
 		begin
 
 		self_closing = true
 			end
 	when 16 then
-# line 146 "markup.rl"
+# line 145 "markup.rl"
 		begin
 
 		has_value = true
 			end
-# line 154 "markup.rl"
+# line 153 "markup.rl"
 		begin
 
 		if has_value
@@ -834,20 +835,20 @@ begin
 			value = true
 		end
 		
-		delegate.attribute(data[identifier_begin...identifier_end], value)
+		delegate.attribute(data.byteslice(identifier_begin...identifier_end), value)
 			end
-# line 137 "markup.rl"
+# line 136 "markup.rl"
 		begin
 
 		self_closing = true
 			end
 	when 21 then
-# line 150 "markup.rl"
+# line 149 "markup.rl"
 		begin
 
 		has_value = true
 			end
-# line 154 "markup.rl"
+# line 153 "markup.rl"
 		begin
 
 		if has_value
@@ -856,15 +857,15 @@ begin
 			value = true
 		end
 		
-		delegate.attribute(data[identifier_begin...identifier_end], value)
+		delegate.attribute(data.byteslice(identifier_begin...identifier_end), value)
 			end
-# line 137 "markup.rl"
+# line 136 "markup.rl"
 		begin
 
 		self_closing = true
 			end
 	when 34 then
-# line 193 "markup.rl"
+# line 192 "markup.rl"
 		begin
 
 			end
@@ -879,7 +880,7 @@ begin
 		characters_begin = p
 			end
 	when 35 then
-# line 193 "markup.rl"
+# line 192 "markup.rl"
 		begin
 
 			end
@@ -899,14 +900,14 @@ begin
 	end
 		end
 	when 50 then
-# line 82 "markup.rl"
+# line 81 "markup.rl"
 		begin
 
 		doctype_end = p
 		
-		delegate.doctype(data[doctype_begin...doctype_end])
+		delegate.doctype(data.byteslice(doctype_begin...doctype_end))
 			end
-# line 193 "markup.rl"
+# line 192 "markup.rl"
 		begin
 
 			end
@@ -921,14 +922,14 @@ begin
 		characters_begin = p
 			end
 	when 51 then
-# line 82 "markup.rl"
+# line 81 "markup.rl"
 		begin
 
 		doctype_end = p
 		
-		delegate.doctype(data[doctype_begin...doctype_end])
+		delegate.doctype(data.byteslice(doctype_begin...doctype_end))
 			end
-# line 193 "markup.rl"
+# line 192 "markup.rl"
 		begin
 
 			end
@@ -948,14 +949,14 @@ begin
 	end
 		end
 	when 46 then
-# line 96 "markup.rl"
+# line 95 "markup.rl"
 		begin
 
 		comment_end = p
 		
-		delegate.comment(data[comment_begin...comment_end])
+		delegate.comment(data.byteslice(comment_begin...comment_end))
 			end
-# line 193 "markup.rl"
+# line 192 "markup.rl"
 		begin
 
 			end
@@ -970,14 +971,14 @@ begin
 		characters_begin = p
 			end
 	when 47 then
-# line 96 "markup.rl"
+# line 95 "markup.rl"
 		begin
 
 		comment_end = p
 		
-		delegate.comment(data[comment_begin...comment_end])
+		delegate.comment(data.byteslice(comment_begin...comment_end))
 			end
-# line 193 "markup.rl"
+# line 192 "markup.rl"
 		begin
 
 			end
@@ -997,15 +998,15 @@ begin
 	end
 		end
 	when 62 then
-# line 117 "markup.rl"
+# line 116 "markup.rl"
 		begin
 
 		delegate.instruction(
-			data[identifier_begin...identifier_end],
-			data[instruction_text_begin...instruction_text_end]
+			data.byteslice(identifier_begin...identifier_end),
+			data.byteslice(instruction_text_begin...instruction_text_end)
 		)
 			end
-# line 193 "markup.rl"
+# line 192 "markup.rl"
 		begin
 
 			end
@@ -1020,15 +1021,15 @@ begin
 		characters_begin = p
 			end
 	when 63 then
-# line 117 "markup.rl"
+# line 116 "markup.rl"
 		begin
 
 		delegate.instruction(
-			data[identifier_begin...identifier_end],
-			data[instruction_text_begin...instruction_text_end]
+			data.byteslice(identifier_begin...identifier_end),
+			data.byteslice(instruction_text_begin...instruction_text_end)
 		)
 			end
-# line 193 "markup.rl"
+# line 192 "markup.rl"
 		begin
 
 			end
@@ -1048,12 +1049,12 @@ begin
 	end
 		end
 	when 42 then
-# line 164 "markup.rl"
+# line 163 "markup.rl"
 		begin
 
 		delegate.open_tag_end(self_closing)
 			end
-# line 193 "markup.rl"
+# line 192 "markup.rl"
 		begin
 
 			end
@@ -1068,12 +1069,12 @@ begin
 		characters_begin = p
 			end
 	when 43 then
-# line 164 "markup.rl"
+# line 163 "markup.rl"
 		begin
 
 		delegate.open_tag_end(self_closing)
 			end
-# line 193 "markup.rl"
+# line 192 "markup.rl"
 		begin
 
 			end
@@ -1093,12 +1094,12 @@ begin
 	end
 		end
 	when 58 then
-# line 171 "markup.rl"
+# line 170 "markup.rl"
 		begin
 
-		delegate.close_tag(data[identifier_begin...identifier_end])
+		delegate.close_tag(data.byteslice(identifier_begin...identifier_end))
 			end
-# line 193 "markup.rl"
+# line 192 "markup.rl"
 		begin
 
 			end
@@ -1113,12 +1114,12 @@ begin
 		characters_begin = p
 			end
 	when 59 then
-# line 171 "markup.rl"
+# line 170 "markup.rl"
 		begin
 
-		delegate.close_tag(data[identifier_begin...identifier_end])
+		delegate.close_tag(data.byteslice(identifier_begin...identifier_end))
 			end
-# line 193 "markup.rl"
+# line 192 "markup.rl"
 		begin
 
 			end
@@ -1138,14 +1139,14 @@ begin
 	end
 		end
 	when 54 then
-# line 183 "markup.rl"
+# line 182 "markup.rl"
 		begin
 
 		cdata_end = p
 		
-		delegate.cdata(data[cdata_begin...cdata_end])
+		delegate.cdata(data.byteslice(cdata_begin...cdata_end))
 			end
-# line 193 "markup.rl"
+# line 192 "markup.rl"
 		begin
 
 			end
@@ -1160,14 +1161,14 @@ begin
 		characters_begin = p
 			end
 	when 55 then
-# line 183 "markup.rl"
+# line 182 "markup.rl"
 		begin
 
 		cdata_end = p
 		
-		delegate.cdata(data[cdata_begin...cdata_end])
+		delegate.cdata(data.byteslice(cdata_begin...cdata_end))
 			end
-# line 193 "markup.rl"
+# line 192 "markup.rl"
 		begin
 
 			end
@@ -1187,236 +1188,236 @@ begin
 	end
 		end
 	when 36 then
-# line 134 "markup.rl"
+# line 133 "markup.rl"
 		begin
 
 			end
-# line 168 "markup.rl"
+# line 167 "markup.rl"
 		begin
 
 			end
-# line 106 "markup.rl"
+# line 105 "markup.rl"
 		begin
 
 			end
-# line 92 "markup.rl"
+# line 91 "markup.rl"
 		begin
 
 		comment_begin = p
 			end
-# line 78 "markup.rl"
+# line 77 "markup.rl"
 		begin
 
 		doctype_begin = p
 			end
-# line 179 "markup.rl"
+# line 178 "markup.rl"
 		begin
 
 		cdata_begin = p
 			end
 	when 52 then
-# line 82 "markup.rl"
+# line 81 "markup.rl"
 		begin
 
 		doctype_end = p
 		
-		delegate.doctype(data[doctype_begin...doctype_end])
+		delegate.doctype(data.byteslice(doctype_begin...doctype_end))
 			end
-# line 134 "markup.rl"
+# line 133 "markup.rl"
 		begin
 
 			end
-# line 168 "markup.rl"
+# line 167 "markup.rl"
 		begin
 
 			end
-# line 106 "markup.rl"
+# line 105 "markup.rl"
 		begin
 
 			end
-# line 92 "markup.rl"
+# line 91 "markup.rl"
 		begin
 
 		comment_begin = p
 			end
-# line 78 "markup.rl"
+# line 77 "markup.rl"
 		begin
 
 		doctype_begin = p
 			end
-# line 179 "markup.rl"
+# line 178 "markup.rl"
 		begin
 
 		cdata_begin = p
 			end
 	when 48 then
-# line 96 "markup.rl"
+# line 95 "markup.rl"
 		begin
 
 		comment_end = p
 		
-		delegate.comment(data[comment_begin...comment_end])
+		delegate.comment(data.byteslice(comment_begin...comment_end))
 			end
-# line 134 "markup.rl"
+# line 133 "markup.rl"
 		begin
 
 			end
-# line 168 "markup.rl"
+# line 167 "markup.rl"
 		begin
 
 			end
-# line 106 "markup.rl"
+# line 105 "markup.rl"
 		begin
 
 			end
-# line 92 "markup.rl"
+# line 91 "markup.rl"
 		begin
 
 		comment_begin = p
 			end
-# line 78 "markup.rl"
+# line 77 "markup.rl"
 		begin
 
 		doctype_begin = p
 			end
-# line 179 "markup.rl"
+# line 178 "markup.rl"
 		begin
 
 		cdata_begin = p
 			end
 	when 64 then
-# line 117 "markup.rl"
+# line 116 "markup.rl"
 		begin
 
 		delegate.instruction(
-			data[identifier_begin...identifier_end],
-			data[instruction_text_begin...instruction_text_end]
+			data.byteslice(identifier_begin...identifier_end),
+			data.byteslice(instruction_text_begin...instruction_text_end)
 		)
 			end
-# line 134 "markup.rl"
+# line 133 "markup.rl"
 		begin
 
 			end
-# line 168 "markup.rl"
+# line 167 "markup.rl"
 		begin
 
 			end
-# line 106 "markup.rl"
+# line 105 "markup.rl"
 		begin
 
 			end
-# line 92 "markup.rl"
+# line 91 "markup.rl"
 		begin
 
 		comment_begin = p
 			end
-# line 78 "markup.rl"
+# line 77 "markup.rl"
 		begin
 
 		doctype_begin = p
 			end
-# line 179 "markup.rl"
+# line 178 "markup.rl"
 		begin
 
 		cdata_begin = p
 			end
 	when 44 then
-# line 164 "markup.rl"
+# line 163 "markup.rl"
 		begin
 
 		delegate.open_tag_end(self_closing)
 			end
-# line 134 "markup.rl"
+# line 133 "markup.rl"
 		begin
 
 			end
-# line 168 "markup.rl"
+# line 167 "markup.rl"
 		begin
 
 			end
-# line 106 "markup.rl"
+# line 105 "markup.rl"
 		begin
 
 			end
-# line 92 "markup.rl"
+# line 91 "markup.rl"
 		begin
 
 		comment_begin = p
 			end
-# line 78 "markup.rl"
+# line 77 "markup.rl"
 		begin
 
 		doctype_begin = p
 			end
-# line 179 "markup.rl"
+# line 178 "markup.rl"
 		begin
 
 		cdata_begin = p
 			end
 	when 60 then
-# line 171 "markup.rl"
+# line 170 "markup.rl"
 		begin
 
-		delegate.close_tag(data[identifier_begin...identifier_end])
+		delegate.close_tag(data.byteslice(identifier_begin...identifier_end))
 			end
-# line 134 "markup.rl"
-		begin
-
-			end
-# line 168 "markup.rl"
+# line 133 "markup.rl"
 		begin
 
 			end
-# line 106 "markup.rl"
+# line 167 "markup.rl"
 		begin
 
 			end
-# line 92 "markup.rl"
+# line 105 "markup.rl"
+		begin
+
+			end
+# line 91 "markup.rl"
 		begin
 
 		comment_begin = p
 			end
-# line 78 "markup.rl"
+# line 77 "markup.rl"
 		begin
 
 		doctype_begin = p
 			end
-# line 179 "markup.rl"
+# line 178 "markup.rl"
 		begin
 
 		cdata_begin = p
 			end
 	when 56 then
-# line 183 "markup.rl"
+# line 182 "markup.rl"
 		begin
 
 		cdata_end = p
 		
-		delegate.cdata(data[cdata_begin...cdata_end])
+		delegate.cdata(data.byteslice(cdata_begin...cdata_end))
 			end
-# line 134 "markup.rl"
+# line 133 "markup.rl"
 		begin
 
 			end
-# line 168 "markup.rl"
+# line 167 "markup.rl"
 		begin
 
 			end
-# line 106 "markup.rl"
+# line 105 "markup.rl"
 		begin
 
 			end
-# line 92 "markup.rl"
+# line 91 "markup.rl"
 		begin
 
 		comment_begin = p
 			end
-# line 78 "markup.rl"
+# line 77 "markup.rl"
 		begin
 
 		doctype_begin = p
 			end
-# line 179 "markup.rl"
+# line 178 "markup.rl"
 		begin
 
 		cdata_begin = p
@@ -1426,34 +1427,34 @@ begin
 		begin
 
 			end
-# line 196 "markup.rl"
+# line 195 "markup.rl"
 		begin
 
 		delegate.text(pcdata)
 			end
-# line 134 "markup.rl"
+# line 133 "markup.rl"
 		begin
 
 			end
-# line 168 "markup.rl"
+# line 167 "markup.rl"
 		begin
 
 			end
-# line 106 "markup.rl"
+# line 105 "markup.rl"
 		begin
 
 			end
-# line 92 "markup.rl"
+# line 91 "markup.rl"
 		begin
 
 		comment_begin = p
 			end
-# line 78 "markup.rl"
+# line 77 "markup.rl"
 		begin
 
 		doctype_begin = p
 			end
-# line 179 "markup.rl"
+# line 178 "markup.rl"
 		begin
 
 		cdata_begin = p
@@ -1464,45 +1465,45 @@ begin
 
 		characters_end = p
 		
-		pcdata << data[characters_begin...characters_end]
+		pcdata << data.byteslice(characters_begin...characters_end)
 			end
 # line 36 "markup.rl"
 		begin
 
 			end
-# line 196 "markup.rl"
+# line 195 "markup.rl"
 		begin
 
 		delegate.text(pcdata)
 			end
-# line 134 "markup.rl"
+# line 133 "markup.rl"
 		begin
 
 			end
-# line 168 "markup.rl"
+# line 167 "markup.rl"
 		begin
 
 			end
-# line 106 "markup.rl"
+# line 105 "markup.rl"
 		begin
 
 			end
-# line 92 "markup.rl"
+# line 91 "markup.rl"
 		begin
 
 		comment_begin = p
 			end
-# line 78 "markup.rl"
+# line 77 "markup.rl"
 		begin
 
 		doctype_begin = p
 			end
-# line 179 "markup.rl"
+# line 178 "markup.rl"
 		begin
 
 		cdata_begin = p
 			end
-# line 1506 "markup.rb"
+# line 1507 "markup.rb"
 	end
 	end
 	end
@@ -1527,76 +1528,76 @@ begin
 		raise ParseError.new("could not parse entity", buffer, p)
 			end
 	when 49 then
-# line 82 "markup.rl"
+# line 81 "markup.rl"
 		begin
 
 		doctype_end = p
 		
-		delegate.doctype(data[doctype_begin...doctype_end])
+		delegate.doctype(data.byteslice(doctype_begin...doctype_end))
 			end
 	when 23 then
-# line 88 "markup.rl"
+# line 87 "markup.rl"
 		begin
 
 		raise ParseError.new("could not parse doctype", buffer, p)
 			end
 	when 45 then
-# line 96 "markup.rl"
+# line 95 "markup.rl"
 		begin
 
 		comment_end = p
 		
-		delegate.comment(data[comment_begin...comment_end])
+		delegate.comment(data.byteslice(comment_begin...comment_end))
 			end
 	when 22 then
-# line 102 "markup.rl"
+# line 101 "markup.rl"
 		begin
 
 		raise ParseError.new("could not parse comment", buffer, p)
 			end
 	when 61 then
-# line 117 "markup.rl"
+# line 116 "markup.rl"
 		begin
 
 		delegate.instruction(
-			data[identifier_begin...identifier_end],
-			data[instruction_text_begin...instruction_text_end]
+			data.byteslice(identifier_begin...identifier_end),
+			data.byteslice(instruction_text_begin...instruction_text_end)
 		)
 			end
 	when 25 then
-# line 124 "markup.rl"
+# line 123 "markup.rl"
 		begin
 
 		raise ParseError.new("could not parse instruction", buffer, p)
 			end
 	when 41 then
-# line 164 "markup.rl"
+# line 163 "markup.rl"
 		begin
 
 		delegate.open_tag_end(self_closing)
 			end
 	when 57 then
-# line 171 "markup.rl"
+# line 170 "markup.rl"
 		begin
 
-		delegate.close_tag(data[identifier_begin...identifier_end])
+		delegate.close_tag(data.byteslice(identifier_begin...identifier_end))
 			end
 	when 1 then
-# line 175 "markup.rl"
+# line 174 "markup.rl"
 		begin
 
 		raise ParseError.new("could not parse tag", buffer, p)
 			end
 	when 53 then
-# line 183 "markup.rl"
+# line 182 "markup.rl"
 		begin
 
 		cdata_end = p
 		
-		delegate.cdata(data[cdata_begin...cdata_end])
+		delegate.cdata(data.byteslice(cdata_begin...cdata_end))
 			end
 	when 24 then
-# line 189 "markup.rl"
+# line 188 "markup.rl"
 		begin
 
 		raise ParseError.new("could not parse cdata", buffer, p)
@@ -1606,7 +1607,7 @@ begin
 		begin
 
 			end
-# line 196 "markup.rl"
+# line 195 "markup.rl"
 		begin
 
 		delegate.text(pcdata)
@@ -1617,18 +1618,18 @@ begin
 
 		characters_end = p
 		
-		pcdata << data[characters_begin...characters_end]
+		pcdata << data.byteslice(characters_begin...characters_end)
 			end
 # line 36 "markup.rl"
 		begin
 
 			end
-# line 196 "markup.rl"
+# line 195 "markup.rl"
 		begin
 
 		delegate.text(pcdata)
 			end
-# line 1632 "markup.rb"
+# line 1633 "markup.rb"
 	  end
 	end
 
@@ -1639,9 +1640,9 @@ begin
 end
 	end
 
-# line 228 "markup.rl"
+# line 232 "markup.rl"
 			
-			if p != data.size
+			if p != eof
 				raise ParseError.new("could not consume all input", buffer, p)
 			end
 			

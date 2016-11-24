@@ -42,5 +42,4 @@ module Trenni
 			string.gsub(pattern) {|match| @tokens[match]}
 		end
 	end
-
 end

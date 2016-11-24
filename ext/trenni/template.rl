@@ -20,6 +20,10 @@
 		rb_funcall(delegate, rb_intern("instruction"), 2, Trenni_token(instruction), newline);
 	}
 	
+	action instruction_error {
+		Trenni_raise_error("failed to parse instruction", buffer, p-s);
+	}
+	
 	action expression_begin {
 		expression.begin = p;
 	}

@@ -43,7 +43,7 @@
 	action characters_end {
 		characters_end = p
 		
-		pcdata << data[characters_begin...characters_end]
+		pcdata << data.byteslice(characters_begin...characters_end)
 	}
 
 	action entity_error {
@@ -57,8 +57,7 @@
 	action entity_name {
 		entity_end = p
 		
-		name = data[entity_begin...entity_end]
-		puts "Entity: #{name.inspect} => #{entities[name]}"
+		name = data.byteslice(entity_begin...entity_end)
 		
 		pcdata << entities[name]
 	}
@@ -66,13 +65,13 @@
 	action entity_hex {
 		entity_end = p
 		
-		pcdata << data[entity_begin...entity_end].to_i(16)
+		pcdata << data.byteslice(entity_begin...entity_end).to_i(16)
 	}
 
 	action entity_number {
 		entity_end = p
 		
-		pcdata << data[entity_begin...entity_end].to_i(10)
+		pcdata << data.byteslice(entity_begin...entity_end).to_i(10)
 	}
 	
 	action doctype_begin {
@@ -82,7 +81,7 @@
 	action doctype_end {
 		doctype_end = p
 		
-		delegate.doctype(data[doctype_begin...doctype_end])
+		delegate.doctype(data.byteslice(doctype_begin...doctype_end))
 	}
 
 	action doctype_error {
@@ -96,7 +95,7 @@
 	action comment_end {
 		comment_end = p
 		
-		delegate.comment(data[comment_begin...comment_end])
+		delegate.comment(data.byteslice(comment_begin...comment_end))
 	}
 
 	action comment_error {
@@ -116,8 +115,8 @@
 
 	action instruction_end {
 		delegate.instruction(
-			data[identifier_begin...identifier_end],
-			data[instruction_text_begin...instruction_text_end]
+			data.byteslice(identifier_begin...identifier_end),
+			data.byteslice(instruction_text_begin...instruction_text_end)
 		)
 	}
 	
@@ -128,7 +127,7 @@
 	action tag_name {
 		self_closing = false
 		
-		delegate.open_tag_begin(data[identifier_begin...identifier_end])
+		delegate.open_tag_begin(data.byteslice(identifier_begin...identifier_end))
 	}
 
 	action tag_opening_begin {
@@ -158,7 +157,7 @@
 			value = true
 		end
 		
-		delegate.attribute(data[identifier_begin...identifier_end], value)
+		delegate.attribute(data.byteslice(identifier_begin...identifier_end), value)
 	}
 	
 	action tag_opening_end {
@@ -169,7 +168,7 @@
 	}
 
 	action tag_closing_end {
-		delegate.close_tag(data[identifier_begin...identifier_end])
+		delegate.close_tag(data.byteslice(identifier_begin...identifier_end))
 	}
 	
 	action tag_error {
@@ -183,7 +182,7 @@
 	action cdata_end {
 		cdata_end = p
 		
-		delegate.cdata(data[cdata_begin...cdata_end])
+		delegate.cdata(data.byteslice(cdata_begin...cdata_end))
 	}
 	
 	action cdata_error {
@@ -197,6 +196,9 @@
 		delegate.text(pcdata)
 	}
 	
+	# This magic ensures that we process bytes.
+	getkey bytes[p];
+	
 	include markup "trenni/markup.rl";
 }%%
 
@@ -208,9 +210,11 @@ module Trenni
 		
 		def self.parse_markup(buffer, delegate, entities)
 			data = buffer.read
+			bytes = data.bytes
 			
 			p = 0
-			eof = data.size
+			# Must set pe here or it gets incorrectly set to data.length
+			pe = eof = data.bytesize
 			stack = []
 			
 			pcdata = nil
@@ -226,7 +230,7 @@ module Trenni
 			%% write init;
 			%% write exec;
 			
-			if p != data.size
+			if p != eof
 				raise ParseError.new("could not consume all input", buffer, p)
 			end
 			

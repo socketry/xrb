@@ -3,6 +3,8 @@ require_relative 'parse_error'
 require_relative 'parser_delegate'
 
 begin
+	raise LoadError if ENV['USE_FALLBACK']
+	
 	require_relative 'native/trenni'
 	
 	Trenni::Parsers = Trenni::Native
