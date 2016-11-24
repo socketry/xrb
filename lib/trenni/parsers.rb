@@ -1,14 +1,10 @@
 
-require_relative 'parse_error'
+require_relative 'native'
 require_relative 'parser_delegate'
 
-begin
-	raise LoadError if ENV['USE_FALLBACK']
-	
-	require_relative 'native/trenni'
-	
+if defined? Trenni::Native and !ENV['TRENNI_PREFER_FALLBACK']
 	Trenni::Parsers = Trenni::Native
-rescue LoadError
+else
 	require_relative 'fallback/markup'
 	require_relative 'fallback/template'
 	

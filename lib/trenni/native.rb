@@ -1,4 +1,4 @@
-# Copyright, 2012, by Samuel G. D. Williams. <http://www.codeotaku.com>
+# Copyright, 2016, by Samuel G. D. Williams. <http://www.codeotaku.com>
 # 
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -18,6 +18,11 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-require_relative 'trenni/native'
-require_relative 'trenni/builder'
-require_relative 'trenni/template'
+require_relative 'parse_error'
+
+begin
+	# Load native code:
+	require_relative 'trenni'
+rescue LoadError
+	warn "Could not load native implementation: #{$!}" if $VERBOSE
+end

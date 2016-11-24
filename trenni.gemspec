@@ -9,12 +9,11 @@ Gem::Specification.new do |spec|
 	spec.authors       = ["Samuel Williams"]
 	spec.email         = ["samuel.williams@oriontransfer.co.nz"]
 	spec.description   = <<-EOF
-	Trenni is a templating system that evaluates textual strings containing Ruby
-	code. It compiles templates directly into native code which means that you
-	generally get the best possible performance.
-
+	Trenni is a templating system built on top of SGML/XML. It uses efficient
+	native parsers where possible and compiles templates into efficient Ruby.
+	
 	In addition, Trenni includes an SGML/XML builder to assist with the generation
-	of pleasantly formatted markup.
+	of pleasantly formatted markup which is compatible with the included parsers.
 	EOF
 	spec.summary       = %q{A fast native templating system that compiles directly to Ruby code.}
 	spec.homepage      = "https://github.com/ioquatix/trenni"

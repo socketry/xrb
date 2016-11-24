@@ -3,11 +3,11 @@ require 'mkmf'
 
 $CFLAGS << " -O3"
 
-# Give it a name
+gem_name = File.basename(__dir__)
 extension_name = 'trenni'
 
 # The destination
 dir_config(extension_name)
 
-# Do the work
-create_makefile(extension_name)
+# Generate the makefile to compile the native binary into `lib`:
+create_makefile(File.join(gem_name, extension_name))
