@@ -5,10 +5,10 @@
 #include "template.h"
 
 VALUE rb_Trenni = Qnil, rb_Trenni_Native = Qnil, rb_Trenni_ParseError = Qnil;
-ID id_cdata, id_open_tag_begin, id_open_tag_end, id_attribute, id_close_tag, id_text, id_doctype, id_comment, id_instruction, id_read;
+ID id_cdata, id_open_tag_begin, id_open_tag_end, id_attribute, id_close_tag, id_text, id_doctype, id_comment, id_instruction, id_read, id_expression;
 
 void Trenni_raise_error(const char * message, VALUE buffer, size_t offset) {
-	VALUE exception = rb_funcall(rb_Trenni_ParseError, rb_intern("new"), 3, rb_str_new_cstr(message), buffer, UINT2NUM(offset));
+	VALUE exception = rb_funcall(rb_Trenni_ParseError, rb_intern("new"), 3, rb_str_new_cstr(message), buffer, ULONG2NUM(offset));
 	
 	rb_exc_raise(exception);
 }
@@ -50,6 +50,7 @@ void Init_trenni() {
 	id_text = rb_intern("text");
 	id_doctype = rb_intern("doctype");
 	id_instruction = rb_intern("instruction");
+	id_expression = rb_intern("expression");
 	
 	id_read = rb_intern("read");
 	

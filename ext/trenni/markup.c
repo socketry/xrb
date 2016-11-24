@@ -241,7 +241,7 @@ tr101:
 tr104:
 #line 159 "markup.rl"
 	{
-		rb_funcall(delegate, id_close_tag, 1, Trenni_token(identifier));
+		rb_funcall(delegate, id_close_tag, 2, Trenni_token(identifier), ULONG2NUM(identifier.begin-s));
 	}
 #line 181 "markup.rl"
 	{
@@ -383,7 +383,7 @@ tr102:
 tr105:
 #line 159 "markup.rl"
 	{
-		rb_funcall(delegate, id_close_tag, 1, Trenni_token(identifier));
+		rb_funcall(delegate, id_close_tag, 2, Trenni_token(identifier), ULONG2NUM(identifier.begin-s));
 	}
 #line 181 "markup.rl"
 	{
@@ -630,7 +630,7 @@ tr103:
 tr106:
 #line 159 "markup.rl"
 	{
-		rb_funcall(delegate, id_close_tag, 1, Trenni_token(identifier));
+		rb_funcall(delegate, id_close_tag, 2, Trenni_token(identifier), ULONG2NUM(identifier.begin-s));
 	}
 #line 123 "markup.rl"
 	{
@@ -771,7 +771,7 @@ tr6:
 		// Reset self-closing state - we don't know yet.
 		self_closing = 0;
 		
-		rb_funcall(delegate, id_open_tag_begin, 1, Trenni_token(identifier));
+		rb_funcall(delegate, id_open_tag_begin, 2, Trenni_token(identifier), ULONG2NUM(identifier.begin-s));
 	}
 	goto st3;
 tr14:
@@ -901,7 +901,7 @@ tr7:
 		// Reset self-closing state - we don't know yet.
 		self_closing = 0;
 		
-		rb_funcall(delegate, id_open_tag_begin, 1, Trenni_token(identifier));
+		rb_funcall(delegate, id_open_tag_begin, 2, Trenni_token(identifier), ULONG2NUM(identifier.begin-s));
 	}
 #line 126 "markup.rl"
 	{
@@ -992,7 +992,7 @@ tr8:
 		// Reset self-closing state - we don't know yet.
 		self_closing = 0;
 		
-		rb_funcall(delegate, id_open_tag_begin, 1, Trenni_token(identifier));
+		rb_funcall(delegate, id_open_tag_begin, 2, Trenni_token(identifier), ULONG2NUM(identifier.begin-s));
 	}
 	goto st49;
 tr17:
@@ -1830,7 +1830,7 @@ case 45:
 	case 53: 
 #line 159 "markup.rl"
 	{
-		rb_funcall(delegate, id_close_tag, 1, Trenni_token(identifier));
+		rb_funcall(delegate, id_close_tag, 2, Trenni_token(identifier), ULONG2NUM(identifier.begin-s));
 	}
 	break;
 	case 1: 

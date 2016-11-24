@@ -127,7 +127,7 @@
 	action tag_name {
 		self_closing = false
 		
-		delegate.open_tag_begin(data.byteslice(identifier_begin...identifier_end))
+		delegate.open_tag_begin(data.byteslice(identifier_begin...identifier_end), identifier_begin)
 	}
 
 	action tag_opening_begin {
@@ -168,7 +168,7 @@
 	}
 
 	action tag_closing_end {
-		delegate.close_tag(data.byteslice(identifier_begin...identifier_end))
+		delegate.close_tag(data.byteslice(identifier_begin...identifier_end), identifier_begin)
 	}
 	
 	action tag_error {

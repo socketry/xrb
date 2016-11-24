@@ -117,7 +117,7 @@
 		// Reset self-closing state - we don't know yet.
 		self_closing = 0;
 		
-		rb_funcall(delegate, id_open_tag_begin, 1, Trenni_token(identifier));
+		rb_funcall(delegate, id_open_tag_begin, 2, Trenni_token(identifier), ULONG2NUM(identifier.begin-s));
 	}
 	
 	action tag_opening_begin {
@@ -157,7 +157,7 @@
 	}
 	
 	action tag_closing_end {
-		rb_funcall(delegate, id_close_tag, 1, Trenni_token(identifier));
+		rb_funcall(delegate, id_close_tag, 2, Trenni_token(identifier), ULONG2NUM(identifier.begin-s));
 	}
 	
 	action tag_error {

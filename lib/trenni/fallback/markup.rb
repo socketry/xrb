@@ -581,7 +581,7 @@ begin
 
 		self_closing = false
 		
-		delegate.open_tag_begin(data.byteslice(identifier_begin...identifier_end))
+		delegate.open_tag_begin(data.byteslice(identifier_begin...identifier_end), identifier_begin)
 			end
 	when 7 then
 # line 28 "markup.rl"
@@ -791,7 +791,7 @@ begin
 
 		self_closing = false
 		
-		delegate.open_tag_begin(data.byteslice(identifier_begin...identifier_end))
+		delegate.open_tag_begin(data.byteslice(identifier_begin...identifier_end), identifier_begin)
 			end
 # line 136 "markup.rl"
 		begin
@@ -1097,7 +1097,7 @@ begin
 # line 170 "markup.rl"
 		begin
 
-		delegate.close_tag(data.byteslice(identifier_begin...identifier_end))
+		delegate.close_tag(data.byteslice(identifier_begin...identifier_end), identifier_begin)
 			end
 # line 192 "markup.rl"
 		begin
@@ -1117,7 +1117,7 @@ begin
 # line 170 "markup.rl"
 		begin
 
-		delegate.close_tag(data.byteslice(identifier_begin...identifier_end))
+		delegate.close_tag(data.byteslice(identifier_begin...identifier_end), identifier_begin)
 			end
 # line 192 "markup.rl"
 		begin
@@ -1358,7 +1358,7 @@ begin
 # line 170 "markup.rl"
 		begin
 
-		delegate.close_tag(data.byteslice(identifier_begin...identifier_end))
+		delegate.close_tag(data.byteslice(identifier_begin...identifier_end), identifier_begin)
 			end
 # line 133 "markup.rl"
 		begin
@@ -1580,7 +1580,7 @@ begin
 # line 170 "markup.rl"
 		begin
 
-		delegate.close_tag(data.byteslice(identifier_begin...identifier_end))
+		delegate.close_tag(data.byteslice(identifier_begin...identifier_end), identifier_begin)
 			end
 	when 1 then
 # line 174 "markup.rl"

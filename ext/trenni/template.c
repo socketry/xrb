@@ -17,7 +17,7 @@ static const int Trenni_template_parser_en_main = 42;
 #line 50 "template.rl"
 
 
-void Trenni_Native_parse_template(VALUE self, VALUE buffer, VALUE delegate) {
+VALUE Trenni_Native_parse_template(VALUE self, VALUE buffer, VALUE delegate) {
 	VALUE string = rb_funcall(buffer, id_read, 0);
 	
 	rb_encoding *encoding = rb_enc_get(string);
@@ -30,7 +30,7 @@ void Trenni_Native_parse_template(VALUE self, VALUE buffer, VALUE delegate) {
 	const char * pe = p + RSTRING_LEN(string);
 	const char * eof = pe;
 	const char * ts, * te;
-
+	
 	unsigned long cs, act;
 	unsigned long top = 0;
 	unsigned long stack[32] = {0};
@@ -122,13 +122,13 @@ _resume:
 tr0:
 #line 43 "template.rl"
 	{{p = ((te))-1;}{
-		rb_funcall(delegate, rb_intern("text"), 1, Trenni_string(ts, te));
+		rb_funcall(delegate, id_text, 1, Trenni_string(ts, te));
 	}}
 	goto st42;
 tr5:
 #line 43 "template.rl"
 	{{p = ((te))-1;}{
-		rb_funcall(delegate, rb_intern("text"), 1, Trenni_string(ts, te));
+		rb_funcall(delegate, id_text, 1, Trenni_string(ts, te));
 	}}
 	goto st42;
 tr9:
@@ -138,7 +138,7 @@ tr9:
 	}
 #line 43 "template.rl"
 	{{p = ((te))-1;}{
-		rb_funcall(delegate, rb_intern("text"), 1, Trenni_string(ts, te));
+		rb_funcall(delegate, id_text, 1, Trenni_string(ts, te));
 	}}
 	goto st42;
 tr17:
@@ -146,17 +146,17 @@ tr17:
 	{	switch( act ) {
 	case 1:
 	{{p = ((te))-1;}
-		rb_funcall(delegate, rb_intern("instruction"), 2, Trenni_token(instruction), newline);
+		rb_funcall(delegate, id_instruction, 2, Trenni_token(instruction), newline);
 	}
 	break;
 	case 3:
 	{{p = ((te))-1;}
-		rb_funcall(delegate, rb_intern("instruction"), 1, Trenni_token(instruction));
+		rb_funcall(delegate, id_instruction, 1, Trenni_token(instruction));
 	}
 	break;
 	case 5:
 	{{p = ((te))-1;}
-		rb_funcall(delegate, rb_intern("text"), 1, Trenni_string(ts, te));
+		rb_funcall(delegate, id_text, 1, Trenni_string(ts, te));
 	}
 	break;
 	}
@@ -165,13 +165,13 @@ tr17:
 tr80:
 #line 43 "template.rl"
 	{te = p;p--;{
-		rb_funcall(delegate, rb_intern("text"), 1, Trenni_string(ts, te));
+		rb_funcall(delegate, id_text, 1, Trenni_string(ts, te));
 	}}
 	goto st42;
 tr83:
 #line 43 "template.rl"
 	{te = p;p--;{
-		rb_funcall(delegate, rb_intern("text"), 1, Trenni_string(ts, te));
+		rb_funcall(delegate, id_text, 1, Trenni_string(ts, te));
 	}}
 	goto st42;
 tr85:
@@ -846,7 +846,7 @@ tr70:
 	}
 #line 35 "template.rl"
 	{
-		rb_funcall(delegate, rb_intern("expression"), 1, Trenni_token(expression));
+		rb_funcall(delegate, id_expression, 1, Trenni_token(expression));
 	}
 #line 19 "/Users/samuel/Documents/Programming/ioquatix/trenni/parsers/trenni/template.rl"
 	{cs = 42;}
@@ -881,7 +881,7 @@ tr64:
 	}
 #line 35 "template.rl"
 	{
-		rb_funcall(delegate, rb_intern("expression"), 1, Trenni_token(expression));
+		rb_funcall(delegate, id_expression, 1, Trenni_token(expression));
 	}
 #line 19 "/Users/samuel/Documents/Programming/ioquatix/trenni/parsers/trenni/template.rl"
 	{cs = 42;}
@@ -938,7 +938,7 @@ tr76:
 	}
 #line 35 "template.rl"
 	{
-		rb_funcall(delegate, rb_intern("expression"), 1, Trenni_token(expression));
+		rb_funcall(delegate, id_expression, 1, Trenni_token(expression));
 	}
 #line 19 "/Users/samuel/Documents/Programming/ioquatix/trenni/parsers/trenni/template.rl"
 	{cs = 42;}
@@ -959,7 +959,7 @@ tr58:
 	}
 #line 35 "template.rl"
 	{
-		rb_funcall(delegate, rb_intern("expression"), 1, Trenni_token(expression));
+		rb_funcall(delegate, id_expression, 1, Trenni_token(expression));
 	}
 #line 19 "/Users/samuel/Documents/Programming/ioquatix/trenni/parsers/trenni/template.rl"
 	{cs = 42;}
@@ -1086,4 +1086,6 @@ case 55:
 	if (p != eof) {
 		Trenni_raise_error("could not parse all input", buffer, p-s);
 	}
+	
+	return Qnil;
 }

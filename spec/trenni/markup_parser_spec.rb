@@ -46,7 +46,7 @@ RSpec.describe "<br/>" do
 	
 	it "should parse self-closing tag" do
 		expect(events).to be == [
-			[:open_tag_begin, "br"],
+			[:open_tag_begin, "br", 1],
 			[:open_tag_end, true],
 		]
 	end
@@ -87,7 +87,7 @@ RSpec.describe "<tag key=\"A&amp;B\" />" do
 	
 	it "should parse escaped attributes" do
 		expect(events).to be == [
-			[:open_tag_begin, "tag"],
+			[:open_tag_begin, "tag", 1],
 			[:attribute, "key", "A&B"],
 			[:open_tag_end, true],
 		]
@@ -99,12 +99,12 @@ RSpec.describe "<foo bar=\"20\" baz>Hello World</foo>" do
 	
 	it "should parse tag with content" do
 		expect(events).to be == [
-			[:open_tag_begin, "foo"],
+			[:open_tag_begin, "foo", 1],
 			[:attribute, "bar", "20"],
 			[:attribute, "baz", true],
 			[:open_tag_end, false],
 			[:text, "Hello World"],
-			[:close_tag, "foo"],
+			[:close_tag, "foo", 31],
 		]
 	end
 end
@@ -114,10 +114,10 @@ RSpec.describe "<test><![CDATA[Hello World]]></test>" do
 	
 	it "should parse CDATA" do
 		expect(events).to be == [
-			[:open_tag_begin, "test"],
+			[:open_tag_begin, "test", 1],
 			[:open_tag_end, false],
 			[:cdata, "<![CDATA[Hello World]]>"],
-			[:close_tag, "test"],
+			[:close_tag, "test", 31],
 		]
 	end
 end
@@ -127,7 +127,7 @@ RSpec.describe "<foo bar=\"\" baz />" do
 	
 	it "should parse empty attributes" do
 		expect(events).to be == [
-			[:open_tag_begin, "foo"],
+			[:open_tag_begin, "foo", 1],
 			[:attribute, "bar", ""],
 			[:attribute, "baz", true],
 			[:open_tag_end, true],

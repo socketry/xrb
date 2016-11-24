@@ -13,11 +13,11 @@
 	}
 	
 	action emit_instruction {
-		rb_funcall(delegate, rb_intern("instruction"), 1, Trenni_token(instruction));
+		rb_funcall(delegate, id_instruction, 1, Trenni_token(instruction));
 	}
 	
 	action emit_instruction_line {
-		rb_funcall(delegate, rb_intern("instruction"), 2, Trenni_token(instruction), newline);
+		rb_funcall(delegate, id_instruction, 2, Trenni_token(instruction), newline);
 	}
 	
 	action instruction_error {
@@ -33,7 +33,7 @@
 	}
 	
 	action emit_expression {
-		rb_funcall(delegate, rb_intern("expression"), 1, Trenni_token(expression));
+		rb_funcall(delegate, id_expression, 1, Trenni_token(expression));
 	}
 	
 	action expression_error {
@@ -41,7 +41,7 @@
 	}
 	
 	action emit_text {
-		rb_funcall(delegate, rb_intern("text"), 1, Trenni_string(ts, te));
+		rb_funcall(delegate, id_text, 1, Trenni_string(ts, te));
 	}
 	
 	include template "trenni/template.rl";
@@ -49,7 +49,7 @@
 	write data;
 }%%
 
-void Trenni_Native_parse_template(VALUE self, VALUE buffer, VALUE delegate) {
+VALUE Trenni_Native_parse_template(VALUE self, VALUE buffer, VALUE delegate) {
 	VALUE string = rb_funcall(buffer, id_read, 0);
 	
 	rb_encoding *encoding = rb_enc_get(string);
@@ -62,7 +62,7 @@ void Trenni_Native_parse_template(VALUE self, VALUE buffer, VALUE delegate) {
 	const char * pe = p + RSTRING_LEN(string);
 	const char * eof = pe;
 	const char * ts, * te;
-
+	
 	unsigned long cs, act;
 	unsigned long top = 0;
 	unsigned long stack[32] = {0};
@@ -77,4 +77,6 @@ void Trenni_Native_parse_template(VALUE self, VALUE buffer, VALUE delegate) {
 	if (p != eof) {
 		Trenni_raise_error("could not parse all input", buffer, p-s);
 	}
+	
+	return Qnil;
 }
