@@ -1,6 +1,6 @@
 
 require_relative 'native'
-require_relative 'parser_delegate'
+require_relative 'parse_delegate'
 
 if defined? Trenni::Native and !ENV['TRENNI_PREFER_FALLBACK']
 	Trenni::Parsers = Trenni::Native

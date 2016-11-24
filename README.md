@@ -1,10 +1,8 @@
 # Trenni
 
-Trenni is a templating system that evaluates textual strings containing Ruby
-code. It compiles templates directly into native code, which produces performance 20x faster than ERB.
+Trenni is a templating system built on top of SGML/XML. It uses efficient native parsers where possible and compiles templates into efficient Ruby.
 
-In addition, Trenni includes an SGML/XML builder to assist with the generation
-of pleasantly formatted markup.
+In addition, Trenni includes an SGML/XML builder to assist with the generation of pleasantly formatted markup which is compatible with the included parsers.
 
 [![Build Status](https://secure.travis-ci.org/ioquatix/trenni.svg)](http://travis-ci.org/ioquatix/trenni)
 [![Code Climate](https://codeclimate.com/github/ioquatix/trenni.svg)](https://codeclimate.com/github/ioquatix/trenni)
@@ -18,7 +16,9 @@ At the time (around 2008?) I was playing around with [ramaze](https://github.com
 
 More recently I was doing some investigation regarding using `eval` for executing the code. The problem is that it's [not possible to replace the binding](http://stackoverflow.com/questions/27391909/replace-evalcode-string-binding-with-lambda/27392437) of a `Proc` once it's created, so template engines that evaluate code in a given binding cannot use a compiled proc, they must parse the code every time. By using a `Proc` we can generate a Ruby function which *can* be compiled to a faster representation by the VM.
 
-In addition, I wanted a simple parser and builder for HTML style markup. These are used heavily by Utopia for implementing it's tag based evaluation. The (event based) `Trenni::Parser` is designed so that some day it could be easily written in C. `Trenni::Builder` is a simple and efficient way to generate markup, it's not particularly notable, except that it doesn't use `method_missing` to [implement normal behaviour](https://github.com/sparklemotion/nokogiri/blob/b6679e928924529b56dcc0f3164224c040d14555/lib/nokogiri/xml/builder.rb#L355) which is [sort of slow](http://franck.verrot.fr/blog/2015/07/12/benchmarking-ruby-method-missing-and-define-method/).
+In addition, I wanted a simple markup parser and builder for HTML style markup. These are used heavily by Utopia for implementing it's tag based evaluation. `Trenni::Builder` is a simple and efficient way to generate markup, it's not particularly notable, except that it doesn't use `method_missing` to [implement normal behaviour](https://github.com/sparklemotion/nokogiri/blob/b6679e928924529b56dcc0f3164224c040d14555/lib/nokogiri/xml/builder.rb#L355) which is [sort of slow](http://franck.verrot.fr/blog/2015/07/12/benchmarking-ruby-method-missing-and-define-method/).
+
+The 2nd release of Trenni in 2016 saw an overhaul of the internal parsers. I used [Ragel](http://www.colm.net/open-source/ragel/) to implement efficient event-based markup and template parsers, which can be compiled to both C and Ruby. This provides a native code path where possible giving speed-ups between 10x - 20x. In addition, the formal grammar is more robust.
 
 ## Installation
 
@@ -36,20 +36,75 @@ Or install it yourself as:
 
 ## Usage
 
+### Markup Parser
+
+The markup parser parses a loose super-set of HTML in a way that's useful for content processing, similar to an XSLT processor. It's designed to be faster and easier to use, and integrate directly into an output pipeline.
+
+To invoke the markup parser:
+
+	require 'trenni'
+	
+	buffer = Trenni::Buffer(string)
+	
+	# Custom entities, or could use Trenni::Entities::HTML5
+	entities = {'amp' => '&', 'lt', => '<', 'gt' => '>', 'quot' => '"'}
+	
+	# Modify this class to accumulate events or pass them on somewhere else.
+	class Delegate
+		# Called with the full doctype: '<!DOCTYPE html>'
+		def doctype(string)
+		end
+		
+		# Called with the full comment: '<!-- comment -->'
+		def comment(string)
+		end
+		
+		# Called with the parsed instruction: '<?' identifier space+ body '?>'
+		def instruction(identifier, body)
+		end
+		
+		# Called when encountering an open tag: `<` name
+		def open_tag_begin(name)
+		end
+		
+		# Called when encountering an attribute after open_tag_begin
+		def attribute(key, value)
+		end
+		
+		# Called when encountering the end of the opening tag.
+		def open_tag_end(self_closing)
+		end
+		
+		# Called when encountering the closing tag: '</' name '>'
+		def close_tag(name)
+		end
+		
+		# Called with a cdata block: '<![CDATA[text]]>'
+		def cdata(string)
+		end
+		
+		# Called with any arbitrary pcdata text (e.g. between tags).
+		def text(string)
+		end
+	end
+	
+	# Do the actual work:
+	Trenni::Parsers.parse_markup(buffer, Delegate.new, entities)
+
 ### Templates
 
 Trenni templates work essentially the same way as all other templating systems:
 
-	buffer = Trenni::Buffer.new('<?r items.each do |item| ?>#{item}<?r end ?>')
+	buffer = Trenni::Buffer('<?r self.each do |item| ?>#{item}<?r end ?>')
 	template = Trenni::Template.new(buffer)
 		
 	items = 1..4
 		
-	template.to_string(binding) # => "1234"
+	template.to_string(items) # => "1234"
 	
 The code above demonstrate the only two constructs, `<?r expression ?>` and `#{output}`.
 
-Trenni provides a slightly higher performance API using objects rather than bindings. If you provide an object instance, `instance_eval` would be used instead.
+Trenni doesn't support using `binding` for evaluation, as this is a slow code path. It uses `instance_exec`
 
 ### Builder
 
@@ -73,6 +128,16 @@ Trenni can help construct XML/HTML using a simple DSL:
 There is a [language-trenni](https://atom.io/packages/language-trenni) package for the [Atom text editor](https://atom.io). It provides syntax highlighting and integration when Trenni is used with the [utopia web framework](https://github.com/ioquatix/utopia).
 
 [Trenni Formatters](https://github.com/ioquatix/trenni-formatters) is a separate gem that uses `Trenni::Builder` to generate HTML forms easily.
+
+### Testing
+
+To test the Ruby parsers:
+
+	rake generate_fallback_parsers && TRENNI_PREFER_FALLBACK=y rspec
+
+To test the native C parsers:
+
+	rake generate_native_parsers && rake compile && rspec
 
 ## Contributing
 

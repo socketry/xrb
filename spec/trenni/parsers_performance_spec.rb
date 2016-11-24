@@ -29,7 +29,7 @@ RSpec.describe Trenni::Parsers do
 	it "should be fast to parse large documents" do
 		Benchmark.ips do |x|
 			x.report("Large Document") do |times|
-				delegate = Trenni::ParserDelegate.new
+				delegate = Trenni::ParseDelegate.new
 				
 				while (times -= 1) >= 0
 					Trenni::Parsers.parse_markup(xhtml_buffer, delegate, entities)

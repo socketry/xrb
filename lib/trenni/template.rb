@@ -96,8 +96,8 @@ module Trenni
 		alias evaluate to_string
 		alias result to_string
 		
-		def to_proc
-			@compiled_proc ||= eval("proc{|#{OUT}|;#{code};#{OUT}}", binding, @buffer.path)
+		def to_proc(scope = nil)
+			@compiled_proc ||= eval("proc{|#{OUT}|;#{code};#{OUT}}", scope, @buffer.path)
 		end
 		
 		protected

@@ -16,5 +16,4 @@ test/tmp
 test/version_tmp
 tmp
 
-lib/trenni/native
-
+lib/trenni/trenni.bundle

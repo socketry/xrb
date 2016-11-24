@@ -47,7 +47,7 @@ end
 require "rake/extensiontask"
 
 Rake::ExtensionTask.new "trenni" do |ext|
-	ext.lib_dir = "lib/trenni/native"
+	ext.lib_dir = "lib/trenni"
 end
 
 PARSERS_DIRECTORY = File.expand_path("parsers", __dir__)

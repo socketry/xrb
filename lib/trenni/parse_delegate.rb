@@ -20,12 +20,18 @@
 
 module Trenni
 	# This is a sample delegate for capturing all events. It's only use is for testing.
-	class ParserDelegate
+	class ParseDelegate
 		def initialize
+			@scanner = nil
 			@events = []
 		end
 		
+		attr :scanner
 		attr :events
+		
+		def begin_parse(scanner)
+			@scanner = scanner
+		end
 		
 		def method_missing(*args)
 			@events << args

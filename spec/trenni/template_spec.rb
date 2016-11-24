@@ -80,7 +80,7 @@ RSpec.describe Trenni::Template do
 end
 
 RSpec.shared_examples "template parser" do
-	let(:delegate) {Trenni::ParserDelegate.new}
+	let(:delegate) {Trenni::ParseDelegate.new}
 	
 	it "should fail to parse incomplete expression" do
 		buffer = Trenni::Buffer.new('<img src="#{poi_product.photo.thumbnail_url" />')

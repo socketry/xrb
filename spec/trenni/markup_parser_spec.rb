@@ -25,9 +25,8 @@ require 'trenni/entities'
 require 'trenni/template'
 require 'trenni/markup'
 
-
 RSpec.shared_context "html parsers" do
-	let(:delegate) {Trenni::ParserDelegate.new}
+	let(:delegate) {Trenni::ParseDelegate.new}
 	let(:buffer) {Trenni::Buffer(subject)}
 	let(:parsers) {Trenni::Parsers}
 	let(:entities) {Trenni::Entities::HTML5}
