@@ -95,18 +95,19 @@
 	}
 	
 	action instruction_begin {
+		instruction.begin = p;
 	}
 	
 	action instruction_text_begin {
-		instruction_text.begin = p;
 	}
 	
 	action instruction_text_end {
-		instruction_text.end = p;
 	}
 
 	action instruction_end {
-		rb_funcall(delegate, id_instruction, 2, Trenni_token(identifier), Trenni_token(instruction_text));
+		instruction.end = p;
+		
+		rb_funcall(delegate, id_instruction, 1, Trenni_token(instruction));
 	}
 	
 	action instruction_error {
@@ -211,7 +212,7 @@ VALUE Trenni_Native_parse_markup(VALUE self, VALUE buffer, VALUE delegate, VALUE
 	unsigned long top = 0;
 	unsigned long stack[2] = {0};
 	
-	Token identifier, cdata, characters, entity, doctype, comment, instruction_text;
+	Token identifier, cdata, characters, entity, doctype, comment, instruction;
 	unsigned self_closing = 0, has_value = 0;
 	
 	%%{

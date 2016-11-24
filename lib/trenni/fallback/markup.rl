@@ -103,21 +103,17 @@
 	}
 	
 	action instruction_begin {
+		instruction_begin = p
 	}
 
 	action instruction_text_begin {
-		instruction_text_begin = p
 	}
 
 	action instruction_text_end {
-		instruction_text_end = p
 	}
 
 	action instruction_end {
-		delegate.instruction(
-			data.byteslice(identifier_begin...identifier_end),
-			data.byteslice(instruction_text_begin...instruction_text_end)
-		)
+		delegate.instruction(data.byteslice(instruction_begin, p-instruction_begin))
 	}
 	
 	action instruction_error {
@@ -223,7 +219,7 @@ module Trenni
 			identifier_begin = identifier_end = nil
 			doctype_begin = doctype_end = nil
 			comment_begin = comment_end = nil
-			instruction_text_begin = instruction_text_end = nil
+			instruction_begin = instruction_end = nil
 			cdata_begin = cdata_end = nil
 			has_value = false
 			

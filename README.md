@@ -51,20 +51,8 @@ To invoke the markup parser:
 	
 	# Modify this class to accumulate events or pass them on somewhere else.
 	class Delegate
-		# Called with the full doctype: '<!DOCTYPE html>'
-		def doctype(string)
-		end
-		
-		# Called with the full comment: '<!-- comment -->'
-		def comment(string)
-		end
-		
-		# Called with the parsed instruction: '<?' identifier space+ body '?>'
-		def instruction(identifier, body)
-		end
-		
 		# Called when encountering an open tag: `<` name
-		def open_tag_begin(name)
+		def open_tag_begin(name, offset)
 		end
 		
 		# Called when encountering an attribute after open_tag_begin
@@ -76,7 +64,19 @@ To invoke the markup parser:
 		end
 		
 		# Called when encountering the closing tag: '</' name '>'
-		def close_tag(name)
+		def close_tag(name, offset)
+		end
+		
+		# Called with the full doctype: '<!DOCTYPE html>'
+		def doctype(string)
+		end
+		
+		# Called with the full comment: '<!-- comment -->'
+		def comment(string)
+		end
+		
+		# Called with the parsed instruction: '<?' identifier space+ body '?>'
+		def instruction(string)
 		end
 		
 		# Called with a cdata block: '<![CDATA[text]]>'
