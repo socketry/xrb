@@ -1,7 +1,7 @@
 # Loads mkmf which is used to make makefiles for Ruby extensions
 require 'mkmf'
 
-$CFLAGS << " -O3"
+$CFLAGS << " -O3 -std=c99"
 
 gem_name = File.basename(__dir__)
 extension_name = 'trenni'
