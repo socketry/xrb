@@ -57,7 +57,7 @@ module Trenni
 			# This field gets togged in #inline so we keep track of it separately from @indentation.
 			@indent = true
 			
-			@output = output || String.new(encoding: Encoding::UTF_8)
+			@output = output || String.new.force_encoding(Encoding::UTF_8)
 			
 			@level = [0]
 			@children = [0]

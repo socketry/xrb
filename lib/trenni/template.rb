@@ -30,7 +30,7 @@ module Trenni
 			scope = block.binding
 			output_buffer = scope.local_variable_get(OUT)
 			
-			capture_buffer = String.new(encoding: output_buffer.encoding)
+			capture_buffer = String.new.force_encoding(output_buffer.encoding)
 			scope.local_variable_set(OUT, capture_buffer)
 			
 			begin
@@ -48,8 +48,8 @@ module Trenni
 		end
 		
 		class Assembler
-			def initialize(filter: String)
-				@code = String.new(encoding: Encoding::UTF_8)
+			def initialize(filter: String, encoding: Encoding::UTF_8)
+				@code = String.new.force_encoding(encoding)
 				@filter = filter
 			end
 
@@ -85,7 +85,7 @@ module Trenni
 		end
 
 		def to_string(scope = Object.new, output = nil)
-			output ||= String.new(encoding: Encoding::UTF_8)
+			output ||= String.new.force_encoding(code.encoding)
 			
 			scope.instance_exec(output, &to_proc)
 		end
