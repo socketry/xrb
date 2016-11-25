@@ -22,7 +22,7 @@ end
 RSpec.describe Trenni::Parsers do
 	# include_context "profile"
 	
-	let(:xhtml_path) {File.expand_path('performance_spec/large.xhtml', __dir__)}
+	let(:xhtml_path) {File.expand_path('corpus/large.xhtml', __dir__)}
 	let(:xhtml_buffer) {Trenni::FileBuffer.new(xhtml_path)}
 	let(:entities) {Trenni::Entities::HTML5}
 	

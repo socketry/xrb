@@ -67,7 +67,7 @@ RSpec.describe "<?r foo=bar?>" do
 	
 	it "should parse instruction" do
 		expect(events).to be == [
-			[:instruction, "r", "foo=bar"]
+			[:instruction, "<?r foo=bar?>"]
 		]
 	end
 end
@@ -176,7 +176,7 @@ RSpec.shared_examples "valid markup file" do |base|
 	end
 end
 
-RSpec.describe "performance_spec/large" do
+RSpec.describe "corpus/large" do
 	it_behaves_like "valid markup file", description
 end
 

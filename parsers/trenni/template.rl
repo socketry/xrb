@@ -2,6 +2,8 @@
 	machine template;
 	
 	unicode = any - ascii;
+	identifier = (unicode | [a-zA-Z0-9\-_\.:])+;
+	
 	newline = [\n];
 	
 	expression_start = '#{' %expression_begin;
@@ -33,6 +35,10 @@
 	
 	instruction_line = (space - newline)* instruction space* newline;
 	
+	other_instruction = '<?' (
+		(identifier - 'r') space+ (any - [?] | '?' [^>])* '?>'
+	) @err(instruction_error);
+	
 	main := |*
 		# Matches a full instruction line (consume whitespace and newline):
 		instruction_line => emit_instruction_line;
@@ -45,6 +51,8 @@
 		
 		# Matches a single expression: #{foo}
 		expression_start => {fnext parse_expression;};
+		
+		other_instruction => emit_text;
 		
 		# Matches text:
 		text => emit_text;

@@ -1,7 +1,7 @@
 [
-	[:instruction, "xml", "version=\"1.0\" encoding=\"UTF-8\""],
+	[:instruction, "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"],
 	[:text, "\n"],
-	[:instruction, "xml-stylesheet", "href=\"xhtml.css\" type=\"text/css\" media=\"screen, aural, print\" "],
+	[:instruction, "<?xml-stylesheet href=\"xhtml.css\" type=\"text/css\" media=\"screen, aural, print\" ?>"],
 	[:text, "\n"],
 	[:doctype, "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\"\n\t\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">"],
 	[:text, "\n"],

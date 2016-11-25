@@ -25,6 +25,17 @@ require 'trenni/parsers'
 require 'benchmark'
 
 RSpec.describe Trenni::Template do
+	let(:template_path) {File.expand_path('corpus/large.xhtml', __dir__)}
+	let(:template) {Trenni::Template.load_file template_path}
+	let(:output) {template.to_string}
+	
+	it "should parse xhtml template and produce identical output" do
+		expect{output}.to_not raise_error
+		expect(output).to be == File.read(template_path)
+	end
+end
+
+RSpec.describe Trenni::Template do
 	let(:capture_template) {Trenni::Template.load_file File.expand_path('template_spec/capture.trenni', __dir__)}
 	
 	it "should be able to capture output" do

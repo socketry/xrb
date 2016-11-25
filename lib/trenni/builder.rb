@@ -53,11 +53,11 @@ module Trenni
 			end
 		end
 		
-		def initialize(output = String.new)
+		def initialize(output = nil)
 			# This field gets togged in #inline so we keep track of it separately from @indentation.
 			@indent = true
 			
-			@output = output
+			@output = output || String.new(encoding: Encoding::UTF_8)
 			
 			@level = [0]
 			@children = [0]
