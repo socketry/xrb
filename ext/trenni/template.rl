@@ -55,7 +55,7 @@ VALUE Trenni_Native_parse_template(VALUE self, VALUE buffer, VALUE delegate) {
 	rb_encoding *encoding = rb_enc_get(string);
 	
 	VALUE newline = rb_enc_str_new("\n", 1, encoding);
-	rb_obj_freeze_inline(newline);
+	rb_obj_freeze(newline);
 	
 	const char * s = RSTRING_PTR(string);
 	const char * p = s;

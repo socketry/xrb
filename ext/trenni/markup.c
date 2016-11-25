@@ -26,7 +26,7 @@ VALUE Trenni_Native_parse_markup(VALUE self, VALUE buffer, VALUE delegate, VALUE
 	VALUE pcdata = Qnil;
 	
 	VALUE empty_string = rb_enc_str_new("", 0, encoding);
-	rb_obj_freeze_inline(empty_string);
+	rb_obj_freeze(empty_string);
 	
 	const char * s = RSTRING_PTR(string);
 	const char * p = s;
