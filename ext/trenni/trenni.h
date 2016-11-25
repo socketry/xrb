@@ -13,11 +13,11 @@ typedef struct {
 	const char * end;
 } Token;
 
-inline VALUE Trenni_token(Token token) {
+static inline VALUE Trenni_token(Token token) {
 	return rb_str_new(token.begin, token.end - token.begin);
 }
 
-inline VALUE Trenni_string(const char * begin, const char * end) {
+static inline VALUE Trenni_string(const char * begin, const char * end) {
 	return rb_str_new(begin, end - begin);
 }
 
