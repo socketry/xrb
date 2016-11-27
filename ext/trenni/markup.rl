@@ -43,16 +43,15 @@
 	action entity_name {
 		entity.end = p;
 		
-		VALUE result = rb_funcall(entities, rb_intern("[]"), 1, Trenni_token(entity));
-		
-		Trenni_append_string(&pcdata, encoding, result);
+		Trenni_append_string(&pcdata, encoding, 
+			rb_funcall(entities, rb_intern("[]"), 1, Trenni_token(entity))
+		);
 	}
 	
 	action entity_hex {
 		entity.end = p;
 		
-		char * end = (char *)entity.end;
-		unsigned long codepoint = strtoul(entity.begin, &end, 16);
+		codepoint = strtoul(entity.begin, (char **)&entity.end, 16);
 		
 		Trenni_append_codepoint(&pcdata, encoding, codepoint);
 	}
@@ -60,8 +59,7 @@
 	action entity_number {
 		entity.end = p;
 		
-		char * end = (char *)entity.end;
-		unsigned long codepoint = strtoul(entity.begin, &end, 10);
+		codepoint = strtoul(entity.begin, (char **)&entity.end, 10);
 		
 		Trenni_append_codepoint(&pcdata, encoding, codepoint);
 	}
@@ -200,20 +198,17 @@ VALUE Trenni_Native_parse_markup(VALUE self, VALUE buffer, VALUE delegate, VALUE
 	
 	VALUE pcdata = Qnil;
 	
-	VALUE empty_string = rb_enc_str_new("", 0, encoding);
-	rb_obj_freeze(empty_string);
+	VALUE empty_string = rb_obj_freeze(rb_enc_str_new("", 0, encoding));
 	
-	const char * s = RSTRING_PTR(string);
-	const char * p = s;
-	const char * pe = p + RSTRING_LEN(string);
-	const char * eof = pe;
-
-	unsigned long cs;
-	unsigned long top = 0;
-	unsigned long stack[2] = {0};
+	const char *s, *p, *pe, *eof;
+	unsigned long cs, top = 0, stack[2] = {0};
+	unsigned long codepoint = 0;
 	
-	Token identifier, cdata, characters, entity, doctype, comment, instruction;
+	Token identifier = {0}, cdata = {0}, characters = {0}, entity = {0}, doctype = {0}, comment = {0}, instruction = {0};
 	unsigned self_closing = 0, has_value = 0;
+	
+	s = p = RSTRING_PTR(string);
+	eof = pe = p + RSTRING_LEN(string);
 	
 	%%{
 		write init;

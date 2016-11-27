@@ -54,20 +54,15 @@ VALUE Trenni_Native_parse_template(VALUE self, VALUE buffer, VALUE delegate) {
 	
 	rb_encoding *encoding = rb_enc_get(string);
 	
-	VALUE newline = rb_enc_str_new("\n", 1, encoding);
-	rb_obj_freeze(newline);
+	VALUE newline = rb_obj_freeze(rb_enc_str_new("\n", 1, encoding));
 	
-	const char * s = RSTRING_PTR(string);
-	const char * p = s;
-	const char * pe = p + RSTRING_LEN(string);
-	const char * eof = pe;
-	const char * ts, * te;
+	const char *s, *p, *pe, *eof, *ts, *te;
+	unsigned long cs, act, top = 0, stack[32] = {0};
 	
-	unsigned long cs, act;
-	unsigned long top = 0;
-	unsigned long stack[32] = {0};
+	Token expression = {0}, instruction = {0};
 	
-	Token instruction, expression;
+	s = p = RSTRING_PTR(string);
+	eof = pe = p + RSTRING_LEN(string);
 	
 	%%{
 		write init;
