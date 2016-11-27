@@ -84,8 +84,8 @@ module Trenni
 			@filter = filter
 		end
 
-		def to_string(scope = Object.new, output = nil)
-			output ||= String.new.force_encoding(code.encoding)
+		def to_string(scope = Object.new, output = output_buffer)
+			output ||= output_buffer
 			
 			scope.instance_exec(output, &to_proc)
 		end
@@ -104,6 +104,10 @@ module Trenni
 		
 		protected
 		
+		def output_buffer
+			String.new.force_encoding(code.encoding)
+		end
+		
 		def code
 			@code ||= compile!
 		end
@@ -120,6 +124,11 @@ module Trenni
 	class MarkupTemplate < Template
 		def initialize(buffer, filter: MarkupString)
 			super
+		end
+		
+		# The output of the markup template is encoded markup (e.g. with entities, tags, etc)
+		def output_buffer
+			MarkupString.new.force_encoding(code.encoding)
 		end
 	end
 end

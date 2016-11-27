@@ -48,10 +48,17 @@ module Trenni
 		ESCAPE = Substitutions.new("&" => "&amp;", "<" => "&lt;", ">" => "&gt;", "\"" => "&quot;")
 		
 		# Convert ESCAPE characters into their corresponding entities.
-		def initialize(string)
-			super
-			
-			ESCAPE.gsub!(self)
+		def initialize(string = nil, escape = true)
+			if string
+				super(string)
+				ESCAPE.gsub!(self) if escape
+			else
+				super()
+			end
+		end
+		
+		def self.raw(string)
+			self.new(string, false)
 		end
 	end
 	
