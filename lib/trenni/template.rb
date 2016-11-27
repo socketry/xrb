@@ -95,10 +95,6 @@ module Trenni
 			Buffer.new(to_string(scope), path: @buffer.path)
 		end
 
-		# Legacy functions:
-		alias evaluate to_string
-		alias result to_string
-		
 		def to_proc(scope = nil)
 			@compiled_proc ||= eval("proc{|#{OUT}|;#{code};#{OUT}}", scope, @buffer.path)
 		end
