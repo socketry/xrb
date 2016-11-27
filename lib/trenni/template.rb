@@ -71,7 +71,8 @@ module Trenni
 			
 			# Output a string interpolation.
 			def expression(text)
-				@code << "#{OUT}<<#{@filter}(#{text});"
+				# Double brackets are required here to handle expressions like #{foo rescue "bar"}.
+				@code << "#{OUT}<<#{@filter}((#{text}));"
 			end
 		end
 		
