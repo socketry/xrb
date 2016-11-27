@@ -13,11 +13,11 @@
 	}
 	
 	action emit_instruction {
-		rb_funcall(delegate, id_instruction, 1, Trenni_token(instruction));
+		rb_funcall(delegate, id_instruction, 1, Trenni_token(instruction, encoding));
 	}
 	
 	action emit_instruction_line {
-		rb_funcall(delegate, id_instruction, 2, Trenni_token(instruction), newline);
+		rb_funcall(delegate, id_instruction, 2, Trenni_token(instruction, encoding), newline);
 	}
 	
 	action instruction_error {
@@ -33,7 +33,7 @@
 	}
 	
 	action emit_expression {
-		rb_funcall(delegate, id_expression, 1, Trenni_token(expression));
+		rb_funcall(delegate, id_expression, 1, Trenni_token(expression, encoding));
 	}
 	
 	action expression_error {
@@ -41,7 +41,7 @@
 	}
 	
 	action emit_text {
-		rb_funcall(delegate, id_text, 1, Trenni_string(ts, te));
+		rb_funcall(delegate, id_text, 1, Trenni_string(ts, te, encoding));
 	}
 	
 	include template "trenni/template.rl";

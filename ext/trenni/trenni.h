@@ -13,12 +13,12 @@ typedef struct {
 	const char * end;
 } Token;
 
-static inline VALUE Trenni_token(Token token) {
-	return rb_str_new(token.begin, token.end - token.begin);
+static inline VALUE Trenni_token(Token token, rb_encoding * encoding) {
+	return rb_enc_str_new(token.begin, token.end - token.begin, encoding);
 }
 
-static inline VALUE Trenni_string(const char * begin, const char * end) {
-	return rb_str_new(begin, end - begin);
+static inline VALUE Trenni_string(const char * begin, const char * end, rb_encoding * encoding) {
+	return rb_enc_str_new(begin, end - begin, encoding);
 }
 
 void Trenni_raise_error(const char * message, VALUE buffer, size_t offset);

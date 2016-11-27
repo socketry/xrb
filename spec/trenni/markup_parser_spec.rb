@@ -107,6 +107,14 @@ RSpec.describe "<foo bar=\"20\" baz>Hello World</foo>" do
 			[:close_tag, "foo", 31],
 		]
 	end
+	
+	it "should have same encoding" do
+		expect(events[0][1].encoding).to be == subject.encoding
+		expect(events[1][1].encoding).to be == subject.encoding
+		expect(events[2][1].encoding).to be == subject.encoding
+		expect(events[4][1].encoding).to be == subject.encoding
+		expect(events[5][1].encoding).to be == subject.encoding
+	end
 end
 
 RSpec.describe "<test><![CDATA[Hello World]]></test>" do

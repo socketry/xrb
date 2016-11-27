@@ -120,13 +120,13 @@ _resume:
 tr0:
 #line 43 "template.rl"
 	{{p = ((te))-1;}{
-		rb_funcall(delegate, id_text, 1, Trenni_string(ts, te));
+		rb_funcall(delegate, id_text, 1, Trenni_string(ts, te, encoding));
 	}}
 	goto st45;
 tr5:
 #line 43 "template.rl"
 	{{p = ((te))-1;}{
-		rb_funcall(delegate, id_text, 1, Trenni_string(ts, te));
+		rb_funcall(delegate, id_text, 1, Trenni_string(ts, te, encoding));
 	}}
 	goto st45;
 tr9:
@@ -136,7 +136,7 @@ tr9:
 	}
 #line 43 "template.rl"
 	{{p = ((te))-1;}{
-		rb_funcall(delegate, id_text, 1, Trenni_string(ts, te));
+		rb_funcall(delegate, id_text, 1, Trenni_string(ts, te, encoding));
 	}}
 	goto st45;
 tr17:
@@ -144,17 +144,17 @@ tr17:
 	{	switch( act ) {
 	case 1:
 	{{p = ((te))-1;}
-		rb_funcall(delegate, id_instruction, 2, Trenni_token(instruction), newline);
+		rb_funcall(delegate, id_instruction, 2, Trenni_token(instruction, encoding), newline);
 	}
 	break;
 	case 3:
 	{{p = ((te))-1;}
-		rb_funcall(delegate, id_instruction, 1, Trenni_token(instruction));
+		rb_funcall(delegate, id_instruction, 1, Trenni_token(instruction, encoding));
 	}
 	break;
 	case 6:
 	{{p = ((te))-1;}
-		rb_funcall(delegate, id_text, 1, Trenni_string(ts, te));
+		rb_funcall(delegate, id_text, 1, Trenni_string(ts, te, encoding));
 	}
 	break;
 	}
@@ -163,19 +163,19 @@ tr17:
 tr26:
 #line 43 "template.rl"
 	{te = p+1;{
-		rb_funcall(delegate, id_text, 1, Trenni_string(ts, te));
+		rb_funcall(delegate, id_text, 1, Trenni_string(ts, te, encoding));
 	}}
 	goto st45;
 tr83:
 #line 43 "template.rl"
 	{te = p;p--;{
-		rb_funcall(delegate, id_text, 1, Trenni_string(ts, te));
+		rb_funcall(delegate, id_text, 1, Trenni_string(ts, te, encoding));
 	}}
 	goto st45;
 tr86:
 #line 43 "template.rl"
 	{te = p;p--;{
-		rb_funcall(delegate, id_text, 1, Trenni_string(ts, te));
+		rb_funcall(delegate, id_text, 1, Trenni_string(ts, te, encoding));
 	}}
 	goto st45;
 tr88:
@@ -184,7 +184,7 @@ tr88:
 	{
 		expression.begin = p;
 	}
-#line 53 "/home/samuel/Documents/Programming/ioquatix/trenni/parsers/trenni/template.rl"
+#line 53 "/Users/samuel/Documents/Programming/ioquatix/trenni/parsers/trenni/template.rl"
 	{te = p;p--;{cs = 34;}}
 	goto _again;
 st45:
@@ -582,7 +582,7 @@ case 22:
 		goto tr33;
 	goto st21;
 tr37:
-#line 17 "/home/samuel/Documents/Programming/ioquatix/trenni/parsers/trenni/template.rl"
+#line 17 "/Users/samuel/Documents/Programming/ioquatix/trenni/parsers/trenni/template.rl"
 	{{stack[top++] = 23; goto st23;}}
 	goto st23;
 st23:
@@ -600,7 +600,7 @@ case 23:
 	}
 	goto st23;
 tr53:
-#line 13 "/home/samuel/Documents/Programming/ioquatix/trenni/parsers/trenni/template.rl"
+#line 13 "/Users/samuel/Documents/Programming/ioquatix/trenni/parsers/trenni/template.rl"
 	{{stack[top++] = 24; goto st23;}}
 	goto st24;
 st24:
@@ -616,13 +616,13 @@ case 24:
 	}
 	goto st24;
 tr43:
-#line 17 "/home/samuel/Documents/Programming/ioquatix/trenni/parsers/trenni/template.rl"
+#line 17 "/Users/samuel/Documents/Programming/ioquatix/trenni/parsers/trenni/template.rl"
 	{{stack[top++] = 25; goto st23;}}
 	goto st25;
 tr45:
-#line 13 "/home/samuel/Documents/Programming/ioquatix/trenni/parsers/trenni/template.rl"
+#line 13 "/Users/samuel/Documents/Programming/ioquatix/trenni/parsers/trenni/template.rl"
 	{{stack[top++] = 25; goto st23;}}
-#line 17 "/home/samuel/Documents/Programming/ioquatix/trenni/parsers/trenni/template.rl"
+#line 17 "/Users/samuel/Documents/Programming/ioquatix/trenni/parsers/trenni/template.rl"
 	{{stack[top++] = 25; goto st23;}}
 	goto st25;
 st25:
@@ -651,7 +651,7 @@ case 26:
 	}
 	goto st25;
 tr52:
-#line 13 "/home/samuel/Documents/Programming/ioquatix/trenni/parsers/trenni/template.rl"
+#line 13 "/Users/samuel/Documents/Programming/ioquatix/trenni/parsers/trenni/template.rl"
 	{{stack[top++] = 27; goto st23;}}
 	goto st27;
 st27:
@@ -668,13 +668,13 @@ case 27:
 	}
 	goto st27;
 tr49:
-#line 17 "/home/samuel/Documents/Programming/ioquatix/trenni/parsers/trenni/template.rl"
+#line 17 "/Users/samuel/Documents/Programming/ioquatix/trenni/parsers/trenni/template.rl"
 	{{stack[top++] = 28; goto st23;}}
 	goto st28;
 tr51:
-#line 13 "/home/samuel/Documents/Programming/ioquatix/trenni/parsers/trenni/template.rl"
+#line 13 "/Users/samuel/Documents/Programming/ioquatix/trenni/parsers/trenni/template.rl"
 	{{stack[top++] = 28; goto st23;}}
-#line 17 "/home/samuel/Documents/Programming/ioquatix/trenni/parsers/trenni/template.rl"
+#line 17 "/Users/samuel/Documents/Programming/ioquatix/trenni/parsers/trenni/template.rl"
 	{{stack[top++] = 28; goto st23;}}
 	goto st28;
 st28:
@@ -701,7 +701,7 @@ case 29:
 	}
 	goto st28;
 tr50:
-#line 20 "/home/samuel/Documents/Programming/ioquatix/trenni/parsers/trenni/template.rl"
+#line 20 "/Users/samuel/Documents/Programming/ioquatix/trenni/parsers/trenni/template.rl"
 	{{cs = stack[--top];goto _again;}}
 	goto st51;
 st51:
@@ -727,7 +727,7 @@ case 30:
 	}
 	goto st27;
 tr44:
-#line 20 "/home/samuel/Documents/Programming/ioquatix/trenni/parsers/trenni/template.rl"
+#line 20 "/Users/samuel/Documents/Programming/ioquatix/trenni/parsers/trenni/template.rl"
 	{{cs = stack[--top];goto _again;}}
 	goto st52;
 st52:
@@ -758,7 +758,7 @@ case 32:
 		goto st33;
 	goto st32;
 tr55:
-#line 17 "/home/samuel/Documents/Programming/ioquatix/trenni/parsers/trenni/template.rl"
+#line 17 "/Users/samuel/Documents/Programming/ioquatix/trenni/parsers/trenni/template.rl"
 	{{stack[top++] = 33; goto st23;}}
 	goto st33;
 st33:
@@ -775,7 +775,7 @@ case 33:
 	}
 	goto st33;
 tr56:
-#line 20 "/home/samuel/Documents/Programming/ioquatix/trenni/parsers/trenni/template.rl"
+#line 20 "/Users/samuel/Documents/Programming/ioquatix/trenni/parsers/trenni/template.rl"
 	{{cs = stack[--top];goto _again;}}
 	goto st53;
 st53:
@@ -787,7 +787,7 @@ case 53:
 		goto st33;
 	goto st32;
 tr38:
-#line 20 "/home/samuel/Documents/Programming/ioquatix/trenni/parsers/trenni/template.rl"
+#line 20 "/Users/samuel/Documents/Programming/ioquatix/trenni/parsers/trenni/template.rl"
 	{{cs = stack[--top];goto _again;}}
 	goto st54;
 st54:
@@ -797,7 +797,7 @@ case 54:
 #line 798 "template.c"
 	goto st0;
 tr60:
-#line 17 "/home/samuel/Documents/Programming/ioquatix/trenni/parsers/trenni/template.rl"
+#line 17 "/Users/samuel/Documents/Programming/ioquatix/trenni/parsers/trenni/template.rl"
 	{{stack[top++] = 34; goto st23;}}
 	goto st34;
 st34:
@@ -815,7 +815,7 @@ case 34:
 	}
 	goto st34;
 tr76:
-#line 13 "/home/samuel/Documents/Programming/ioquatix/trenni/parsers/trenni/template.rl"
+#line 13 "/Users/samuel/Documents/Programming/ioquatix/trenni/parsers/trenni/template.rl"
 	{{stack[top++] = 35; goto st23;}}
 	goto st35;
 st35:
@@ -831,13 +831,13 @@ case 35:
 	}
 	goto st35;
 tr66:
-#line 17 "/home/samuel/Documents/Programming/ioquatix/trenni/parsers/trenni/template.rl"
+#line 17 "/Users/samuel/Documents/Programming/ioquatix/trenni/parsers/trenni/template.rl"
 	{{stack[top++] = 36; goto st23;}}
 	goto st36;
 tr68:
-#line 13 "/home/samuel/Documents/Programming/ioquatix/trenni/parsers/trenni/template.rl"
+#line 13 "/Users/samuel/Documents/Programming/ioquatix/trenni/parsers/trenni/template.rl"
 	{{stack[top++] = 36; goto st23;}}
-#line 17 "/home/samuel/Documents/Programming/ioquatix/trenni/parsers/trenni/template.rl"
+#line 17 "/Users/samuel/Documents/Programming/ioquatix/trenni/parsers/trenni/template.rl"
 	{{stack[top++] = 36; goto st23;}}
 	goto st36;
 st36:
@@ -866,7 +866,7 @@ case 37:
 	}
 	goto st36;
 tr75:
-#line 13 "/home/samuel/Documents/Programming/ioquatix/trenni/parsers/trenni/template.rl"
+#line 13 "/Users/samuel/Documents/Programming/ioquatix/trenni/parsers/trenni/template.rl"
 	{{stack[top++] = 38; goto st23;}}
 	goto st38;
 st38:
@@ -883,13 +883,13 @@ case 38:
 	}
 	goto st38;
 tr72:
-#line 17 "/home/samuel/Documents/Programming/ioquatix/trenni/parsers/trenni/template.rl"
+#line 17 "/Users/samuel/Documents/Programming/ioquatix/trenni/parsers/trenni/template.rl"
 	{{stack[top++] = 39; goto st23;}}
 	goto st39;
 tr74:
-#line 13 "/home/samuel/Documents/Programming/ioquatix/trenni/parsers/trenni/template.rl"
+#line 13 "/Users/samuel/Documents/Programming/ioquatix/trenni/parsers/trenni/template.rl"
 	{{stack[top++] = 39; goto st23;}}
-#line 17 "/home/samuel/Documents/Programming/ioquatix/trenni/parsers/trenni/template.rl"
+#line 17 "/Users/samuel/Documents/Programming/ioquatix/trenni/parsers/trenni/template.rl"
 	{{stack[top++] = 39; goto st23;}}
 	goto st39;
 st39:
@@ -923,9 +923,9 @@ tr73:
 	}
 #line 35 "template.rl"
 	{
-		rb_funcall(delegate, id_expression, 1, Trenni_token(expression));
+		rb_funcall(delegate, id_expression, 1, Trenni_token(expression, encoding));
 	}
-#line 21 "/home/samuel/Documents/Programming/ioquatix/trenni/parsers/trenni/template.rl"
+#line 21 "/Users/samuel/Documents/Programming/ioquatix/trenni/parsers/trenni/template.rl"
 	{cs = 45;}
 	goto _again;
 st55:
@@ -958,9 +958,9 @@ tr67:
 	}
 #line 35 "template.rl"
 	{
-		rb_funcall(delegate, id_expression, 1, Trenni_token(expression));
+		rb_funcall(delegate, id_expression, 1, Trenni_token(expression, encoding));
 	}
-#line 21 "/home/samuel/Documents/Programming/ioquatix/trenni/parsers/trenni/template.rl"
+#line 21 "/Users/samuel/Documents/Programming/ioquatix/trenni/parsers/trenni/template.rl"
 	{cs = 45;}
 	goto _again;
 st56:
@@ -991,7 +991,7 @@ case 43:
 		goto st44;
 	goto st43;
 tr78:
-#line 17 "/home/samuel/Documents/Programming/ioquatix/trenni/parsers/trenni/template.rl"
+#line 17 "/Users/samuel/Documents/Programming/ioquatix/trenni/parsers/trenni/template.rl"
 	{{stack[top++] = 44; goto st23;}}
 	goto st44;
 st44:
@@ -1015,9 +1015,9 @@ tr79:
 	}
 #line 35 "template.rl"
 	{
-		rb_funcall(delegate, id_expression, 1, Trenni_token(expression));
+		rb_funcall(delegate, id_expression, 1, Trenni_token(expression, encoding));
 	}
-#line 21 "/home/samuel/Documents/Programming/ioquatix/trenni/parsers/trenni/template.rl"
+#line 21 "/Users/samuel/Documents/Programming/ioquatix/trenni/parsers/trenni/template.rl"
 	{cs = 45;}
 	goto _again;
 st57:
@@ -1036,9 +1036,9 @@ tr61:
 	}
 #line 35 "template.rl"
 	{
-		rb_funcall(delegate, id_expression, 1, Trenni_token(expression));
+		rb_funcall(delegate, id_expression, 1, Trenni_token(expression, encoding));
 	}
-#line 21 "/home/samuel/Documents/Programming/ioquatix/trenni/parsers/trenni/template.rl"
+#line 21 "/Users/samuel/Documents/Programming/ioquatix/trenni/parsers/trenni/template.rl"
 	{cs = 45;}
 	goto _again;
 st58:

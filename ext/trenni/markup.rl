@@ -44,7 +44,7 @@
 		entity.end = p;
 		
 		Trenni_append_string(&pcdata, encoding, 
-			rb_funcall(entities, rb_intern("[]"), 1, Trenni_token(entity))
+			rb_funcall(entities, rb_intern("[]"), 1, Trenni_token(entity, encoding))
 		);
 	}
 	
@@ -71,7 +71,7 @@
 	action doctype_end {
 		doctype.end = p;
 		
-		rb_funcall(delegate, id_doctype, 1, Trenni_token(doctype));
+		rb_funcall(delegate, id_doctype, 1, Trenni_token(doctype, encoding));
 	}
 	
 	action doctype_error {
@@ -85,7 +85,7 @@
 	action comment_end {
 		comment.end = p;
 		
-		rb_funcall(delegate, id_comment, 1, Trenni_token(comment));
+		rb_funcall(delegate, id_comment, 1, Trenni_token(comment, encoding));
 	}
 	
 	action comment_error {
@@ -105,7 +105,7 @@
 	action instruction_end {
 		instruction.end = p;
 		
-		rb_funcall(delegate, id_instruction, 1, Trenni_token(instruction));
+		rb_funcall(delegate, id_instruction, 1, Trenni_token(instruction, encoding));
 	}
 	
 	action instruction_error {
@@ -116,7 +116,7 @@
 		// Reset self-closing state - we don't know yet.
 		self_closing = 0;
 		
-		rb_funcall(delegate, id_open_tag_begin, 2, Trenni_token(identifier), ULONG2NUM(identifier.begin-s));
+		rb_funcall(delegate, id_open_tag_begin, 2, Trenni_token(identifier, encoding), ULONG2NUM(identifier.begin-s));
 	}
 	
 	action tag_opening_begin {
@@ -140,11 +140,11 @@
 	
 	action attribute {
 		if (has_value == 1) {
-			rb_funcall(delegate, id_attribute, 2, Trenni_token(identifier), pcdata);
+			rb_funcall(delegate, id_attribute, 2, Trenni_token(identifier, encoding), pcdata);
 		} else if (has_value == 2) {
-			rb_funcall(delegate, id_attribute, 2, Trenni_token(identifier), empty_string);
+			rb_funcall(delegate, id_attribute, 2, Trenni_token(identifier, encoding), empty_string);
 		} else {
-			rb_funcall(delegate, id_attribute, 2, Trenni_token(identifier), Qtrue);
+			rb_funcall(delegate, id_attribute, 2, Trenni_token(identifier, encoding), Qtrue);
 		}
 	}
 	
@@ -156,7 +156,7 @@
 	}
 	
 	action tag_closing_end {
-		rb_funcall(delegate, id_close_tag, 2, Trenni_token(identifier), ULONG2NUM(identifier.begin-s));
+		rb_funcall(delegate, id_close_tag, 2, Trenni_token(identifier, encoding), ULONG2NUM(identifier.begin-s));
 	}
 	
 	action tag_error {
@@ -170,7 +170,7 @@
 	action cdata_end {
 		cdata.end = p;
 		
-		rb_funcall(delegate, id_cdata, 1, Trenni_token(cdata));
+		rb_funcall(delegate, id_cdata, 1, Trenni_token(cdata, encoding));
 	}
 	
 	action cdata_error {

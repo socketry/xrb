@@ -180,7 +180,7 @@ tr95:
 	{
 		comment.end = p;
 		
-		rb_funcall(delegate, id_comment, 1, Trenni_token(comment));
+		rb_funcall(delegate, id_comment, 1, Trenni_token(comment, encoding));
 	}
 #line 180 "markup.rl"
 	{
@@ -200,7 +200,7 @@ tr98:
 	{
 		doctype.end = p;
 		
-		rb_funcall(delegate, id_doctype, 1, Trenni_token(doctype));
+		rb_funcall(delegate, id_doctype, 1, Trenni_token(doctype, encoding));
 	}
 #line 180 "markup.rl"
 	{
@@ -220,7 +220,7 @@ tr101:
 	{
 		cdata.end = p;
 		
-		rb_funcall(delegate, id_cdata, 1, Trenni_token(cdata));
+		rb_funcall(delegate, id_cdata, 1, Trenni_token(cdata, encoding));
 	}
 #line 180 "markup.rl"
 	{
@@ -238,7 +238,7 @@ tr101:
 tr104:
 #line 158 "markup.rl"
 	{
-		rb_funcall(delegate, id_close_tag, 2, Trenni_token(identifier), ULONG2NUM(identifier.begin-s));
+		rb_funcall(delegate, id_close_tag, 2, Trenni_token(identifier, encoding), ULONG2NUM(identifier.begin-s));
 	}
 #line 180 "markup.rl"
 	{
@@ -258,7 +258,7 @@ tr107:
 	{
 		instruction.end = p;
 		
-		rb_funcall(delegate, id_instruction, 1, Trenni_token(instruction));
+		rb_funcall(delegate, id_instruction, 1, Trenni_token(instruction, encoding));
 	}
 #line 180 "markup.rl"
 	{
@@ -290,11 +290,11 @@ tr87:
 		
 		Trenni_append_token(&pcdata, encoding, characters);
 	}
-#line 10 "/home/samuel/Documents/Programming/ioquatix/trenni/parsers/trenni/entities.rl"
+#line 10 "/Users/samuel/Documents/Programming/ioquatix/trenni/parsers/trenni/entities.rl"
 	{{stack[top++] = 48; goto st40;}}
 	goto st48;
 tr90:
-#line 10 "/home/samuel/Documents/Programming/ioquatix/trenni/parsers/trenni/entities.rl"
+#line 10 "/Users/samuel/Documents/Programming/ioquatix/trenni/parsers/trenni/entities.rl"
 	{{stack[top++] = 48; goto st40;}}
 	goto st48;
 tr84:
@@ -306,7 +306,7 @@ tr84:
 	{
 		pcdata = Qnil;
 	}
-#line 10 "/home/samuel/Documents/Programming/ioquatix/trenni/parsers/trenni/entities.rl"
+#line 10 "/Users/samuel/Documents/Programming/ioquatix/trenni/parsers/trenni/entities.rl"
 	{{stack[top++] = 48; goto st40;}}
 	goto st48;
 tr93:
@@ -322,7 +322,7 @@ tr93:
 	{
 		pcdata = Qnil;
 	}
-#line 10 "/home/samuel/Documents/Programming/ioquatix/trenni/parsers/trenni/entities.rl"
+#line 10 "/Users/samuel/Documents/Programming/ioquatix/trenni/parsers/trenni/entities.rl"
 	{{stack[top++] = 48; goto st40;}}
 	goto st48;
 tr96:
@@ -330,7 +330,7 @@ tr96:
 	{
 		comment.end = p;
 		
-		rb_funcall(delegate, id_comment, 1, Trenni_token(comment));
+		rb_funcall(delegate, id_comment, 1, Trenni_token(comment, encoding));
 	}
 #line 180 "markup.rl"
 	{
@@ -340,7 +340,7 @@ tr96:
 	{
 		pcdata = Qnil;
 	}
-#line 10 "/home/samuel/Documents/Programming/ioquatix/trenni/parsers/trenni/entities.rl"
+#line 10 "/Users/samuel/Documents/Programming/ioquatix/trenni/parsers/trenni/entities.rl"
 	{{stack[top++] = 48; goto st40;}}
 	goto st48;
 tr99:
@@ -348,7 +348,7 @@ tr99:
 	{
 		doctype.end = p;
 		
-		rb_funcall(delegate, id_doctype, 1, Trenni_token(doctype));
+		rb_funcall(delegate, id_doctype, 1, Trenni_token(doctype, encoding));
 	}
 #line 180 "markup.rl"
 	{
@@ -358,7 +358,7 @@ tr99:
 	{
 		pcdata = Qnil;
 	}
-#line 10 "/home/samuel/Documents/Programming/ioquatix/trenni/parsers/trenni/entities.rl"
+#line 10 "/Users/samuel/Documents/Programming/ioquatix/trenni/parsers/trenni/entities.rl"
 	{{stack[top++] = 48; goto st40;}}
 	goto st48;
 tr102:
@@ -366,7 +366,7 @@ tr102:
 	{
 		cdata.end = p;
 		
-		rb_funcall(delegate, id_cdata, 1, Trenni_token(cdata));
+		rb_funcall(delegate, id_cdata, 1, Trenni_token(cdata, encoding));
 	}
 #line 180 "markup.rl"
 	{
@@ -376,13 +376,13 @@ tr102:
 	{
 		pcdata = Qnil;
 	}
-#line 10 "/home/samuel/Documents/Programming/ioquatix/trenni/parsers/trenni/entities.rl"
+#line 10 "/Users/samuel/Documents/Programming/ioquatix/trenni/parsers/trenni/entities.rl"
 	{{stack[top++] = 48; goto st40;}}
 	goto st48;
 tr105:
 #line 158 "markup.rl"
 	{
-		rb_funcall(delegate, id_close_tag, 2, Trenni_token(identifier), ULONG2NUM(identifier.begin-s));
+		rb_funcall(delegate, id_close_tag, 2, Trenni_token(identifier, encoding), ULONG2NUM(identifier.begin-s));
 	}
 #line 180 "markup.rl"
 	{
@@ -392,7 +392,7 @@ tr105:
 	{
 		pcdata = Qnil;
 	}
-#line 10 "/home/samuel/Documents/Programming/ioquatix/trenni/parsers/trenni/entities.rl"
+#line 10 "/Users/samuel/Documents/Programming/ioquatix/trenni/parsers/trenni/entities.rl"
 	{{stack[top++] = 48; goto st40;}}
 	goto st48;
 tr108:
@@ -400,7 +400,7 @@ tr108:
 	{
 		instruction.end = p;
 		
-		rb_funcall(delegate, id_instruction, 1, Trenni_token(instruction));
+		rb_funcall(delegate, id_instruction, 1, Trenni_token(instruction, encoding));
 	}
 #line 180 "markup.rl"
 	{
@@ -410,7 +410,7 @@ tr108:
 	{
 		pcdata = Qnil;
 	}
-#line 10 "/home/samuel/Documents/Programming/ioquatix/trenni/parsers/trenni/entities.rl"
+#line 10 "/Users/samuel/Documents/Programming/ioquatix/trenni/parsers/trenni/entities.rl"
 	{{stack[top++] = 48; goto st40;}}
 	goto st48;
 st48:
@@ -550,7 +550,7 @@ tr97:
 	{
 		comment.end = p;
 		
-		rb_funcall(delegate, id_comment, 1, Trenni_token(comment));
+		rb_funcall(delegate, id_comment, 1, Trenni_token(comment, encoding));
 	}
 #line 122 "markup.rl"
 	{
@@ -580,7 +580,7 @@ tr100:
 	{
 		doctype.end = p;
 		
-		rb_funcall(delegate, id_doctype, 1, Trenni_token(doctype));
+		rb_funcall(delegate, id_doctype, 1, Trenni_token(doctype, encoding));
 	}
 #line 122 "markup.rl"
 	{
@@ -610,7 +610,7 @@ tr103:
 	{
 		cdata.end = p;
 		
-		rb_funcall(delegate, id_cdata, 1, Trenni_token(cdata));
+		rb_funcall(delegate, id_cdata, 1, Trenni_token(cdata, encoding));
 	}
 #line 122 "markup.rl"
 	{
@@ -638,7 +638,7 @@ tr103:
 tr106:
 #line 158 "markup.rl"
 	{
-		rb_funcall(delegate, id_close_tag, 2, Trenni_token(identifier), ULONG2NUM(identifier.begin-s));
+		rb_funcall(delegate, id_close_tag, 2, Trenni_token(identifier, encoding), ULONG2NUM(identifier.begin-s));
 	}
 #line 122 "markup.rl"
 	{
@@ -668,7 +668,7 @@ tr109:
 	{
 		instruction.end = p;
 		
-		rb_funcall(delegate, id_instruction, 1, Trenni_token(instruction));
+		rb_funcall(delegate, id_instruction, 1, Trenni_token(instruction, encoding));
 	}
 #line 122 "markup.rl"
 	{
@@ -783,7 +783,7 @@ tr6:
 		// Reset self-closing state - we don't know yet.
 		self_closing = 0;
 		
-		rb_funcall(delegate, id_open_tag_begin, 2, Trenni_token(identifier), ULONG2NUM(identifier.begin-s));
+		rb_funcall(delegate, id_open_tag_begin, 2, Trenni_token(identifier, encoding), ULONG2NUM(identifier.begin-s));
 	}
 	goto st3;
 tr14:
@@ -794,11 +794,11 @@ tr14:
 #line 141 "markup.rl"
 	{
 		if (has_value == 1) {
-			rb_funcall(delegate, id_attribute, 2, Trenni_token(identifier), pcdata);
+			rb_funcall(delegate, id_attribute, 2, Trenni_token(identifier, encoding), pcdata);
 		} else if (has_value == 2) {
-			rb_funcall(delegate, id_attribute, 2, Trenni_token(identifier), empty_string);
+			rb_funcall(delegate, id_attribute, 2, Trenni_token(identifier, encoding), empty_string);
 		} else {
-			rb_funcall(delegate, id_attribute, 2, Trenni_token(identifier), Qtrue);
+			rb_funcall(delegate, id_attribute, 2, Trenni_token(identifier, encoding), Qtrue);
 		}
 	}
 	goto st3;
@@ -810,11 +810,11 @@ tr25:
 #line 141 "markup.rl"
 	{
 		if (has_value == 1) {
-			rb_funcall(delegate, id_attribute, 2, Trenni_token(identifier), pcdata);
+			rb_funcall(delegate, id_attribute, 2, Trenni_token(identifier, encoding), pcdata);
 		} else if (has_value == 2) {
-			rb_funcall(delegate, id_attribute, 2, Trenni_token(identifier), empty_string);
+			rb_funcall(delegate, id_attribute, 2, Trenni_token(identifier, encoding), empty_string);
 		} else {
-			rb_funcall(delegate, id_attribute, 2, Trenni_token(identifier), Qtrue);
+			rb_funcall(delegate, id_attribute, 2, Trenni_token(identifier, encoding), Qtrue);
 		}
 	}
 	goto st3;
@@ -826,11 +826,11 @@ tr31:
 #line 141 "markup.rl"
 	{
 		if (has_value == 1) {
-			rb_funcall(delegate, id_attribute, 2, Trenni_token(identifier), pcdata);
+			rb_funcall(delegate, id_attribute, 2, Trenni_token(identifier, encoding), pcdata);
 		} else if (has_value == 2) {
-			rb_funcall(delegate, id_attribute, 2, Trenni_token(identifier), empty_string);
+			rb_funcall(delegate, id_attribute, 2, Trenni_token(identifier, encoding), empty_string);
 		} else {
-			rb_funcall(delegate, id_attribute, 2, Trenni_token(identifier), Qtrue);
+			rb_funcall(delegate, id_attribute, 2, Trenni_token(identifier, encoding), Qtrue);
 		}
 	}
 	goto st3;
@@ -913,7 +913,7 @@ tr7:
 		// Reset self-closing state - we don't know yet.
 		self_closing = 0;
 		
-		rb_funcall(delegate, id_open_tag_begin, 2, Trenni_token(identifier), ULONG2NUM(identifier.begin-s));
+		rb_funcall(delegate, id_open_tag_begin, 2, Trenni_token(identifier, encoding), ULONG2NUM(identifier.begin-s));
 	}
 #line 125 "markup.rl"
 	{
@@ -934,11 +934,11 @@ tr15:
 #line 141 "markup.rl"
 	{
 		if (has_value == 1) {
-			rb_funcall(delegate, id_attribute, 2, Trenni_token(identifier), pcdata);
+			rb_funcall(delegate, id_attribute, 2, Trenni_token(identifier, encoding), pcdata);
 		} else if (has_value == 2) {
-			rb_funcall(delegate, id_attribute, 2, Trenni_token(identifier), empty_string);
+			rb_funcall(delegate, id_attribute, 2, Trenni_token(identifier, encoding), empty_string);
 		} else {
-			rb_funcall(delegate, id_attribute, 2, Trenni_token(identifier), Qtrue);
+			rb_funcall(delegate, id_attribute, 2, Trenni_token(identifier, encoding), Qtrue);
 		}
 	}
 #line 125 "markup.rl"
@@ -954,11 +954,11 @@ tr26:
 #line 141 "markup.rl"
 	{
 		if (has_value == 1) {
-			rb_funcall(delegate, id_attribute, 2, Trenni_token(identifier), pcdata);
+			rb_funcall(delegate, id_attribute, 2, Trenni_token(identifier, encoding), pcdata);
 		} else if (has_value == 2) {
-			rb_funcall(delegate, id_attribute, 2, Trenni_token(identifier), empty_string);
+			rb_funcall(delegate, id_attribute, 2, Trenni_token(identifier, encoding), empty_string);
 		} else {
-			rb_funcall(delegate, id_attribute, 2, Trenni_token(identifier), Qtrue);
+			rb_funcall(delegate, id_attribute, 2, Trenni_token(identifier, encoding), Qtrue);
 		}
 	}
 #line 125 "markup.rl"
@@ -974,11 +974,11 @@ tr32:
 #line 141 "markup.rl"
 	{
 		if (has_value == 1) {
-			rb_funcall(delegate, id_attribute, 2, Trenni_token(identifier), pcdata);
+			rb_funcall(delegate, id_attribute, 2, Trenni_token(identifier, encoding), pcdata);
 		} else if (has_value == 2) {
-			rb_funcall(delegate, id_attribute, 2, Trenni_token(identifier), empty_string);
+			rb_funcall(delegate, id_attribute, 2, Trenni_token(identifier, encoding), empty_string);
 		} else {
-			rb_funcall(delegate, id_attribute, 2, Trenni_token(identifier), Qtrue);
+			rb_funcall(delegate, id_attribute, 2, Trenni_token(identifier, encoding), Qtrue);
 		}
 	}
 #line 125 "markup.rl"
@@ -1004,7 +1004,7 @@ tr8:
 		// Reset self-closing state - we don't know yet.
 		self_closing = 0;
 		
-		rb_funcall(delegate, id_open_tag_begin, 2, Trenni_token(identifier), ULONG2NUM(identifier.begin-s));
+		rb_funcall(delegate, id_open_tag_begin, 2, Trenni_token(identifier, encoding), ULONG2NUM(identifier.begin-s));
 	}
 	goto st49;
 tr17:
@@ -1015,11 +1015,11 @@ tr17:
 #line 141 "markup.rl"
 	{
 		if (has_value == 1) {
-			rb_funcall(delegate, id_attribute, 2, Trenni_token(identifier), pcdata);
+			rb_funcall(delegate, id_attribute, 2, Trenni_token(identifier, encoding), pcdata);
 		} else if (has_value == 2) {
-			rb_funcall(delegate, id_attribute, 2, Trenni_token(identifier), empty_string);
+			rb_funcall(delegate, id_attribute, 2, Trenni_token(identifier, encoding), empty_string);
 		} else {
-			rb_funcall(delegate, id_attribute, 2, Trenni_token(identifier), Qtrue);
+			rb_funcall(delegate, id_attribute, 2, Trenni_token(identifier, encoding), Qtrue);
 		}
 	}
 	goto st49;
@@ -1031,11 +1031,11 @@ tr27:
 #line 141 "markup.rl"
 	{
 		if (has_value == 1) {
-			rb_funcall(delegate, id_attribute, 2, Trenni_token(identifier), pcdata);
+			rb_funcall(delegate, id_attribute, 2, Trenni_token(identifier, encoding), pcdata);
 		} else if (has_value == 2) {
-			rb_funcall(delegate, id_attribute, 2, Trenni_token(identifier), empty_string);
+			rb_funcall(delegate, id_attribute, 2, Trenni_token(identifier, encoding), empty_string);
 		} else {
-			rb_funcall(delegate, id_attribute, 2, Trenni_token(identifier), Qtrue);
+			rb_funcall(delegate, id_attribute, 2, Trenni_token(identifier, encoding), Qtrue);
 		}
 	}
 	goto st49;
@@ -1047,11 +1047,11 @@ tr33:
 #line 141 "markup.rl"
 	{
 		if (has_value == 1) {
-			rb_funcall(delegate, id_attribute, 2, Trenni_token(identifier), pcdata);
+			rb_funcall(delegate, id_attribute, 2, Trenni_token(identifier, encoding), pcdata);
 		} else if (has_value == 2) {
-			rb_funcall(delegate, id_attribute, 2, Trenni_token(identifier), empty_string);
+			rb_funcall(delegate, id_attribute, 2, Trenni_token(identifier, encoding), empty_string);
 		} else {
-			rb_funcall(delegate, id_attribute, 2, Trenni_token(identifier), Qtrue);
+			rb_funcall(delegate, id_attribute, 2, Trenni_token(identifier, encoding), Qtrue);
 		}
 	}
 	goto st49;
@@ -1162,7 +1162,7 @@ tr21:
 	{
 		pcdata = Qnil;
 	}
-#line 10 "/home/samuel/Documents/Programming/ioquatix/trenni/parsers/trenni/entities.rl"
+#line 10 "/Users/samuel/Documents/Programming/ioquatix/trenni/parsers/trenni/entities.rl"
 	{{stack[top++] = 10; goto st40;}}
 	goto st10;
 tr24:
@@ -1172,11 +1172,11 @@ tr24:
 		
 		Trenni_append_token(&pcdata, encoding, characters);
 	}
-#line 10 "/home/samuel/Documents/Programming/ioquatix/trenni/parsers/trenni/entities.rl"
+#line 10 "/Users/samuel/Documents/Programming/ioquatix/trenni/parsers/trenni/entities.rl"
 	{{stack[top++] = 10; goto st40;}}
 	goto st10;
 tr30:
-#line 10 "/home/samuel/Documents/Programming/ioquatix/trenni/parsers/trenni/entities.rl"
+#line 10 "/Users/samuel/Documents/Programming/ioquatix/trenni/parsers/trenni/entities.rl"
 	{{stack[top++] = 10; goto st40;}}
 	goto st10;
 st10:
@@ -1618,7 +1618,7 @@ tr77:
 		
 		Trenni_append_codepoint(&pcdata, encoding, codepoint);
 	}
-#line 8 "/home/samuel/Documents/Programming/ioquatix/trenni/parsers/trenni/entities.rl"
+#line 8 "/Users/samuel/Documents/Programming/ioquatix/trenni/parsers/trenni/entities.rl"
 	{{cs = stack[--top];goto _again;}}
 	goto st55;
 tr80:
@@ -1630,7 +1630,7 @@ tr80:
 		
 		Trenni_append_codepoint(&pcdata, encoding, codepoint);
 	}
-#line 8 "/home/samuel/Documents/Programming/ioquatix/trenni/parsers/trenni/entities.rl"
+#line 8 "/Users/samuel/Documents/Programming/ioquatix/trenni/parsers/trenni/entities.rl"
 	{{cs = stack[--top];goto _again;}}
 	goto st55;
 tr82:
@@ -1639,10 +1639,10 @@ tr82:
 		entity.end = p;
 		
 		Trenni_append_string(&pcdata, encoding, 
-			rb_funcall(entities, rb_intern("[]"), 1, Trenni_token(entity))
+			rb_funcall(entities, rb_intern("[]"), 1, Trenni_token(entity, encoding))
 		);
 	}
-#line 8 "/home/samuel/Documents/Programming/ioquatix/trenni/parsers/trenni/entities.rl"
+#line 8 "/Users/samuel/Documents/Programming/ioquatix/trenni/parsers/trenni/entities.rl"
 	{{cs = stack[--top];goto _again;}}
 	goto st55;
 st55:
@@ -1785,7 +1785,7 @@ case 45:
 	{
 		doctype.end = p;
 		
-		rb_funcall(delegate, id_doctype, 1, Trenni_token(doctype));
+		rb_funcall(delegate, id_doctype, 1, Trenni_token(doctype, encoding));
 	}
 	break;
 	case 23: 
@@ -1799,7 +1799,7 @@ case 45:
 	{
 		comment.end = p;
 		
-		rb_funcall(delegate, id_comment, 1, Trenni_token(comment));
+		rb_funcall(delegate, id_comment, 1, Trenni_token(comment, encoding));
 	}
 	break;
 	case 14: 
@@ -1815,7 +1815,7 @@ case 45:
 	{
 		instruction.end = p;
 		
-		rb_funcall(delegate, id_instruction, 1, Trenni_token(instruction));
+		rb_funcall(delegate, id_instruction, 1, Trenni_token(instruction, encoding));
 	}
 	break;
 	case 35: 
@@ -1837,7 +1837,7 @@ case 45:
 	case 53: 
 #line 158 "markup.rl"
 	{
-		rb_funcall(delegate, id_close_tag, 2, Trenni_token(identifier), ULONG2NUM(identifier.begin-s));
+		rb_funcall(delegate, id_close_tag, 2, Trenni_token(identifier, encoding), ULONG2NUM(identifier.begin-s));
 	}
 	break;
 	case 1: 
@@ -1863,7 +1863,7 @@ case 45:
 	{
 		cdata.end = p;
 		
-		rb_funcall(delegate, id_cdata, 1, Trenni_token(cdata));
+		rb_funcall(delegate, id_cdata, 1, Trenni_token(cdata, encoding));
 	}
 	break;
 	case 30: 
