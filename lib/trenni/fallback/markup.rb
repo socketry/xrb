@@ -48,15 +48,14 @@ self._markup_trans_keys = [
 	84, 84, 65, 65, 91, 
 	91, 93, 93, 93, 93, 
 	62, 93, 0, 127, 0, 127, 
-	0, 127, 0, 127, 9, 
-	63, 63, 63, 62, 63, 
-	35, 122, 48, 120, 48, 59, 
-	48, 102, 48, 102, 48, 
-	122, 38, 60, 38, 60, 
+	0, 127, 0, 127, 63, 
+	63, 62, 63, 35, 122, 
+	48, 120, 48, 59, 48, 102, 
+	48, 102, 48, 122, 38, 
+	60, 38, 60, 38, 60, 
 	38, 60, 38, 60, 38, 60, 
 	38, 60, 38, 60, 38, 
-	60, 38, 60, 0, 0, 
-	0
+	60, 0, 0, 0
 ]
 
 class << self
@@ -68,9 +67,9 @@ self._markup_key_spans = [
 	27, 54, 27, 54, 47, 1, 1, 1, 
 	18, 1, 1, 1, 1, 1, 1, 1, 
 	1, 1, 1, 1, 1, 1, 1, 1, 
-	32, 128, 128, 128, 128, 55, 1, 2, 
-	88, 73, 12, 55, 55, 75, 23, 23, 
-	23, 23, 23, 23, 23, 23, 23, 0
+	32, 128, 128, 128, 128, 1, 2, 88, 
+	73, 12, 55, 55, 75, 23, 23, 23, 
+	23, 23, 23, 23, 23, 23, 0
 ]
 
 class << self
@@ -82,9 +81,9 @@ self._markup_index_offsets = [
 	548, 576, 631, 659, 714, 762, 764, 766, 
 	768, 787, 789, 791, 793, 795, 797, 799, 
 	801, 803, 805, 807, 809, 811, 813, 815, 
-	817, 850, 979, 1108, 1237, 1366, 1422, 1424, 
-	1427, 1516, 1590, 1603, 1659, 1715, 1791, 1815, 
-	1839, 1863, 1887, 1911, 1935, 1959, 1983, 2007
+	817, 850, 979, 1108, 1237, 1366, 1368, 1371, 
+	1460, 1534, 1547, 1603, 1659, 1735, 1759, 1783, 
+	1807, 1831, 1855, 1879, 1903, 1927, 1951
 ]
 
 class << self
@@ -262,60 +261,56 @@ self._markup_indicies = [
 	63, 63, 63, 63, 63, 63, 63, 63, 
 	63, 63, 63, 63, 63, 63, 63, 63, 
 	63, 63, 63, 63, 63, 63, 63, 63, 
-	62, 62, 62, 62, 62, 63, 66, 66, 
-	66, 66, 66, 65, 65, 65, 65, 65, 
-	65, 65, 65, 65, 65, 65, 65, 65, 
-	65, 65, 65, 65, 65, 66, 65, 65, 
-	65, 65, 65, 65, 65, 65, 65, 65, 
-	65, 65, 65, 65, 65, 65, 65, 65, 
-	65, 65, 65, 65, 65, 65, 65, 65, 
-	65, 65, 65, 65, 67, 65, 69, 68, 
-	70, 69, 68, 72, 71, 71, 71, 71, 
-	71, 71, 71, 71, 71, 71, 71, 71, 
+	62, 62, 62, 62, 62, 63, 66, 65, 
+	67, 66, 65, 69, 68, 68, 68, 68, 
+	68, 68, 68, 68, 68, 68, 68, 68, 
+	70, 70, 70, 70, 70, 70, 70, 70, 
+	70, 70, 68, 68, 68, 68, 68, 68, 
+	68, 70, 70, 70, 70, 70, 70, 70, 
+	70, 70, 70, 70, 70, 70, 70, 70, 
+	70, 70, 70, 70, 70, 70, 70, 70, 
+	70, 70, 70, 68, 68, 68, 68, 68, 
+	68, 70, 70, 70, 70, 70, 70, 70, 
+	70, 70, 70, 70, 70, 70, 70, 70, 
+	70, 70, 70, 70, 70, 70, 70, 70, 
+	70, 70, 70, 68, 71, 71, 71, 71, 
+	71, 71, 71, 71, 71, 71, 68, 68, 
+	68, 68, 68, 68, 68, 68, 68, 68, 
+	68, 68, 68, 68, 68, 68, 68, 68, 
+	68, 68, 68, 68, 68, 68, 68, 68, 
+	68, 68, 68, 68, 68, 68, 68, 68, 
+	68, 68, 68, 68, 68, 68, 68, 68, 
+	68, 68, 68, 68, 68, 68, 68, 68, 
+	68, 68, 68, 68, 68, 68, 68, 68, 
+	68, 68, 68, 68, 72, 68, 73, 73, 
 	73, 73, 73, 73, 73, 73, 73, 73, 
-	73, 73, 71, 71, 71, 71, 71, 71, 
-	71, 73, 73, 73, 73, 73, 73, 73, 
-	73, 73, 73, 73, 73, 73, 73, 73, 
-	73, 73, 73, 73, 73, 73, 73, 73, 
-	73, 73, 73, 71, 71, 71, 71, 71, 
-	71, 73, 73, 73, 73, 73, 73, 73, 
-	73, 73, 73, 73, 73, 73, 73, 73, 
-	73, 73, 73, 73, 73, 73, 73, 73, 
-	73, 73, 73, 71, 74, 74, 74, 74, 
-	74, 74, 74, 74, 74, 74, 71, 71, 
-	71, 71, 71, 71, 71, 71, 71, 71, 
-	71, 71, 71, 71, 71, 71, 71, 71, 
-	71, 71, 71, 71, 71, 71, 71, 71, 
-	71, 71, 71, 71, 71, 71, 71, 71, 
-	71, 71, 71, 71, 71, 71, 71, 71, 
-	71, 71, 71, 71, 71, 71, 71, 71, 
-	71, 71, 71, 71, 71, 71, 71, 71, 
-	71, 71, 71, 71, 75, 71, 76, 76, 
-	76, 76, 76, 76, 76, 76, 76, 76, 
-	71, 77, 71, 78, 78, 78, 78, 78, 
-	78, 78, 78, 78, 78, 71, 71, 71, 
-	71, 71, 71, 71, 78, 78, 78, 78, 
-	78, 78, 71, 71, 71, 71, 71, 71, 
-	71, 71, 71, 71, 71, 71, 71, 71, 
-	71, 71, 71, 71, 71, 71, 71, 71, 
-	71, 71, 71, 71, 78, 78, 78, 78, 
-	78, 78, 71, 79, 79, 79, 79, 79, 
-	79, 79, 79, 79, 79, 71, 80, 71, 
-	71, 71, 71, 71, 79, 79, 79, 79, 
-	79, 79, 71, 71, 71, 71, 71, 71, 
-	71, 71, 71, 71, 71, 71, 71, 71, 
-	71, 71, 71, 71, 71, 71, 71, 71, 
-	71, 71, 71, 71, 79, 79, 79, 79, 
-	79, 79, 71, 81, 81, 81, 81, 81, 
-	81, 81, 81, 81, 81, 71, 82, 71, 
-	71, 71, 71, 71, 81, 81, 81, 81, 
-	81, 81, 81, 81, 81, 81, 81, 81, 
-	81, 81, 81, 81, 81, 81, 81, 81, 
-	81, 81, 81, 81, 81, 81, 71, 71, 
-	71, 71, 71, 71, 81, 81, 81, 81, 
-	81, 81, 81, 81, 81, 81, 81, 81, 
-	81, 81, 81, 81, 81, 81, 81, 81, 
-	81, 81, 81, 81, 81, 81, 71, 84, 
+	68, 74, 68, 75, 75, 75, 75, 75, 
+	75, 75, 75, 75, 75, 68, 68, 68, 
+	68, 68, 68, 68, 75, 75, 75, 75, 
+	75, 75, 68, 68, 68, 68, 68, 68, 
+	68, 68, 68, 68, 68, 68, 68, 68, 
+	68, 68, 68, 68, 68, 68, 68, 68, 
+	68, 68, 68, 68, 75, 75, 75, 75, 
+	75, 75, 68, 76, 76, 76, 76, 76, 
+	76, 76, 76, 76, 76, 68, 77, 68, 
+	68, 68, 68, 68, 76, 76, 76, 76, 
+	76, 76, 68, 68, 68, 68, 68, 68, 
+	68, 68, 68, 68, 68, 68, 68, 68, 
+	68, 68, 68, 68, 68, 68, 68, 68, 
+	68, 68, 68, 68, 76, 76, 76, 76, 
+	76, 76, 68, 78, 78, 78, 78, 78, 
+	78, 78, 78, 78, 78, 68, 79, 68, 
+	68, 68, 68, 68, 78, 78, 78, 78, 
+	78, 78, 78, 78, 78, 78, 78, 78, 
+	78, 78, 78, 78, 78, 78, 78, 78, 
+	78, 78, 78, 78, 78, 78, 68, 68, 
+	68, 68, 68, 68, 78, 78, 78, 78, 
+	78, 78, 78, 78, 78, 78, 78, 78, 
+	78, 78, 78, 78, 78, 78, 78, 78, 
+	78, 78, 78, 78, 78, 78, 68, 81, 
+	80, 80, 80, 80, 80, 80, 80, 80, 
+	80, 80, 80, 80, 80, 80, 80, 80, 
+	80, 80, 80, 80, 80, 82, 80, 84, 
 	83, 83, 83, 83, 83, 83, 83, 83, 
 	83, 83, 83, 83, 83, 83, 83, 83, 
 	83, 83, 83, 83, 83, 85, 83, 87, 
@@ -339,10 +334,7 @@ self._markup_indicies = [
 	101, 101, 101, 101, 101, 103, 101, 105, 
 	104, 104, 104, 104, 104, 104, 104, 104, 
 	104, 104, 104, 104, 104, 104, 104, 104, 
-	104, 104, 104, 104, 104, 106, 104, 108, 
-	107, 107, 107, 107, 107, 107, 107, 107, 
-	107, 107, 107, 107, 107, 107, 107, 107, 
-	107, 107, 107, 107, 107, 109, 107, 35, 
+	104, 104, 104, 104, 104, 106, 104, 35, 
 	0
 ]
 
@@ -352,19 +344,19 @@ class << self
 end
 self._markup_trans_targs = [
 	2, 0, 12, 33, 35, 2, 3, 5, 
-	49, 4, 3, 5, 49, 4, 3, 5, 
-	6, 49, 7, 8, 11, 10, 8, 9, 
-	10, 3, 5, 49, 8, 9, 10, 3, 
-	5, 49, 13, 0, 17, 24, 14, 15, 
-	16, 50, 18, 19, 20, 21, 22, 23, 
-	51, 25, 26, 27, 28, 29, 30, 31, 
-	32, 52, 34, 34, 53, 36, 0, 36, 
-	37, 38, 37, 39, 38, 39, 54, 0, 
-	41, 45, 42, 43, 42, 55, 44, 44, 
-	55, 45, 55, 47, 48, 1, 47, 48, 
-	1, 47, 48, 1, 47, 48, 1, 47, 
-	48, 1, 47, 48, 1, 47, 48, 1, 
-	47, 48, 1, 47, 48, 1
+	48, 4, 3, 5, 48, 4, 3, 5, 
+	6, 48, 7, 8, 11, 10, 8, 9, 
+	10, 3, 5, 48, 8, 9, 10, 3, 
+	5, 48, 13, 0, 17, 24, 14, 15, 
+	16, 49, 18, 19, 20, 21, 22, 23, 
+	50, 25, 26, 27, 28, 29, 30, 31, 
+	32, 51, 34, 34, 52, 36, 0, 36, 
+	37, 37, 38, 53, 0, 40, 44, 41, 
+	42, 41, 54, 43, 43, 54, 44, 54, 
+	46, 47, 1, 46, 47, 1, 46, 47, 
+	1, 46, 47, 1, 46, 47, 1, 46, 
+	47, 1, 46, 47, 1, 46, 47, 1, 
+	46, 47, 1
 ]
 
 class << self
@@ -380,12 +372,12 @@ self._markup_trans_actions = [
 	0, 0, 0, 0, 0, 0, 0, 0, 
 	0, 0, 0, 0, 0, 0, 0, 0, 
 	0, 0, 2, 0, 9, 2, 25, 0, 
-	9, 26, 26, 27, 0, 28, 0, 29, 
-	0, 30, 30, 0, 0, 31, 30, 0, 
-	32, 0, 33, 34, 35, 36, 12, 14, 
-	38, 17, 19, 40, 42, 43, 44, 46, 
-	47, 48, 50, 51, 52, 54, 55, 56, 
-	58, 59, 60, 62, 63, 64
+	26, 0, 27, 0, 28, 0, 29, 29, 
+	0, 0, 30, 29, 0, 31, 0, 32, 
+	33, 34, 35, 12, 14, 37, 17, 19, 
+	39, 41, 42, 43, 45, 46, 47, 49, 
+	50, 51, 53, 54, 55, 57, 58, 59, 
+	61, 62, 63
 ]
 
 class << self
@@ -397,19 +389,19 @@ self._markup_eof_actions = [
 	1, 1, 1, 1, 0, 0, 22, 22, 
 	22, 0, 0, 0, 0, 0, 0, 23, 
 	0, 0, 0, 0, 0, 0, 24, 24, 
-	24, 1, 1, 25, 25, 25, 25, 25, 
-	29, 29, 29, 29, 29, 29, 0, 37, 
-	39, 41, 45, 49, 53, 57, 61, 0
+	24, 1, 1, 25, 25, 25, 25, 28, 
+	28, 28, 28, 28, 28, 0, 36, 38, 
+	40, 44, 48, 52, 56, 60, 0
 ]
 
 class << self
 	attr_accessor :markup_start
 end
-self.markup_start = 46;
+self.markup_start = 45;
 class << self
 	attr_accessor :markup_first_final
 end
-self.markup_first_final = 46;
+self.markup_first_final = 45;
 class << self
 	attr_accessor :markup_error
 end
@@ -418,11 +410,11 @@ self.markup_error = 0;
 class << self
 	attr_accessor :markup_en_parse_entity
 end
-self.markup_en_parse_entity = 40;
+self.markup_en_parse_entity = 39;
 class << self
 	attr_accessor :markup_en_main
 end
-self.markup_en_main = 46;
+self.markup_en_main = 45;
 
 
 # line 206 "markup.rl"
@@ -447,7 +439,7 @@ self.markup_en_main = 46;
 			has_value = false
 			
 			
-# line 451 "markup.rb"
+# line 443 "markup.rb"
 begin
 	p ||= 0
 	pe ||= data.length
@@ -457,7 +449,7 @@ end
 
 # line 227 "markup.rl"
 			
-# line 461 "markup.rb"
+# line 453 "markup.rb"
 begin
 	testEof = false
 	_slen, _trans, _keys, _inds, _acts, _nacts = nil
@@ -517,24 +509,19 @@ begin
 
 		characters_begin = p
 			end
-	when 29 then
+	when 28 then
 # line 49 "markup.rl"
 		begin
 
 		raise ParseError.new("could not parse entity", buffer, p)
 			end
-	when 30 then
+	when 29 then
 # line 53 "markup.rl"
 		begin
 
 		entity_begin = p
 			end
-	when 26 then
-# line 109 "markup.rl"
-		begin
-
-			end
-	when 28 then
+	when 27 then
 # line 112 "markup.rl"
 		begin
 
@@ -563,11 +550,21 @@ begin
 	begin
 		stack[top] = cs
 		top+= 1
-		cs = 40
+		cs = 39
 		_goto_level = _again
 		next
 	end
 		end
+	when 26 then
+# line 28 "markup.rl"
+		begin
+
+		identifier_end = p
+			end
+# line 109 "markup.rl"
+		begin
+
+			end
 	when 3 then
 # line 28 "markup.rl"
 		begin
@@ -620,7 +617,7 @@ begin
 	begin
 		stack[top] = cs
 		top+= 1
-		cs = 40
+		cs = 39
 		_goto_level = _again
 		next
 	end
@@ -663,12 +660,12 @@ begin
 	begin
 		stack[top] = cs
 		top+= 1
-		cs = 40
+		cs = 39
 		_goto_level = _again
 		next
 	end
 		end
-	when 33 then
+	when 32 then
 # line 57 "markup.rl"
 		begin
 
@@ -687,7 +684,7 @@ begin
 		next
 	end
 		end
-	when 32 then
+	when 31 then
 # line 65 "markup.rl"
 		begin
 
@@ -704,7 +701,7 @@ begin
 		next
 	end
 		end
-	when 31 then
+	when 30 then
 # line 71 "markup.rl"
 		begin
 
@@ -721,15 +718,6 @@ begin
 		next
 	end
 		end
-	when 27 then
-# line 109 "markup.rl"
-		begin
-
-			end
-# line 112 "markup.rl"
-		begin
-
-			end
 	when 5 then
 # line 136 "markup.rl"
 		begin
@@ -860,7 +848,7 @@ begin
 
 		self_closing = true
 			end
-	when 34 then
+	when 33 then
 # line 188 "markup.rl"
 		begin
 
@@ -875,7 +863,7 @@ begin
 
 		characters_begin = p
 			end
-	when 35 then
+	when 34 then
 # line 188 "markup.rl"
 		begin
 
@@ -890,11 +878,33 @@ begin
 	begin
 		stack[top] = cs
 		top+= 1
-		cs = 40
+		cs = 39
 		_goto_level = _again
 		next
 	end
 		end
+	when 49 then
+# line 81 "markup.rl"
+		begin
+
+		doctype_end = p
+		
+		delegate.doctype(data.byteslice(doctype_begin...doctype_end))
+			end
+# line 188 "markup.rl"
+		begin
+
+			end
+# line 32 "markup.rl"
+		begin
+
+		pcdata = ""
+			end
+# line 39 "markup.rl"
+		begin
+
+		characters_begin = p
+			end
 	when 50 then
 # line 81 "markup.rl"
 		begin
@@ -912,18 +922,23 @@ begin
 
 		pcdata = ""
 			end
-# line 39 "markup.rl"
+# line 10 "/Users/samuel/Documents/Programming/ioquatix/trenni/parsers/trenni/entities.rl"
+		begin
+	begin
+		stack[top] = cs
+		top+= 1
+		cs = 39
+		_goto_level = _again
+		next
+	end
+		end
+	when 45 then
+# line 95 "markup.rl"
 		begin
 
-		characters_begin = p
-			end
-	when 51 then
-# line 81 "markup.rl"
-		begin
-
-		doctype_end = p
+		comment_end = p
 		
-		delegate.doctype(data.byteslice(doctype_begin...doctype_end))
+		delegate.comment(data.byteslice(comment_begin...comment_end))
 			end
 # line 188 "markup.rl"
 		begin
@@ -934,16 +949,11 @@ begin
 
 		pcdata = ""
 			end
-# line 10 "/Users/samuel/Documents/Programming/ioquatix/trenni/parsers/trenni/entities.rl"
+# line 39 "markup.rl"
 		begin
-	begin
-		stack[top] = cs
-		top+= 1
-		cs = 40
-		_goto_level = _again
-		next
-	end
-		end
+
+		characters_begin = p
+			end
 	when 46 then
 # line 95 "markup.rl"
 		begin
@@ -961,18 +971,21 @@ begin
 
 		pcdata = ""
 			end
-# line 39 "markup.rl"
+# line 10 "/Users/samuel/Documents/Programming/ioquatix/trenni/parsers/trenni/entities.rl"
+		begin
+	begin
+		stack[top] = cs
+		top+= 1
+		cs = 39
+		_goto_level = _again
+		next
+	end
+		end
+	when 61 then
+# line 115 "markup.rl"
 		begin
 
-		characters_begin = p
-			end
-	when 47 then
-# line 95 "markup.rl"
-		begin
-
-		comment_end = p
-		
-		delegate.comment(data.byteslice(comment_begin...comment_end))
+		delegate.instruction(data.byteslice(instruction_begin, p-instruction_begin))
 			end
 # line 188 "markup.rl"
 		begin
@@ -983,16 +996,11 @@ begin
 
 		pcdata = ""
 			end
-# line 10 "/Users/samuel/Documents/Programming/ioquatix/trenni/parsers/trenni/entities.rl"
+# line 39 "markup.rl"
 		begin
-	begin
-		stack[top] = cs
-		top+= 1
-		cs = 40
-		_goto_level = _again
-		next
-	end
-		end
+
+		characters_begin = p
+			end
 	when 62 then
 # line 115 "markup.rl"
 		begin
@@ -1008,16 +1016,21 @@ begin
 
 		pcdata = ""
 			end
-# line 39 "markup.rl"
+# line 10 "/Users/samuel/Documents/Programming/ioquatix/trenni/parsers/trenni/entities.rl"
+		begin
+	begin
+		stack[top] = cs
+		top+= 1
+		cs = 39
+		_goto_level = _again
+		next
+	end
+		end
+	when 41 then
+# line 159 "markup.rl"
 		begin
 
-		characters_begin = p
-			end
-	when 63 then
-# line 115 "markup.rl"
-		begin
-
-		delegate.instruction(data.byteslice(instruction_begin, p-instruction_begin))
+		delegate.open_tag_end(self_closing)
 			end
 # line 188 "markup.rl"
 		begin
@@ -1028,16 +1041,11 @@ begin
 
 		pcdata = ""
 			end
-# line 10 "/Users/samuel/Documents/Programming/ioquatix/trenni/parsers/trenni/entities.rl"
+# line 39 "markup.rl"
 		begin
-	begin
-		stack[top] = cs
-		top+= 1
-		cs = 40
-		_goto_level = _again
-		next
-	end
-		end
+
+		characters_begin = p
+			end
 	when 42 then
 # line 159 "markup.rl"
 		begin
@@ -1053,16 +1061,21 @@ begin
 
 		pcdata = ""
 			end
-# line 39 "markup.rl"
+# line 10 "/Users/samuel/Documents/Programming/ioquatix/trenni/parsers/trenni/entities.rl"
+		begin
+	begin
+		stack[top] = cs
+		top+= 1
+		cs = 39
+		_goto_level = _again
+		next
+	end
+		end
+	when 57 then
+# line 166 "markup.rl"
 		begin
 
-		characters_begin = p
-			end
-	when 43 then
-# line 159 "markup.rl"
-		begin
-
-		delegate.open_tag_end(self_closing)
+		delegate.close_tag(data.byteslice(identifier_begin...identifier_end), identifier_begin)
 			end
 # line 188 "markup.rl"
 		begin
@@ -1073,16 +1086,11 @@ begin
 
 		pcdata = ""
 			end
-# line 10 "/Users/samuel/Documents/Programming/ioquatix/trenni/parsers/trenni/entities.rl"
+# line 39 "markup.rl"
 		begin
-	begin
-		stack[top] = cs
-		top+= 1
-		cs = 40
-		_goto_level = _again
-		next
-	end
-		end
+
+		characters_begin = p
+			end
 	when 58 then
 # line 166 "markup.rl"
 		begin
@@ -1098,16 +1106,23 @@ begin
 
 		pcdata = ""
 			end
-# line 39 "markup.rl"
+# line 10 "/Users/samuel/Documents/Programming/ioquatix/trenni/parsers/trenni/entities.rl"
+		begin
+	begin
+		stack[top] = cs
+		top+= 1
+		cs = 39
+		_goto_level = _again
+		next
+	end
+		end
+	when 53 then
+# line 178 "markup.rl"
 		begin
 
-		characters_begin = p
-			end
-	when 59 then
-# line 166 "markup.rl"
-		begin
-
-		delegate.close_tag(data.byteslice(identifier_begin...identifier_end), identifier_begin)
+		cdata_end = p
+		
+		delegate.cdata(data.byteslice(cdata_begin...cdata_end))
 			end
 # line 188 "markup.rl"
 		begin
@@ -1118,16 +1133,11 @@ begin
 
 		pcdata = ""
 			end
-# line 10 "/Users/samuel/Documents/Programming/ioquatix/trenni/parsers/trenni/entities.rl"
+# line 39 "markup.rl"
 		begin
-	begin
-		stack[top] = cs
-		top+= 1
-		cs = 40
-		_goto_level = _again
-		next
-	end
-		end
+
+		characters_begin = p
+			end
 	when 54 then
 # line 178 "markup.rl"
 		begin
@@ -1145,10 +1155,218 @@ begin
 
 		pcdata = ""
 			end
-# line 39 "markup.rl"
+# line 10 "/Users/samuel/Documents/Programming/ioquatix/trenni/parsers/trenni/entities.rl"
+		begin
+	begin
+		stack[top] = cs
+		top+= 1
+		cs = 39
+		_goto_level = _again
+		next
+	end
+		end
+	when 35 then
+# line 129 "markup.rl"
 		begin
 
-		characters_begin = p
+			end
+# line 163 "markup.rl"
+		begin
+
+			end
+# line 105 "markup.rl"
+		begin
+
+		instruction_begin = p
+			end
+# line 91 "markup.rl"
+		begin
+
+		comment_begin = p
+			end
+# line 77 "markup.rl"
+		begin
+
+		doctype_begin = p
+			end
+# line 174 "markup.rl"
+		begin
+
+		cdata_begin = p
+			end
+	when 51 then
+# line 81 "markup.rl"
+		begin
+
+		doctype_end = p
+		
+		delegate.doctype(data.byteslice(doctype_begin...doctype_end))
+			end
+# line 129 "markup.rl"
+		begin
+
+			end
+# line 163 "markup.rl"
+		begin
+
+			end
+# line 105 "markup.rl"
+		begin
+
+		instruction_begin = p
+			end
+# line 91 "markup.rl"
+		begin
+
+		comment_begin = p
+			end
+# line 77 "markup.rl"
+		begin
+
+		doctype_begin = p
+			end
+# line 174 "markup.rl"
+		begin
+
+		cdata_begin = p
+			end
+	when 47 then
+# line 95 "markup.rl"
+		begin
+
+		comment_end = p
+		
+		delegate.comment(data.byteslice(comment_begin...comment_end))
+			end
+# line 129 "markup.rl"
+		begin
+
+			end
+# line 163 "markup.rl"
+		begin
+
+			end
+# line 105 "markup.rl"
+		begin
+
+		instruction_begin = p
+			end
+# line 91 "markup.rl"
+		begin
+
+		comment_begin = p
+			end
+# line 77 "markup.rl"
+		begin
+
+		doctype_begin = p
+			end
+# line 174 "markup.rl"
+		begin
+
+		cdata_begin = p
+			end
+	when 63 then
+# line 115 "markup.rl"
+		begin
+
+		delegate.instruction(data.byteslice(instruction_begin, p-instruction_begin))
+			end
+# line 129 "markup.rl"
+		begin
+
+			end
+# line 163 "markup.rl"
+		begin
+
+			end
+# line 105 "markup.rl"
+		begin
+
+		instruction_begin = p
+			end
+# line 91 "markup.rl"
+		begin
+
+		comment_begin = p
+			end
+# line 77 "markup.rl"
+		begin
+
+		doctype_begin = p
+			end
+# line 174 "markup.rl"
+		begin
+
+		cdata_begin = p
+			end
+	when 43 then
+# line 159 "markup.rl"
+		begin
+
+		delegate.open_tag_end(self_closing)
+			end
+# line 129 "markup.rl"
+		begin
+
+			end
+# line 163 "markup.rl"
+		begin
+
+			end
+# line 105 "markup.rl"
+		begin
+
+		instruction_begin = p
+			end
+# line 91 "markup.rl"
+		begin
+
+		comment_begin = p
+			end
+# line 77 "markup.rl"
+		begin
+
+		doctype_begin = p
+			end
+# line 174 "markup.rl"
+		begin
+
+		cdata_begin = p
+			end
+	when 59 then
+# line 166 "markup.rl"
+		begin
+
+		delegate.close_tag(data.byteslice(identifier_begin...identifier_end), identifier_begin)
+			end
+# line 129 "markup.rl"
+		begin
+
+			end
+# line 163 "markup.rl"
+		begin
+
+			end
+# line 105 "markup.rl"
+		begin
+
+		instruction_begin = p
+			end
+# line 91 "markup.rl"
+		begin
+
+		comment_begin = p
+			end
+# line 77 "markup.rl"
+		begin
+
+		doctype_begin = p
+			end
+# line 174 "markup.rl"
+		begin
+
+		cdata_begin = p
 			end
 	when 55 then
 # line 178 "markup.rl"
@@ -1158,26 +1376,6 @@ begin
 		
 		delegate.cdata(data.byteslice(cdata_begin...cdata_end))
 			end
-# line 188 "markup.rl"
-		begin
-
-			end
-# line 32 "markup.rl"
-		begin
-
-		pcdata = ""
-			end
-# line 10 "/Users/samuel/Documents/Programming/ioquatix/trenni/parsers/trenni/entities.rl"
-		begin
-	begin
-		stack[top] = cs
-		top+= 1
-		cs = 40
-		_goto_level = _again
-		next
-	end
-		end
-	when 36 then
 # line 129 "markup.rl"
 		begin
 
@@ -1205,395 +1403,6 @@ begin
 		begin
 
 		cdata_begin = p
-			end
-	when 52 then
-# line 81 "markup.rl"
-		begin
-
-		doctype_end = p
-		
-		delegate.doctype(data.byteslice(doctype_begin...doctype_end))
-			end
-# line 129 "markup.rl"
-		begin
-
-			end
-# line 163 "markup.rl"
-		begin
-
-			end
-# line 105 "markup.rl"
-		begin
-
-		instruction_begin = p
-			end
-# line 91 "markup.rl"
-		begin
-
-		comment_begin = p
-			end
-# line 77 "markup.rl"
-		begin
-
-		doctype_begin = p
-			end
-# line 174 "markup.rl"
-		begin
-
-		cdata_begin = p
-			end
-	when 48 then
-# line 95 "markup.rl"
-		begin
-
-		comment_end = p
-		
-		delegate.comment(data.byteslice(comment_begin...comment_end))
-			end
-# line 129 "markup.rl"
-		begin
-
-			end
-# line 163 "markup.rl"
-		begin
-
-			end
-# line 105 "markup.rl"
-		begin
-
-		instruction_begin = p
-			end
-# line 91 "markup.rl"
-		begin
-
-		comment_begin = p
-			end
-# line 77 "markup.rl"
-		begin
-
-		doctype_begin = p
-			end
-# line 174 "markup.rl"
-		begin
-
-		cdata_begin = p
-			end
-	when 64 then
-# line 115 "markup.rl"
-		begin
-
-		delegate.instruction(data.byteslice(instruction_begin, p-instruction_begin))
-			end
-# line 129 "markup.rl"
-		begin
-
-			end
-# line 163 "markup.rl"
-		begin
-
-			end
-# line 105 "markup.rl"
-		begin
-
-		instruction_begin = p
-			end
-# line 91 "markup.rl"
-		begin
-
-		comment_begin = p
-			end
-# line 77 "markup.rl"
-		begin
-
-		doctype_begin = p
-			end
-# line 174 "markup.rl"
-		begin
-
-		cdata_begin = p
-			end
-	when 44 then
-# line 159 "markup.rl"
-		begin
-
-		delegate.open_tag_end(self_closing)
-			end
-# line 129 "markup.rl"
-		begin
-
-			end
-# line 163 "markup.rl"
-		begin
-
-			end
-# line 105 "markup.rl"
-		begin
-
-		instruction_begin = p
-			end
-# line 91 "markup.rl"
-		begin
-
-		comment_begin = p
-			end
-# line 77 "markup.rl"
-		begin
-
-		doctype_begin = p
-			end
-# line 174 "markup.rl"
-		begin
-
-		cdata_begin = p
-			end
-	when 60 then
-# line 166 "markup.rl"
-		begin
-
-		delegate.close_tag(data.byteslice(identifier_begin...identifier_end), identifier_begin)
-			end
-# line 129 "markup.rl"
-		begin
-
-			end
-# line 163 "markup.rl"
-		begin
-
-			end
-# line 105 "markup.rl"
-		begin
-
-		instruction_begin = p
-			end
-# line 91 "markup.rl"
-		begin
-
-		comment_begin = p
-			end
-# line 77 "markup.rl"
-		begin
-
-		doctype_begin = p
-			end
-# line 174 "markup.rl"
-		begin
-
-		cdata_begin = p
-			end
-	when 56 then
-# line 178 "markup.rl"
-		begin
-
-		cdata_end = p
-		
-		delegate.cdata(data.byteslice(cdata_begin...cdata_end))
-			end
-# line 129 "markup.rl"
-		begin
-
-			end
-# line 163 "markup.rl"
-		begin
-
-			end
-# line 105 "markup.rl"
-		begin
-
-		instruction_begin = p
-			end
-# line 91 "markup.rl"
-		begin
-
-		comment_begin = p
-			end
-# line 77 "markup.rl"
-		begin
-
-		doctype_begin = p
-			end
-# line 174 "markup.rl"
-		begin
-
-		cdata_begin = p
-			end
-	when 40 then
-# line 36 "markup.rl"
-		begin
-
-			end
-# line 191 "markup.rl"
-		begin
-
-		delegate.text(pcdata)
-			end
-# line 129 "markup.rl"
-		begin
-
-			end
-# line 163 "markup.rl"
-		begin
-
-			end
-# line 105 "markup.rl"
-		begin
-
-		instruction_begin = p
-			end
-# line 91 "markup.rl"
-		begin
-
-		comment_begin = p
-			end
-# line 77 "markup.rl"
-		begin
-
-		doctype_begin = p
-			end
-# line 174 "markup.rl"
-		begin
-
-		cdata_begin = p
-			end
-	when 38 then
-# line 43 "markup.rl"
-		begin
-
-		characters_end = p
-		
-		pcdata << data.byteslice(characters_begin...characters_end)
-			end
-# line 36 "markup.rl"
-		begin
-
-			end
-# line 191 "markup.rl"
-		begin
-
-		delegate.text(pcdata)
-			end
-# line 129 "markup.rl"
-		begin
-
-			end
-# line 163 "markup.rl"
-		begin
-
-			end
-# line 105 "markup.rl"
-		begin
-
-		instruction_begin = p
-			end
-# line 91 "markup.rl"
-		begin
-
-		comment_begin = p
-			end
-# line 77 "markup.rl"
-		begin
-
-		doctype_begin = p
-			end
-# line 174 "markup.rl"
-		begin
-
-		cdata_begin = p
-			end
-# line 1503 "markup.rb"
-	end
-	end
-	end
-	if _goto_level <= _again
-	if cs == 0
-		_goto_level = _out
-		next
-	end
-	p += 1
-	if p != pe
-		_goto_level = _resume
-		next
-	end
-	end
-	if _goto_level <= _test_eof
-	if p == eof
-	  case _markup_eof_actions[cs]
-	when 29 then
-# line 49 "markup.rl"
-		begin
-
-		raise ParseError.new("could not parse entity", buffer, p)
-			end
-	when 49 then
-# line 81 "markup.rl"
-		begin
-
-		doctype_end = p
-		
-		delegate.doctype(data.byteslice(doctype_begin...doctype_end))
-			end
-	when 23 then
-# line 87 "markup.rl"
-		begin
-
-		raise ParseError.new("could not parse doctype", buffer, p)
-			end
-	when 45 then
-# line 95 "markup.rl"
-		begin
-
-		comment_end = p
-		
-		delegate.comment(data.byteslice(comment_begin...comment_end))
-			end
-	when 22 then
-# line 101 "markup.rl"
-		begin
-
-		raise ParseError.new("could not parse comment", buffer, p)
-			end
-	when 61 then
-# line 115 "markup.rl"
-		begin
-
-		delegate.instruction(data.byteslice(instruction_begin, p-instruction_begin))
-			end
-	when 25 then
-# line 119 "markup.rl"
-		begin
-
-		raise ParseError.new("could not parse instruction", buffer, p)
-			end
-	when 41 then
-# line 159 "markup.rl"
-		begin
-
-		delegate.open_tag_end(self_closing)
-			end
-	when 57 then
-# line 166 "markup.rl"
-		begin
-
-		delegate.close_tag(data.byteslice(identifier_begin...identifier_end), identifier_begin)
-			end
-	when 1 then
-# line 170 "markup.rl"
-		begin
-
-		raise ParseError.new("could not parse tag", buffer, p)
-			end
-	when 53 then
-# line 178 "markup.rl"
-		begin
-
-		cdata_end = p
-		
-		delegate.cdata(data.byteslice(cdata_begin...cdata_end))
-			end
-	when 24 then
-# line 184 "markup.rl"
-		begin
-
-		raise ParseError.new("could not parse cdata", buffer, p)
 			end
 	when 39 then
 # line 36 "markup.rl"
@@ -1604,6 +1413,34 @@ begin
 		begin
 
 		delegate.text(pcdata)
+			end
+# line 129 "markup.rl"
+		begin
+
+			end
+# line 163 "markup.rl"
+		begin
+
+			end
+# line 105 "markup.rl"
+		begin
+
+		instruction_begin = p
+			end
+# line 91 "markup.rl"
+		begin
+
+		comment_begin = p
+			end
+# line 77 "markup.rl"
+		begin
+
+		doctype_begin = p
+			end
+# line 174 "markup.rl"
+		begin
+
+		cdata_begin = p
 			end
 	when 37 then
 # line 43 "markup.rl"
@@ -1622,7 +1459,158 @@ begin
 
 		delegate.text(pcdata)
 			end
-# line 1626 "markup.rb"
+# line 129 "markup.rl"
+		begin
+
+			end
+# line 163 "markup.rl"
+		begin
+
+			end
+# line 105 "markup.rl"
+		begin
+
+		instruction_begin = p
+			end
+# line 91 "markup.rl"
+		begin
+
+		comment_begin = p
+			end
+# line 77 "markup.rl"
+		begin
+
+		doctype_begin = p
+			end
+# line 174 "markup.rl"
+		begin
+
+		cdata_begin = p
+			end
+# line 1491 "markup.rb"
+	end
+	end
+	end
+	if _goto_level <= _again
+	if cs == 0
+		_goto_level = _out
+		next
+	end
+	p += 1
+	if p != pe
+		_goto_level = _resume
+		next
+	end
+	end
+	if _goto_level <= _test_eof
+	if p == eof
+	  case _markup_eof_actions[cs]
+	when 28 then
+# line 49 "markup.rl"
+		begin
+
+		raise ParseError.new("could not parse entity", buffer, p)
+			end
+	when 48 then
+# line 81 "markup.rl"
+		begin
+
+		doctype_end = p
+		
+		delegate.doctype(data.byteslice(doctype_begin...doctype_end))
+			end
+	when 23 then
+# line 87 "markup.rl"
+		begin
+
+		raise ParseError.new("could not parse doctype", buffer, p)
+			end
+	when 44 then
+# line 95 "markup.rl"
+		begin
+
+		comment_end = p
+		
+		delegate.comment(data.byteslice(comment_begin...comment_end))
+			end
+	when 22 then
+# line 101 "markup.rl"
+		begin
+
+		raise ParseError.new("could not parse comment", buffer, p)
+			end
+	when 60 then
+# line 115 "markup.rl"
+		begin
+
+		delegate.instruction(data.byteslice(instruction_begin, p-instruction_begin))
+			end
+	when 25 then
+# line 119 "markup.rl"
+		begin
+
+		raise ParseError.new("could not parse instruction", buffer, p)
+			end
+	when 40 then
+# line 159 "markup.rl"
+		begin
+
+		delegate.open_tag_end(self_closing)
+			end
+	when 56 then
+# line 166 "markup.rl"
+		begin
+
+		delegate.close_tag(data.byteslice(identifier_begin...identifier_end), identifier_begin)
+			end
+	when 1 then
+# line 170 "markup.rl"
+		begin
+
+		raise ParseError.new("could not parse tag", buffer, p)
+			end
+	when 52 then
+# line 178 "markup.rl"
+		begin
+
+		cdata_end = p
+		
+		delegate.cdata(data.byteslice(cdata_begin...cdata_end))
+			end
+	when 24 then
+# line 184 "markup.rl"
+		begin
+
+		raise ParseError.new("could not parse cdata", buffer, p)
+			end
+	when 38 then
+# line 36 "markup.rl"
+		begin
+
+			end
+# line 191 "markup.rl"
+		begin
+
+		delegate.text(pcdata)
+			end
+	when 36 then
+# line 43 "markup.rl"
+		begin
+
+		characters_end = p
+		
+		pcdata << data.byteslice(characters_begin...characters_end)
+			end
+# line 36 "markup.rl"
+		begin
+
+			end
+# line 191 "markup.rl"
+		begin
+
+		delegate.text(pcdata)
+			end
+# line 1614 "markup.rb"
 	  end
 	end
 
