@@ -26,7 +26,7 @@ module Trenni
 		['encoding', 'UTF-8']
 	].freeze
 	
-	# Build HTML5 markup quickly and efficiently.
+	# Build markup quickly and efficiently.
 	class Builder
 		include Markup
 		
@@ -53,11 +53,12 @@ module Trenni
 			end
 		end
 		
-		def initialize(output = nil)
+		def initialize(output = nil, indent: true, encoding: Encoding::UTF_8)
 			# This field gets togged in #inline so we keep track of it separately from @indentation.
-			@indent = true
+			@indent = indent
 			
-			@output = output || String.new.force_encoding(Encoding::UTF_8)
+			# We don't need to use MarkupString here as Builder itself is considered markup and should be inserted directly into the output stream.
+			@output = output || String.new.force_encoding(encoding)
 			
 			@level = [0]
 			@children = [0]
