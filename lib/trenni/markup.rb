@@ -62,6 +62,12 @@ module Trenni
 		end
 	end
 	
+	module Script
+		def self.json(value)
+			MarkupString.new(JSON.dump(value), false)
+		end
+	end
+	
 	def self.MarkupString(value)
 		Markup.escape(value)
 	end
