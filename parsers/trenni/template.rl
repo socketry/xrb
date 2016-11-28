@@ -29,9 +29,9 @@
 	)*;
 	
 	# We are only interested in instructions that start with r:
-	instruction = '<?r' (space+
-		%instruction_begin (any - [?] | '?' [^>])* %instruction_end
-	'?>') @err(instruction_error);
+	instruction = '<?r' (
+		(space+ (any - [?] | '?' [^>])*) >instruction_begin %instruction_end
+		'?>') @err(instruction_error);
 	
 	instruction_line = (space - newline)* instruction space* newline;
 	
