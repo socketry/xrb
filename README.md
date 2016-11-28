@@ -1,8 +1,6 @@
 # Trenni
 
-Trenni is a templating system built on top of SGML/XML. It uses efficient native parsers where possible and compiles templates into efficient Ruby.
-
-In addition, Trenni includes an SGML/XML builder to assist with the generation of pleasantly formatted markup which is compatible with the included parsers.
+Trenni is a templating system built loosely on top of XHTML markup. It uses efficient native parsers where possible and compiles templates into efficient Ruby. It also includes a markup builder to assist with the generation of pleasantly formatted markup which is compatible with the included parsers.
 
 [![Build Status](https://secure.travis-ci.org/ioquatix/trenni.svg)](http://travis-ci.org/ioquatix/trenni)
 [![Code Climate](https://codeclimate.com/github/ioquatix/trenni.svg)](https://codeclimate.com/github/ioquatix/trenni)
