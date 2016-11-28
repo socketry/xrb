@@ -45,7 +45,7 @@ module Trenni
 		include Markup
 		
 		# This is only casually related to HTML, it's just enough so that it would not be mis-interpreted by `Trenni::Parser`.
-		ESCAPE = Substitutions.new("&" => "&amp;", "<" => "&lt;", ">" => "&gt;", "\"" => "&quot;", "'" => "&apos;")
+		ESCAPE = Substitutions.new("&" => "&amp;", "<" => "&lt;", ">" => "&gt;", "\"" => "&quot;")
 		
 		# Convert ESCAPE characters into their corresponding entities.
 		def initialize(string = nil, escape = true)
