@@ -8,7 +8,9 @@ rvm:
   - 2.3.0
   - ruby-head
   - rbx-2
-env: COVERAGE=true
+env:
+  - COVERAGE=true
+  - COVERAGE=true TRENNI_PREFER_FALLBACK=y
 matrix:
   allow_failures:
     - rvm: "rbx-2"
