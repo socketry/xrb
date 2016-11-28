@@ -71,6 +71,8 @@ module Trenni
 			@output
 		end
 		
+		alias to_s to_str
+		
 		def == other
 			to_str == other
 		end
