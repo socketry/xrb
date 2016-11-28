@@ -58,7 +58,7 @@ module Trenni
 			@indent = indent
 			
 			# We don't need to use MarkupString here as Builder itself is considered markup and should be inserted directly into the output stream.
-			@output = output || String.new.force_encoding(encoding)
+			@output = output || MarkupString.new.force_encoding(encoding)
 			
 			@level = [0]
 			@children = [0]
@@ -74,7 +74,7 @@ module Trenni
 		alias to_s to_str
 		
 		def == other
-			to_str == other
+			@output == String(other)
 		end
 		
 		def indentation
