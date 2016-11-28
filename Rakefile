@@ -70,6 +70,8 @@ task :generate_native_parsers do
 	end
 end
 
+task :generate_parsers => [:generate_native_parsers, :generate_fallback_parsers, :compile]
+
 task :visualize_parsers do
 	Dir.chdir(FALLBACK_DIRECTORY) do
 		Dir.glob("*.rl").each do |parser_path|

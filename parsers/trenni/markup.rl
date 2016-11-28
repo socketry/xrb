@@ -28,7 +28,10 @@
 	instruction_text = (any* -- '?>');
 	instruction = '<?' >instruction_begin (identifier (space+ instruction_text) >instruction_text_begin %instruction_text_end '?>') %instruction_end @err(instruction_error);
 	
-	attribute_quoted_value = '"' (pcdata -- '"') '"' %attribute_value | '""' %attribute_empty;
+	attribute_quoted_value = 
+		'"' (pcdata -- '"') '"' %attribute_value | '""' %attribute_empty |
+		"'" (pcdata -- "'") "'" %attribute_value | "''" %attribute_empty;
+	
 	attribute = identifier >attribute_begin ('=' attribute_quoted_value)? %attribute;
 	
 	# The @err handler will be triggered if the parser finishes in any state except the final accepting state.
