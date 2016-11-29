@@ -13,32 +13,6 @@ void Trenni_raise_error(const char * message, VALUE buffer, size_t offset) {
 	rb_exc_raise(exception);
 }
 
-void Trenni_append_string(VALUE * buffer, rb_encoding * encoding, VALUE string) {
-	if (*buffer == Qnil) {
-		*buffer = rb_enc_str_new("", 0, encoding);
-	}
-	
-	rb_str_concat(*buffer, string);
-}
-
-void Trenni_append_token(VALUE * buffer, rb_encoding * encoding, Token token) {
-	if (*buffer == Qnil) {
-		// Allocate a buffer exactly the right size:
-		*buffer = rb_enc_str_new(token.begin, token.end - token.begin, encoding);
-	} else {
-		// Append the characters to the existing buffer:
-		rb_str_buf_cat(*buffer, token.begin, token.end - token.begin);
-	}
-}
-
-void Trenni_append_codepoint(VALUE * buffer, rb_encoding * encoding, unsigned long codepoint) {
-	if (*buffer == Qnil) {
-		*buffer = rb_enc_str_new("", 0, encoding);
-	}
-	
-	rb_str_concat(*buffer, ULONG2NUM(codepoint));
-}
-
 void Init_trenni() {
 	id_open_tag_begin = rb_intern("open_tag_begin");
 	id_open_tag_end = rb_intern("open_tag_end");

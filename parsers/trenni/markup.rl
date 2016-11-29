@@ -12,11 +12,9 @@
 	
 	include entities "entities.rl";
 	
-	pcdata_character = (any - [<&]);
-	pcdata_characters = (pcdata_character+) >characters_begin %characters_end;
-	pcdata = (pcdata_characters | entity)+ >pcdata_begin %pcdata_end;
-	
-	text = pcdata $(greedy_text,1) >text_begin %text_end;
+	pcdata_character = any - [<&];
+	pcdata_characters = pcdata_character+ >characters_begin %characters_end;
+	pcdata = ((pcdata_characters | entity) $(pcdata,2) %(pcdata,1))+ %(pcdata,0) >pcdata_begin %pcdata_end;
 	
 	doctype_text = (any* -- '>');
 	doctype = '<!DOCTYPE' >doctype_begin (doctype_text '>') %doctype_end @err(doctype_error);
@@ -39,5 +37,5 @@
 	
 	tag_closing = '</' >tag_closing_begin (identifier '>') %tag_closing_end @err(tag_error);
 	
-	main := (text >(greedy_text,0) | tag_opening | tag_closing | instruction | comment | doctype | cdata)*;
+	main := (pcdata | tag_opening | tag_closing | instruction | comment | doctype | cdata)*;
 }%%

@@ -81,7 +81,7 @@ task :visualize_parsers do
 			pdf_path = parser_path + ".pdf"
 			sh("dot", "-Tpdf", "-o", pdf_path, dot_path)
 			
-			sh("open", pdf_path)
+			sh("open", pdf_path) rescue nil
 		end
 	end
 end

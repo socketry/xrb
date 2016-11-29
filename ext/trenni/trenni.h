@@ -23,6 +23,30 @@ static inline VALUE Trenni_string(const char * begin, const char * end, rb_encod
 
 void Trenni_raise_error(const char * message, VALUE buffer, size_t offset);
 
-void Trenni_append_string(VALUE * buffer, rb_encoding * encoding, VALUE string);
-void Trenni_append_token(VALUE * buffer, rb_encoding * encoding, Token token);
-void Trenni_append_codepoint(VALUE * buffer, rb_encoding * encoding, unsigned long codepoint);
+static inline void Trenni_append_string(VALUE * buffer, rb_encoding * encoding, VALUE string) {
+	if (*buffer == Qnil) {
+		*buffer = rb_enc_str_new("", 0, encoding);
+	}
+	
+	rb_str_concat(*buffer, string);
+}
+
+static inline void Trenni_append_token(VALUE * buffer, rb_encoding * encoding, Token token) {
+	// printf("append_token(%ul bytes)\n", token.end - token.begin);
+	
+	if (*buffer == Qnil) {
+		// Allocate a buffer exactly the right size:
+		*buffer = rb_enc_str_new(token.begin, token.end - token.begin, encoding);
+	} else {
+		// Append the characters to the existing buffer:
+		rb_str_buf_cat(*buffer, token.begin, token.end - token.begin);
+	}
+}
+
+static inline void Trenni_append_codepoint(VALUE * buffer, rb_encoding * encoding, unsigned long codepoint) {
+	if (*buffer == Qnil) {
+		*buffer = rb_enc_str_new("", 0, encoding);
+	}
+	
+	rb_str_concat(*buffer, ULONG2NUM(codepoint));
+}

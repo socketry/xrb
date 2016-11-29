@@ -34,6 +34,7 @@
 	}
 
 	action pcdata_end {
+		delegate.text(pcdata)
 	}
 
 	action characters_begin {
@@ -185,13 +186,6 @@
 		raise ParseError.new("could not parse cdata", buffer, p)
 	}
 
-	action text_begin {
-	}
-
-	action text_end {
-		delegate.text(pcdata)
-	}
-	
 	# This magic ensures that we process bytes.
 	getkey bytes[p];
 	

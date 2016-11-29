@@ -20,6 +20,7 @@
 	}
 	
 	action pcdata_end {
+		rb_funcall(delegate, id_text, 1, pcdata);
 	}
 	
 	action characters_begin {
@@ -175,15 +176,6 @@
 	
 	action cdata_error {
 		Trenni_raise_error("could not parse cdata", buffer, p-s);
-	}
-	
-	action text_begin {
-	
-	}
-	
-	action text_end {
-		// Entities are handled separately:
-		rb_funcall(delegate, id_text, 1, pcdata);
 	}
 	
 	include markup "trenni/markup.rl";
