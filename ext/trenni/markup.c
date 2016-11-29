@@ -1646,7 +1646,7 @@ tr86:
 		entity.end = p;
 		
 		Trenni_append_string(&pcdata, encoding, 
-			rb_funcall(entities, rb_intern("[]"), 1, Trenni_token(entity, encoding))
+			rb_funcall(entities, id_key_get, 1, Trenni_token(entity, encoding))
 		);
 	}
 #line 8 "/Users/samuel/Documents/Programming/ioquatix/trenni/parsers/trenni/entities.rl"

@@ -30,7 +30,7 @@ RSpec.describe Trenni::Parsers do
 	
 	it "should be fast to parse large documents" do
 		Benchmark.ips do |x|
-			x.report("Large Document (Trenni)") do |times|
+			x.report("Large (Trenni)") do |times|
 				delegate = Trenni::ParseDelegate.new
 				
 				while (times -= 1) >= 0
@@ -40,7 +40,7 @@ RSpec.describe Trenni::Parsers do
 				end
 			end
 			
-			x.report("Large Document (Nokogiri)") do |times|
+			x.report("Large (Nokogiri)") do |times|
 				delegate = Trenni::ParseDelegate.new
 				parser = Nokogiri::HTML::SAX::Parser.new(delegate)
 				
