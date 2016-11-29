@@ -32,8 +32,14 @@
 	action pcdata_begin {
 		pcdata = ""
 	}
-
+	
 	action pcdata_end {
+	}
+	
+	action text_begin {
+	}
+	
+	action text_end {
 		delegate.text(pcdata)
 	}
 

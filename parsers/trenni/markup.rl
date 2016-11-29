@@ -16,6 +16,8 @@
 	pcdata_characters = pcdata_character+ >characters_begin %characters_end;
 	pcdata = ((pcdata_characters | entity) $(pcdata,2) %(pcdata,1))+ %(pcdata,0) >pcdata_begin %pcdata_end;
 	
+	text = pcdata >text_begin %text_end;
+	
 	doctype_text = (any* -- '>');
 	doctype = '<!DOCTYPE' >doctype_begin (doctype_text '>') %doctype_end @err(doctype_error);
 	
@@ -37,5 +39,5 @@
 	
 	tag_closing = '</' >tag_closing_begin (identifier '>') %tag_closing_end @err(tag_error);
 	
-	main := (pcdata | tag_opening | tag_closing | instruction | comment | doctype | cdata)*;
+	main := (text | tag_opening | tag_closing | instruction | comment | doctype | cdata)**;
 }%%

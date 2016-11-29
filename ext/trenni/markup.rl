@@ -20,6 +20,12 @@
 	}
 	
 	action pcdata_end {
+	}
+	
+	action text_begin {
+	}
+	
+	action text_end {
 		rb_funcall(delegate, id_text, 1, pcdata);
 	}
 	
