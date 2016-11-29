@@ -18,6 +18,40 @@ In addition, I wanted a simple markup parser and builder for HTML style markup. 
 
 The 2nd release of Trenni in 2016 saw an overhaul of the internal parsers. I used [Ragel](http://www.colm.net/open-source/ragel/) to implement efficient event-based markup and template parsers, which can be compiled to both C and Ruby. This provides a native code path where possible giving speed-ups between 10x - 20x. In addition, the formal grammar is more robust.
 
+## Is it fast?
+
+It's 1-2x faster than Nokogiri for parsing markup:
+
+	Trenni::Native
+	Warming up --------------------------------------
+	Large Document (Trenni)
+	                        56.000  i/100ms
+	Large Document (Nokogiri)
+	                        30.000  i/100ms
+	Calculating -------------------------------------
+	Large Document (Trenni)
+	                        521.445  (± 7.9%) i/s -      2.632k in   5.081635s
+	Large Document (Nokogiri)
+	                        308.839  (± 8.7%) i/s -      1.560k in   5.090288s
+
+	Comparison:
+	Large Document (Trenni):      521.4 i/s
+	Large Document (Nokogiri):      308.8 i/s - 1.69x  slower
+
+It's faster than ERB by 10-20x:
+
+	Trenni::Template
+	Warming up --------------------------------------
+	     Trenni (object)    75.667k i/100ms
+	       ERB (binding)     6.940k i/100ms
+	Calculating -------------------------------------
+	     Trenni (object)      1.095M (± 7.9%) i/s -      5.448M in   5.007244s
+	       ERB (binding)     69.381k (± 7.1%) i/s -    347.000k in   5.027333s
+
+	Comparison:
+	     Trenni (object):  1094979.9 i/s
+	       ERB (binding):    69381.1 i/s - 15.78x  slower
+
 ## Installation
 
 Add this line to your application's Gemfile:

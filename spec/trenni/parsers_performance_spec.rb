@@ -3,6 +3,8 @@ require 'benchmark/ips'
 require 'trenni/parsers'
 require 'trenni/entities'
 
+require 'nokogiri'
+
 require 'ruby-prof'
 
 RSpec.shared_context "profile" do
@@ -28,11 +30,22 @@ RSpec.describe Trenni::Parsers do
 	
 	it "should be fast to parse large documents" do
 		Benchmark.ips do |x|
-			x.report("Large Document") do |times|
+			x.report("Large Document (Trenni)") do |times|
 				delegate = Trenni::ParseDelegate.new
 				
 				while (times -= 1) >= 0
 					Trenni::Parsers.parse_markup(xhtml_buffer, delegate, entities)
+					
+					delegate.events.clear
+				end
+			end
+			
+			x.report("Large Document (Nokogiri)") do |times|
+				delegate = Trenni::ParseDelegate.new
+				parser = Nokogiri::HTML::SAX::Parser.new(delegate)
+				
+				while (times -= 1) >= 0
+					parser.parse(xhtml_buffer.read)
 					
 					delegate.events.clear
 				end

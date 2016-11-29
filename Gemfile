@@ -10,6 +10,9 @@ group :development do
 	gem "benchmark-ips"
 	
 	gem "rake-compiler"
+	
+	# For comparisons:
+	gem "nokogiri"
 end
 
 group :test do
