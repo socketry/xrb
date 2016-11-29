@@ -51,6 +51,8 @@ module Trenni
 		def initialize(string = nil, escape = true)
 			if string
 				super(string)
+				
+				# self.replace CGI.escapeHTML(self)
 				ESCAPE.gsub!(self) if escape
 			else
 				super()
