@@ -20,25 +20,21 @@ The 2nd release of Trenni in 2016 saw an overhaul of the internal parsers. I use
 
 ## Is it fast?
 
-It's 1-2x faster than Nokogiri for parsing markup:
+It's faster than Nokogiri for parsing markup:
 
 	Trenni::Native
 	Warming up --------------------------------------
-	Large Document (Trenni)
-	                        56.000  i/100ms
-	Large Document (Nokogiri)
-	                        30.000  i/100ms
+	      Large (Trenni)    71.000  i/100ms
+	    Large (Nokogiri)    28.000  i/100ms
 	Calculating -------------------------------------
-	Large Document (Trenni)
-	                        521.445  (± 7.9%) i/s -      2.632k in   5.081635s
-	Large Document (Nokogiri)
-	                        308.839  (± 8.7%) i/s -      1.560k in   5.090288s
+	      Large (Trenni)    662.050  (± 3.9%) i/s -      3.337k in   5.048115s
+	    Large (Nokogiri)    266.878  (±10.9%) i/s -      1.316k in   5.008464s
 
 	Comparison:
-	Large Document (Trenni):      521.4 i/s
-	Large Document (Nokogiri):      308.8 i/s - 1.69x  slower
+	      Large (Trenni):      662.1 i/s
+	    Large (Nokogiri):      266.9 i/s - 2.48x slower
 
-It's faster than ERB by 10-20x:
+It's significantly faster than ERB:
 
 	Trenni::Template
 	Warming up --------------------------------------
