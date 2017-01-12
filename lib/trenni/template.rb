@@ -24,6 +24,17 @@ module Trenni
 	# The output variable that will be used in templates:
 	OUT = :_out
 	
+	class Builder
+		def >> block
+			if block
+				Template.buffer(block.binding) << self
+				return nil
+			else
+				return self
+			end
+		end
+	end
+	
 	class Template
 		# Returns the output produced by calling the given block.
 		def self.capture(*args, &block)
