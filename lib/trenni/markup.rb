@@ -18,7 +18,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-require_relative 'substitutions'
+require 'cgi'
 
 module Trenni
 	# A wrapper which indicates that `value` can be appended to the output buffer without any changes.
@@ -44,16 +44,14 @@ module Trenni
 	class MarkupString < String
 		include Markup
 		
-		# This is only casually related to HTML, it's just enough so that it would not be mis-interpreted by `Trenni::Parser`.
-		ESCAPE = Substitutions.new("&" => "&amp;", "<" => "&lt;", ">" => "&gt;", "\"" => "&quot;")
-		
 		# Convert ESCAPE characters into their corresponding entities.
 		def initialize(string = nil, escape = true)
 			if string
-				super(string)
+				if escape
+					string = CGI.escape_html(string)
+				end
 				
-				# self.replace CGI.escapeHTML(self)
-				ESCAPE.gsub!(self) if escape
+				super(string)
 			else
 				super()
 			end

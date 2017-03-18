@@ -115,6 +115,11 @@ RSpec.describe "<foo bar=\"20\" baz>Hello World</foo>" do
 		expect(events[4][1].encoding).to be == subject.encoding
 		expect(events[5][1].encoding).to be == subject.encoding
 	end
+	
+	it "should track entities" do
+		expect(events[1][2]).to be_kind_of Trenni::Markup
+		expect(events[4][1]).to be_kind_of Trenni::Markup
+	end
 end
 
 RSpec.describe "<test><![CDATA[Hello World]]></test>" do
@@ -150,9 +155,24 @@ RSpec.describe "<p attr=\"foo&amp;bar\">&quot;</p>" do
 	let(:template_buffer) {Trenni::Buffer(template_text)}
 	let(:template) {Trenni::MarkupTemplate.new(template_buffer)}
 	
+	it "should parse empty attributes" do
+		expect(events).to be == [
+			[:open_tag_begin, "p", 1],
+			[:attribute, "attr", "foo&bar"],
+			[:open_tag_end, false],
+			[:text, "\""],
+			[:close_tag, "p", 30]
+		]
+	end
+	
 	it "generates same output as input" do
 		result = template.to_string(self)
 		expect(result).to be == subject
+	end
+	
+	it "should track entities" do
+		expect(events[1][2]).to_not be_kind_of Trenni::Markup
+		expect(events[3][1]).to_not be_kind_of Trenni::Markup
 	end
 end
 

@@ -18,8 +18,6 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-require_relative 'substitutions'
-
 module Trenni
 	# We only support a small subset of markup entities.
 	module Entities

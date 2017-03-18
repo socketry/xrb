@@ -15,6 +15,7 @@
 	
 	action pcdata_begin {
 		pcdata = Qnil;
+		has_entities = 0;
 	}
 	
 	action pcdata_end {
@@ -24,7 +25,7 @@
 	}
 	
 	action text_end {
-		rb_funcall(delegate, id_text, 1, pcdata);
+		rb_funcall(delegate, id_text, 1, Trenni_markup_safe(pcdata, has_entities));
 	}
 	
 	action characters_begin {
@@ -48,13 +49,17 @@
 	action entity_name {
 		entity.end = p;
 		
-		Trenni_append_string(&pcdata, encoding, 
+		has_entities = 1;
+		
+		Trenni_append_string(&pcdata, encoding,
 			rb_funcall(entities, id_key_get, 1, Trenni_token(entity, encoding))
 		);
 	}
 	
 	action entity_hex {
 		entity.end = p;
+		
+		has_entities = 1;
 		
 		codepoint = strtoul(entity.begin, (char **)&entity.end, 16);
 		
@@ -63,6 +68,8 @@
 	
 	action entity_number {
 		entity.end = p;
+		
+		has_entities = 1;
 		
 		codepoint = strtoul(entity.begin, (char **)&entity.end, 10);
 		
@@ -145,7 +152,7 @@
 	
 	action attribute {
 		if (has_value == 1) {
-			rb_funcall(delegate, id_attribute, 2, Trenni_token(identifier, encoding), pcdata);
+			rb_funcall(delegate, id_attribute, 2, Trenni_token(identifier, encoding), Trenni_markup_safe(pcdata, has_entities));
 		} else if (has_value == 2) {
 			rb_funcall(delegate, id_attribute, 2, Trenni_token(identifier, encoding), empty_string);
 		} else {
@@ -201,7 +208,7 @@ VALUE Trenni_Native_parse_markup(VALUE self, VALUE buffer, VALUE delegate, VALUE
 	unsigned long codepoint = 0;
 	
 	Token identifier = {0}, cdata = {0}, characters = {0}, entity = {0}, doctype = {0}, comment = {0}, instruction = {0};
-	unsigned self_closing = 0, has_value = 0;
+	unsigned self_closing = 0, has_value = 0, has_entities = 0;
 	
 	s = p = RSTRING_PTR(string);
 	eof = pe = p + RSTRING_LEN(string);

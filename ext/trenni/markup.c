@@ -13,7 +13,7 @@ static const int Trenni_markup_parser_en_parse_entity = 42;
 static const int Trenni_markup_parser_en_main = 48;
 
 
-#line 188 "markup.rl"
+#line 195 "markup.rl"
 
 
 VALUE Trenni_Native_parse_markup(VALUE self, VALUE buffer, VALUE delegate, VALUE entities) {
@@ -30,7 +30,7 @@ VALUE Trenni_Native_parse_markup(VALUE self, VALUE buffer, VALUE delegate, VALUE
 	unsigned long codepoint = 0;
 	
 	Token identifier = {0}, cdata = {0}, characters = {0}, entity = {0}, doctype = {0}, comment = {0}, instruction = {0};
-	unsigned self_closing = 0, has_value = 0;
+	unsigned self_closing = 0, has_value = 0, has_entities = 0;
 	
 	s = p = RSTRING_PTR(string);
 	eof = pe = p + RSTRING_LEN(string);
@@ -126,130 +126,137 @@ case 48:
 	}
 	goto tr87;
 tr93:
-#line 30 "markup.rl"
+#line 31 "markup.rl"
 	{
 		characters.begin = p;
 	}
 	goto st49;
 tr87:
-#line 23 "markup.rl"
+#line 24 "markup.rl"
 	{
 	}
 #line 16 "markup.rl"
 	{
 		pcdata = Qnil;
+		has_entities = 0;
 	}
-#line 30 "markup.rl"
+#line 31 "markup.rl"
 	{
 		characters.begin = p;
 	}
 	goto st49;
 tr96:
-#line 156 "markup.rl"
+#line 163 "markup.rl"
 	{
 		rb_funcall(delegate, id_open_tag_end, 1, self_closing == 1 ? Qtrue : Qfalse);
 	}
-#line 23 "markup.rl"
+#line 24 "markup.rl"
 	{
 	}
 #line 16 "markup.rl"
 	{
 		pcdata = Qnil;
+		has_entities = 0;
 	}
-#line 30 "markup.rl"
+#line 31 "markup.rl"
 	{
 		characters.begin = p;
 	}
 	goto st49;
 tr99:
-#line 90 "markup.rl"
+#line 97 "markup.rl"
 	{
 		comment.end = p;
 		
 		rb_funcall(delegate, id_comment, 1, Trenni_token(comment, encoding));
 	}
-#line 23 "markup.rl"
+#line 24 "markup.rl"
 	{
 	}
 #line 16 "markup.rl"
 	{
 		pcdata = Qnil;
+		has_entities = 0;
 	}
-#line 30 "markup.rl"
+#line 31 "markup.rl"
 	{
 		characters.begin = p;
 	}
 	goto st49;
 tr102:
-#line 76 "markup.rl"
+#line 83 "markup.rl"
 	{
 		doctype.end = p;
 		
 		rb_funcall(delegate, id_doctype, 1, Trenni_token(doctype, encoding));
 	}
-#line 23 "markup.rl"
+#line 24 "markup.rl"
 	{
 	}
 #line 16 "markup.rl"
 	{
 		pcdata = Qnil;
+		has_entities = 0;
 	}
-#line 30 "markup.rl"
+#line 31 "markup.rl"
 	{
 		characters.begin = p;
 	}
 	goto st49;
 tr105:
-#line 175 "markup.rl"
+#line 182 "markup.rl"
 	{
 		cdata.end = p;
 		
 		rb_funcall(delegate, id_cdata, 1, Trenni_token(cdata, encoding));
 	}
-#line 23 "markup.rl"
+#line 24 "markup.rl"
 	{
 	}
 #line 16 "markup.rl"
 	{
 		pcdata = Qnil;
+		has_entities = 0;
 	}
-#line 30 "markup.rl"
+#line 31 "markup.rl"
 	{
 		characters.begin = p;
 	}
 	goto st49;
 tr108:
-#line 163 "markup.rl"
+#line 170 "markup.rl"
 	{
 		rb_funcall(delegate, id_close_tag, 2, Trenni_token(identifier, encoding), ULONG2NUM(identifier.begin-s));
 	}
-#line 23 "markup.rl"
+#line 24 "markup.rl"
 	{
 	}
 #line 16 "markup.rl"
 	{
 		pcdata = Qnil;
+		has_entities = 0;
 	}
-#line 30 "markup.rl"
+#line 31 "markup.rl"
 	{
 		characters.begin = p;
 	}
 	goto st49;
 tr111:
-#line 110 "markup.rl"
+#line 117 "markup.rl"
 	{
 		instruction.end = p;
 		
 		rb_funcall(delegate, id_instruction, 1, Trenni_token(instruction, encoding));
 	}
-#line 23 "markup.rl"
+#line 24 "markup.rl"
 	{
 	}
 #line 16 "markup.rl"
 	{
 		pcdata = Qnil;
+		has_entities = 0;
 	}
-#line 30 "markup.rl"
+#line 31 "markup.rl"
 	{
 		characters.begin = p;
 	}
@@ -258,14 +265,14 @@ st49:
 	if ( ++p == pe )
 		goto _test_eof49;
 case 49:
-#line 262 "markup.c"
+#line 269 "markup.c"
 	switch( (*p) ) {
 		case 38: goto tr91;
 		case 60: goto tr92;
 	}
 	goto st49;
 tr91:
-#line 34 "markup.rl"
+#line 35 "markup.rl"
 	{
 		characters.end = p;
 		
@@ -279,110 +286,117 @@ tr94:
 	{{stack[top++] = 50; goto st42;}}
 	goto st50;
 tr88:
-#line 23 "markup.rl"
+#line 24 "markup.rl"
 	{
 	}
 #line 16 "markup.rl"
 	{
 		pcdata = Qnil;
+		has_entities = 0;
 	}
 #line 10 "/Users/samuel/Documents/Programming/ioquatix/trenni/parsers/trenni/entities.rl"
 	{{stack[top++] = 50; goto st42;}}
 	goto st50;
 tr97:
-#line 156 "markup.rl"
+#line 163 "markup.rl"
 	{
 		rb_funcall(delegate, id_open_tag_end, 1, self_closing == 1 ? Qtrue : Qfalse);
 	}
-#line 23 "markup.rl"
+#line 24 "markup.rl"
 	{
 	}
 #line 16 "markup.rl"
 	{
 		pcdata = Qnil;
+		has_entities = 0;
 	}
 #line 10 "/Users/samuel/Documents/Programming/ioquatix/trenni/parsers/trenni/entities.rl"
 	{{stack[top++] = 50; goto st42;}}
 	goto st50;
 tr100:
-#line 90 "markup.rl"
+#line 97 "markup.rl"
 	{
 		comment.end = p;
 		
 		rb_funcall(delegate, id_comment, 1, Trenni_token(comment, encoding));
 	}
-#line 23 "markup.rl"
+#line 24 "markup.rl"
 	{
 	}
 #line 16 "markup.rl"
 	{
 		pcdata = Qnil;
+		has_entities = 0;
 	}
 #line 10 "/Users/samuel/Documents/Programming/ioquatix/trenni/parsers/trenni/entities.rl"
 	{{stack[top++] = 50; goto st42;}}
 	goto st50;
 tr103:
-#line 76 "markup.rl"
+#line 83 "markup.rl"
 	{
 		doctype.end = p;
 		
 		rb_funcall(delegate, id_doctype, 1, Trenni_token(doctype, encoding));
 	}
-#line 23 "markup.rl"
+#line 24 "markup.rl"
 	{
 	}
 #line 16 "markup.rl"
 	{
 		pcdata = Qnil;
+		has_entities = 0;
 	}
 #line 10 "/Users/samuel/Documents/Programming/ioquatix/trenni/parsers/trenni/entities.rl"
 	{{stack[top++] = 50; goto st42;}}
 	goto st50;
 tr106:
-#line 175 "markup.rl"
+#line 182 "markup.rl"
 	{
 		cdata.end = p;
 		
 		rb_funcall(delegate, id_cdata, 1, Trenni_token(cdata, encoding));
 	}
-#line 23 "markup.rl"
+#line 24 "markup.rl"
 	{
 	}
 #line 16 "markup.rl"
 	{
 		pcdata = Qnil;
+		has_entities = 0;
 	}
 #line 10 "/Users/samuel/Documents/Programming/ioquatix/trenni/parsers/trenni/entities.rl"
 	{{stack[top++] = 50; goto st42;}}
 	goto st50;
 tr109:
-#line 163 "markup.rl"
+#line 170 "markup.rl"
 	{
 		rb_funcall(delegate, id_close_tag, 2, Trenni_token(identifier, encoding), ULONG2NUM(identifier.begin-s));
 	}
-#line 23 "markup.rl"
+#line 24 "markup.rl"
 	{
 	}
 #line 16 "markup.rl"
 	{
 		pcdata = Qnil;
+		has_entities = 0;
 	}
 #line 10 "/Users/samuel/Documents/Programming/ioquatix/trenni/parsers/trenni/entities.rl"
 	{{stack[top++] = 50; goto st42;}}
 	goto st50;
 tr112:
-#line 110 "markup.rl"
+#line 117 "markup.rl"
 	{
 		instruction.end = p;
 		
 		rb_funcall(delegate, id_instruction, 1, Trenni_token(instruction, encoding));
 	}
-#line 23 "markup.rl"
+#line 24 "markup.rl"
 	{
 	}
 #line 16 "markup.rl"
 	{
 		pcdata = Qnil;
+		has_entities = 0;
 	}
 #line 10 "/Users/samuel/Documents/Programming/ioquatix/trenni/parsers/trenni/entities.rl"
 	{{stack[top++] = 50; goto st42;}}
@@ -391,276 +405,276 @@ st50:
 	if ( ++p == pe )
 		goto _test_eof50;
 case 50:
-#line 395 "markup.c"
+#line 409 "markup.c"
 	switch( (*p) ) {
 		case 38: goto tr94;
 		case 60: goto tr95;
 	}
 	goto tr93;
 tr89:
-#line 127 "markup.rl"
+#line 134 "markup.rl"
 	{
 	}
-#line 160 "markup.rl"
+#line 167 "markup.rl"
 	{
 	}
-#line 100 "markup.rl"
+#line 107 "markup.rl"
 	{
 		instruction.begin = p;
 	}
-#line 86 "markup.rl"
+#line 93 "markup.rl"
 	{
 		comment.begin = p;
 	}
-#line 72 "markup.rl"
+#line 79 "markup.rl"
 	{
 		doctype.begin = p;
 	}
-#line 171 "markup.rl"
+#line 178 "markup.rl"
 	{
 		cdata.begin = p;
 	}
 	goto st1;
 tr92:
-#line 34 "markup.rl"
+#line 35 "markup.rl"
 	{
 		characters.end = p;
 		
 		Trenni_append_token(&pcdata, encoding, characters);
 	}
-#line 20 "markup.rl"
+#line 21 "markup.rl"
 	{
 	}
-#line 26 "markup.rl"
+#line 27 "markup.rl"
 	{
-		rb_funcall(delegate, id_text, 1, pcdata);
+		rb_funcall(delegate, id_text, 1, Trenni_markup_safe(pcdata, has_entities));
 	}
-#line 127 "markup.rl"
-	{
-	}
-#line 160 "markup.rl"
+#line 134 "markup.rl"
 	{
 	}
-#line 100 "markup.rl"
+#line 167 "markup.rl"
+	{
+	}
+#line 107 "markup.rl"
 	{
 		instruction.begin = p;
 	}
-#line 86 "markup.rl"
+#line 93 "markup.rl"
 	{
 		comment.begin = p;
 	}
-#line 72 "markup.rl"
+#line 79 "markup.rl"
 	{
 		doctype.begin = p;
 	}
-#line 171 "markup.rl"
+#line 178 "markup.rl"
 	{
 		cdata.begin = p;
 	}
 	goto st1;
 tr95:
-#line 20 "markup.rl"
+#line 21 "markup.rl"
 	{
 	}
-#line 26 "markup.rl"
+#line 27 "markup.rl"
 	{
-		rb_funcall(delegate, id_text, 1, pcdata);
+		rb_funcall(delegate, id_text, 1, Trenni_markup_safe(pcdata, has_entities));
 	}
-#line 127 "markup.rl"
-	{
-	}
-#line 160 "markup.rl"
+#line 134 "markup.rl"
 	{
 	}
-#line 100 "markup.rl"
+#line 167 "markup.rl"
+	{
+	}
+#line 107 "markup.rl"
 	{
 		instruction.begin = p;
 	}
-#line 86 "markup.rl"
+#line 93 "markup.rl"
 	{
 		comment.begin = p;
 	}
-#line 72 "markup.rl"
+#line 79 "markup.rl"
 	{
 		doctype.begin = p;
 	}
-#line 171 "markup.rl"
+#line 178 "markup.rl"
 	{
 		cdata.begin = p;
 	}
 	goto st1;
 tr98:
-#line 156 "markup.rl"
+#line 163 "markup.rl"
 	{
 		rb_funcall(delegate, id_open_tag_end, 1, self_closing == 1 ? Qtrue : Qfalse);
 	}
-#line 127 "markup.rl"
+#line 134 "markup.rl"
 	{
 	}
-#line 160 "markup.rl"
+#line 167 "markup.rl"
 	{
 	}
-#line 100 "markup.rl"
+#line 107 "markup.rl"
 	{
 		instruction.begin = p;
 	}
-#line 86 "markup.rl"
+#line 93 "markup.rl"
 	{
 		comment.begin = p;
 	}
-#line 72 "markup.rl"
+#line 79 "markup.rl"
 	{
 		doctype.begin = p;
 	}
-#line 171 "markup.rl"
+#line 178 "markup.rl"
 	{
 		cdata.begin = p;
 	}
 	goto st1;
 tr101:
-#line 90 "markup.rl"
+#line 97 "markup.rl"
 	{
 		comment.end = p;
 		
 		rb_funcall(delegate, id_comment, 1, Trenni_token(comment, encoding));
 	}
-#line 127 "markup.rl"
+#line 134 "markup.rl"
 	{
 	}
-#line 160 "markup.rl"
+#line 167 "markup.rl"
 	{
 	}
-#line 100 "markup.rl"
+#line 107 "markup.rl"
 	{
 		instruction.begin = p;
 	}
-#line 86 "markup.rl"
+#line 93 "markup.rl"
 	{
 		comment.begin = p;
 	}
-#line 72 "markup.rl"
+#line 79 "markup.rl"
 	{
 		doctype.begin = p;
 	}
-#line 171 "markup.rl"
+#line 178 "markup.rl"
 	{
 		cdata.begin = p;
 	}
 	goto st1;
 tr104:
-#line 76 "markup.rl"
+#line 83 "markup.rl"
 	{
 		doctype.end = p;
 		
 		rb_funcall(delegate, id_doctype, 1, Trenni_token(doctype, encoding));
 	}
-#line 127 "markup.rl"
+#line 134 "markup.rl"
 	{
 	}
-#line 160 "markup.rl"
+#line 167 "markup.rl"
 	{
 	}
-#line 100 "markup.rl"
+#line 107 "markup.rl"
 	{
 		instruction.begin = p;
 	}
-#line 86 "markup.rl"
+#line 93 "markup.rl"
 	{
 		comment.begin = p;
 	}
-#line 72 "markup.rl"
+#line 79 "markup.rl"
 	{
 		doctype.begin = p;
 	}
-#line 171 "markup.rl"
+#line 178 "markup.rl"
 	{
 		cdata.begin = p;
 	}
 	goto st1;
 tr107:
-#line 175 "markup.rl"
+#line 182 "markup.rl"
 	{
 		cdata.end = p;
 		
 		rb_funcall(delegate, id_cdata, 1, Trenni_token(cdata, encoding));
 	}
-#line 127 "markup.rl"
+#line 134 "markup.rl"
 	{
 	}
-#line 160 "markup.rl"
+#line 167 "markup.rl"
 	{
 	}
-#line 100 "markup.rl"
+#line 107 "markup.rl"
 	{
 		instruction.begin = p;
 	}
-#line 86 "markup.rl"
+#line 93 "markup.rl"
 	{
 		comment.begin = p;
 	}
-#line 72 "markup.rl"
+#line 79 "markup.rl"
 	{
 		doctype.begin = p;
 	}
-#line 171 "markup.rl"
+#line 178 "markup.rl"
 	{
 		cdata.begin = p;
 	}
 	goto st1;
 tr110:
-#line 163 "markup.rl"
+#line 170 "markup.rl"
 	{
 		rb_funcall(delegate, id_close_tag, 2, Trenni_token(identifier, encoding), ULONG2NUM(identifier.begin-s));
 	}
-#line 127 "markup.rl"
+#line 134 "markup.rl"
 	{
 	}
-#line 160 "markup.rl"
+#line 167 "markup.rl"
 	{
 	}
-#line 100 "markup.rl"
+#line 107 "markup.rl"
 	{
 		instruction.begin = p;
 	}
-#line 86 "markup.rl"
+#line 93 "markup.rl"
 	{
 		comment.begin = p;
 	}
-#line 72 "markup.rl"
+#line 79 "markup.rl"
 	{
 		doctype.begin = p;
 	}
-#line 171 "markup.rl"
+#line 178 "markup.rl"
 	{
 		cdata.begin = p;
 	}
 	goto st1;
 tr113:
-#line 110 "markup.rl"
+#line 117 "markup.rl"
 	{
 		instruction.end = p;
 		
 		rb_funcall(delegate, id_instruction, 1, Trenni_token(instruction, encoding));
 	}
-#line 127 "markup.rl"
+#line 134 "markup.rl"
 	{
 	}
-#line 160 "markup.rl"
+#line 167 "markup.rl"
 	{
 	}
-#line 100 "markup.rl"
+#line 107 "markup.rl"
 	{
 		instruction.begin = p;
 	}
-#line 86 "markup.rl"
+#line 93 "markup.rl"
 	{
 		comment.begin = p;
 	}
-#line 72 "markup.rl"
+#line 79 "markup.rl"
 	{
 		doctype.begin = p;
 	}
-#line 171 "markup.rl"
+#line 178 "markup.rl"
 	{
 		cdata.begin = p;
 	}
@@ -669,7 +683,7 @@ st1:
 	if ( ++p == pe )
 		goto _test_eof1;
 case 1:
-#line 673 "markup.c"
+#line 687 "markup.c"
 	switch( (*p) ) {
 		case 33: goto st15;
 		case 47: goto st36;
@@ -698,7 +712,7 @@ st2:
 	if ( ++p == pe )
 		goto _test_eof2;
 case 2:
-#line 702 "markup.c"
+#line 716 "markup.c"
 	switch( (*p) ) {
 		case 32: goto tr6;
 		case 47: goto tr7;
@@ -724,24 +738,24 @@ case 2:
 		goto tr1;
 	goto st2;
 tr1:
-#line 167 "markup.rl"
+#line 174 "markup.rl"
 	{
 		Trenni_raise_error("could not parse tag", buffer, p-s);
 	}
 	goto st0;
 tr69:
-#line 116 "markup.rl"
+#line 123 "markup.rl"
 	{
 		Trenni_raise_error("could not parse instruction", buffer, p-s);
 	}
 	goto st0;
 tr75:
-#line 40 "markup.rl"
+#line 41 "markup.rl"
 	{
 		Trenni_raise_error("could not parse entity", buffer, p-s);
 	}
 	goto st0;
-#line 745 "markup.c"
+#line 759 "markup.c"
 st0:
 cs = 0;
 	goto _out;
@@ -750,7 +764,7 @@ tr6:
 	{
 		identifier.end = p;
 	}
-#line 120 "markup.rl"
+#line 127 "markup.rl"
 	{
 		// Reset self-closing state - we don't know yet.
 		self_closing = 0;
@@ -763,10 +777,10 @@ tr14:
 	{
 		identifier.end = p;
 	}
-#line 146 "markup.rl"
+#line 153 "markup.rl"
 	{
 		if (has_value == 1) {
-			rb_funcall(delegate, id_attribute, 2, Trenni_token(identifier, encoding), pcdata);
+			rb_funcall(delegate, id_attribute, 2, Trenni_token(identifier, encoding), Trenni_markup_safe(pcdata, has_entities));
 		} else if (has_value == 2) {
 			rb_funcall(delegate, id_attribute, 2, Trenni_token(identifier, encoding), empty_string);
 		} else {
@@ -775,14 +789,14 @@ tr14:
 	}
 	goto st3;
 tr26:
-#line 138 "markup.rl"
+#line 145 "markup.rl"
 	{
 		has_value = 1;
 	}
-#line 146 "markup.rl"
+#line 153 "markup.rl"
 	{
 		if (has_value == 1) {
-			rb_funcall(delegate, id_attribute, 2, Trenni_token(identifier, encoding), pcdata);
+			rb_funcall(delegate, id_attribute, 2, Trenni_token(identifier, encoding), Trenni_markup_safe(pcdata, has_entities));
 		} else if (has_value == 2) {
 			rb_funcall(delegate, id_attribute, 2, Trenni_token(identifier, encoding), empty_string);
 		} else {
@@ -791,14 +805,14 @@ tr26:
 	}
 	goto st3;
 tr32:
-#line 142 "markup.rl"
+#line 149 "markup.rl"
 	{
 		has_value = 2;
 	}
-#line 146 "markup.rl"
+#line 153 "markup.rl"
 	{
 		if (has_value == 1) {
-			rb_funcall(delegate, id_attribute, 2, Trenni_token(identifier, encoding), pcdata);
+			rb_funcall(delegate, id_attribute, 2, Trenni_token(identifier, encoding), Trenni_markup_safe(pcdata, has_entities));
 		} else if (has_value == 2) {
 			rb_funcall(delegate, id_attribute, 2, Trenni_token(identifier, encoding), empty_string);
 		} else {
@@ -810,7 +824,7 @@ st3:
 	if ( ++p == pe )
 		goto _test_eof3;
 case 3:
-#line 814 "markup.c"
+#line 828 "markup.c"
 	switch( (*p) ) {
 		case 32: goto st3;
 		case 47: goto tr11;
@@ -836,7 +850,7 @@ case 3:
 		goto tr1;
 	goto tr9;
 tr9:
-#line 134 "markup.rl"
+#line 141 "markup.rl"
 	{
 		has_value = 0;
 	}
@@ -849,7 +863,7 @@ st4:
 	if ( ++p == pe )
 		goto _test_eof4;
 case 4:
-#line 853 "markup.c"
+#line 867 "markup.c"
 	switch( (*p) ) {
 		case 32: goto tr14;
 		case 47: goto tr15;
@@ -880,20 +894,20 @@ tr7:
 	{
 		identifier.end = p;
 	}
-#line 120 "markup.rl"
+#line 127 "markup.rl"
 	{
 		// Reset self-closing state - we don't know yet.
 		self_closing = 0;
 		
 		rb_funcall(delegate, id_open_tag_begin, 2, Trenni_token(identifier, encoding), ULONG2NUM(identifier.begin-s));
 	}
-#line 130 "markup.rl"
+#line 137 "markup.rl"
 	{
 		self_closing = 1;
 	}
 	goto st5;
 tr11:
-#line 130 "markup.rl"
+#line 137 "markup.rl"
 	{
 		self_closing = 1;
 	}
@@ -903,57 +917,57 @@ tr15:
 	{
 		identifier.end = p;
 	}
-#line 146 "markup.rl"
+#line 153 "markup.rl"
 	{
 		if (has_value == 1) {
-			rb_funcall(delegate, id_attribute, 2, Trenni_token(identifier, encoding), pcdata);
+			rb_funcall(delegate, id_attribute, 2, Trenni_token(identifier, encoding), Trenni_markup_safe(pcdata, has_entities));
 		} else if (has_value == 2) {
 			rb_funcall(delegate, id_attribute, 2, Trenni_token(identifier, encoding), empty_string);
 		} else {
 			rb_funcall(delegate, id_attribute, 2, Trenni_token(identifier, encoding), Qtrue);
 		}
 	}
-#line 130 "markup.rl"
+#line 137 "markup.rl"
 	{
 		self_closing = 1;
 	}
 	goto st5;
 tr27:
-#line 138 "markup.rl"
+#line 145 "markup.rl"
 	{
 		has_value = 1;
 	}
-#line 146 "markup.rl"
+#line 153 "markup.rl"
 	{
 		if (has_value == 1) {
-			rb_funcall(delegate, id_attribute, 2, Trenni_token(identifier, encoding), pcdata);
+			rb_funcall(delegate, id_attribute, 2, Trenni_token(identifier, encoding), Trenni_markup_safe(pcdata, has_entities));
 		} else if (has_value == 2) {
 			rb_funcall(delegate, id_attribute, 2, Trenni_token(identifier, encoding), empty_string);
 		} else {
 			rb_funcall(delegate, id_attribute, 2, Trenni_token(identifier, encoding), Qtrue);
 		}
 	}
-#line 130 "markup.rl"
+#line 137 "markup.rl"
 	{
 		self_closing = 1;
 	}
 	goto st5;
 tr33:
-#line 142 "markup.rl"
+#line 149 "markup.rl"
 	{
 		has_value = 2;
 	}
-#line 146 "markup.rl"
+#line 153 "markup.rl"
 	{
 		if (has_value == 1) {
-			rb_funcall(delegate, id_attribute, 2, Trenni_token(identifier, encoding), pcdata);
+			rb_funcall(delegate, id_attribute, 2, Trenni_token(identifier, encoding), Trenni_markup_safe(pcdata, has_entities));
 		} else if (has_value == 2) {
 			rb_funcall(delegate, id_attribute, 2, Trenni_token(identifier, encoding), empty_string);
 		} else {
 			rb_funcall(delegate, id_attribute, 2, Trenni_token(identifier, encoding), Qtrue);
 		}
 	}
-#line 130 "markup.rl"
+#line 137 "markup.rl"
 	{
 		self_closing = 1;
 	}
@@ -962,7 +976,7 @@ st5:
 	if ( ++p == pe )
 		goto _test_eof5;
 case 5:
-#line 966 "markup.c"
+#line 980 "markup.c"
 	if ( (*p) == 62 )
 		goto st51;
 	goto tr1;
@@ -971,7 +985,7 @@ tr8:
 	{
 		identifier.end = p;
 	}
-#line 120 "markup.rl"
+#line 127 "markup.rl"
 	{
 		// Reset self-closing state - we don't know yet.
 		self_closing = 0;
@@ -984,10 +998,10 @@ tr17:
 	{
 		identifier.end = p;
 	}
-#line 146 "markup.rl"
+#line 153 "markup.rl"
 	{
 		if (has_value == 1) {
-			rb_funcall(delegate, id_attribute, 2, Trenni_token(identifier, encoding), pcdata);
+			rb_funcall(delegate, id_attribute, 2, Trenni_token(identifier, encoding), Trenni_markup_safe(pcdata, has_entities));
 		} else if (has_value == 2) {
 			rb_funcall(delegate, id_attribute, 2, Trenni_token(identifier, encoding), empty_string);
 		} else {
@@ -996,14 +1010,14 @@ tr17:
 	}
 	goto st51;
 tr28:
-#line 138 "markup.rl"
+#line 145 "markup.rl"
 	{
 		has_value = 1;
 	}
-#line 146 "markup.rl"
+#line 153 "markup.rl"
 	{
 		if (has_value == 1) {
-			rb_funcall(delegate, id_attribute, 2, Trenni_token(identifier, encoding), pcdata);
+			rb_funcall(delegate, id_attribute, 2, Trenni_token(identifier, encoding), Trenni_markup_safe(pcdata, has_entities));
 		} else if (has_value == 2) {
 			rb_funcall(delegate, id_attribute, 2, Trenni_token(identifier, encoding), empty_string);
 		} else {
@@ -1012,14 +1026,14 @@ tr28:
 	}
 	goto st51;
 tr34:
-#line 142 "markup.rl"
+#line 149 "markup.rl"
 	{
 		has_value = 2;
 	}
-#line 146 "markup.rl"
+#line 153 "markup.rl"
 	{
 		if (has_value == 1) {
-			rb_funcall(delegate, id_attribute, 2, Trenni_token(identifier, encoding), pcdata);
+			rb_funcall(delegate, id_attribute, 2, Trenni_token(identifier, encoding), Trenni_markup_safe(pcdata, has_entities));
 		} else if (has_value == 2) {
 			rb_funcall(delegate, id_attribute, 2, Trenni_token(identifier, encoding), empty_string);
 		} else {
@@ -1031,7 +1045,7 @@ st51:
 	if ( ++p == pe )
 		goto _test_eof51;
 case 51:
-#line 1035 "markup.c"
+#line 1049 "markup.c"
 	switch( (*p) ) {
 		case 38: goto tr97;
 		case 60: goto tr98;
@@ -1047,7 +1061,7 @@ st6:
 	if ( ++p == pe )
 		goto _test_eof6;
 case 6:
-#line 1051 "markup.c"
+#line 1065 "markup.c"
 	switch( (*p) ) {
 		case 34: goto st7;
 		case 39: goto st12;
@@ -1067,14 +1081,15 @@ tr20:
 #line 16 "markup.rl"
 	{
 		pcdata = Qnil;
+		has_entities = 0;
 	}
-#line 30 "markup.rl"
+#line 31 "markup.rl"
 	{
 		characters.begin = p;
 	}
 	goto st8;
 tr29:
-#line 30 "markup.rl"
+#line 31 "markup.rl"
 	{
 		characters.begin = p;
 	}
@@ -1083,7 +1098,7 @@ st8:
 	if ( ++p == pe )
 		goto _test_eof8;
 case 8:
-#line 1087 "markup.c"
+#line 1102 "markup.c"
 	switch( (*p) ) {
 		case 34: goto tr24;
 		case 38: goto tr25;
@@ -1091,18 +1106,18 @@ case 8:
 	}
 	goto st8;
 tr24:
-#line 34 "markup.rl"
+#line 35 "markup.rl"
 	{
 		characters.end = p;
 		
 		Trenni_append_token(&pcdata, encoding, characters);
 	}
-#line 20 "markup.rl"
+#line 21 "markup.rl"
 	{
 	}
 	goto st9;
 tr30:
-#line 20 "markup.rl"
+#line 21 "markup.rl"
 	{
 	}
 	goto st9;
@@ -1110,7 +1125,7 @@ st9:
 	if ( ++p == pe )
 		goto _test_eof9;
 case 9:
-#line 1114 "markup.c"
+#line 1129 "markup.c"
 	switch( (*p) ) {
 		case 32: goto tr26;
 		case 47: goto tr27;
@@ -1123,12 +1138,13 @@ tr22:
 #line 16 "markup.rl"
 	{
 		pcdata = Qnil;
+		has_entities = 0;
 	}
 #line 10 "/Users/samuel/Documents/Programming/ioquatix/trenni/parsers/trenni/entities.rl"
 	{{stack[top++] = 10; goto st42;}}
 	goto st10;
 tr25:
-#line 34 "markup.rl"
+#line 35 "markup.rl"
 	{
 		characters.end = p;
 		
@@ -1145,7 +1161,7 @@ st10:
 	if ( ++p == pe )
 		goto _test_eof10;
 case 10:
-#line 1149 "markup.c"
+#line 1165 "markup.c"
 	switch( (*p) ) {
 		case 34: goto tr30;
 		case 38: goto tr31;
@@ -1178,14 +1194,15 @@ tr35:
 #line 16 "markup.rl"
 	{
 		pcdata = Qnil;
+		has_entities = 0;
 	}
-#line 30 "markup.rl"
+#line 31 "markup.rl"
 	{
 		characters.begin = p;
 	}
 	goto st13;
 tr39:
-#line 30 "markup.rl"
+#line 31 "markup.rl"
 	{
 		characters.begin = p;
 	}
@@ -1194,7 +1211,7 @@ st13:
 	if ( ++p == pe )
 		goto _test_eof13;
 case 13:
-#line 1198 "markup.c"
+#line 1215 "markup.c"
 	switch( (*p) ) {
 		case 38: goto tr38;
 		case 39: goto tr24;
@@ -1205,12 +1222,13 @@ tr36:
 #line 16 "markup.rl"
 	{
 		pcdata = Qnil;
+		has_entities = 0;
 	}
 #line 10 "/Users/samuel/Documents/Programming/ioquatix/trenni/parsers/trenni/entities.rl"
 	{{stack[top++] = 14; goto st42;}}
 	goto st14;
 tr38:
-#line 34 "markup.rl"
+#line 35 "markup.rl"
 	{
 		characters.end = p;
 		
@@ -1227,7 +1245,7 @@ st14:
 	if ( ++p == pe )
 		goto _test_eof14;
 case 14:
-#line 1231 "markup.c"
+#line 1249 "markup.c"
 	switch( (*p) ) {
 		case 38: goto tr40;
 		case 39: goto tr30;
@@ -1445,7 +1463,7 @@ st37:
 	if ( ++p == pe )
 		goto _test_eof37;
 case 37:
-#line 1449 "markup.c"
+#line 1467 "markup.c"
 	switch( (*p) ) {
 		case 47: goto tr1;
 		case 62: goto tr67;
@@ -1473,7 +1491,7 @@ st55:
 	if ( ++p == pe )
 		goto _test_eof55;
 case 55:
-#line 1477 "markup.c"
+#line 1495 "markup.c"
 	switch( (*p) ) {
 		case 38: goto tr109;
 		case 60: goto tr110;
@@ -1509,7 +1527,7 @@ st39:
 	if ( ++p == pe )
 		goto _test_eof39;
 case 39:
-#line 1513 "markup.c"
+#line 1531 "markup.c"
 	switch( (*p) ) {
 		case 32: goto tr71;
 		case 47: goto tr69;
@@ -1538,7 +1556,7 @@ tr71:
 	{
 		identifier.end = p;
 	}
-#line 104 "markup.rl"
+#line 111 "markup.rl"
 	{
 	}
 	goto st40;
@@ -1546,12 +1564,12 @@ st40:
 	if ( ++p == pe )
 		goto _test_eof40;
 case 40:
-#line 1550 "markup.c"
+#line 1568 "markup.c"
 	if ( (*p) == 63 )
 		goto tr73;
 	goto st40;
 tr73:
-#line 107 "markup.rl"
+#line 114 "markup.rl"
 	{
 	}
 	goto st41;
@@ -1559,7 +1577,7 @@ st41:
 	if ( ++p == pe )
 		goto _test_eof41;
 case 41:
-#line 1563 "markup.c"
+#line 1581 "markup.c"
 	switch( (*p) ) {
 		case 62: goto st56;
 		case 63: goto tr73;
@@ -1599,7 +1617,7 @@ case 43:
 		goto tr78;
 	goto tr75;
 tr78:
-#line 44 "markup.rl"
+#line 45 "markup.rl"
 	{
 		entity.begin = p;
 	}
@@ -1608,16 +1626,18 @@ st44:
 	if ( ++p == pe )
 		goto _test_eof44;
 case 44:
-#line 1612 "markup.c"
+#line 1630 "markup.c"
 	if ( (*p) == 59 )
 		goto tr81;
 	if ( 48 <= (*p) && (*p) <= 57 )
 		goto st44;
 	goto tr75;
 tr81:
-#line 64 "markup.rl"
+#line 69 "markup.rl"
 	{
 		entity.end = p;
+		
+		has_entities = 1;
 		
 		codepoint = strtoul(entity.begin, (char **)&entity.end, 10);
 		
@@ -1627,9 +1647,11 @@ tr81:
 	{{cs = stack[--top];goto _again;}}
 	goto st57;
 tr84:
-#line 56 "markup.rl"
+#line 59 "markup.rl"
 	{
 		entity.end = p;
+		
+		has_entities = 1;
 		
 		codepoint = strtoul(entity.begin, (char **)&entity.end, 16);
 		
@@ -1639,11 +1661,13 @@ tr84:
 	{{cs = stack[--top];goto _again;}}
 	goto st57;
 tr86:
-#line 48 "markup.rl"
+#line 49 "markup.rl"
 	{
 		entity.end = p;
 		
-		Trenni_append_string(&pcdata, encoding, 
+		has_entities = 1;
+		
+		Trenni_append_string(&pcdata, encoding,
 			rb_funcall(entities, id_key_get, 1, Trenni_token(entity, encoding))
 		);
 	}
@@ -1654,7 +1678,7 @@ st57:
 	if ( ++p == pe )
 		goto _test_eof57;
 case 57:
-#line 1658 "markup.c"
+#line 1682 "markup.c"
 	goto st0;
 st45:
 	if ( ++p == pe )
@@ -1670,7 +1694,7 @@ case 45:
 		goto tr82;
 	goto tr75;
 tr82:
-#line 44 "markup.rl"
+#line 45 "markup.rl"
 	{
 		entity.begin = p;
 	}
@@ -1679,7 +1703,7 @@ st46:
 	if ( ++p == pe )
 		goto _test_eof46;
 case 46:
-#line 1683 "markup.c"
+#line 1707 "markup.c"
 	if ( (*p) == 59 )
 		goto tr84;
 	if ( (*p) < 65 ) {
@@ -1692,7 +1716,7 @@ case 46:
 		goto st46;
 	goto tr75;
 tr77:
-#line 44 "markup.rl"
+#line 45 "markup.rl"
 	{
 		entity.begin = p;
 	}
@@ -1701,7 +1725,7 @@ st47:
 	if ( ++p == pe )
 		goto _test_eof47;
 case 47:
-#line 1705 "markup.c"
+#line 1729 "markup.c"
 	if ( (*p) == 59 )
 		goto tr86;
 	if ( (*p) < 65 ) {
@@ -1782,13 +1806,13 @@ case 47:
 	case 45: 
 	case 46: 
 	case 47: 
-#line 40 "markup.rl"
+#line 41 "markup.rl"
 	{
 		Trenni_raise_error("could not parse entity", buffer, p-s);
 	}
 	break;
 	case 53: 
-#line 76 "markup.rl"
+#line 83 "markup.rl"
 	{
 		doctype.end = p;
 		
@@ -1796,13 +1820,13 @@ case 47:
 	}
 	break;
 	case 26: 
-#line 82 "markup.rl"
+#line 89 "markup.rl"
 	{
 		Trenni_raise_error("could not parse doctype", buffer, p-s);
 	}
 	break;
 	case 52: 
-#line 90 "markup.rl"
+#line 97 "markup.rl"
 	{
 		comment.end = p;
 		
@@ -1812,13 +1836,13 @@ case 47:
 	case 17: 
 	case 18: 
 	case 19: 
-#line 96 "markup.rl"
+#line 103 "markup.rl"
 	{
 		Trenni_raise_error("could not parse comment", buffer, p-s);
 	}
 	break;
 	case 56: 
-#line 110 "markup.rl"
+#line 117 "markup.rl"
 	{
 		instruction.end = p;
 		
@@ -1829,19 +1853,19 @@ case 47:
 	case 39: 
 	case 40: 
 	case 41: 
-#line 116 "markup.rl"
+#line 123 "markup.rl"
 	{
 		Trenni_raise_error("could not parse instruction", buffer, p-s);
 	}
 	break;
 	case 51: 
-#line 156 "markup.rl"
+#line 163 "markup.rl"
 	{
 		rb_funcall(delegate, id_open_tag_end, 1, self_closing == 1 ? Qtrue : Qfalse);
 	}
 	break;
 	case 55: 
-#line 163 "markup.rl"
+#line 170 "markup.rl"
 	{
 		rb_funcall(delegate, id_close_tag, 2, Trenni_token(identifier, encoding), ULONG2NUM(identifier.begin-s));
 	}
@@ -1862,13 +1886,13 @@ case 47:
 	case 14: 
 	case 36: 
 	case 37: 
-#line 167 "markup.rl"
+#line 174 "markup.rl"
 	{
 		Trenni_raise_error("could not parse tag", buffer, p-s);
 	}
 	break;
 	case 54: 
-#line 175 "markup.rl"
+#line 182 "markup.rl"
 	{
 		cdata.end = p;
 		
@@ -1878,43 +1902,43 @@ case 47:
 	case 33: 
 	case 34: 
 	case 35: 
-#line 181 "markup.rl"
+#line 188 "markup.rl"
 	{
 		Trenni_raise_error("could not parse cdata", buffer, p-s);
 	}
 	break;
 	case 50: 
-#line 20 "markup.rl"
+#line 21 "markup.rl"
 	{
 	}
-#line 26 "markup.rl"
+#line 27 "markup.rl"
 	{
-		rb_funcall(delegate, id_text, 1, pcdata);
+		rb_funcall(delegate, id_text, 1, Trenni_markup_safe(pcdata, has_entities));
 	}
 	break;
 	case 49: 
-#line 34 "markup.rl"
+#line 35 "markup.rl"
 	{
 		characters.end = p;
 		
 		Trenni_append_token(&pcdata, encoding, characters);
 	}
-#line 20 "markup.rl"
+#line 21 "markup.rl"
 	{
 	}
-#line 26 "markup.rl"
+#line 27 "markup.rl"
 	{
-		rb_funcall(delegate, id_text, 1, pcdata);
+		rb_funcall(delegate, id_text, 1, Trenni_markup_safe(pcdata, has_entities));
 	}
 	break;
-#line 1911 "markup.c"
+#line 1935 "markup.c"
 	}
 	}
 
 	_out: {}
 	}
 
-#line 212 "markup.rl"
+#line 219 "markup.rl"
 
 	
 	if (p != eof) {
