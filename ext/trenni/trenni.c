@@ -3,6 +3,7 @@
 
 #include "markup.h"
 #include "template.h"
+#include "escape.h"
 
 VALUE rb_Trenni = Qnil, rb_Trenni_Native = Qnil, rb_Trenni_ParseError = Qnil;
 ID id_cdata, id_open_tag_begin, id_open_tag_end, id_attribute, id_close_tag, id_text, id_doctype, id_comment, id_instruction, id_read, id_expression, id_key_get;
@@ -37,4 +38,5 @@ void Init_trenni() {
 	
 	rb_define_module_function(rb_Trenni_Native, "parse_markup", Trenni_Native_parse_markup, 3);
 	rb_define_module_function(rb_Trenni_Native, "parse_template", Trenni_Native_parse_template, 2);
+	rb_define_module_function(rb_Trenni_Native, "escape_markup", Trenni_Native_escape_markup, 1);
 }

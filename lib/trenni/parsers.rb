@@ -7,6 +7,7 @@ if defined? Trenni::Native and !ENV['TRENNI_PREFER_FALLBACK']
 else
 	require_relative 'fallback/markup'
 	require_relative 'fallback/template'
+	require_relative 'fallback/escape'
 	
 	Trenni::Parsers = Trenni::Fallback
 end

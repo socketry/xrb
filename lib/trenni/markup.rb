@@ -19,6 +19,7 @@
 # THE SOFTWARE.
 
 require_relative 'substitutions'
+require_relative 'parsers'
 
 module Trenni
 	# A wrapper which indicates that `value` can be appended to the output buffer without any changes.
@@ -50,10 +51,13 @@ module Trenni
 		# Convert ESCAPE characters into their corresponding entities.
 		def initialize(string = nil, escape = true)
 			if string
-				super(string)
+				if escape
+					# string = ESCAPE.gsub(string)
+					# string = CGI.escape_html(string)
+					string = Parsers.escape_markup(string)
+				end
 				
-				# self.replace CGI.escapeHTML(self)
-				ESCAPE.gsub!(self) if escape
+				super(string)
 			else
 				super()
 			end
