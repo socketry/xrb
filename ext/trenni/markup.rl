@@ -1,8 +1,6 @@
 
 #include "markup.h"
 
-#include <ruby/encoding.h>
-
 %%{
 	machine Trenni_markup_parser;
 	
