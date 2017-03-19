@@ -18,7 +18,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-require_relative 'fallback/escape'
+require 'cgi'
 
 module Trenni
 	# A wrapper which indicates that `value` can be appended to the output buffer without any changes.
@@ -33,6 +33,10 @@ module Trenni
 				# String#<< won't accept nil, so we return an empty string, thus ensuring a fixed point function:
 				EMPTY
 			end
+		end
+		
+		def self.escape_string(string)
+			CGI.escape_html(string)
 		end
 		
 		def escape(value)

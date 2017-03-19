@@ -17,11 +17,13 @@ inline static VALUE Trenni_Tag_key_string(VALUE key) {
 }
 
 inline static VALUE Trenni_Tag_prefix_key(VALUE prefix, VALUE key) {
+	VALUE buffer;
+	
 	if (prefix == Qnil) {
 		return Trenni_Tag_key_string(key);
 	}
 	
-	VALUE buffer = rb_str_dup(Trenni_Tag_key_string(prefix));
+	buffer = rb_str_dup(Trenni_Tag_key_string(prefix));
 	rb_str_buf_cat2(buffer, "-");
 	rb_str_append(buffer, Trenni_Tag_key_string(key));
 	
@@ -34,13 +36,14 @@ static void Trenni_Tag_append_tag_attribute(VALUE buffer, VALUE key, VALUE value
 	// We skip over attributes with nil value:
 	if (value == Qnil || value == Qfalse) return;
 	
-	VALUE attribute_key = Trenni_Tag_prefix_key(prefix, key);
+	// Modify key to contain the prefix:
+	key = Trenni_Tag_prefix_key(prefix, key);
 	
 	if (Trenni_Tag_valid_attributes(value)) {
-		Trenni_Tag_append_attributes(Qnil, buffer, value, attribute_key);
+		Trenni_Tag_append_attributes(Qnil, buffer, value, key);
 	} else {
 		rb_str_buf_cat2(buffer, " ");
-		rb_str_append(buffer, attribute_key);
+		rb_str_append(buffer, key);
 		
 		if (value != Qtrue) {
 			rb_str_buf_cat2(buffer, "=\"");
@@ -157,5 +160,22 @@ VALUE Trenni_Tag_write_closing_tag(VALUE self, VALUE buffer) {
 	rb_str_buf_cat2(buffer, ">");
 	
 	return Qnil;
+}
+
+void Init_trenni_tag() {
+	rb_undef_method(rb_class_of(rb_Trenni_Tag), "append_attributes");
+	rb_define_singleton_method(rb_Trenni_Tag, "append_attributes", Trenni_Tag_append_attributes, 3);
+	
+	rb_undef_method(rb_class_of(rb_Trenni_Tag), "append_tag");
+	rb_define_singleton_method(rb_Trenni_Tag, "append_tag", Trenni_Tag_append_tag, 4);
+	
+	rb_undef_method(rb_class_of(rb_Trenni_Tag), "format_tag");
+	rb_define_singleton_method(rb_Trenni_Tag, "format_tag", Trenni_Tag_format_tag, 3);
+	
+	rb_undef_method(rb_Trenni_Tag, "write_opening_tag");
+	rb_define_method(rb_Trenni_Tag, "write_opening_tag", Trenni_Tag_write_opening_tag, 1);
+	
+	rb_undef_method(rb_Trenni_Tag, "write_closing_tag");
+	rb_define_method(rb_Trenni_Tag, "write_closing_tag", Trenni_Tag_write_closing_tag, 1);
 }
 

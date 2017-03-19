@@ -41,11 +41,7 @@ void Init_trenni() {
 	rb_Trenni_Markup = rb_define_module_under(rb_Trenni, "Markup");
 	rb_Trenni_Native = rb_define_module_under(rb_Trenni, "Native");
 	
-	rb_Trenni_MarkupString = rb_define_class_under(rb_Trenni, "MarkupString", rb_cString);
-	rb_include_module(rb_Trenni_MarkupString, rb_Trenni_Markup);
-	
-	rb_Trenni_MarkupString_EMPTY = rb_str_new(0, 0);
-	rb_obj_reveal(rb_Trenni_MarkupString_EMPTY, rb_Trenni_MarkupString);
+	Init_trenni_escape();
 	
 	rb_Trenni_ParseError = rb_const_get_at(rb_Trenni, rb_intern("ParseError"));
 	
@@ -54,24 +50,5 @@ void Init_trenni() {
 	
 	rb_Trenni_Tag = rb_const_get_at(rb_Trenni, rb_intern("Tag"));
 	
-	rb_undef_method(rb_class_of(rb_Trenni_Tag), "append_attributes");
-	rb_define_singleton_method(rb_Trenni_Tag, "append_attributes", Trenni_Tag_append_attributes, 3);
-	
-	rb_undef_method(rb_class_of(rb_Trenni_Tag), "append_tag");
-	rb_define_singleton_method(rb_Trenni_Tag, "append_tag", Trenni_Tag_append_tag, 4);
-	
-	rb_undef_method(rb_class_of(rb_Trenni_Tag), "format_tag");
-	rb_define_singleton_method(rb_Trenni_Tag, "format_tag", Trenni_Tag_format_tag, 3);
-	
-	rb_undef_method(rb_Trenni_Tag, "write_opening_tag");
-	rb_define_method(rb_Trenni_Tag, "write_opening_tag", Trenni_Tag_write_opening_tag, 1);
-	
-	rb_undef_method(rb_Trenni_Tag, "write_closing_tag");
-	rb_define_method(rb_Trenni_Tag, "write_closing_tag", Trenni_Tag_write_closing_tag, 1);
-	
-	rb_undef_method(rb_class_of(rb_Trenni_Markup), "escape_string");
-	rb_define_module_function(rb_Trenni_Markup, "escape_string", Trenni_Markup_escape_string, 1);
-	
-	rb_undef_method(rb_class_of(rb_Trenni_Markup), "escape");
-	rb_define_module_function(rb_Trenni_Markup, "escape", Trenni_Markup_escape, 1);
+	Init_trenni_tag();
 }
