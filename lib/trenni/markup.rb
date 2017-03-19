@@ -18,8 +18,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-# Use the compiled implementatio of CGI.escape_html which is pretty fast.
-require 'cgi'
+require_relative 'fallback/escape'
 
 module Trenni
 	# A wrapper which indicates that `value` can be appended to the output buffer without any changes.
@@ -49,7 +48,7 @@ module Trenni
 		def initialize(string = nil, escape = true)
 			if string
 				if escape
-					string = CGI.escape_html(string)
+					string = Markup.escape_string(string)
 				end
 				
 				super(string)

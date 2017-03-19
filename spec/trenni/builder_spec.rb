@@ -23,7 +23,7 @@
 require 'trenni'
 
 module Trenni::BuilderSpec
-	describe 'Trenni::Builder#tag_attributes' do
+	describe 'Trenni::Builder#tag' do
 		subject {Trenni::Builder.new}
 		
 		it "should format nested attributes" do

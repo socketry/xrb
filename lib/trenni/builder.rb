@@ -21,11 +21,6 @@
 require_relative 'markup'
 
 module Trenni
-	INSTRUCT_ATTRIBUTES = [
-		['version', '1.0'],
-		['encoding', 'UTF-8']
-	].freeze
-	
 	# Build markup quickly and efficiently.
 	class Builder
 		include Markup
@@ -127,26 +122,6 @@ module Trenni
 		
 		protected
 		
-		# Convert a set of attributes into a string suitable for use within a <tag>.
-		def tag_attributes(attributes, prefix = nil)
-			return if attributes.empty?
-			
-			attributes.each do |key, value|
-				next unless value
-				
-				attribute_key = prefix ? "#{prefix}-#{key}" : key
-				
-				case value
-				when Hash
-					tag_attributes(value, attribute_key)
-				when TrueClass
-					@output << ' ' << attribute_key.to_s
-				else
-					@output << ' ' << attribute_key.to_s << '="' << escape(value.to_s) << '"'
-				end
-			end
-		end
-		
 		# A normal block level/container tag.
 		def full_tag(name, attributes, indent_outer, indent_inner, &block)
 			if block_given?
@@ -155,9 +130,8 @@ module Trenni
 					@output << indentation
 				end
 				
-				@output << "<" << name.to_s
-				tag_attributes(attributes)
-				@output << ">"
+				tag = Trenni::Tag.opened(name.to_s, attributes)
+				tag.write_opening_tag(@output)
 				@output << "\n" if indent_inner
 				
 				# The parent has one more child:
@@ -174,14 +148,13 @@ module Trenni
 					@output << indentation
 				end
 				
-				@output << "</" << name.to_s << ">"
+				tag.write_closing_tag(@output)
 			else
 				# The parent has one more child:
 				@level[-1] += 1
 				
-				@output << indentation + "<" << name.to_s
-				tag_attributes(attributes)
-				@output << "/>"
+				@output << indentation
+				Trenni::Tag.append_tag(@output, name.to_s, attributes, nil)
 			end
 		end
 	end

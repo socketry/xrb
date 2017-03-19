@@ -40,7 +40,7 @@ module Trenni
 		alias to_hash attributes
 		
 		def to_s(content = nil)
-			Trenni::Parsers.format_tag(name, attributes, content || !closed)
+			self.class.format_tag(name, attributes, content || !closed)
 		end
 		
 		alias to_str to_s
@@ -51,14 +51,8 @@ module Trenni
 		
 		def write_opening_tag(buffer)
 			buffer << '<' << name
-
-			attributes.each do |key, value|
-				if value
-					buffer << ' ' << key.to_s << '="' << Markup.escape(value) << '"'
-				else
-					buffer << ' ' << key.to_s
-				end
-			end
+			
+			self.class.append_attributes(buffer, attributes)
 			
 			if self_closed?
 				buffer << '/>'
@@ -72,7 +66,53 @@ module Trenni
 		end
 		
 		def write(buffer, content = nil)
-			Trenni::Parsers.append_tag(buffer, name, attributes, content || !closed)
+			self.class.append_tag(buffer, name, attributes, content || !closed)
+		end
+		
+		def self.format_tag(name, attributes, content)
+			buffer = String.new.force_encoding(name.encoding)
+			
+			self.append_tag(buffer, name, attributes, content)
+			
+			return buffer
+		end
+		
+		def self.append_tag(buffer, name, attributes, content)
+			buffer << '<' << name.to_s
+			self.append_attributes(buffer, attributes)
+			if !content
+				buffer << '/>'
+			else
+				buffer << '>'
+				unless buffer == true
+					buffer << content.to_s
+				end
+				buffer << '</' << name.to_s << '>'
+			end
+			
+			return nil
+		end
+		
+		# Convert a set of attributes into a string suitable for use within a <tag>.
+		def self.append_attributes(buffer, attributes, prefix = nil)
+			return if attributes.empty?
+			
+			attributes.each do |key, value|
+				next unless value
+				
+				attribute_key = prefix ? "#{prefix}-#{key}" : key
+				
+				case value
+				when Hash
+					self.append_attributes(buffer, value, attribute_key)
+				when TrueClass
+					buffer << ' ' << attribute_key.to_s
+				else
+					buffer << ' ' << attribute_key.to_s << '="' << Markup.escape(value) << '"'
+				end
+			end
+			
+			return nil
 		end
 	end
 end
