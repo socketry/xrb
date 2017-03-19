@@ -8,7 +8,7 @@ inline static int Trenni_Tag_valid_attributes(VALUE value) {
 
 // Key can be either symbol or string. This method efficiently converts either to a string.
 inline static VALUE Trenni_Tag_key_string(VALUE key) {
-	if (RB_SYMBOL_P(key)) {
+	if (SYMBOL_P(key)) {
 		return rb_sym2str(key);
 	}
 	
