@@ -32,11 +32,11 @@ module Trenni
 		end
 		
 		def self.load_file(path)
-			FileBuffer.new(path)
+			FileBuffer.new(path).freeze
 		end
 		
 		def self.load(string)
-			Buffer.new(string)
+			Buffer.new(string).freeze
 		end
 		
 		def to_buffer
@@ -49,10 +49,18 @@ module Trenni
 			@path = path
 		end
 		
+		def freeze
+			return self if frozen?
+			
+			read
+			
+			super
+		end
+		
 		attr :path
 		
 		def read
-			@cache ||= File.read(@path)
+			@cache ||= File.read(@path).freeze
 		end
 		
 		def to_buffer
@@ -66,10 +74,18 @@ module Trenni
 			@path = path
 		end
 		
+		def freeze
+			return self if frozen?
+			
+			read
+			
+			super
+		end
+		
 		attr :path
 		
 		def read
-			@cache ||= @io.read
+			@cache ||= @io.read.freeze
 		end
 		
 		def to_buffer

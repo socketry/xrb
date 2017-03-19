@@ -18,6 +18,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+# Use the compiled implementatio of CGI.escape_html which is pretty fast.
 require 'cgi'
 
 module Trenni

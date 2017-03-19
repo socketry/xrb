@@ -40,11 +40,7 @@ module Trenni
 		alias to_hash attributes
 		
 		def to_s(content = nil)
-			buffer = String.new.force_encoding(name.encoding)
-			
-			write(buffer, content)
-			
-			return buffer
+			Trenni::Parsers.format_tag(name, attributes, content || !closed)
 		end
 		
 		alias to_str to_s
@@ -53,36 +49,30 @@ module Trenni
 			closed
 		end
 		
-		def write_opening_tag(buffer, self_closing = false)
-			buffer << "<#{name}"
+		def write_opening_tag(buffer)
+			buffer << '<' << name
 
 			attributes.each do |key, value|
 				if value
-					buffer << " #{key}=\"#{Markup.escape(value)}\""
+					buffer << ' ' << key.to_s << '="' << Markup.escape(value) << '"'
 				else
-					buffer << " #{key}"
+					buffer << ' ' << key.to_s
 				end
 			end
 			
-			if self_closing
-				buffer << "/>"
+			if self_closed?
+				buffer << '/>'
 			else
-				buffer << ">"
+				buffer << '>'
 			end
 		end
 		
 		def write_closing_tag(buffer)
-			buffer << "</#{name}>"
+			buffer << '</' << name << '>'
 		end
 		
 		def write(buffer, content = nil)
-			if closed and content.nil?
-				write_opening_tag(buffer, true)
-			else
-				write_opening_tag(buffer)
-				buffer << content if content
-				write_closing_tag(buffer)
-			end
+			Trenni::Parsers.append_tag(buffer, name, attributes, content || !closed)
 		end
 	end
 end

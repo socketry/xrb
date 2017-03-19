@@ -20,6 +20,9 @@
 
 require_relative 'parse_error'
 
+# Methods on the following classes may be replaced by native implementations:
+require_relative 'tag'
+
 begin
 	# Load native code:
 	require_relative 'trenni'

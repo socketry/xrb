@@ -20,7 +20,7 @@
 
 require 'trenni/tag'
 
-RSpec.describe Trenni::Tag.new("body", false, 'class' => 'main') do
+RSpec.describe Trenni::Tag.new("body", false, class: 'main') do
 	it "should have name" do
 		expect(subject.name).to be == "body"
 	end
@@ -30,8 +30,9 @@ RSpec.describe Trenni::Tag.new("body", false, 'class' => 'main') do
 	end
 	
 	it "should have an attribute" do
-		expect(subject.attributes).to include('class')
-		expect(subject['class']).to be == 'main'
+		expect(subject.attributes).to include(:class)
+		expect(subject[:class]).to be == 'main'
+		expect(subject.to_s).to include('class="main"')
 	end
 end
 
@@ -40,7 +41,17 @@ RSpec.describe Trenni::Tag.new("button", true, 'onclick' => 'javascript:alert("H
 		expect(subject.name).to be == "button"
 	end
 	
+	it "should have an attribute" do
+		expect(subject.attributes).to include('onclick')
+	end
+	
 	it "should generate valid string" do
 		expect(subject.to_s).to be == '<button onclick="javascript:alert(&quot;Hello World&quot;)"/>'
+	end
+end
+
+RSpec.describe Trenni::Tag.new("p", false, {}) do
+	it "should include content" do
+		expect(subject.to_s("Hello World")).to be == "<p>Hello World</p>"
 	end
 end

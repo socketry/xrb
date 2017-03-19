@@ -88,15 +88,23 @@ module Trenni
 		end
 		
 		def self.load_file(path, **options)
-			self.new(FileBuffer.new(path), **options)
+			self.new(FileBuffer.new(path), **options).freeze
 		end
 
 		def initialize(buffer, filter: String)
 			@buffer = buffer
 			@filter = filter
 		end
-
-		def to_string(scope = Object.new, output = output_buffer)
+		
+		def freeze
+			return self if frozen?
+			
+			to_proc
+			
+			super
+		end
+		
+		def to_string(scope = Object.new, output = nil)
 			output ||= output_buffer
 			
 			scope.instance_exec(output, &to_proc)
@@ -105,9 +113,9 @@ module Trenni
 		def to_buffer(scope)
 			Buffer.new(to_string(scope), path: @buffer.path)
 		end
-
+		
 		def to_proc(scope = nil)
-			@compiled_proc ||= eval("proc{|#{OUT}|;#{code};#{OUT}}", scope, @buffer.path)
+			@compiled_proc ||= eval("proc{|#{OUT}|;#{code};#{OUT}}", scope, @buffer.path).freeze
 		end
 		
 		protected
