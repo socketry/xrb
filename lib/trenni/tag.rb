@@ -52,7 +52,7 @@ module Trenni
 		def write_opening_tag(buffer)
 			buffer << '<' << name
 			
-			self.class.append_attributes(buffer, attributes)
+			self.class.append_attributes(buffer, attributes, nil)
 			
 			if self_closed?
 				buffer << '/>'
@@ -79,7 +79,9 @@ module Trenni
 		
 		def self.append_tag(buffer, name, attributes, content)
 			buffer << '<' << name.to_s
-			self.append_attributes(buffer, attributes)
+			
+			self.append_attributes(buffer, attributes, nil)
+			
 			if !content
 				buffer << '/>'
 			else
@@ -94,9 +96,7 @@ module Trenni
 		end
 		
 		# Convert a set of attributes into a string suitable for use within a <tag>.
-		def self.append_attributes(buffer, attributes, prefix = nil)
-			return if attributes.empty?
-			
+		def self.append_attributes(buffer, attributes, prefix)
 			attributes.each do |key, value|
 				next unless value
 				

@@ -1,13 +1,28 @@
 
 #include "escape.h"
 
-// => [["<", 60, "3c"], [">", 62, "3e"], ["\"", 34, "22"], ["&", 38, "26"]] 
-static const uint32_t MASK = 0x3e3e3e3e;
+VALUE Trenni_Markup_escape(VALUE self, VALUE value) {
+	if (rb_obj_is_kind_of(value, rb_Trenni_Markup)) {
+		return value;
+	} else if (value != Qnil && value != Qfalse) {
+		VALUE string = rb_obj_as_string(value);
+		
+		string = Trenni_Markup_escape_string(self, string);
+		rb_obj_reveal(string, rb_Trenni_MarkupString);
+		
+		return string;
+	} else {
+		return rb_Trenni_MarkupString_EMPTY;
+	}
+}
 
-static const uint32_t MASK_LT = 0x3c3c3c3c;
-static const uint32_t MASK_GT = 0x3e3e3e3e;
-static const uint32_t MASK_QUOT = 0x22222222;
-static const uint32_t MASK_AMP = 0x26262626;
+// => [["<", 60, "3c"], [">", 62, "3e"], ["\"", 34, "22"], ["&", 38, "26"]] 
+// static const uint32_t MASK = 0x3e3e3e3e;
+// 
+// static const uint32_t MASK_LT = 0x3c3c3c3c;
+// static const uint32_t MASK_GT = 0x3e3e3e3e;
+// static const uint32_t MASK_QUOT = 0x22222222;
+// static const uint32_t MASK_AMP = 0x26262626;
 
 inline const char * index_symbol(const char * begin, const char * end) {
 	const char * p = begin;

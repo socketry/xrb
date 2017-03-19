@@ -2,36 +2,77 @@
 #include "escape.h"
 #include "tag.h"
 
-static int Trenni_Tag_append_tag_attribute(VALUE key, VALUE value, VALUE buffer) {
-	// We skip over attributes with nil value:
-	if (value == Qnil) return ST_CONTINUE;
-	
-	StringValue(value);
-	
-	rb_str_buf_cat2(buffer, " ");
-	
-	// Key can be either symbol or string:
+inline static int Trenni_Tag_valid_attributes(VALUE value) {
+	return (rb_type(value) == T_HASH) || (rb_type(value) == T_ARRAY);
+}
+
+// Key can be either symbol or string. This method efficiently converts either to a string.
+inline static VALUE Trenni_Tag_key_string(VALUE key) {
 	if (RB_SYMBOL_P(key)) {
-		rb_str_append(buffer, rb_sym2str(key));
-	} else {
-		StringValue(key);
-		rb_str_append(buffer, key);
+		return rb_sym2str(key);
 	}
 	
-	if (value != Qtrue) {
-		rb_str_buf_cat2(buffer, "=\"");
-		Trenni_Markup_append_string(buffer, value);
-		rb_str_buf_cat2(buffer, "\"");
+	StringValue(key);
+	return key;
+}
+
+inline static VALUE Trenni_Tag_prefix_key(VALUE prefix, VALUE key) {
+	if (prefix == Qnil) {
+		return Trenni_Tag_key_string(key);
 	}
+	
+	VALUE buffer = rb_str_dup(Trenni_Tag_key_string(prefix));
+	rb_str_buf_cat2(buffer, "-");
+	rb_str_append(buffer, Trenni_Tag_key_string(key));
+	
+	return buffer;
+}
+
+VALUE Trenni_Tag_append_attributes(VALUE self, VALUE buffer, VALUE attributes, VALUE prefix);
+
+static void Trenni_Tag_append_tag_attribute(VALUE buffer, VALUE key, VALUE value, VALUE prefix) {
+	// We skip over attributes with nil value:
+	if (value == Qnil || value == Qfalse) return;
+	
+	VALUE attribute_key = Trenni_Tag_prefix_key(prefix, key);
+	
+	if (Trenni_Tag_valid_attributes(value)) {
+		Trenni_Tag_append_attributes(Qnil, buffer, value, attribute_key);
+	} else {
+		rb_str_buf_cat2(buffer, " ");
+		rb_str_append(buffer, attribute_key);
+		
+		if (value != Qtrue) {
+			rb_str_buf_cat2(buffer, "=\"");
+			// TODO: Not sure about the order of these operations:
+			value = rb_obj_as_string(value);
+			if (rb_obj_is_kind_of(value, rb_Trenni_Markup)) {
+				rb_str_append(buffer, value);
+			} else {
+				Trenni_Markup_append_string(buffer, value);
+			}
+			rb_str_buf_cat2(buffer, "\"");
+		}
+	}
+}
+
+struct TagAttributeForeachArg {
+	VALUE buffer;
+	VALUE prefix;
+};
+
+static int Trenni_Tag_append_tag_attribute_foreach(VALUE key, VALUE value, struct TagAttributeForeachArg * arg) {
+	Trenni_Tag_append_tag_attribute(arg->buffer, key, value, arg->prefix);
 	
 	return ST_CONTINUE;
 }
 
-static void Trenni_Tag_append_attributes(VALUE buffer, VALUE attributes) {
-	int type = BUILTIN_TYPE(attributes);
+VALUE Trenni_Tag_append_attributes(VALUE self, VALUE buffer, VALUE attributes, VALUE prefix) {
+	int type = rb_type(attributes);
 	
 	if (type == T_HASH) {
-		rb_hash_foreach(attributes, &Trenni_Tag_append_tag_attribute, buffer);
+		struct TagAttributeForeachArg arg = {buffer, prefix};
+		rb_hash_foreach(attributes, &Trenni_Tag_append_tag_attribute_foreach, (VALUE)&arg);
 	} else if (type == T_ARRAY) {
 		long i;
 		
@@ -40,11 +81,13 @@ static void Trenni_Tag_append_attributes(VALUE buffer, VALUE attributes) {
 			VALUE key = RARRAY_AREF(attribute, 0);
 			VALUE value = RARRAY_AREF(attribute, 1);
 			
-			Trenni_Tag_append_tag_attribute(key, value, buffer);
+			Trenni_Tag_append_tag_attribute(buffer, key, value, prefix);
 		}
 	} else {
-		rb_raise(rb_eArgError, "expected hash or array for attributes, got: %"PRIsVALUE, rb_inspect(attributes));
+		rb_raise(rb_eArgError, "expected hash or array for attributes");
 	}
+	
+	return Qnil;
 }
 
 VALUE Trenni_Tag_append_tag(VALUE self, VALUE buffer, VALUE name, VALUE attributes, VALUE content) {
@@ -53,7 +96,7 @@ VALUE Trenni_Tag_append_tag(VALUE self, VALUE buffer, VALUE name, VALUE attribut
 	rb_str_buf_cat2(buffer, "<");
 	rb_str_buf_append(buffer, name);
 	
-	Trenni_Tag_append_attributes(buffer, attributes);
+	Trenni_Tag_append_attributes(self, buffer, attributes, Qnil);
 	
 	if (content == Qnil || content == Qfalse) {
 		rb_str_buf_cat2(buffer, "/>");
@@ -93,7 +136,7 @@ VALUE Trenni_Tag_write_opening_tag(VALUE self, VALUE buffer) {
 	rb_str_buf_cat2(buffer, "<");
 	rb_str_buf_append(buffer, name);
 	
-	Trenni_Tag_append_attributes(buffer, attributes);
+	Trenni_Tag_append_attributes(self, buffer, attributes, Qnil);
 	
 	if (closed == Qtrue) {
 		rb_str_buf_cat2(buffer, "/>");

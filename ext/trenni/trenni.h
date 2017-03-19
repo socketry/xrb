@@ -4,7 +4,7 @@
 #include "ruby.h"
 #include <ruby/encoding.h>
 
-extern VALUE rb_Trenni, rb_Trenni_Markup, rb_Trenni_Tag, rb_Trenni_RawString, rb_Trenni_RawString_EMPTY, rb_Trenni_Native, rb_Trenni_ParseError;
+extern VALUE rb_Trenni, rb_Trenni_Markup, rb_Trenni_Tag, rb_Trenni_MarkupString, rb_Trenni_MarkupString_EMPTY, rb_Trenni_Native, rb_Trenni_ParseError;
 
 extern ID id_cdata, id_open_tag_begin, id_open_tag_end, id_attribute, id_close_tag, id_text, id_doctype, id_comment, id_instruction, id_read, id_expression, id_key_get, id_new, id_name, id_attributes, id_closed;
 
@@ -54,7 +54,7 @@ static inline void Trenni_append_codepoint(VALUE * buffer, rb_encoding * encodin
 static inline VALUE Trenni_markup_safe(VALUE string, unsigned has_entities) {
 	if (!has_entities) {
 		// Apparently should not use this to change klass, but it's exactly what we need here to make things lightning fast.
-		rb_obj_reveal(string, rb_Trenni_RawString);
+		rb_obj_reveal(string, rb_Trenni_MarkupString);
 	}
 	
 	return string;
