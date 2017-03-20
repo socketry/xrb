@@ -3,11 +3,21 @@
 #include <assert.h>
 
 inline static int Trenni_Markup_is_markup(VALUE value) {
+	if (RB_IMMEDIATE_P(value))
+		return 0;
+	
+	// This is a short-cut:
+	if (rb_class_of(value) == rb_Trenni_MarkupString) {
+		return 1;
+	}
+	
+	
 	return rb_funcall(value, id_is_a, 1, rb_Trenni_Markup) == Qtrue;
 }
 
 // Efficiently convert a string to markup by escaping special characters and changing it's class.
 static VALUE Trenni_Markup_convert_to_markup(VALUE value) {
+	// TODO: This could be improved because escape_string below may return a copy or the same string.
 	VALUE string = rb_str_dup(rb_funcall(value, id_to_s, 0));
 	VALUE escaped = Trenni_Markup_escape_string(Qnil, value);
 	
@@ -16,6 +26,7 @@ static VALUE Trenni_Markup_convert_to_markup(VALUE value) {
 	return escaped;
 }
 
+// 
 VALUE Trenni_Markup_escape(VALUE self, VALUE value) {
 	if (Trenni_Markup_is_markup(value)) {
 		return value;
@@ -96,26 +107,36 @@ static inline VALUE Trenni_Markup_append_buffer(VALUE buffer, const char * s, co
 	}
 }
 
-VALUE Trenni_Markup_append_string(VALUE self, VALUE buffer, VALUE string) {
-	if (Trenni_Markup_is_markup(string)) {
-		StringValue(string);
-		rb_str_append(buffer, string);
-	} else {
-		const char * begin = RSTRING_PTR(string);
-		const char * end = begin + RSTRING_LEN(string);
-		
-		const char * s = begin;
+// Escape and append a string to the output buffer.
+VALUE Trenni_Markup_append_string(VALUE buffer, VALUE string) {
+	const char * begin = RSTRING_PTR(string);
+	const char * end = begin + RSTRING_LEN(string);
+	
+	const char * s = begin;
 
-		// There are two outcomes, either p is at end, or p points to a symbol:
-		const char * p = Trenni_Markup_index_symbol(s, end);
+	// There are two outcomes, either p is at end, or p points to a symbol:
+	const char * p = Trenni_Markup_index_symbol(s, end);
+	
+	Trenni_Markup_append_buffer(buffer, s, p, end);
+}
+
+VALUE Trenni_Markup_append(VALUE self, VALUE buffer, VALUE value) {
+	if (Trenni_Markup_is_markup(value)) {
+		rb_str_append(buffer, value);
+	} else {
+		if (rb_type(value) != T_STRING) {
+			value = rb_funcall(value, id_to_s, 0);
+		}
 		
-		Trenni_Markup_append_buffer(buffer, s, p, end);
+		Trenni_Markup_append_string(buffer, value);
 	}
 	
 	return buffer;
 }
 
 VALUE Trenni_Markup_escape_string(VALUE self, VALUE string) {
+	StringValue(string);
+	
 	const char * begin = RSTRING_PTR(string);
 	const char * end = begin + RSTRING_LEN(string);
 	
@@ -142,8 +163,8 @@ void Init_trenni_escape() {
 	rb_undef_method(rb_class_of(rb_Trenni_Markup), "escape_string");
 	rb_define_singleton_method(rb_Trenni_Markup, "escape_string", Trenni_Markup_escape_string, 1);
 	
-	rb_undef_method(rb_class_of(rb_Trenni_Markup), "append_string");
-	rb_define_singleton_method(rb_Trenni_Markup, "append_string", Trenni_Markup_append_string, 2);
+	rb_undef_method(rb_class_of(rb_Trenni_Markup), "append");
+	rb_define_singleton_method(rb_Trenni_Markup, "append", Trenni_Markup_append, 2);
 	
 	rb_undef_method(rb_Trenni_Markup, "escape");
 	rb_undef_method(rb_class_of(rb_Trenni_Markup), "escape");

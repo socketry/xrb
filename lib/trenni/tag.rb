@@ -86,8 +86,8 @@ module Trenni
 				buffer << '/>'
 			else
 				buffer << '>'
-				unless buffer == true
-					Markup.append_string(buffer, content)
+				unless content == true
+					Markup.append(buffer, content)
 				end
 				buffer << '</' << name.to_s << '>'
 			end
@@ -105,11 +105,13 @@ module Trenni
 				case value
 				when Hash
 					self.append_attributes(buffer, value, attribute_key)
+				when Array
+					self.append_attributes(buffer, value, attribute_key)
 				when TrueClass
 					buffer << ' ' << attribute_key.to_s
 				else
 					buffer << ' ' << attribute_key.to_s << '="'
-					Markup.append_string(buffer, value)
+					Markup.append(buffer, value)
 					buffer << '"'
 				end
 			end

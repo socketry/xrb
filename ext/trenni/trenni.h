@@ -30,17 +30,16 @@ static inline VALUE Trenni_string(const char * begin, const char * end, rb_encod
 }
 
 static inline VALUE Trenni_buffer_for(VALUE string) {
-	return rb_enc_str_new(0, 0, rb_enc_get(string));
-	// It would be nice if this would work...
-	// VALUE buffer = rb_str_tmp_new(RSTRING_LEN(string));
-	// rb_enc_associate(buffer, rb_enc_get(string));
-	// 
-	// return buffer;
+	VALUE buffer = rb_enc_str_new(0, 0, rb_enc_get(string));
+	
+	//rb_str_resize(buffer, RSTRING_LEN(string));
+	
+	return buffer;
 }
 
 NORETURN(void Trenni_raise_error(const char * message, VALUE buffer, size_t offset));
 
-static inline void Trenni_append_string(VALUE * buffer, rb_encoding * encoding, VALUE string) {
+static inline void Trenni_append(VALUE * buffer, rb_encoding * encoding, VALUE string) {
 	if (*buffer == Qnil) {
 		*buffer = rb_enc_str_new("", 0, encoding);
 	}

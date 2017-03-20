@@ -47,13 +47,7 @@ static void Trenni_Tag_append_tag_attribute(VALUE buffer, VALUE key, VALUE value
 		
 		if (value != Qtrue) {
 			rb_str_cat_cstr(buffer, "=\"");
-			// TODO: Not sure about the order of these operations:
-			value = rb_obj_as_string(value);
-			if (rb_obj_is_kind_of(value, rb_Trenni_Markup)) {
-				rb_str_append(buffer, value);
-			} else {
-				Trenni_Markup_append_string(Qnil, buffer, value);
-			}
+			Trenni_Markup_append(Qnil, buffer, value);
 			rb_str_cat_cstr(buffer, "\"");
 		}
 	}
@@ -107,7 +101,7 @@ VALUE Trenni_Tag_append_tag(VALUE self, VALUE buffer, VALUE name, VALUE attribut
 		rb_str_cat_cstr(buffer, ">");
 		
 		if (content != Qtrue) {
-			Trenni_Markup_append_string(self, buffer, content);
+			Trenni_Markup_append(self, buffer, content);
 		}
 		
 		rb_str_cat_cstr(buffer, "</");

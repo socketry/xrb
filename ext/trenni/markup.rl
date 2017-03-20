@@ -51,7 +51,7 @@
 		
 		has_entities = 1;
 		
-		Trenni_append_string(&pcdata, encoding,
+		Trenni_append(&pcdata, encoding,
 			rb_funcall(entities, id_key_get, 1, Trenni_token(entity, encoding))
 		);
 	}

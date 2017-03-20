@@ -41,11 +41,11 @@ module Trenni
 		end
 		
 		# Appends a string to the output buffer, escaping if if necessary.
-		def self.append_string(buffer, string)
-			if string.is_a? Markup
-				buffer << string
+		def self.append(buffer, value)
+			if value.is_a? Markup
+				buffer << value
 			else
-				buffer << self.escape_string(string)
+				buffer << self.escape_string(value.to_s)
 			end
 		end
 		
