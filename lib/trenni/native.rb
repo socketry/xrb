@@ -28,4 +28,4 @@ begin
 	require_relative 'trenni'
 rescue LoadError
 	warn "Could not load native implementation: #{$!}" if $VERBOSE
-end
+end unless ENV['TRENNI_PREFER_FALLBACK']
