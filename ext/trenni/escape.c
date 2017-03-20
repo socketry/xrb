@@ -1,30 +1,31 @@
 
 #include "escape.h"
+#include <assert.h>
+
+inline static int Trenni_Markup_is_markup(VALUE value) {
+	return rb_funcall(value, id_is_a, 1, rb_Trenni_Markup) == Qtrue;
+}
+
+// Efficiently convert a string to markup by escaping special characters and changing it's class.
+static VALUE Trenni_Markup_convert_to_markup(VALUE value) {
+	VALUE string = rb_str_dup(rb_funcall(value, id_to_s, 0));
+	VALUE escaped = Trenni_Markup_escape_string(Qnil, value);
+	
+	rb_obj_reveal(escaped, rb_Trenni_MarkupString);
+	
+	return escaped;
+}
 
 VALUE Trenni_Markup_escape(VALUE self, VALUE value) {
-	switch (rb_type(value)) {
-		case RUBY_T_OBJECT:
-			if (rb_obj_is_kind_of(value, rb_Trenni_Markup)) return value;
-		
-			value = rb_obj_as_string(value);
-			value = Trenni_Markup_escape_string(self, value);
-			rb_obj_reveal(value, rb_Trenni_MarkupString);
-			return value;
-		
-		case RUBY_T_STRING:
-			if (rb_obj_is_kind_of(value, rb_Trenni_Markup)) return value;
-			
-			value = rb_str_dup(value);
-			value = Trenni_Markup_escape_string(self, value);
-			rb_obj_reveal(value, rb_Trenni_MarkupString);
-			return value;
-		
-		case RUBY_T_FALSE:
-		case RUBY_T_NIL:
-			return rb_Trenni_MarkupString_EMPTY;
+	if (Trenni_Markup_is_markup(value)) {
+		return value;
 	}
 	
-	return Qnil;
+	if (value == Qnil || value == Qfalse) {
+		return rb_Trenni_MarkupString_EMPTY;
+	}
+	
+	return Trenni_Markup_convert_to_markup(value);
 }
 
 // => [["<", 60, "3c"], [">", 62, "3e"], ["\"", 34, "22"], ["&", 38, "26"]] 
@@ -35,7 +36,7 @@ VALUE Trenni_Markup_escape(VALUE self, VALUE value) {
 // static const uint32_t MASK_QUOT = 0x22222222;
 // static const uint32_t MASK_AMP = 0x26262626;
 
-inline const char * index_symbol(const char * begin, const char * end) {
+static inline const char * Trenni_Markup_index_symbol(const char * begin, const char * end) {
 	const char * p = begin;
 
 	while (p < end) {
@@ -62,7 +63,7 @@ inline const char * index_symbol(const char * begin, const char * end) {
 	return end;
 }
 
-inline void append_entity(const char * p, VALUE buffer) {
+static inline void Trenni_Markup_append_entity(const char * p, VALUE buffer) {
 	// What symbol are we looking at?
 	switch (*p) {
 		case '<':
@@ -80,7 +81,7 @@ inline void append_entity(const char * p, VALUE buffer) {
 	}
 }
 
-inline VALUE Trenni_Markup_append_buffer(VALUE buffer, const char * s, const char * p, const char * end) {
+static inline VALUE Trenni_Markup_append_buffer(VALUE buffer, const char * s, const char * p, const char * end) {
 	while (1) {
 		// Append the non-symbol part:
 		rb_str_buf_cat(buffer, s, p - s);
@@ -88,23 +89,30 @@ inline VALUE Trenni_Markup_append_buffer(VALUE buffer, const char * s, const cha
 		// We escape early if there were no changes to be made:
 		if (p == end) return buffer;
 
-		append_entity(p, buffer);
+		Trenni_Markup_append_entity(p, buffer);
 
 		s = p + 1;
-		p = index_symbol(s, end);
+		p = Trenni_Markup_index_symbol(s, end);
 	}
 }
 
-VALUE Trenni_Markup_append_string(VALUE buffer, VALUE string) {
-	const char * begin = RSTRING_PTR(string);
-	const char * end = begin + RSTRING_LEN(string);
-	
-	const char * s = begin;
+VALUE Trenni_Markup_append_string(VALUE self, VALUE buffer, VALUE string) {
+	if (Trenni_Markup_is_markup(string)) {
+		StringValue(string);
+		rb_str_append(buffer, string);
+	} else {
+		const char * begin = RSTRING_PTR(string);
+		const char * end = begin + RSTRING_LEN(string);
+		
+		const char * s = begin;
 
-	// There are two outcomes, either p is at end, or p points to a symbol:
-	const char * p = index_symbol(s, end);
+		// There are two outcomes, either p is at end, or p points to a symbol:
+		const char * p = Trenni_Markup_index_symbol(s, end);
+		
+		Trenni_Markup_append_buffer(buffer, s, p, end);
+	}
 	
-	return Trenni_Markup_append_buffer(buffer, s, p, end);
+	return buffer;
 }
 
 VALUE Trenni_Markup_escape_string(VALUE self, VALUE string) {
@@ -114,7 +122,7 @@ VALUE Trenni_Markup_escape_string(VALUE self, VALUE string) {
 	const char * s = begin;
 
 	// There are two outcomes, either p is at end, or p points to a symbol:
-	const char * p = index_symbol(s, end);
+	const char * p = Trenni_Markup_index_symbol(s, end);
 
 	// We escape early if there were no changes to be made:
 	if (p == end) return string;
@@ -133,6 +141,9 @@ void Init_trenni_escape() {
 	
 	rb_undef_method(rb_class_of(rb_Trenni_Markup), "escape_string");
 	rb_define_singleton_method(rb_Trenni_Markup, "escape_string", Trenni_Markup_escape_string, 1);
+	
+	rb_undef_method(rb_class_of(rb_Trenni_Markup), "append_string");
+	rb_define_singleton_method(rb_Trenni_Markup, "append_string", Trenni_Markup_append_string, 2);
 	
 	rb_undef_method(rb_Trenni_Markup, "escape");
 	rb_undef_method(rb_class_of(rb_Trenni_Markup), "escape");

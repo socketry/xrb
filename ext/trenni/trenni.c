@@ -7,7 +7,7 @@
 #include "escape.h"
 
 VALUE rb_Trenni = Qnil, rb_Trenni_Native = Qnil, rb_Trenni_Tag = Qnil, rb_Trenni_Markup = Qnil, rb_Trenni_MarkupString = Qnil, rb_Trenni_MarkupString_EMPTY = Qnil, rb_Trenni_ParseError = Qnil;
-ID id_cdata, id_open_tag_begin, id_open_tag_end, id_attribute, id_close_tag, id_text, id_doctype, id_comment, id_instruction, id_read, id_expression, id_key_get, id_new, id_name, id_attributes, id_closed;
+ID id_cdata, id_open_tag_begin, id_open_tag_end, id_attribute, id_close_tag, id_text, id_doctype, id_comment, id_instruction, id_read, id_expression, id_key_get, id_new, id_name, id_attributes, id_closed, id_to_s, id_is_a;
 
 void Trenni_raise_error(const char * message, VALUE buffer, size_t offset) {
 	VALUE exception = rb_funcall(rb_Trenni_ParseError, id_new, 3, rb_str_new_cstr(message), buffer, ULONG2NUM(offset));
@@ -36,6 +36,9 @@ void Init_trenni() {
 	id_closed = rb_intern("closed");
 	
 	id_key_get = rb_intern("[]");
+	
+	id_to_s = rb_intern("to_s");
+	id_is_a = rb_intern("is_a?");
 	
 	rb_Trenni = rb_define_module("Trenni");
 	rb_Trenni_Markup = rb_define_module_under(rb_Trenni, "Markup");

@@ -35,8 +35,18 @@ module Trenni
 			end
 		end
 		
+		# Converts special characters `<`, `>`, `&`, and `"` into their equivalent entities.
 		def self.escape_string(string)
 			CGI.escape_html(string)
+		end
+		
+		# Appends a string to the output buffer, escaping if if necessary.
+		def self.append_string(buffer, string)
+			if string.is_a? Markup
+				buffer << string
+			else
+				buffer << self.escape_string(string)
+			end
 		end
 		
 		def escape(value)

@@ -87,7 +87,7 @@ module Trenni
 			else
 				buffer << '>'
 				unless buffer == true
-					buffer << content.to_s
+					Markup.append_string(buffer, content)
 				end
 				buffer << '</' << name.to_s << '>'
 			end
@@ -108,7 +108,9 @@ module Trenni
 				when TrueClass
 					buffer << ' ' << attribute_key.to_s
 				else
-					buffer << ' ' << attribute_key.to_s << '="' << Markup.escape(value) << '"'
+					buffer << ' ' << attribute_key.to_s << '="'
+					Markup.append_string(buffer, value)
+					buffer << '"'
 				end
 			end
 			

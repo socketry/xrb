@@ -101,6 +101,8 @@ module Trenni
 		end
 		
 		def text(data)
+			return unless data
+			
 			append escape(data)
 		end
 		
