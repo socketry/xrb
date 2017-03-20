@@ -31,6 +31,7 @@
 	
 	action pcdata_begin {
 		pcdata = ""
+		has_entities = false
 	}
 	
 	action pcdata_end {
@@ -40,6 +41,8 @@
 	}
 	
 	action text_end {
+		pcdata = MarkupString.raw(pcdata) unless has_entities
+		
 		delegate.text(pcdata)
 	}
 
@@ -66,18 +69,21 @@
 		
 		name = data.byteslice(entity_begin...entity_end)
 		
+		has_entities = true
 		pcdata << entities[name]
 	}
 
 	action entity_hex {
 		entity_end = p
 		
+		has_entities = true
 		pcdata << data.byteslice(entity_begin...entity_end).to_i(16)
 	}
 
 	action entity_number {
 		entity_end = p
 		
+		has_entities = true
 		pcdata << data.byteslice(entity_begin...entity_end).to_i(10)
 	}
 	
@@ -155,6 +161,8 @@
 
 	action attribute {
 		if has_value
+			pcdata = MarkupString.raw(pcdata) unless has_entities
+			
 			value = pcdata
 		else
 			value = true
@@ -221,7 +229,7 @@ module Trenni
 			comment_begin = comment_end = nil
 			instruction_begin = instruction_end = nil
 			cdata_begin = cdata_end = nil
-			has_value = false
+			has_entities = has_value = false
 			
 			%% write init;
 			%% write exec;
