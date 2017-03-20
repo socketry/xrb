@@ -3,8 +3,6 @@
 #include "tag.h"
 
 VALUE Trenni_Tag_split(VALUE self, VALUE qualified_name) {
-	VALUE result = rb_ary_new();
-	
 	const char * begin = RSTRING_PTR(qualified_name);
 	const char * end = RSTRING_END(qualified_name);
 	
