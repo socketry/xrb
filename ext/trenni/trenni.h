@@ -4,6 +4,10 @@
 #include "ruby.h"
 #include <ruby/encoding.h>
 
+#ifndef HAVE_RB_SYM2STR
+#define rb_sym2str(sym) rb_id2str(SYM2ID(sym))
+#endif
+
 extern VALUE rb_Trenni, rb_Trenni_Markup, rb_Trenni_Tag, rb_Trenni_MarkupString, rb_Trenni_MarkupString_EMPTY, rb_Trenni_Native, rb_Trenni_ParseError;
 
 extern ID id_cdata, id_open_tag_begin, id_open_tag_end, id_attribute, id_close_tag, id_text, id_doctype, id_comment, id_instruction, id_read, id_expression, id_key_get, id_new, id_name, id_attributes, id_closed;

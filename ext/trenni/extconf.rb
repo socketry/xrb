@@ -3,6 +3,8 @@ require 'mkmf'
 
 $CFLAGS << " -O3 -std=c99"
 
+have_func("rb_sym2str")
+
 gem_name = File.basename(__dir__)
 extension_name = 'trenni'
 
