@@ -25,6 +25,14 @@ module Trenni
 	Tag = Struct.new(:name, :closed, :attributes) do
 		include Trenni::Markup
 		
+		def self.split(qualified_name)
+			if i = qualified_name.index(':')
+				return qualified_name.slice(0...i), qualified_name.slice(i+1..-1)
+			else
+				return nil, qualified_name
+			end
+		end
+		
 		def self.closed(name, **attributes)
 			self.new(name, true, attributes)
 		end

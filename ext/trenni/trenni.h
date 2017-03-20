@@ -25,7 +25,7 @@ inline VALUE rb_str_reserve(VALUE string, long extra) {
 }
 #endif
 
-extern VALUE rb_Trenni, rb_Trenni_Markup, rb_Trenni_Tag, rb_Trenni_MarkupString, rb_Trenni_MarkupString_EMPTY, rb_Trenni_Native, rb_Trenni_ParseError;
+extern VALUE rb_Trenni, rb_Trenni_Markup, rb_Trenni_Tag, rb_Trenni_MarkupString, rb_Trenni_Native, rb_Trenni_ParseError;
 
 extern ID id_cdata, id_open_tag_begin, id_open_tag_end, id_attribute, id_close_tag, id_text, id_doctype, id_comment, id_instruction, id_read, id_expression, id_key_get, id_new, id_name, id_attributes, id_closed, id_to_s, id_is_a;
 
@@ -45,7 +45,7 @@ static inline VALUE Trenni_string(const char * begin, const char * end, rb_encod
 static inline VALUE Trenni_buffer_for(VALUE string) {
 	VALUE buffer = rb_enc_str_new(0, 0, rb_enc_get(string));
 	
-	//rb_str_resize(buffer, RSTRING_LEN(string));
+	//rb_str_reserve(buffer, RSTRING_LEN(string) + extra);
 	
 	return buffer;
 }

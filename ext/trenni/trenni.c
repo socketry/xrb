@@ -6,7 +6,7 @@
 #include "tag.h"
 #include "escape.h"
 
-VALUE rb_Trenni = Qnil, rb_Trenni_Native = Qnil, rb_Trenni_Tag = Qnil, rb_Trenni_Markup = Qnil, rb_Trenni_MarkupString = Qnil, rb_Trenni_MarkupString_EMPTY = Qnil, rb_Trenni_ParseError = Qnil;
+VALUE rb_Trenni = Qnil, rb_Trenni_Native = Qnil, rb_Trenni_Tag = Qnil, rb_Trenni_Markup = Qnil, rb_Trenni_MarkupString = Qnil, rb_Trenni_ParseError = Qnil;
 ID id_cdata, id_open_tag_begin, id_open_tag_end, id_attribute, id_close_tag, id_text, id_doctype, id_comment, id_instruction, id_read, id_expression, id_key_get, id_new, id_name, id_attributes, id_closed, id_to_s, id_is_a;
 
 void Trenni_raise_error(const char * message, VALUE buffer, size_t offset) {

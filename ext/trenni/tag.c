@@ -2,6 +2,28 @@
 #include "escape.h"
 #include "tag.h"
 
+VALUE Trenni_Tag_split(VALUE self, VALUE qualified_name) {
+	VALUE result = rb_ary_new();
+	
+	const char * begin = RSTRING_PTR(qualified_name);
+	const char * end = RSTRING_END(qualified_name);
+	
+	const char * p = begin;
+	
+	while (p != end) {
+		if (*p == ':') {
+			return rb_ary_new_from_args(2,
+				rb_enc_str_new(begin, p-begin, rb_enc_get(qualified_name)),
+				rb_enc_str_new(p+1, end-p-1, rb_enc_get(qualified_name))
+			);
+		}
+		
+		p += 1;
+	}
+	
+	return rb_ary_new_from_args(2, Qnil, qualified_name);
+}
+
 inline static int Trenni_Tag_valid_attributes(VALUE value) {
 	return (rb_type(value) == T_HASH) || (rb_type(value) == T_ARRAY);
 }
@@ -116,6 +138,7 @@ VALUE Trenni_Tag_format_tag(VALUE self, VALUE name, VALUE attributes, VALUE cont
 	rb_encoding *encoding = rb_enc_get(name);
 	
 	VALUE buffer = rb_enc_str_new(0, 0, encoding);
+	rb_str_reserve(buffer, 256);
 	
 	Trenni_Tag_append_tag(self, buffer, name, attributes, content);
 	
@@ -128,6 +151,8 @@ VALUE Trenni_Tag_write_opening_tag(VALUE self, VALUE buffer) {
 	VALUE closed = rb_struct_getmember(self, id_closed);
 
 	StringValue(name);
+	
+	rb_str_reserve(buffer, RSTRING_LEN(name) + 256);
 	
 	rb_str_cat_cstr(buffer, "<");
 	rb_str_buf_append(buffer, name);
@@ -148,6 +173,8 @@ VALUE Trenni_Tag_write_closing_tag(VALUE self, VALUE buffer) {
 	
 	StringValue(name);
 	
+	rb_str_reserve(buffer, RSTRING_LEN(name) + 3);
+	
 	rb_str_cat_cstr(buffer, "</");
 	rb_str_buf_append(buffer, name);
 	rb_str_cat_cstr(buffer, ">");
@@ -164,6 +191,9 @@ void Init_trenni_tag() {
 	
 	rb_undef_method(rb_class_of(rb_Trenni_Tag), "format_tag");
 	rb_define_singleton_method(rb_Trenni_Tag, "format_tag", Trenni_Tag_format_tag, 3);
+	
+	rb_undef_method(rb_class_of(rb_Trenni_Tag), "split");
+	rb_define_singleton_method(rb_Trenni_Tag, "split", Trenni_Tag_split, 1);
 	
 	rb_undef_method(rb_Trenni_Tag, "write_opening_tag");
 	rb_define_method(rb_Trenni_Tag, "write_opening_tag", Trenni_Tag_write_opening_tag, 1);

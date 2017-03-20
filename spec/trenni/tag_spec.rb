@@ -55,3 +55,15 @@ RSpec.describe Trenni::Tag.new("p", false, {}) do
 		expect(subject.to_s("Hello World")).to be == "<p>Hello World</p>"
 	end
 end
+
+RSpec.describe "namespace:name" do
+	it "should have namespace" do
+		expect(Trenni::Tag.split(subject)).to be == ['namespace', 'name']
+	end
+end
+
+RSpec.describe "name" do
+	it "should not have namespace" do
+		expect(Trenni::Tag.split(subject)).to be == [nil, 'name']
+	end
+end
