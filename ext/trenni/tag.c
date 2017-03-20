@@ -24,7 +24,7 @@ inline static VALUE Trenni_Tag_prefix_key(VALUE prefix, VALUE key) {
 	}
 	
 	buffer = rb_str_dup(Trenni_Tag_key_string(prefix));
-	rb_str_buf_cat2(buffer, "-");
+	rb_str_cat_cstr(buffer, "-");
 	rb_str_append(buffer, Trenni_Tag_key_string(key));
 	
 	return buffer;
@@ -42,11 +42,11 @@ static void Trenni_Tag_append_tag_attribute(VALUE buffer, VALUE key, VALUE value
 	if (Trenni_Tag_valid_attributes(value)) {
 		Trenni_Tag_append_attributes(Qnil, buffer, value, key);
 	} else {
-		rb_str_buf_cat2(buffer, " ");
+		rb_str_cat_cstr(buffer, " ");
 		rb_str_append(buffer, key);
 		
 		if (value != Qtrue) {
-			rb_str_buf_cat2(buffer, "=\"");
+			rb_str_cat_cstr(buffer, "=\"");
 			// TODO: Not sure about the order of these operations:
 			value = rb_obj_as_string(value);
 			if (rb_obj_is_kind_of(value, rb_Trenni_Markup)) {
@@ -54,7 +54,7 @@ static void Trenni_Tag_append_tag_attribute(VALUE buffer, VALUE key, VALUE value
 			} else {
 				Trenni_Markup_append_string(buffer, value);
 			}
-			rb_str_buf_cat2(buffer, "\"");
+			rb_str_cat_cstr(buffer, "\"");
 		}
 	}
 }
@@ -96,24 +96,24 @@ VALUE Trenni_Tag_append_attributes(VALUE self, VALUE buffer, VALUE attributes, V
 VALUE Trenni_Tag_append_tag(VALUE self, VALUE buffer, VALUE name, VALUE attributes, VALUE content) {
 	StringValue(name);
 	
-	rb_str_buf_cat2(buffer, "<");
+	rb_str_cat_cstr(buffer, "<");
 	rb_str_buf_append(buffer, name);
 	
 	Trenni_Tag_append_attributes(self, buffer, attributes, Qnil);
 	
 	if (content == Qnil || content == Qfalse) {
-		rb_str_buf_cat2(buffer, "/>");
+		rb_str_cat_cstr(buffer, "/>");
 	} else {
-		rb_str_buf_cat2(buffer, ">");
+		rb_str_cat_cstr(buffer, ">");
 		
 		if (content != Qtrue) {
 			StringValue(content);
 			rb_str_buf_append(buffer, content);
 		}
 		
-		rb_str_buf_cat2(buffer, "</");
+		rb_str_cat_cstr(buffer, "</");
 		rb_str_buf_append(buffer, name);
-		rb_str_buf_cat2(buffer, ">");
+		rb_str_cat_cstr(buffer, ">");
 	}
 	
 	return Qnil;
@@ -136,15 +136,15 @@ VALUE Trenni_Tag_write_opening_tag(VALUE self, VALUE buffer) {
 
 	StringValue(name);
 	
-	rb_str_buf_cat2(buffer, "<");
+	rb_str_cat_cstr(buffer, "<");
 	rb_str_buf_append(buffer, name);
 	
 	Trenni_Tag_append_attributes(self, buffer, attributes, Qnil);
 	
 	if (closed == Qtrue) {
-		rb_str_buf_cat2(buffer, "/>");
+		rb_str_cat_cstr(buffer, "/>");
 	} else {
-		rb_str_buf_cat2(buffer, ">");
+		rb_str_cat_cstr(buffer, ">");
 	}
 	
 	return Qnil;
@@ -155,9 +155,9 @@ VALUE Trenni_Tag_write_closing_tag(VALUE self, VALUE buffer) {
 	
 	StringValue(name);
 	
-	rb_str_buf_cat2(buffer, "</");
+	rb_str_cat_cstr(buffer, "</");
 	rb_str_buf_append(buffer, name);
-	rb_str_buf_cat2(buffer, ">");
+	rb_str_cat_cstr(buffer, ">");
 	
 	return Qnil;
 }
