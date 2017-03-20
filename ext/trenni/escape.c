@@ -19,7 +19,7 @@ inline static int Trenni_Markup_is_markup(VALUE value) {
 static VALUE Trenni_Markup_convert_to_markup(VALUE value) {
 	// TODO: This could be improved because escape_string below may return a copy or the same string.
 	VALUE string = rb_str_dup(rb_funcall(value, id_to_s, 0));
-	VALUE escaped = Trenni_Markup_escape_string(Qnil, value);
+	VALUE escaped = Trenni_Markup_escape_string(Qnil, string);
 	
 	rb_obj_reveal(escaped, rb_Trenni_MarkupString);
 	
@@ -117,7 +117,7 @@ VALUE Trenni_Markup_append_string(VALUE buffer, VALUE string) {
 	// There are two outcomes, either p is at end, or p points to a symbol:
 	const char * p = Trenni_Markup_index_symbol(s, end);
 	
-	Trenni_Markup_append_buffer(buffer, s, p, end);
+	return Trenni_Markup_append_buffer(buffer, s, p, end);
 }
 
 VALUE Trenni_Markup_append(VALUE self, VALUE buffer, VALUE value) {
@@ -135,8 +135,6 @@ VALUE Trenni_Markup_append(VALUE self, VALUE buffer, VALUE value) {
 }
 
 VALUE Trenni_Markup_escape_string(VALUE self, VALUE string) {
-	StringValue(string);
-	
 	const char * begin = RSTRING_PTR(string);
 	const char * end = begin + RSTRING_LEN(string);
 	
