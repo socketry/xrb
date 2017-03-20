@@ -5,18 +5,19 @@ gemspec
 
 group :development do
 	gem 'pry'
-	gem 'ruby-prof', platforms: [:mri]
-	
-	gem "benchmark-ips"
 	
 	gem "rake-compiler"
-	
-	# For comparisons:
-	gem "nokogiri"
 	
 	gem "ruby-beautify"
 end
 
 group :test do
-	gem 'coveralls', platforms: [:mri]
+	gem 'ruby-prof', platforms: [:mri]
+	gem "benchmark-ips"
+	
+	gem 'simplecov'
+	gem 'coveralls', require: false
+	
+	# For comparisons:
+	gem "nokogiri"
 end
