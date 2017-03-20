@@ -16,6 +16,15 @@
 #define RB_IMMEDIATE_P IMMEDIATE_P
 #endif
 
+#ifndef HAVE_RB_STR_RESERVE
+inline VALUE rb_str_reserve(VALUE string, long extra) {
+	long actual = RSTRING_LEN(string);
+	rb_str_resize(string, actual + extra);
+	rb_str_set_len(string, actual);
+	return string;
+}
+#endif
+
 extern VALUE rb_Trenni, rb_Trenni_Markup, rb_Trenni_Tag, rb_Trenni_MarkupString, rb_Trenni_MarkupString_EMPTY, rb_Trenni_Native, rb_Trenni_ParseError;
 
 extern ID id_cdata, id_open_tag_begin, id_open_tag_end, id_attribute, id_close_tag, id_text, id_doctype, id_comment, id_instruction, id_read, id_expression, id_key_get, id_new, id_name, id_attributes, id_closed, id_to_s, id_is_a;

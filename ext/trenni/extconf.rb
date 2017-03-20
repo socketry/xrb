@@ -6,6 +6,7 @@ $CFLAGS << " -O3 -std=c99"
 # Needed by Ruby 2.1
 have_func("rb_sym2str")
 have_func("rb_str_cat_cstr")
+have_func("rb_str_reserve")
 
 gem_name = File.basename(__dir__)
 extension_name = 'trenni'
