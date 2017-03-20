@@ -11,32 +11,15 @@ inline static int Trenni_Markup_is_markup(VALUE value) {
 		return 1;
 	}
 	
-	
 	return rb_funcall(value, id_is_a, 1, rb_Trenni_Markup) == Qtrue;
 }
 
-// Efficiently convert a string to markup by escaping special characters and changing it's class.
-static VALUE Trenni_Markup_convert_to_markup(VALUE value) {
-	// TODO: This could be improved because escape_string below may return a copy or the same string.
-	VALUE string = rb_str_dup(rb_funcall(value, id_to_s, 0));
-	VALUE escaped = Trenni_Markup_escape_string(Qnil, string);
+VALUE Trenni_MarkupString_raw(VALUE self, VALUE string) {
+	string = rb_str_dup(string);
 	
-	rb_obj_reveal(escaped, rb_Trenni_MarkupString);
+	rb_obj_reveal(string, rb_Trenni_MarkupString);
 	
-	return escaped;
-}
-
-// 
-VALUE Trenni_Markup_escape(VALUE self, VALUE value) {
-	if (Trenni_Markup_is_markup(value)) {
-		return value;
-	}
-	
-	if (value == Qnil || value == Qfalse) {
-		return rb_Trenni_MarkupString_EMPTY;
-	}
-	
-	return Trenni_Markup_convert_to_markup(value);
+	return string;
 }
 
 // => [["<", 60, "3c"], [">", 62, "3e"], ["\"", 34, "22"], ["&", 38, "26"]] 
@@ -121,6 +104,8 @@ VALUE Trenni_Markup_append_string(VALUE buffer, VALUE string) {
 }
 
 VALUE Trenni_Markup_append(VALUE self, VALUE buffer, VALUE value) {
+	if (value == Qnil) return Qnil;
+	
 	if (Trenni_Markup_is_markup(value)) {
 		rb_str_append(buffer, value);
 	} else {
@@ -134,6 +119,7 @@ VALUE Trenni_Markup_append(VALUE self, VALUE buffer, VALUE value) {
 	return buffer;
 }
 
+// Convert markup special characters to entities. May return the original string if no changes were made.
 VALUE Trenni_Markup_escape_string(VALUE self, VALUE string) {
 	const char * begin = RSTRING_PTR(string);
 	const char * end = begin + RSTRING_LEN(string);
@@ -153,18 +139,12 @@ void Init_trenni_escape() {
 	rb_Trenni_MarkupString = rb_define_class_under(rb_Trenni, "MarkupString", rb_cString);
 	rb_include_module(rb_Trenni_MarkupString, rb_Trenni_Markup);
 	
-	rb_Trenni_MarkupString_EMPTY = rb_str_new(0, 0);
-	rb_obj_reveal(rb_Trenni_MarkupString_EMPTY, rb_Trenni_MarkupString);
-	rb_const_remove(rb_Trenni_Markup, rb_intern("EMPTY"));
-	rb_const_set(rb_Trenni_Markup, rb_intern("EMPTY"), rb_Trenni_MarkupString_EMPTY);
-	
 	rb_undef_method(rb_class_of(rb_Trenni_Markup), "escape_string");
 	rb_define_singleton_method(rb_Trenni_Markup, "escape_string", Trenni_Markup_escape_string, 1);
 	
 	rb_undef_method(rb_class_of(rb_Trenni_Markup), "append");
 	rb_define_singleton_method(rb_Trenni_Markup, "append", Trenni_Markup_append, 2);
 	
-	rb_undef_method(rb_Trenni_Markup, "escape");
-	rb_undef_method(rb_class_of(rb_Trenni_Markup), "escape");
-	rb_define_module_function(rb_Trenni_Markup, "escape", Trenni_Markup_escape, 1);
+	rb_undef_method(rb_class_of(rb_Trenni_Markup), "raw");
+	rb_define_singleton_method(rb_Trenni_Markup, "raw", Trenni_MarkupString_raw, 1);
 }

@@ -36,6 +36,24 @@ RSpec.describe Trenni::Template do
 	# 	expect(object_time).to be < binding_time
 	# end
 	
+	let(:interpolations_path) {File.expand_path('template_spec/interpolations.trenni', __dir__)}
+	
+	it "should be fast for lots of interpolations" do
+		trenni_template = Trenni::MarkupTemplate.new(Trenni::Buffer.load_file(interpolations_path))
+		model = Model.new
+		
+		Benchmark.ips do |x|
+			x.report("Trenni") do |times|
+				i = 0
+				
+				while i < times
+					trenni_template.to_string(model)
+					
+					i += 1
+				end
+			end
+		end
+	end
 	
 	it "should be fast for basic templates" do
 		trenni_template = Trenni::Template.new(Trenni::Buffer.load('Hi, #{name}!'))

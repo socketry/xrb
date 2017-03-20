@@ -59,9 +59,8 @@ module Trenni
 		end
 		
 		class Assembler
-			def initialize(filter: String, encoding: Encoding::UTF_8)
+			def initialize(encoding: Encoding::UTF_8)
 				@code = String.new.force_encoding(encoding)
-				@filter = filter
 			end
 
 			attr :code
@@ -83,17 +82,16 @@ module Trenni
 			# Output a string interpolation.
 			def expression(text)
 				# Double brackets are required here to handle expressions like #{foo rescue "bar"}.
-				@code << "#{OUT}<<#{@filter}((#{text}));"
+				@code << "#{OUT}<<String(#{text});"
 			end
 		end
 		
-		def self.load_file(path, **options)
-			self.new(FileBuffer.new(path), **options).freeze
+		def self.load_file(path, *args)
+			self.new(FileBuffer.new(path), *args).freeze
 		end
 
-		def initialize(buffer, filter: String)
+		def initialize(buffer)
 			@buffer = buffer
-			@filter = filter
 		end
 		
 		def freeze
@@ -128,8 +126,12 @@ module Trenni
 			@code ||= compile!
 		end
 		
+		def make_assembler
+			Assembler.new
+		end
+		
 		def compile!
-			assembler = Assembler.new(filter: @filter)
+			assembler = make_assembler
 			
 			Parsers.parse_template(@buffer, assembler)
 			
@@ -138,11 +140,21 @@ module Trenni
 	end
 	
 	class MarkupTemplate < Template
-		def initialize(buffer, filter: MarkupString)
-			super
+		class Assembler < Template::Assembler
+			# Output a string interpolation.
+			def expression(text)
+				@code << "Markup.append(#{OUT},(#{text}));"
+			end
 		end
 		
-		# The output of the markup template is encoded markup (e.g. with entities, tags, etc)
+		protected
+		
+		# We need an assembler which builds specific `Markup.append` sequences.
+		def make_assembler
+			Assembler.new
+		end
+		
+		# The output of the markup template is encoded markup (e.g. with entities, tags, etc).
 		def output_buffer
 			MarkupString.new.force_encoding(code.encoding)
 		end

@@ -43,6 +43,8 @@ RSpec.describe Trenni::MarkupString do
 	end
 	
 	it "should convert nil to empty string" do
-		expect(Trenni::MarkupString(nil)).to be == ""
+		Trenni::Markup.append(subject, nil)
+		
+		expect(subject).to be_empty
 	end
 end

@@ -100,25 +100,26 @@ module Trenni
 			end
 		end
 		
-		def text(data)
-			return unless data
+		def text(value)
+			return unless value
 			
-			append escape(data)
+			# This used to be indented.. but perhaps it's better like this.
+			Markup.append(@output, value)
 		end
 		
 		# Append pre-existing markup:
-		def append(data)
-			return unless data
+		def append(value)
+			return unless value
 			
 			# The parent has one more child:
 			@level[-1] += 1
 			
 			if @indent
-				data.each_line.with_index do |line, i|
+				value.each_line.with_index do |line, i|
 					@output << indentation << line
 				end
 			else
-				@output << data
+				@output << value
 			end
 		end
 		

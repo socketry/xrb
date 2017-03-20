@@ -23,19 +23,8 @@ require 'cgi'
 module Trenni
 	# A wrapper which indicates that `value` can be appended to the output buffer without any changes.
 	module Markup
-		# Generates a string suitable for concatenating with the output buffer.
-		def self.escape(value)
-			if value.is_a? Markup
-				value
-			elsif value
-				MarkupString.new(value.to_s)
-			else
-				# String#<< won't accept nil, so we return an empty string, thus ensuring a fixed point function:
-				EMPTY
-			end
-		end
-		
 		# Converts special characters `<`, `>`, `&`, and `"` into their equivalent entities.
+		# @return [String] May return the original string if no changes were made.
 		def self.escape_string(string)
 			CGI.escape_html(string)
 		end
@@ -44,13 +33,9 @@ module Trenni
 		def self.append(buffer, value)
 			if value.is_a? Markup
 				buffer << value
-			else
+			elsif value
 				buffer << self.escape_string(value.to_s)
 			end
-		end
-		
-		def escape(value)
-			Markup.escape(value)
 		end
 	end
 	
@@ -58,7 +43,8 @@ module Trenni
 	class MarkupString < String
 		include Markup
 		
-		# Convert ESCAPE characters into their corresponding entities.
+		# @param string [String] the string value itself.
+		# @param escape [Boolean] whether or not to escape the string.
 		def initialize(string = nil, escape = true)
 			if string
 				if escape
@@ -71,6 +57,7 @@ module Trenni
 			end
 		end
 		
+		# Generate a valid MarkupString withot any escaping.
 		def self.raw(string)
 			self.new(string, false)
 		end
@@ -81,10 +68,4 @@ module Trenni
 			MarkupString.new(JSON.dump(value), false)
 		end
 	end
-	
-	def self.MarkupString(value)
-		Markup.escape(value)
-	end
-	
-	Markup::EMPTY = String.new.extend(Markup).freeze
 end

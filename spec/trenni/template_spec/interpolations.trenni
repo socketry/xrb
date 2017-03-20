@@ -1,0 +1,6 @@
+<?r 1000.downto(1) do |i| ?>
+<p>
+	#{i} bottles of beer on the wall, #{i} bottles of beer.</br>
+	Take one down and pass it around, #{i-1} bottles of beer on the wall.
+</p>
+<?r end ?>

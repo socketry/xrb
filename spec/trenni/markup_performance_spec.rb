@@ -10,13 +10,13 @@ RSpec.describe Trenni::Markup do
 		Benchmark.ips do |x|
 			x.report("General String") do |times|
 				while (times -= 1) >= 0
-					Trenni::MarkupString(general_string)
+					Trenni::Markup.escape_string(general_string)
 				end
 			end
 			
 			x.report("Code String") do |times|
 				while (times -= 1) >= 0
-					Trenni::MarkupString(code_string)
+					Trenni::Markup.escape_string(code_string)
 				end
 			end
 			
