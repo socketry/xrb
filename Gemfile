@@ -13,6 +13,8 @@ group :development do
 	
 	# For comparisons:
 	gem "nokogiri"
+	
+	gem "ruby-beautify"
 end
 
 group :test do

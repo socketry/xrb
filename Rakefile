@@ -59,6 +59,8 @@ task :generate_fallback_parsers do
 		Dir.glob("*.rl").each do |parser_path|
 			sh("ragel", "-I", PARSERS_DIRECTORY, "-R", parser_path, "-F1")
 		end
+		
+		sh("ruby-beautify", "--tabs", "--overwrite", *Dir.glob("*.rb"))
 	end
 end
 
