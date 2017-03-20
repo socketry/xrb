@@ -115,7 +115,7 @@ VALUE Trenni_Tag_append_tag(VALUE self, VALUE buffer, VALUE name, VALUE attribut
 VALUE Trenni_Tag_format_tag(VALUE self, VALUE name, VALUE attributes, VALUE content) {
 	rb_encoding *encoding = rb_enc_get(name);
 	
-	VALUE buffer = rb_enc_str_new("", 0, encoding);
+	VALUE buffer = rb_enc_str_new(0, 0, encoding);
 	
 	Trenni_Tag_append_tag(self, buffer, name, attributes, content);
 	

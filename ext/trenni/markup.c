@@ -23,7 +23,7 @@ VALUE Trenni_Native_parse_markup(VALUE self, VALUE buffer, VALUE delegate, VALUE
 	
 	VALUE pcdata = Qnil;
 	
-	VALUE empty_string = rb_obj_freeze(rb_enc_str_new("", 0, encoding));
+	VALUE empty_string = rb_obj_freeze(rb_enc_str_new(0, 0, encoding));
 	
 	const char *s, *p, *pe, *eof;
 	unsigned long cs, top = 0, stack[2] = {0};

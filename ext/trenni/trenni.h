@@ -54,7 +54,7 @@ NORETURN(void Trenni_raise_error(const char * message, VALUE buffer, size_t offs
 
 static inline void Trenni_append(VALUE * buffer, rb_encoding * encoding, VALUE string) {
 	if (*buffer == Qnil) {
-		*buffer = rb_enc_str_new("", 0, encoding);
+		*buffer = rb_enc_str_new(0, 0, encoding);
 	}
 	
 	rb_str_concat(*buffer, string);
@@ -74,7 +74,7 @@ static inline void Trenni_append_token(VALUE * buffer, rb_encoding * encoding, T
 
 static inline void Trenni_append_codepoint(VALUE * buffer, rb_encoding * encoding, unsigned long codepoint) {
 	if (*buffer == Qnil) {
-		*buffer = rb_enc_str_new("", 0, encoding);
+		*buffer = rb_enc_str_new(0, 0, encoding);
 	}
 	
 	rb_str_concat(*buffer, ULONG2NUM(codepoint));
