@@ -18,6 +18,8 @@ In addition, I wanted a simple markup parser and builder for HTML style markup. 
 
 The 2nd release of Trenni in 2016 saw an overhaul of the internal parsers. I used [Ragel](http://www.colm.net/open-source/ragel/) to implement efficient event-based markup and template parsers, which can be compiled to both C and Ruby. This provides a native code path where possible giving speed-ups between 10x - 20x. In addition, the formal grammar is more robust.
 
+The 3rd release of Trenni in 2017 was primarily focused on performance, by moving more of the critical parsing, escaping and tag generation functions to C. In practical usage, this gave about a 40-50% improvement in performance overall.
+
 ## Is it fast?
 
 It's faster than Nokogiri for parsing markup:
@@ -70,66 +72,70 @@ The markup parser parses a loose super-set of HTML in a way that's useful for co
 
 To invoke the markup parser:
 
-	require 'trenni'
-	
-	buffer = Trenni::Buffer(string)
-	
-	# Custom entities, or could use Trenni::Entities::HTML5
-	entities = {'amp' => '&', 'lt', => '<', 'gt' => '>', 'quot' => '"'}
-	
-	# Modify this class to accumulate events or pass them on somewhere else.
-	class Delegate
-		# Called when encountering an open tag: `<` name
-		def open_tag_begin(name, offset)
-		end
-		
-		# Called when encountering an attribute after open_tag_begin
-		def attribute(key, value)
-		end
-		
-		# Called when encountering the end of the opening tag.
-		def open_tag_end(self_closing)
-		end
-		
-		# Called when encountering the closing tag: '</' name '>'
-		def close_tag(name, offset)
-		end
-		
-		# Called with the full doctype: '<!DOCTYPE html>'
-		def doctype(string)
-		end
-		
-		# Called with the full comment: '<!-- comment -->'
-		def comment(string)
-		end
-		
-		# Called with the parsed instruction: '<?' identifier space+ body '?>'
-		def instruction(string)
-		end
-		
-		# Called with a cdata block: '<![CDATA[text]]>'
-		def cdata(string)
-		end
-		
-		# Called with any arbitrary pcdata text (e.g. between tags).
-		def text(string)
-		end
+```ruby
+require 'trenni'
+
+buffer = Trenni::Buffer(string)
+
+# Custom entities, or could use Trenni::Entities::HTML5
+entities = {'amp' => '&', 'lt', => '<', 'gt' => '>', 'quot' => '"'}
+
+# Modify this class to accumulate events or pass them on somewhere else.
+class Delegate
+	# Called when encountering an open tag: `<` name
+	def open_tag_begin(name, offset)
 	end
 	
-	# Do the actual work:
-	Trenni::Parsers.parse_markup(buffer, Delegate.new, entities)
+	# Called when encountering an attribute after open_tag_begin
+	def attribute(key, value)
+	end
+	
+	# Called when encountering the end of the opening tag.
+	def open_tag_end(self_closing)
+	end
+	
+	# Called when encountering the closing tag: '</' name '>'
+	def close_tag(name, offset)
+	end
+	
+	# Called with the full doctype: '<!DOCTYPE html>'
+	def doctype(string)
+	end
+	
+	# Called with the full comment: '<!-- comment -->'
+	def comment(string)
+	end
+	
+	# Called with the parsed instruction: '<?' identifier space+ body '?>'
+	def instruction(string)
+	end
+	
+	# Called with a cdata block: '<![CDATA[text]]>'
+	def cdata(string)
+	end
+	
+	# Called with any arbitrary pcdata text (e.g. between tags).
+	def text(string)
+	end
+end
+
+# Do the actual work:
+Trenni::Parsers.parse_markup(buffer, Delegate.new, entities)
+```
 
 ### Templates
 
 Trenni templates work essentially the same way as all other templating systems:
 
-	buffer = Trenni::Buffer('<?r self.each do |item| ?>#{item}<?r end ?>')
-	template = Trenni::Template.new(buffer)
-		
-	items = 1..4
-		
-	template.to_string(items) # => "1234"
+```ruby
+buffer = Trenni::Buffer('<?r self.each do |item| ?>#{item}<?r end ?>')
+template = Trenni::Template.new(buffer)
 	
+items = 1..4
+	
+template.to_string(items) # => "1234"
+```
+
 The code above demonstrate the only two constructs, `<?r expression ?>` and `#{output}`.
 
 Trenni doesn't support using `binding` for evaluation, as this is a slow code path. It uses `instance_exec`
@@ -138,18 +144,17 @@ Trenni doesn't support using `binding` for evaluation, as this is a slow code pa
 
 Trenni can help construct XML/HTML using a simple DSL:
 
-	Trenni::Builder.fragment do |builder|
-		builder.inline 'p' do
-			builder.tag 'strong' do
-				builder.text 'Hello'
-			end
-			builder.text ' World'
+```ruby
+Trenni::Builder.fragment do |builder|
+	builder.inline 'p' do
+		builder.tag 'strong' do
+			builder.text 'Hello'
 		end
-		builder.tag 'script', type: 'text/html' do
-			builder.text 'console.log("Hello World")'
-		end
+		builder.text ' World'
 	end
-	# => "<p><strong>Hello</strong> World</p>\n<script type=\"text/html\">\n\tconsole.log(\"Hello World\")\n</script>"
+end.to_s
+# => "<p><strong>Hello</strong> World</p>"
+```
 
 ### Integration
 
@@ -179,7 +184,7 @@ To test the native C parsers:
 
 Released under the MIT license.
 
-Copyright, 2012, 2016, by [Samuel G. D. Williams](http://www.codeotaku.com/samuel-williams).
+Copyright, 2017, by [Samuel G. D. Williams](http://www.codeotaku.com/samuel-williams).
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
