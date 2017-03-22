@@ -19,6 +19,7 @@
 # THE SOFTWARE.
 
 require_relative 'markup'
+require_relative 'tag'
 
 module Trenni
 	# Build markup quickly and efficiently.
