@@ -1,10 +1,9 @@
 # -*- encoding: utf-8 -*-
-lib = File.expand_path('../lib', __FILE__)
-$LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'trenni/version'
+require_relative 'lib/trenni/version'
 
 Gem::Specification.new do |spec|
 	spec.name          = "trenni"
+	spec.platform      = Gem::Platform::RUBY
 	spec.version       = Trenni::VERSION
 	spec.authors       = ["Samuel Williams"]
 	spec.email         = ["samuel.williams@oriontransfer.co.nz"]
