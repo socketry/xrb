@@ -5,22 +5,6 @@ require 'trenni/entities'
 
 require 'nokogiri'
 
-require 'ruby-prof'
-
-RSpec.shared_context "profile" do
-	before(:all) do
-		RubyProf.start
-	end
-	
-	after(:all) do
-		result = RubyProf.stop
-		
-		# Print a flat profile to text
-		printer = RubyProf::FlatPrinter.new(result)
-		printer.print(STDOUT)
-	end
-end
-
 RSpec.describe Trenni::Parsers do
 	# include_context "profile"
 	

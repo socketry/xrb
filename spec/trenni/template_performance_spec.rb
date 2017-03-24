@@ -4,8 +4,6 @@ require 'trenni/parsers'
 require 'trenni/template'
 require 'erb'
 
-# require 'ruby-prof'
-
 RSpec.describe Trenni::Template do
 	class Model
 		def name
