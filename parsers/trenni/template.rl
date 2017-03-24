@@ -33,7 +33,7 @@
 		(space+ (any - [?] | '?' [^>])*) >instruction_begin %instruction_end
 		'?>') @err(instruction_error);
 	
-	instruction_line = (space - newline)* instruction space* newline;
+	instruction_line = (space - newline)* instruction (space - newline)* newline;
 	
 	other_instruction = '<?' (
 		(identifier - 'r') space+ (any - [?] | '?' [^>])* '?>'

@@ -553,7 +553,7 @@ module Trenni
 								raise ParseError.new("could not parse tag", buffer, p)
 							end
 						when 18 then
-							# line 10 "/home/samuel/Documents/Programming/ioquatix/trenni/parsers/trenni/entities.rl"
+							# line 10 "/Users/samuel/Documents/Programming/ioquatix/trenni/parsers/trenni/entities.rl"
 							begin
 								begin
 									stack[top] = cs
@@ -621,7 +621,7 @@ module Trenni
 								pcdata = ""
 								has_entities = false
 							end
-							# line 10 "/home/samuel/Documents/Programming/ioquatix/trenni/parsers/trenni/entities.rl"
+							# line 10 "/Users/samuel/Documents/Programming/ioquatix/trenni/parsers/trenni/entities.rl"
 							begin
 								begin
 									stack[top] = cs
@@ -649,7 +649,7 @@ module Trenni
 								characters_end = p
 																pcdata << data.byteslice(characters_begin...characters_end)
 							end
-							# line 10 "/home/samuel/Documents/Programming/ioquatix/trenni/parsers/trenni/entities.rl"
+							# line 10 "/Users/samuel/Documents/Programming/ioquatix/trenni/parsers/trenni/entities.rl"
 							begin
 								begin
 									stack[top] = cs
@@ -668,7 +668,7 @@ module Trenni
 																has_entities = true
 								pcdata << entities[name]
 							end
-							# line 8 "/home/samuel/Documents/Programming/ioquatix/trenni/parsers/trenni/entities.rl"
+							# line 8 "/Users/samuel/Documents/Programming/ioquatix/trenni/parsers/trenni/entities.rl"
 							begin
 								begin
 									top -= 1
@@ -685,7 +685,7 @@ module Trenni
 																has_entities = true
 								pcdata << data.byteslice(entity_begin...entity_end).to_i(16)
 							end
-							# line 8 "/home/samuel/Documents/Programming/ioquatix/trenni/parsers/trenni/entities.rl"
+							# line 8 "/Users/samuel/Documents/Programming/ioquatix/trenni/parsers/trenni/entities.rl"
 							begin
 								begin
 									top -= 1
@@ -702,7 +702,7 @@ module Trenni
 																has_entities = true
 								pcdata << data.byteslice(entity_begin...entity_end).to_i(10)
 							end
-							# line 8 "/home/samuel/Documents/Programming/ioquatix/trenni/parsers/trenni/entities.rl"
+							# line 8 "/Users/samuel/Documents/Programming/ioquatix/trenni/parsers/trenni/entities.rl"
 							begin
 								begin
 									top -= 1
@@ -823,7 +823,7 @@ module Trenni
 								pcdata = ""
 								has_entities = false
 							end
-							# line 10 "/home/samuel/Documents/Programming/ioquatix/trenni/parsers/trenni/entities.rl"
+							# line 10 "/Users/samuel/Documents/Programming/ioquatix/trenni/parsers/trenni/entities.rl"
 							begin
 								begin
 									stack[top] = cs
@@ -916,7 +916,7 @@ module Trenni
 								pcdata = ""
 								has_entities = false
 							end
-							# line 10 "/home/samuel/Documents/Programming/ioquatix/trenni/parsers/trenni/entities.rl"
+							# line 10 "/Users/samuel/Documents/Programming/ioquatix/trenni/parsers/trenni/entities.rl"
 							begin
 								begin
 									stack[top] = cs
@@ -965,7 +965,7 @@ module Trenni
 								pcdata = ""
 								has_entities = false
 							end
-							# line 10 "/home/samuel/Documents/Programming/ioquatix/trenni/parsers/trenni/entities.rl"
+							# line 10 "/Users/samuel/Documents/Programming/ioquatix/trenni/parsers/trenni/entities.rl"
 							begin
 								begin
 									stack[top] = cs
@@ -1012,7 +1012,7 @@ module Trenni
 								pcdata = ""
 								has_entities = false
 							end
-							# line 10 "/home/samuel/Documents/Programming/ioquatix/trenni/parsers/trenni/entities.rl"
+							# line 10 "/Users/samuel/Documents/Programming/ioquatix/trenni/parsers/trenni/entities.rl"
 							begin
 								begin
 									stack[top] = cs
@@ -1059,7 +1059,7 @@ module Trenni
 								pcdata = ""
 								has_entities = false
 							end
-							# line 10 "/home/samuel/Documents/Programming/ioquatix/trenni/parsers/trenni/entities.rl"
+							# line 10 "/Users/samuel/Documents/Programming/ioquatix/trenni/parsers/trenni/entities.rl"
 							begin
 								begin
 									stack[top] = cs
@@ -1106,7 +1106,7 @@ module Trenni
 								pcdata = ""
 								has_entities = false
 							end
-							# line 10 "/home/samuel/Documents/Programming/ioquatix/trenni/parsers/trenni/entities.rl"
+							# line 10 "/Users/samuel/Documents/Programming/ioquatix/trenni/parsers/trenni/entities.rl"
 							begin
 								begin
 									stack[top] = cs
@@ -1155,7 +1155,7 @@ module Trenni
 								pcdata = ""
 								has_entities = false
 							end
-							# line 10 "/home/samuel/Documents/Programming/ioquatix/trenni/parsers/trenni/entities.rl"
+							# line 10 "/Users/samuel/Documents/Programming/ioquatix/trenni/parsers/trenni/entities.rl"
 							begin
 								begin
 									stack[top] = cs

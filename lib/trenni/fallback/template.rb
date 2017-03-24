@@ -51,8 +51,8 @@ module Trenni
 			125, 35, 125, 34, 123, 
 			34, 123, 39, 39, 34, 125, 
 			9, 60, 10, 60, 10, 
-			60, 9, 60, 9, 32, 
-			0, 0, 34, 39, 34, 35, 
+			60, 9, 60, 0, 0, 
+			9, 32, 34, 39, 34, 35, 
 			39, 39, 0, 0, 34, 
 			39, 34, 35, 39, 39, 
 			0, 0, 0
@@ -68,8 +68,8 @@ module Trenni
 			1, 1, 128, 1, 1, 92, 2, 91, 
 			91, 6, 91, 91, 90, 90, 1, 92, 
 			92, 2, 91, 91, 6, 91, 91, 90, 
-			90, 1, 92, 52, 51, 51, 52, 24, 
-			0, 6, 2, 1, 0, 6, 2, 1, 
+			90, 1, 92, 52, 51, 51, 52, 0, 
+			24, 6, 2, 1, 0, 6, 2, 1, 
 			0
 		]
 
@@ -84,7 +84,7 @@ module Trenni
 			705, 797, 804, 896, 988, 1079, 1170, 1172, 
 			1265, 1358, 1361, 1453, 1545, 1552, 1644, 1736, 
 			1827, 1918, 1920, 2013, 2066, 2118, 2170, 2223, 
-			2248, 2249, 2256, 2259, 2261, 2262, 2269, 2272, 
+			2224, 2249, 2256, 2259, 2261, 2262, 2269, 2272, 
 			2274
 		]
 
@@ -370,14 +370,14 @@ module Trenni
 			6, 74, 6, 6, 78, 6, 6, 6, 
 			6, 6, 6, 6, 6, 6, 6, 6, 
 			6, 6, 6, 6, 6, 6, 6, 6, 
-			6, 6, 6, 6, 6, 81, 6, 13, 
-			15, 13, 13, 13, 14, 14, 14, 14, 
-			14, 14, 14, 14, 14, 14, 14, 14, 
-			14, 14, 14, 14, 14, 14, 13, 14, 
-			82, 40, 41, 36, 36, 36, 40, 36, 
-			33, 34, 29, 48, 30, 83, 63, 64, 
+			6, 6, 6, 6, 6, 81, 6, 82, 
+			13, 15, 13, 13, 13, 83, 83, 83, 
+			83, 83, 83, 83, 83, 83, 83, 83, 
+			83, 83, 83, 83, 83, 83, 83, 13, 
+			83, 40, 41, 36, 36, 36, 40, 36, 
+			33, 34, 29, 48, 30, 84, 63, 64, 
 			59, 59, 59, 63, 59, 56, 57, 52, 
-			71, 53, 83, 0
+			71, 53, 84, 0
 		]
 
 		class << self
@@ -386,16 +386,16 @@ module Trenni
 		end
 		self._template_trans_targs = [
 			43, 1, 45, 2, 3, 43, 44, 7, 
-			8, 43, 9, 9, 10, 11, 43, 47, 
-			48, 14, 15, 0, 18, 16, 17, 43, 
-			19, 19, 20, 47, 21, 22, 30, 21, 
+			8, 43, 9, 9, 10, 11, 43, 43, 
+			47, 14, 15, 0, 18, 16, 17, 43, 
+			19, 19, 20, 48, 21, 22, 30, 21, 
 			52, 23, 29, 24, 25, 23, 50, 23, 
 			26, 28, 27, 26, 49, 26, 25, 22, 
 			31, 31, 51, 32, 33, 41, 32, 56, 
 			34, 40, 35, 36, 34, 54, 34, 37, 
 			39, 38, 37, 53, 37, 36, 33, 42, 
 			42, 55, 46, 12, 13, 43, 4, 5, 
-			43, 6, 43, 0
+			43, 6, 43, 43, 0
 		]
 
 		class << self
@@ -413,7 +413,7 @@ module Trenni
 			0, 0, 0, 0, 13, 18, 15, 0, 
 			0, 0, 13, 18, 15, 16, 16, 0, 
 			13, 18, 20, 0, 0, 21, 0, 0, 
-			22, 0, 23, 0
+			22, 0, 23, 24, 0
 		]
 
 		class << self
@@ -471,8 +471,8 @@ module Trenni
 			0, 0, 0, 0, 0, 0, 0, 0, 
 			0, 0, 0, 0, 0, 0, 0, 0, 
 			0, 0, 0, 0, 0, 0, 0, 0, 
-			0, 0, 0, 0, 78, 81, 78, 15, 
-			83, 0, 0, 0, 0, 0, 0, 0, 
+			0, 0, 0, 0, 78, 81, 78, 83, 
+			84, 0, 0, 0, 0, 0, 0, 0, 
 			0
 		]
 
@@ -590,7 +590,7 @@ module Trenni
 								raise ParseError.new("failed to parse instruction", buffer, p)
 							end
 						when 16 then
-							# line 13 "/home/samuel/Documents/Programming/ioquatix/trenni/parsers/trenni/template.rl"
+							# line 13 "/Users/samuel/Documents/Programming/ioquatix/trenni/parsers/trenni/template.rl"
 							begin
 								begin
 									stack[top] = cs
@@ -601,7 +601,7 @@ module Trenni
 								end
 							end
 						when 13 then
-							# line 17 "/home/samuel/Documents/Programming/ioquatix/trenni/parsers/trenni/template.rl"
+							# line 17 "/Users/samuel/Documents/Programming/ioquatix/trenni/parsers/trenni/template.rl"
 							begin
 								begin
 									stack[top] = cs
@@ -612,7 +612,7 @@ module Trenni
 								end
 							end
 						when 14 then
-							# line 20 "/home/samuel/Documents/Programming/ioquatix/trenni/parsers/trenni/template.rl"
+							# line 20 "/Users/samuel/Documents/Programming/ioquatix/trenni/parsers/trenni/template.rl"
 							begin
 								begin
 									top -= 1
@@ -625,6 +625,14 @@ module Trenni
 							# line 1 "NONE"
 							begin
 								te = p+1
+							end
+						when 8 then
+							# line 36 "template.rl"
+							begin
+								te = p+1
+								begin 
+									delegate.instruction(data.byteslice(instruction_begin...instruction_end), "\n")
+								end
 							end
 						when 10 then
 							# line 60 "template.rl"
@@ -642,39 +650,42 @@ module Trenni
 								delegate.text(data.byteslice(ts...te))
 							end
 						end
-					when 21 then
-						# line 60 "template.rl"
+					when 24 then
+						# line 32 "template.rl"
 						begin
 							te = p
 							p = p - 1; begin 
-							delegate.text(data.byteslice(ts...te))
+							delegate.instruction(data.byteslice(instruction_begin...instruction_end))
 						end
 					end
-				when 1 then
+				when 21 then
 					# line 60 "template.rl"
 					begin
-						begin p = ((te))-1; end
-						begin 
-							delegate.text(data.byteslice(ts...te))
-						end
+						te = p
+						p = p - 1; begin 
+						delegate.text(data.byteslice(ts...te))
 					end
-				when 3 then
-					# line 60 "template.rl"
-					begin
-						begin p = ((te))-1; end
-						begin 
-							delegate.text(data.byteslice(ts...te))
-						end
+				end
+			when 1 then
+				# line 60 "template.rl"
+				begin
+					begin p = ((te))-1; end
+					begin 
+						delegate.text(data.byteslice(ts...te))
 					end
-				when 7 then
-					# line 1 "NONE"
-					begin
-						case act
-						when 1 then
-							begin begin p = ((te))-1; end
-
-							delegate.instruction(data.byteslice(instruction_begin...instruction_end), "\n")
-						end
+				end
+			when 3 then
+				# line 60 "template.rl"
+				begin
+					begin p = ((te))-1; end
+					begin 
+						delegate.text(data.byteslice(ts...te))
+					end
+				end
+			when 7 then
+				# line 1 "NONE"
+				begin
+					case act
 					when 3 then
 						begin begin p = ((te))-1; end
 
@@ -706,13 +717,13 @@ module Trenni
 
 			expression_begin = p
 		end
-		# line 53 "/home/samuel/Documents/Programming/ioquatix/trenni/parsers/trenni/template.rl"
+		# line 53 "/Users/samuel/Documents/Programming/ioquatix/trenni/parsers/trenni/template.rl"
 		begin
 			te = p
 		p = p - 1; begin cs = 32; end
 	end
 when 15 then
-	# line 13 "/home/samuel/Documents/Programming/ioquatix/trenni/parsers/trenni/template.rl"
+	# line 13 "/Users/samuel/Documents/Programming/ioquatix/trenni/parsers/trenni/template.rl"
 	begin
 		begin
 			stack[top] = cs
@@ -722,7 +733,7 @@ when 15 then
 			next
 		end
 	end
-	# line 17 "/home/samuel/Documents/Programming/ioquatix/trenni/parsers/trenni/template.rl"
+	# line 17 "/Users/samuel/Documents/Programming/ioquatix/trenni/parsers/trenni/template.rl"
 	begin
 		begin
 			stack[top] = cs
@@ -732,14 +743,6 @@ when 15 then
 			next
 		end
 	end
-when 8 then
-	# line 1 "NONE"
-	begin
-		te = p+1
-	end
-	# line 36 "template.rl"
-	begin
-	act = 1;		end
 when 11 then
 	# line 1 "NONE"
 	begin
@@ -767,10 +770,10 @@ when 18 then
 
 		delegate.expression(data.byteslice(expression_begin...expression_end))
 	end
-	# line 21 "/home/samuel/Documents/Programming/ioquatix/trenni/parsers/trenni/template.rl"
+	# line 21 "/Users/samuel/Documents/Programming/ioquatix/trenni/parsers/trenni/template.rl"
 	begin
 	cs = 43;		end
-	# line 781 "template.rb"
+	# line 784 "template.rb"
 end
 end
 end
@@ -780,7 +783,7 @@ if _goto_level <= _again
 		# line 1 "NONE"
 		begin
 		ts = nil;		end
-		# line 791 "template.rb"
+		# line 794 "template.rb"
 	end
 
 	if cs == 0
@@ -813,7 +816,7 @@ if _goto_level <= _test_eof
 
 				raise ParseError.new("failed to parse expression", buffer, p)
 			end
-			# line 824 "template.rb"
+			# line 827 "template.rb"
 		end
 	end
 

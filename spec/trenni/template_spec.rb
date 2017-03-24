@@ -36,6 +36,17 @@ RSpec.describe Trenni::Template do
 end
 
 RSpec.describe Trenni::Template do
+	let(:template_path) {File.expand_path('template_spec/lines.trenni', __dir__)}
+	let(:template) {Trenni::Template.load_file template_path}
+	let(:code) {template.send(:code)}
+	
+	it "should parse xhtml template and produce identical output" do
+		expect(code.lines[0]).to match(/apple/)
+		expect(code.lines[5]).to match(/banana/)
+	end
+end
+
+RSpec.describe Trenni::Template do
 	let(:capture_template) {Trenni::Template.load_file File.expand_path('template_spec/capture.trenni', __dir__)}
 	
 	it "should be able to capture output" do

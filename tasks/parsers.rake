@@ -1,7 +1,8 @@
 
-PARSERS_DIRECTORY = File.expand_path("parsers", __dir__)
-FALLBACK_DIRECTORY = File.expand_path("lib/trenni/fallback", __dir__)
-NATIVE_DIRECTORY = File.expand_path("ext/trenni", __dir__)
+PARSERS_DIRECTORY = File.expand_path("../parsers", __dir__)
+FALLBACK_DIRECTORY = File.expand_path("../lib/trenni/fallback", __dir__)
+EXTENSIONS_DIRECTORY = File.expand_path("../ext", __dir__)
+NATIVE_DIRECTORY = File.expand_path("../ext/trenni", __dir__)
 
 task :generate_fallback_parsers do
 	Dir.chdir(FALLBACK_DIRECTORY) do
@@ -19,6 +20,10 @@ task :generate_native_parsers do
 			sh("ragel", "-I", PARSERS_DIRECTORY, "-C", parser_path, "-G2")
 		end
 	end
+end
+
+task :compile do
+	system("rake", "compile", chdir: EXTENSIONS_DIRECTORY)
 end
 
 task :generate_parsers => [:generate_native_parsers, :generate_fallback_parsers, :compile]
