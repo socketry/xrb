@@ -16,5 +16,4 @@ task :console => :environment do
 	Pry.start
 end
 
-# This is necessary for the extension task.
-task :default => :compile
+task :default => :test

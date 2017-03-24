@@ -1,12 +1,13 @@
 
-require "rake/extensiontask"
-
 spec_path = File.expand_path('../trenni.gemspec', Dir.pwd)
 spec = Gem::Specification.load(spec_path)
 
+require "rake/extensiontask"
+
 unless RUBY_PLATFORM =~ /java/
-	Rake::ExtensionTask.new("trenni", spec) do |ext|
-		ext.lib_dir = "lib/trenni"
+	Rake::ExtensionTask.new("trenni") do |ext|
+		ext.ext_dir = 'trenni'
+		ext.lib_dir = '../lib/trenni'
 	end
 else
 	task :compile do

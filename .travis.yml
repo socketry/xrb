@@ -4,9 +4,7 @@ before_install:
   - gem install bundler
   - gem update bundler
 before_script:
-  - rake
-script:
-  - bundle exec rake test
+  - sh -c "cd ext && rake compile"
 rvm:
   - 2.1.8
   - 2.2.4
