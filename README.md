@@ -172,6 +172,111 @@ To test the native C parsers:
 
 	rake generate_native_parsers && rake compile && rspec
 
+### Benchmarks
+
+Trenni has a pure Ruby implemenation, with performance critical operations implemented natively. All critical code paths have benchmark specs.
+
+#### Parser Performance
+
+You can evaluate and compare template performance with ERB:
+
+```
+rspec spec/trenni/parsers_performance_spec.rb
+
+Trenni::Native
+  #parse_markup
+Warming up --------------------------------------
+      Large (Trenni)    64.000  i/100ms
+    Large (Nokogiri)    30.000  i/100ms
+Calculating -------------------------------------
+      Large (Trenni)    637.720  (± 6.4%) i/s -      3.200k in   5.038187s
+    Large (Nokogiri)    294.762  (± 5.8%) i/s -      1.470k in   5.004284s
+
+Comparison:
+      Large (Trenni):      637.7 i/s
+    Large (Nokogiri):      294.8 i/s - 2.16x  slower
+
+    should be fast to parse large documents
+  #parse_template
+Warming up --------------------------------------
+      Large (Trenni)     7.791k i/100ms
+         Large (ERB)   488.000  i/100ms
+Calculating -------------------------------------
+      Large (Trenni)     87.889k (± 9.5%) i/s -    436.296k in   5.024283s
+         Large (ERB)      4.844k (± 5.6%) i/s -     24.400k in   5.053247s
+
+Comparison:
+      Large (Trenni):    87889.4 i/s
+         Large (ERB):     4844.5 i/s - 18.14x  slower
+
+    should have better performance using instance
+
+Finished in 28.2 seconds (files took 0.14204 seconds to load)
+2 examples, 0 failures
+```
+
+To run this with the pure ruby implementation, use `TRENNI_PREFER_FALLBACK=y rspec spec/trenni/parsers_performance_spec.rb`.
+
+#### Markup String Performance
+
+Markup safe strings require escaping characters. Doing this natively makes sense, and in MRI, `CGI.escape_html` is implemented in C. Strings that include characters that need to be escaped are a bit slower because a new string must be allocated and modified. So, we test these two cases.
+
+```
+rspec spec/trenni/markup_performance_spec.rb 
+
+Trenni::Markup
+Warming up --------------------------------------
+      General String   179.396k i/100ms
+         Code String    85.050k i/100ms
+Calculating -------------------------------------
+      General String      4.773M (±10.0%) i/s -     23.680M in   5.027576s
+         Code String      1.469M (± 5.7%) i/s -      7.399M in   5.052467s
+
+Comparison:
+      General String:  4773201.3 i/s
+         Code String:  1469345.5 i/s - 3.25x  slower
+
+  should be fast to parse large documents
+
+Finished in 14.11 seconds (files took 0.09696 seconds to load)
+1 example, 0 failures
+```
+
+#### Template Evaluation Performance
+
+Evaluating templates and generating output is critical to performance. You can compare Trenni with ERB. The primary factor affecting performance, is the number of interpolations, because each interpolation requires evaluation and concatenation.
+
+```
+rspec spec/trenni/template_performance_spec.rb 
+
+Trenni::Template
+Warming up --------------------------------------
+              Trenni    79.000  i/100ms
+Calculating -------------------------------------
+              Trenni    817.703  (± 7.7%) i/s -      4.108k in   5.071586s
+  should be fast for lots of interpolations
+Warming up --------------------------------------
+     Trenni (object)    79.149k i/100ms
+       ERB (binding)     5.416k i/100ms
+Calculating -------------------------------------
+     Trenni (object)      1.081M (± 3.7%) i/s -      5.461M in   5.059151s
+       ERB (binding)     59.016k (± 4.7%) i/s -    297.880k in   5.058614s
+
+Comparison:
+     Trenni (object):  1080909.2 i/s
+       ERB (binding):    59016.3 i/s - 18.32x  slower
+
+  should be fast for basic templates
+Warming up --------------------------------------
+              Trenni    34.204k i/100ms
+Calculating -------------------------------------
+              Trenni    407.905k (± 9.0%) i/s -      2.018M in   5.001248s
+  should be fast with capture
+
+Finished in 28.25 seconds (files took 0.09765 seconds to load)
+3 examples, 0 failures
+```
+
 ## Contributing
 
 1. Fork it
