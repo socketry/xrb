@@ -52,4 +52,17 @@ RSpec.describe Trenni::URI do
 		
 		expect(tag.to_s).to be == '<img src="image.jpg?x=10"/>'
 	end
+	
+	describe Trenni::URI("foo?bar=10&baz=20", yes: 'no') do
+		it "can use existing query parameters" do
+			expect(subject.to_s).to be == "foo?bar=10&baz=20&yes=no"
+		end
+	end
+	
+	describe Trenni::URI('foo#frag') do
+		it "can use existing fragment" do
+			expect(subject.fragment).to be == "frag"
+			expect(subject.to_s).to be == 'foo#frag'
+		end
+	end
 end

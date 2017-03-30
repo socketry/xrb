@@ -20,21 +20,32 @@
 
 module Trenni
 	class URI
-		def initialize(base, fragment, query)
-			@base = base
+		def initialize(path, query_string, fragment, parameters)
+			@path = path
+			@query_string = query_string
 			@fragment = fragment
-			@query = query
+			@parameters = parameters
 		end
 		
-		attr :base
+		# The path component of the URI, e.g. /foo/bar/index.html
+		attr :path
+		
+		# The un-parsed query string of the URI, e.g. 'x=10&y=20'
+		attr :query_string
+		
+		# A fragment identifier, the part after the '#'
 		attr :fragment
-		attr :query
+		
+		# User supplied parameters that will be appended to the query part.
+		attr :parameters
 		
 		def append(buffer)
-			buffer << escape_path(@base)
-			
-			if @query&.any?
-				buffer << query_separator << query_part
+			if @query_string
+				buffer << escape_path(@path) << '?' << query_string
+				buffer << '&' << query_parameters if @parameters
+			else
+				buffer << escape_path(@path)
+				buffer << '?' << query_parameters if @parameters
 			end
 			
 			if @fragment
@@ -52,10 +63,12 @@ module Trenni
 		
 		private
 		
-		# Escapes a path string, using percent encoding, but additionally ignoring "/" and substituting spaces with "+".
+		# According to https://tools.ietf.org/html/rfc3986#section-3.3, we escape non-pchar.
+		NON_PCHAR = /([^ a-zA-Z0-9\-\.~!$&'()*+,;=:@\/]+)/.freeze
+		
 		def escape_path(path)
 			encoding = path.encoding
-			path.b.gsub(/([^ a-zA-Z0-9_.\-\/:]+)/) do |m|
+			path.b.gsub(NON_PCHAR) do |m|
 				'%' + m.unpack('H2' * m.bytesize).join('%').upcase
 			end.tr(' ', '+').force_encoding(encoding)
 		end
@@ -68,18 +81,16 @@ module Trenni
 			end.force_encoding(encoding)
 		end
 		
-		def query_part
-			@query.map{|k,v| "#{escape(k.to_s)}=#{escape(v.to_s)}"}.join('&')
-		end
-		
-		def query_separator
-			@base.include?('?') ? '&' : '?'
+		def query_parameters
+			@parameters.map{|k,v| "#{escape(k.to_s)}=#{escape(v.to_s)}"}.join('&')
 		end
 	end
 	
-	def self.URI(path = '', query = nil)
+	# Generate a URI from a path and user parameters. The path may contain a `#fragment` or `?query=parameters`.
+	def self.URI(path = '', parameters = nil)
 		base, fragment = path.split('#', 2)
+		path, query_string = base.split('?', 2)
 		
-		URI.new(base, fragment, query)
+		URI.new(path, query_string, fragment, parameters)
 	end
 end
