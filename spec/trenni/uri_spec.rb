@@ -25,7 +25,13 @@ require 'trenni/uri'
 RSpec.describe Trenni::URI do
 	describe Trenni::URI('path with spaces/image.jpg') do
 		it "encodes whitespace" do
-			expect(subject.to_s).to be == "path+with+spaces/image.jpg"
+			expect(subject.to_s).to be == "path%20with%20spaces/image.jpg"
+		end
+	end
+	
+	describe Trenni::URI('path_with_underscores/image.jpg') do
+		it "doesn't touch underscores" do
+			expect(subject.to_s).to be == "path_with_underscores/image.jpg"
 		end
 	end
 	

@@ -64,13 +64,13 @@ module Trenni
 		private
 		
 		# According to https://tools.ietf.org/html/rfc3986#section-3.3, we escape non-pchar.
-		NON_PCHAR = /([^ a-zA-Z0-9\-\.~!$&'()*+,;=:@\/]+)/.freeze
+		NON_PCHAR = /([^a-zA-Z0-9_\-\.~!$&'()*+,;=:@\/]+)/.freeze
 		
 		def escape_path(path)
 			encoding = path.encoding
 			path.b.gsub(NON_PCHAR) do |m|
 				'%' + m.unpack('H2' * m.bytesize).join('%').upcase
-			end.tr(' ', '+').force_encoding(encoding)
+			end.force_encoding(encoding)
 		end
 		
 		# Escapes a generic string, using percent encoding.
