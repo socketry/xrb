@@ -30,18 +30,22 @@ module Trenni
 		attr :fragment
 		attr :query
 		
-		def to_str
-			buffer = [escape_path(@base)]
+		def append(buffer)
+			buffer << escape_path(@base)
 			
 			if @query&.any?
-				buffer.push(query_separator, query_part)
+				buffer << query_separator << query_part
 			end
 			
-			# It's not clear if this is correct. According to the spec, it should be percent encoded.
-			# CGI.escape(' ') -> '+' which is not correct according to the RFC.
-			buffer.push('#', escape(@fragment)) if @fragment
+			if @fragment
+				buffer << '#' << escape(@fragment)
+			end
 			
-			return buffer.join
+			return buffer
+		end
+		
+		def to_str
+			append(String.new)
 		end
 		
 		alias to_s to_str

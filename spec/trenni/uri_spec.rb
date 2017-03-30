@@ -46,4 +46,10 @@ RSpec.describe Trenni::URI do
 			expect(subject.to_s).to be == "I/%E2%9D%A4%EF%B8%8F/UNICODE?face=%F0%9F%98%80"
 		end
 	end
+	
+	it "can be an attribute" do
+		tag = Trenni::Tag.closed('img', src: Trenni::URI('image.jpg', x: 10))
+		
+		expect(tag.to_s).to be == '<img src="image.jpg?x=10"/>'
+	end
 end
