@@ -82,7 +82,25 @@ module Trenni
 		end
 		
 		def query_parameters
-			@parameters.map{|k,v| "#{escape(k.to_s)}=#{escape(v.to_s)}"}.join('&')
+			build_nested_query(@parameters)
+		end
+		
+		def build_nested_query(value, prefix = nil)
+			case value
+			when Array
+				value.map { |v|
+					build_nested_query(v, "#{prefix}[]")
+				}.join("&")
+			when Hash
+				value.map { |k, v|
+					build_nested_query(v, prefix ? "#{prefix}[#{escape(k.to_s)}]" : escape(k.to_s))
+				}.reject(&:empty?).join('&')
+			when nil
+				prefix
+			else
+				raise ArgumentError, "value must be a Hash" if prefix.nil?
+				"#{prefix}=#{escape(value.to_s)}"
+			end
 		end
 	end
 	
