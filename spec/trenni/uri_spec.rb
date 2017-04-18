@@ -29,6 +29,12 @@ RSpec.describe Trenni::URI do
 		end
 	end
 	
+	describe Trenni::URI('path', array: [1, 2, 3]) do
+		it "encodes array" do
+			expect(subject.to_s).to be == "path?array[]=1&array[]=2&array[]=3"
+		end
+	end
+	
 	describe Trenni::URI('path_with_underscores/image.jpg') do
 		it "doesn't touch underscores" do
 			expect(subject.to_s).to be == "path_with_underscores/image.jpg"
