@@ -33,11 +33,11 @@ module Trenni
 			end
 		end
 		
-		def self.closed(name, **attributes)
+		def self.closed(name, attributes = {})
 			self.new(name, true, attributes)
 		end
 		
-		def self.opened(name, **attributes)
+		def self.opened(name, attributes = {})
 			self.new(name, false, attributes)
 		end
 		
