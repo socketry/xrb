@@ -104,8 +104,16 @@ module Trenni
 		def text(value)
 			return unless value
 			
-			# This used to be indented.. but perhaps it's better like this.
+			if @indent
+				@output << "\n" if @level.last > 0
+				@output << indentation
+			end
+			
 			Markup.append(@output, value)
+			
+			if @indent
+				@output << "\n"
+			end
 		end
 		
 		# Append pre-existing markup:
