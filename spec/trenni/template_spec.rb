@@ -47,6 +47,16 @@ RSpec.describe Trenni::Template do
 end
 
 RSpec.describe Trenni::Template do
+	let(:template_path) {File.expand_path('template_spec/builder.trenni', __dir__)}
+	let(:template) {Trenni::Template.load_file template_path}
+	let(:code) {template.send(:code)}
+	
+	it "should capture and output the contents of the block" do
+		expect(template.to_string).to be == 'Hello World!'
+	end
+end
+
+RSpec.describe Trenni::Template do
 	let(:capture_template) {Trenni::Template.load_file File.expand_path('template_spec/capture.trenni', __dir__)}
 	
 	it "should be able to capture output" do

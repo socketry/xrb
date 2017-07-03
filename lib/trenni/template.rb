@@ -33,6 +33,10 @@ module Trenni
 				return self
 			end
 		end
+		
+		def capture(*args, &block)
+			self.append Template.capture(*args, &block)
+		end
 	end
 	
 	class Template
