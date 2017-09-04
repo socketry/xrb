@@ -156,12 +156,6 @@ end.to_s
 # => "<p><strong>Hello</strong> World</p>"
 ```
 
-### Integration
-
-There is a [language-trenni](https://atom.io/packages/language-trenni) package for the [Atom text editor](https://atom.io). It provides syntax highlighting and integration when Trenni is used with the [utopia web framework](https://github.com/ioquatix/utopia).
-
-[Trenni Formatters](https://github.com/ioquatix/trenni-formatters) is a separate gem that uses `Trenni::Builder` to generate HTML forms easily.
-
 ### Testing
 
 To test the Ruby parsers:
@@ -276,6 +270,14 @@ Calculating -------------------------------------
 Finished in 28.25 seconds (files took 0.09765 seconds to load)
 3 examples, 0 failures
 ```
+
+## See Also
+
+- [language-trenni](https://atom.io/packages/language-trenni) package for the [Atom text editor](https://atom.io). It provides syntax highlighting and integration when Trenni is used with the [utopia web framework](https://github.com/ioquatix/utopia).
+
+- [vim-trenni](https://github.com/huba/vim-trenni) package for Vim.
+
+- [Trenni Formatters](https://github.com/ioquatix/trenni-formatters) is a separate gem that uses `Trenni::Builder` to generate HTML forms easily.
 
 ## Contributing
 
