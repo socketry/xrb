@@ -27,6 +27,10 @@ module Trenni
 		
 		attr :path
 		
+		def encoding
+			@string.encoding
+		end
+		
 		def read
 			@string
 		end
@@ -59,6 +63,10 @@ module Trenni
 		
 		attr :path
 		
+		def encoding
+			read.encoding
+		end
+		
 		def read
 			@cache ||= File.read(@path).freeze
 		end
@@ -83,6 +91,10 @@ module Trenni
 		end
 		
 		attr :path
+		
+		def encoding
+			read.encoding
+		end
 		
 		def read
 			@cache ||= @io.read.freeze
