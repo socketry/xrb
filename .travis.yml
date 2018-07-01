@@ -1,18 +1,24 @@
 language: ruby
 sudo: false
+
 before_install:
+  - gem update --system
   - gem install bundler
-  - gem update bundler
+
 before_script:
   - sh -c "cd ext && rake compile"
+
 rvm:
-  - 2.1.8
-  - 2.2.4
-  - 2.3.0
-  - 2.4.0
+  - 2.1
+  - 2.2
+  - 2.3
+  - 2.4
+  - 2.5
+  - 2.6
   - ruby-head
   - jruby-head
   - rbx-2
+
 env:
   - COVERAGE=true
   - COVERAGE=true TRENNI_PREFER_FALLBACK=y
