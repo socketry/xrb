@@ -110,6 +110,8 @@ module Trenni
 			output ||= output_buffer
 			
 			scope.instance_exec(output, &to_proc)
+			
+			return output
 		end
 		
 		def to_buffer(scope)
@@ -117,7 +119,7 @@ module Trenni
 		end
 		
 		def to_proc(scope = nil)
-			@compiled_proc ||= eval("proc{|#{OUT}|;#{code};#{OUT}}", scope, @buffer.path).freeze
+			@compiled_proc ||= eval("proc{|#{OUT}|;#{code}}", scope, @buffer.path).freeze
 		end
 		
 		protected
