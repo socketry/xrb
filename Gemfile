@@ -5,9 +5,7 @@ gemspec
 
 group :development do
 	gem 'pry'
-	
 	gem "rake-compiler"
-	
 	gem "ruby-beautify"
 end
 
