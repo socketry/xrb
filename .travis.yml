@@ -2,7 +2,7 @@ language: ruby
 cache: bundler
 
 before_script:
-  - sh -c "cd ext && rake compile"
+  - sh -c "cd ext && bundle exec rake compile"
 
 matrix:
   include:
