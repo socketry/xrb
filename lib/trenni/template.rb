@@ -19,6 +19,7 @@
 # THE SOFTWARE.
 
 require_relative 'parsers'
+require_relative 'markup'
 
 module Trenni
 	# The output variable that will be used in templates:
@@ -118,7 +119,7 @@ module Trenni
 			Buffer.new(to_string(scope), path: @buffer.path)
 		end
 		
-		def to_proc(scope = nil)
+		def to_proc(scope = binding)
 			@compiled_proc ||= eval("proc{|#{OUT}|;#{code}}", scope, @buffer.path).freeze
 		end
 		
