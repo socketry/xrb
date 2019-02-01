@@ -13,8 +13,7 @@ group :test do
 	gem 'ruby-prof', platforms: [:mri]
 	gem "benchmark-ips"
 	
-	gem 'simplecov'
-	gem 'coveralls', require: false
+	gem 'covered'
 	
 	# For comparisons:
 	gem "nokogiri"
