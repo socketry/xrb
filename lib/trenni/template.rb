@@ -119,11 +119,15 @@ module Trenni
 			Buffer.new(to_string(scope), path: @buffer.path)
 		end
 		
-		def to_proc(scope = binding)
+		def to_proc(scope = default_binding)
 			@compiled_proc ||= eval("proc{|#{OUT}|;#{code}}", scope, @buffer.path).freeze
 		end
 		
 		protected
+		
+		def default_binding
+			TOPLEVEL_BINDING.dup
+		end
 		
 		def output_buffer
 			String.new.force_encoding(code.encoding)
@@ -150,7 +154,7 @@ module Trenni
 		class Assembler < Template::Assembler
 			# Output a string interpolation.
 			def expression(text)
-				@code << "Markup.append(#{OUT},(#{text}));"
+				@code << "Trenni::Markup.append(#{OUT},(#{text}));"
 			end
 		end
 		

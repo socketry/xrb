@@ -119,6 +119,15 @@ RSpec.describe Trenni::Template do
 				"\\tIndentation is the best."
 		end
 	end
+	
+	context 'scope' do
+		it "should use default top-level binding if none provided" do
+			buffer = Trenni::Buffer.new('#{Module.nesting.inspect}')
+			template = Trenni::Template.new(buffer)
+			
+			expect(template.to_string(self)).to be == "[]"
+		end
+	end
 end
 
 RSpec.shared_examples "template parser" do
