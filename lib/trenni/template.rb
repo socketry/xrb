@@ -95,8 +95,9 @@ module Trenni
 			self.new(FileBuffer.new(path), *args).freeze
 		end
 
-		def initialize(buffer)
+		def initialize(buffer, binding: TOPLEVEL_BINDING)
 			@buffer = buffer
+			@binding = binding
 		end
 		
 		def freeze
@@ -119,15 +120,11 @@ module Trenni
 			Buffer.new(to_string(scope), path: @buffer.path)
 		end
 		
-		def to_proc(scope = default_binding)
+		def to_proc(scope = @binding.dup)
 			@compiled_proc ||= eval("proc{|#{OUT}|;#{code}}", scope, @buffer.path).freeze
 		end
 		
 		protected
-		
-		def default_binding
-			TOPLEVEL_BINDING.dup
-		end
 		
 		def output_buffer
 			String.new.force_encoding(code.encoding)
