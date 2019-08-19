@@ -25,89 +25,99 @@ require 'trenni/parsers'
 require 'benchmark'
 
 RSpec.describe Trenni::Template do
-	let(:template_path) {File.expand_path('corpus/large.xhtml', __dir__)}
-	let(:template) {Trenni::Template.load_file template_path}
-	let(:output) {template.to_string}
-	
-	it "should parse xhtml template and produce identical output" do
-		expect{output}.to_not raise_error
-		expect(output).to be == File.read(template_path)
-	end
-end
-
-RSpec.describe Trenni::Template do
-	let(:template_path) {File.expand_path('template_spec/lines.trenni', __dir__)}
-	let(:template) {Trenni::Template.load_file template_path}
-	let(:code) {template.send(:code)}
-	
-	it "should parse xhtml template and produce identical output" do
-		expect(code.lines[0]).to match(/apple/)
-		expect(code.lines[5]).to match(/banana/)
-	end
-end
-
-RSpec.describe Trenni::Template do
-	let(:template_path) {File.expand_path('template_spec/builder.trenni', __dir__)}
-	let(:template) {Trenni::Template.load_file template_path}
-	let(:code) {template.send(:code)}
-	
-	it "should capture and output the contents of the block" do
-		expect(template.to_string).to be == 'Hello World!'
-	end
-end
-
-RSpec.describe Trenni::Template do
-	let(:capture_template) {Trenni::Template.load_file File.expand_path('template_spec/capture.trenni', __dir__)}
-	
-	it "should be able to capture output" do
-		expect(capture_template.to_string).to be == '"TEST TEST TEST\n"'
-	end
-	
-	it "compiled template should match line numbers" do
-		code_lines = capture_template.send(:code).lines
+	context 'large.xhtml' do
+		let(:template_path) {File.expand_path('corpus/large.xhtml', __dir__)}
+		let(:template) {Trenni::Template.load_file template_path}
+		let(:output) {template.to_string}
 		
-		expect(code_lines.count).to be == 4
-		expect(code_lines[3]).to include("inspect")
+		it "should parse xhtml template and produce identical output" do
+			expect{output}.to_not raise_error
+			expect(output).to be == File.read(template_path)
+		end
 	end
 	
-	let(:buffer_template) {Trenni::Template.load_file File.expand_path('template_spec/buffer.trenni', __dir__)}
-	
-	it "should be able to fetch output buffer" do
-		expect(buffer_template.to_string).to be == 'test'
-	end
-	
-	let(:nested_template) {Trenni::Template.load_file File.expand_path('template_spec/nested.trenni', __dir__)}
-	
-	it "should be able to handle nested interpolations" do
-		expect(nested_template.to_string).to be == "Hello world!"
-	end
-	
-	let(:items) {1..4}
-	
-	it "should process list of items" do
-		buffer = Trenni::Buffer.new('<?r items.each do |item| ?>#{item}<?r end ?>')
-		template = Trenni::Template.new(buffer)
+	context 'lines.trenni' do
+		let(:template_path) {File.expand_path('template_spec/lines.trenni', __dir__)}
+		let(:template) {Trenni::Template.load_file template_path}
+		let(:code) {template.send(:code)}
 		
-		expect(template.to_string(self)).to be == "1234"
+		it "should parse xhtml template and produce identical output" do
+			expect(code.lines[0]).to match(/apple/)
+			expect(code.lines[5]).to match(/banana/)
+		end
 	end
 	
-	it "should have correct indentation" do
-		buffer = Trenni::Buffer.new("\t<?r items.each do |item| ?>\n\t\#{item}\n\t<?r end ?>\n")
-		template = Trenni::Template.new(buffer)
+	context 'builder.trenni' do
+		let(:template_path) {File.expand_path('template_spec/builder.trenni', __dir__)}
+		let(:template) {Trenni::Template.load_file template_path}
+		let(:code) {template.send(:code)}
 		
-		expect(template.to_string(self)).to be == "\t1\n\t2\n\t3\n\t4\n"
+		it "should capture and output the contents of the block" do
+			expect(template.to_string).to be == 'Hello World!'
+		end
 	end
 	
-	let(:escaped_template) {Trenni::Template.load_file File.expand_path('template_spec/escaped.trenni', __dir__)}
-	
-	it "should have the same number of lines as input" do
-		expect(escaped_template.send(:code).lines.count).to be == 2
+	context 'capture.trenni' do
+		let(:capture_template) {Trenni::Template.load_file File.expand_path('template_spec/capture.trenni', __dir__)}
+		
+		it "should be able to capture output" do
+			expect(capture_template.to_string).to be == '"TEST TEST TEST\n"'
+		end
+		
+		it "compiled template should match line numbers" do
+			code_lines = capture_template.send(:code).lines
+			
+			expect(code_lines.count).to be == 4
+			expect(code_lines[3]).to include("inspect")
+		end
 	end
 	
-	it "should process escaped characters" do
-		expect(escaped_template.to_string).to be == 
-			"This\\nisn't one line.\n" +
-			"\\tIndentation is the best."
+	context 'buffer.trenni' do
+		let(:buffer_template) {Trenni::Template.load_file File.expand_path('template_spec/buffer.trenni', __dir__)}
+		
+		it "should be able to fetch output buffer" do
+			expect(buffer_template.to_string).to be == 'test'
+		end
+	end
+	
+	context 'nested.trenni' do
+		let(:nested_template) {Trenni::Template.load_file File.expand_path('template_spec/nested.trenni', __dir__)}
+		
+		it "should be able to handle nested interpolations" do
+			expect(nested_template.to_string).to be == "Hello world!"
+		end
+	end
+	
+	context 'items' do
+		let(:items) {1..4}
+		
+		it "should process list of items" do
+			buffer = Trenni::Buffer.new('<?r items.each do |item| ?>#{item}<?r end ?>')
+			template = Trenni::Template.new(buffer)
+			
+			expect(template.to_string(self)).to be == "1234"
+		end
+		
+		it "should have correct indentation" do
+			buffer = Trenni::Buffer.new("\t<?r items.each do |item| ?>\n\t\#{item}\n\t<?r end ?>\n")
+			template = Trenni::Template.new(buffer)
+			
+			expect(template.to_string(self)).to be == "\t1\n\t2\n\t3\n\t4\n"
+		end
+	end
+	
+	context 'escaped.trenni' do
+		let(:escaped_template) {Trenni::Template.load_file File.expand_path('template_spec/escaped.trenni', __dir__)}
+		
+		it "should have the same number of lines as input" do
+			expect(escaped_template.send(:code).lines.count).to be == 2
+		end
+		
+		it "should process escaped characters" do
+			expect(escaped_template.to_string).to be ==
+				"This\\nisn't one line.\n" +
+				"\\tIndentation is the best."
+		end
 	end
 end
 
