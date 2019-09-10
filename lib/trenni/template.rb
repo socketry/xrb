@@ -24,6 +24,7 @@ require_relative 'markup'
 module Trenni
 	# The output variable that will be used in templates:
 	OUT = :_out
+	BINDING = binding
 	
 	class Builder
 		def >> block
@@ -94,8 +95,9 @@ module Trenni
 		def self.load_file(path, *args)
 			self.new(FileBuffer.new(path), *args).freeze
 		end
-
-		def initialize(buffer, binding: TOPLEVEL_BINDING)
+		
+		# @param binding [Binding] The binding in which the template is compiled. e.g. `TOPLEVEL_BINDING`.
+		def initialize(buffer, binding: BINDING)
 			@buffer = buffer
 			@binding = binding
 		end

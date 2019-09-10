@@ -125,7 +125,7 @@ RSpec.describe Trenni::Template do
 			buffer = Trenni::Buffer.new('#{Module.nesting.inspect}')
 			template = Trenni::Template.new(buffer)
 			
-			expect(template.to_string(self)).to be == "[]"
+			expect(template.to_string(self)).to be == "[Trenni]"
 		end
 	end
 end
