@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 
 PARSERS_DIRECTORY = File.expand_path("../parsers", __dir__)
 FALLBACK_DIRECTORY = File.expand_path("../lib/trenni/fallback", __dir__)

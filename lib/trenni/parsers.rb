@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 
 require_relative 'native'
 require_relative 'parse_delegate'

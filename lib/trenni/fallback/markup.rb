@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 
 # line 1 "markup.rl"
 # Copyright, 2016, by Samuel G. D. Williams. <http://www.codeotaku.com>

@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 
 spec_path = File.expand_path('../trenni.gemspec', Dir.pwd)
 spec = Gem::Specification.load(spec_path)

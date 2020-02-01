@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 
 task :fetch_entities do
 	require 'open-uri'
