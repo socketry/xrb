@@ -2,7 +2,7 @@
 
 Trenni is a templating system built loosely on top of XHTML markup. It uses efficient native parsers where possible and compiles templates into efficient Ruby. It also includes a markup builder to assist with the generation of pleasantly formatted markup which is compatible with the included parsers.
 
-[![Build Status](https://secure.travis-ci.org/ioquatix/trenni.svg)](http://travis-ci.org/ioquatix/trenni)
+[![Build Status](https://travis-ci.com/ioquatix/trenni.svg?branch=master)](https://travis-ci.com/ioquatix/trenni)
 [![Code Climate](https://codeclimate.com/github/ioquatix/trenni.svg)](https://codeclimate.com/github/ioquatix/trenni)
 [![Coverage Status](https://coveralls.io/repos/ioquatix/trenni/badge.svg)](https://coveralls.io/r/ioquatix/trenni)
 
