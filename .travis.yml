@@ -6,7 +6,6 @@ before_script:
 
 matrix:
   include:
-    - rvm: 2.3
     - rvm: 2.4
     - rvm: 2.5
     - rvm: 2.6
@@ -14,10 +13,11 @@ matrix:
       env: TRENNI_PREFER_FALLBACK=y
     - rvm: 2.6
       env: COVERAGE=Summary
+    - rvm: 2.7
     - rvm: ruby-head
     - rvm: jruby-head
     - rvm: truffleruby
   allow_failures:
-    - rvm: "truffleruby"
-    - rvm: "ruby-head"
-    - rvm: "jruby-head"
+    - rvm: truffleruby
+    - rvm: ruby-head
+    - rvm: jruby-head
