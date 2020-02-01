@@ -11,7 +11,7 @@ task :generate_fallback_parsers do
 			sh("ragel", "-I", PARSERS_DIRECTORY, "-R", parser_path, "-F1")
 		end
 		
-		sh("ruby-beautify", "--tabs", "--overwrite", *Dir.glob("*.rb"))
+		# sh("ruby-beautify", "--tabs", "--overwrite", *Dir.glob("*.rb"))
 	end
 end
 

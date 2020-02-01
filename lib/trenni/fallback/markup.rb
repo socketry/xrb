@@ -435,6 +435,7 @@ module Trenni
 		# line 214 "markup.rl"
 				def self.parse_markup(buffer, delegate, entities)
 			data = buffer.read
+			encoding = buffer.encoding
 			bytes = data.bytes
 						p = 0
 			# Must set pe here or it gets incorrectly set to data.length
@@ -607,7 +608,7 @@ module Trenni
 							# line 32 "markup.rl"
 							begin
 
-								pcdata = ""
+								pcdata = String.new.force_encoding(encoding)
 								has_entities = false
 							end
 							# line 49 "markup.rl"
@@ -619,7 +620,7 @@ module Trenni
 							# line 32 "markup.rl"
 							begin
 
-								pcdata = ""
+								pcdata = String.new.force_encoding(encoding)
 								has_entities = false
 							end
 							# line 10 "/Users/samuel/Documents/Programming/ioquatix/trenni/parsers/trenni/entities.rl"
@@ -717,7 +718,7 @@ module Trenni
 							begin
 
 								has_value = false
-								pcdata = ""
+								pcdata = String.new.force_encoding(encoding)
 							end
 							# line 24 "markup.rl"
 							begin
@@ -805,7 +806,7 @@ module Trenni
 							# line 32 "markup.rl"
 							begin
 
-								pcdata = ""
+								pcdata = String.new.force_encoding(encoding)
 								has_entities = false
 							end
 							# line 49 "markup.rl"
@@ -821,7 +822,7 @@ module Trenni
 							# line 32 "markup.rl"
 							begin
 
-								pcdata = ""
+								pcdata = String.new.force_encoding(encoding)
 								has_entities = false
 							end
 							# line 10 "/Users/samuel/Documents/Programming/ioquatix/trenni/parsers/trenni/entities.rl"
@@ -892,7 +893,7 @@ module Trenni
 							# line 32 "markup.rl"
 							begin
 
-								pcdata = ""
+								pcdata = String.new.force_encoding(encoding)
 								has_entities = false
 							end
 							# line 49 "markup.rl"
@@ -914,7 +915,7 @@ module Trenni
 							# line 32 "markup.rl"
 							begin
 
-								pcdata = ""
+								pcdata = String.new.force_encoding(encoding)
 								has_entities = false
 							end
 							# line 10 "/Users/samuel/Documents/Programming/ioquatix/trenni/parsers/trenni/entities.rl"
@@ -941,7 +942,7 @@ module Trenni
 							# line 32 "markup.rl"
 							begin
 
-								pcdata = ""
+								pcdata = String.new.force_encoding(encoding)
 								has_entities = false
 							end
 							# line 49 "markup.rl"
@@ -963,7 +964,7 @@ module Trenni
 							# line 32 "markup.rl"
 							begin
 
-								pcdata = ""
+								pcdata = String.new.force_encoding(encoding)
 								has_entities = false
 							end
 							# line 10 "/Users/samuel/Documents/Programming/ioquatix/trenni/parsers/trenni/entities.rl"
@@ -989,7 +990,7 @@ module Trenni
 							# line 32 "markup.rl"
 							begin
 
-								pcdata = ""
+								pcdata = String.new.force_encoding(encoding)
 								has_entities = false
 							end
 							# line 49 "markup.rl"
@@ -1010,7 +1011,7 @@ module Trenni
 							# line 32 "markup.rl"
 							begin
 
-								pcdata = ""
+								pcdata = String.new.force_encoding(encoding)
 								has_entities = false
 							end
 							# line 10 "/Users/samuel/Documents/Programming/ioquatix/trenni/parsers/trenni/entities.rl"
@@ -1036,7 +1037,7 @@ module Trenni
 							# line 32 "markup.rl"
 							begin
 
-								pcdata = ""
+								pcdata = String.new.force_encoding(encoding)
 								has_entities = false
 							end
 							# line 49 "markup.rl"
@@ -1057,7 +1058,7 @@ module Trenni
 							# line 32 "markup.rl"
 							begin
 
-								pcdata = ""
+								pcdata = String.new.force_encoding(encoding)
 								has_entities = false
 							end
 							# line 10 "/Users/samuel/Documents/Programming/ioquatix/trenni/parsers/trenni/entities.rl"
@@ -1083,7 +1084,7 @@ module Trenni
 							# line 32 "markup.rl"
 							begin
 
-								pcdata = ""
+								pcdata = String.new.force_encoding(encoding)
 								has_entities = false
 							end
 							# line 49 "markup.rl"
@@ -1104,7 +1105,7 @@ module Trenni
 							# line 32 "markup.rl"
 							begin
 
-								pcdata = ""
+								pcdata = String.new.force_encoding(encoding)
 								has_entities = false
 							end
 							# line 10 "/Users/samuel/Documents/Programming/ioquatix/trenni/parsers/trenni/entities.rl"
@@ -1131,7 +1132,7 @@ module Trenni
 							# line 32 "markup.rl"
 							begin
 
-								pcdata = ""
+								pcdata = String.new.force_encoding(encoding)
 								has_entities = false
 							end
 							# line 49 "markup.rl"
@@ -1153,7 +1154,7 @@ module Trenni
 							# line 32 "markup.rl"
 							begin
 
-								pcdata = ""
+								pcdata = String.new.force_encoding(encoding)
 								has_entities = false
 							end
 							# line 10 "/Users/samuel/Documents/Programming/ioquatix/trenni/parsers/trenni/entities.rl"
