@@ -125,7 +125,7 @@ module Trenni
 		end
 		
 		def to_proc(scope = @binding.dup)
-			@compiled_proc ||= eval("proc{|#{OUT}|;#{code}}", scope, @buffer.path).freeze
+			@compiled_proc ||= eval("\# frozen_string_literals: true\nproc{|#{OUT}|;#{code}}", scope, @buffer.path, 0).freeze
 		end
 		
 		protected
