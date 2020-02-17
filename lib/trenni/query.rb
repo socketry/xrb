@@ -22,6 +22,8 @@
 
 require_relative 'buffer'
 
+require 'uri'
+
 module Trenni
 	class Query < Hash
 		def parse(buffer)
@@ -38,7 +40,7 @@ module Trenni
 			
 			def string(key, encoded)
 				if encoded
-					key = URI.decode_www_form_component(key)
+					key = ::URI.decode_www_form_component(key)
 				end
 				
 				index(key.to_sym)
@@ -70,7 +72,7 @@ module Trenni
 			
 			def assign(value, encoded)
 				if encoded
-					value = URI.decode_www_form_component(value)
+					value = ::URI.decode_www_form_component(value)
 				end
 				
 				@current[@index] = value
