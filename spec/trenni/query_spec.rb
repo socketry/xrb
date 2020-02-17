@@ -40,4 +40,12 @@ RSpec.describe Trenni::Query do
 	it "can parse query string appending items to array" do
 		expect(parse "q[]=a&q[]=b").to be == {q: ["a", "b"]}
 	end
+	
+	it "can decode encoded keys" do
+		expect(parse "hello+world=true").to be == {:"hello world" => "true"}
+	end
+	
+	it "can decode encoded values" do
+		expect(parse "message=hello+world").to be == {message: "hello world"}
+	end
 end

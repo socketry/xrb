@@ -36,7 +36,11 @@ module Trenni
 				@index = nil
 			end
 			
-			def string(key)
+			def string(key, encoded)
+				if encoded
+					key = URI.decode_www_form_component(key)
+				end
+				
 				index(key.to_sym)
 			end
 			
@@ -64,7 +68,11 @@ module Trenni
 				@index = @current.size
 			end
 			
-			def assign(value)
+			def assign(value, encoded)
+				if encoded
+					value = URI.decode_www_form_component(value)
+				end
+				
 				@current[@index] = value
 				
 				@current = @top

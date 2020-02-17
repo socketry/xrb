@@ -21,7 +21,7 @@
 # THE SOFTWARE.
 
 
-# line 66 "query.rl"
+# line 74 "query.rl"
 
 
 require_relative '../error'
@@ -35,11 +35,13 @@ class << self
 	private :_query_trans_keys, :_query_trans_keys=
 end
 self._query_trans_keys = [
-	0, 0, 38, 93, 38, 93, 
-	38, 93, 38, 93, 38, 
-	93, 38, 93, 38, 93, 
-	38, 93, 38, 93, 38, 91, 
-	38, 61, 0
+	0, 0, 48, 102, 48, 102, 
+	37, 93, 37, 93, 48, 
+	102, 48, 102, 37, 93, 
+	37, 93, 48, 102, 48, 102, 
+	37, 93, 37, 93, 37, 
+	93, 37, 93, 37, 93, 
+	38, 91, 38, 61, 0
 ]
 
 class << self
@@ -47,8 +49,9 @@ class << self
 	private :_query_key_spans, :_query_key_spans=
 end
 self._query_key_spans = [
-	0, 56, 56, 56, 56, 56, 56, 56, 
-	56, 56, 54, 24
+	0, 55, 55, 57, 57, 55, 55, 57, 
+	57, 55, 55, 57, 57, 57, 57, 57, 
+	54, 24
 ]
 
 class << self
@@ -56,8 +59,9 @@ class << self
 	private :_query_index_offsets, :_query_index_offsets=
 end
 self._query_index_offsets = [
-	0, 0, 57, 114, 171, 228, 285, 342, 
-	399, 456, 513, 568
+	0, 0, 56, 112, 170, 228, 284, 340, 
+	398, 456, 512, 568, 626, 684, 742, 800, 
+	858, 913
 ]
 
 class << self
@@ -65,81 +69,124 @@ class << self
 	private :_query_indicies, :_query_indicies=
 end
 self._query_indicies = [
-	1, 0, 0, 0, 0, 0, 0, 0, 
-	0, 0, 2, 2, 2, 2, 2, 2, 
-	2, 2, 2, 2, 0, 0, 0, 1, 
 	0, 0, 0, 0, 0, 0, 0, 0, 
-	0, 0, 0, 0, 0, 0, 0, 0, 
-	0, 0, 0, 0, 0, 0, 0, 0, 
-	0, 0, 0, 0, 0, 1, 0, 1, 
-	0, 1, 3, 3, 3, 3, 3, 3, 
-	3, 3, 3, 4, 4, 4, 4, 4, 
-	4, 4, 4, 4, 4, 3, 3, 3, 
+	0, 0, 1, 1, 1, 1, 1, 1, 
+	1, 0, 0, 0, 0, 0, 0, 1, 
+	1, 1, 1, 1, 1, 1, 1, 1, 
+	1, 1, 1, 1, 1, 1, 1, 1, 
+	1, 1, 1, 1, 1, 1, 1, 1, 
+	1, 0, 0, 0, 0, 0, 0, 1, 
+	2, 2, 2, 2, 2, 2, 2, 2, 
+	2, 2, 1, 1, 1, 1, 1, 1, 
+	1, 2, 2, 2, 2, 2, 2, 1, 
+	1, 1, 1, 1, 1, 1, 1, 1, 
+	1, 1, 1, 1, 1, 1, 1, 1, 
+	1, 1, 1, 1, 1, 1, 1, 1, 
+	1, 2, 2, 2, 2, 2, 2, 1, 
+	4, 1, 3, 3, 3, 3, 5, 3, 
+	3, 3, 3, 6, 6, 6, 6, 6, 
+	6, 6, 6, 6, 6, 3, 3, 3, 
 	1, 3, 3, 3, 3, 3, 3, 3, 
 	3, 3, 3, 3, 3, 3, 3, 3, 
 	3, 3, 3, 3, 3, 3, 3, 3, 
 	3, 3, 3, 3, 3, 3, 1, 3, 
-	1, 3, 1, 5, 5, 5, 5, 5, 
-	5, 5, 5, 5, 6, 6, 6, 6, 
-	6, 6, 6, 6, 6, 6, 5, 5, 
-	5, 1, 5, 5, 5, 5, 5, 5, 
-	5, 5, 5, 5, 5, 5, 5, 5, 
-	5, 5, 5, 5, 5, 5, 5, 5, 
-	5, 5, 5, 5, 5, 5, 5, 1, 
-	5, 7, 5, 1, 8, 8, 8, 8, 
-	8, 8, 8, 8, 8, 8, 8, 8, 
-	8, 8, 8, 8, 8, 8, 8, 8, 
-	8, 8, 1, 8, 8, 8, 8, 8, 
-	8, 8, 8, 8, 8, 8, 8, 8, 
-	8, 8, 8, 8, 8, 8, 8, 8, 
-	8, 8, 8, 8, 8, 8, 8, 8, 
-	1, 8, 9, 8, 1, 8, 8, 8, 
-	8, 8, 8, 8, 8, 8, 10, 10, 
-	10, 10, 10, 10, 10, 10, 10, 10, 
-	8, 8, 8, 1, 8, 8, 8, 8, 
-	8, 8, 8, 8, 8, 8, 8, 8, 
-	8, 8, 8, 8, 8, 8, 8, 8, 
-	8, 8, 8, 8, 8, 8, 8, 8, 
-	8, 1, 8, 11, 8, 1, 0, 0, 
-	0, 0, 0, 0, 0, 0, 0, 2, 
+	1, 3, 7, 1, 2, 2, 2, 2, 
+	8, 2, 2, 2, 2, 9, 9, 9, 
+	9, 9, 9, 9, 9, 9, 9, 2, 
+	2, 2, 1, 2, 2, 2, 2, 2, 
 	2, 2, 2, 2, 2, 2, 2, 2, 
-	2, 0, 0, 0, 1, 0, 0, 0, 
-	0, 0, 0, 0, 0, 0, 0, 0, 
-	0, 0, 0, 0, 0, 0, 0, 0, 
-	0, 0, 0, 0, 0, 0, 0, 0, 
-	0, 0, 1, 0, 1, 0, 12, 3, 
-	3, 3, 3, 3, 3, 3, 3, 3, 
-	3, 3, 3, 3, 3, 3, 3, 3, 
-	3, 3, 3, 3, 3, 13, 3, 3, 
-	3, 3, 3, 3, 3, 3, 3, 3, 
-	3, 3, 3, 3, 3, 3, 3, 3, 
-	3, 3, 3, 3, 3, 3, 3, 3, 
-	3, 3, 3, 14, 3, 1, 3, 16, 
+	2, 2, 2, 2, 2, 2, 2, 2, 
+	2, 2, 2, 2, 2, 2, 2, 2, 
+	1, 2, 1, 2, 10, 10, 10, 10, 
+	10, 10, 10, 10, 10, 10, 1, 1, 
+	1, 1, 1, 1, 1, 10, 10, 10, 
+	10, 10, 10, 1, 1, 1, 1, 1, 
+	1, 1, 1, 1, 1, 1, 1, 1, 
+	1, 1, 1, 1, 1, 1, 1, 1, 
+	1, 1, 1, 1, 1, 10, 10, 10, 
+	10, 10, 10, 1, 11, 11, 11, 11, 
+	11, 11, 11, 11, 11, 11, 1, 1, 
+	1, 1, 1, 1, 1, 11, 11, 11, 
+	11, 11, 11, 1, 1, 1, 1, 1, 
+	1, 1, 1, 1, 1, 1, 1, 1, 
+	1, 1, 1, 1, 1, 1, 1, 1, 
+	1, 1, 1, 1, 1, 11, 11, 11, 
+	11, 11, 11, 1, 13, 1, 12, 12, 
+	12, 12, 14, 12, 12, 12, 12, 15, 
 	15, 15, 15, 15, 15, 15, 15, 15, 
-	15, 15, 15, 15, 15, 15, 15, 15, 
-	15, 15, 15, 15, 15, 15, 1, 15, 
-	15, 15, 15, 15, 15, 15, 15, 15, 
-	15, 15, 15, 15, 15, 15, 15, 15, 
-	15, 15, 15, 15, 15, 15, 15, 15, 
-	15, 15, 15, 15, 1, 15, 1, 15, 
-	18, 17, 17, 17, 17, 17, 17, 17, 
+	15, 12, 12, 12, 1, 12, 12, 12, 
+	12, 12, 12, 12, 12, 12, 12, 12, 
+	12, 12, 12, 12, 12, 12, 12, 12, 
+	12, 12, 12, 12, 12, 12, 12, 12, 
+	12, 12, 1, 12, 16, 12, 18, 1, 
+	17, 17, 17, 17, 19, 17, 17, 17, 
 	17, 17, 17, 17, 17, 17, 17, 17, 
-	17, 17, 17, 17, 17, 17, 17, 1, 
+	17, 17, 17, 17, 17, 17, 1, 17, 
 	17, 17, 17, 17, 17, 17, 17, 17, 
 	17, 17, 17, 17, 17, 17, 17, 17, 
 	17, 17, 17, 17, 17, 17, 17, 17, 
-	17, 17, 17, 17, 17, 1, 17, 1, 
-	17, 19, 1, 1, 1, 1, 1, 1, 
+	17, 17, 17, 17, 1, 17, 20, 17, 
+	21, 21, 21, 21, 21, 21, 21, 21, 
+	21, 21, 1, 1, 1, 1, 1, 1, 
+	1, 21, 21, 21, 21, 21, 21, 1, 
 	1, 1, 1, 1, 1, 1, 1, 1, 
 	1, 1, 1, 1, 1, 1, 1, 1, 
-	20, 1, 1, 1, 1, 1, 1, 1, 
+	1, 1, 1, 1, 1, 1, 1, 1, 
+	1, 21, 21, 21, 21, 21, 21, 1, 
+	17, 17, 17, 17, 17, 17, 17, 17, 
+	17, 17, 1, 1, 1, 1, 1, 1, 
+	1, 17, 17, 17, 17, 17, 17, 1, 
 	1, 1, 1, 1, 1, 1, 1, 1, 
 	1, 1, 1, 1, 1, 1, 1, 1, 
-	1, 1, 1, 1, 1, 1, 21, 1, 
-	22, 1, 1, 1, 1, 1, 1, 1, 
 	1, 1, 1, 1, 1, 1, 1, 1, 
-	1, 1, 1, 1, 1, 1, 1, 23, 
-	1, 0
+	1, 17, 17, 17, 17, 17, 17, 1, 
+	18, 1, 17, 17, 17, 17, 19, 17, 
+	17, 17, 17, 22, 22, 22, 22, 22, 
+	22, 22, 22, 22, 22, 17, 17, 17, 
+	1, 17, 17, 17, 17, 17, 17, 17, 
+	17, 17, 17, 17, 17, 17, 17, 17, 
+	17, 17, 17, 17, 17, 17, 17, 17, 
+	17, 17, 17, 17, 17, 17, 1, 17, 
+	23, 17, 4, 1, 3, 3, 3, 3, 
+	5, 3, 3, 3, 3, 6, 6, 6, 
+	6, 6, 6, 6, 6, 6, 6, 3, 
+	3, 3, 1, 3, 3, 3, 3, 3, 
+	3, 3, 3, 3, 3, 3, 3, 3, 
+	3, 3, 3, 3, 3, 3, 3, 3, 
+	3, 3, 3, 3, 3, 3, 3, 3, 
+	1, 3, 1, 3, 7, 24, 2, 2, 
+	2, 2, 8, 2, 2, 2, 2, 2, 
+	2, 2, 2, 2, 2, 2, 2, 2, 
+	2, 2, 2, 2, 25, 2, 2, 2, 
+	2, 2, 2, 2, 2, 2, 2, 2, 
+	2, 2, 2, 2, 2, 2, 2, 2, 
+	2, 2, 2, 2, 2, 2, 2, 2, 
+	2, 2, 26, 2, 1, 2, 28, 29, 
+	27, 27, 27, 27, 30, 27, 27, 27, 
+	27, 27, 27, 27, 27, 27, 27, 27, 
+	27, 27, 27, 27, 27, 27, 1, 27, 
+	27, 27, 27, 27, 27, 27, 27, 27, 
+	27, 27, 27, 27, 27, 27, 27, 27, 
+	27, 27, 27, 27, 27, 27, 27, 27, 
+	27, 27, 27, 27, 1, 27, 1, 27, 
+	31, 32, 11, 11, 11, 11, 33, 11, 
+	11, 11, 11, 11, 11, 11, 11, 11, 
+	11, 11, 11, 11, 11, 11, 11, 11, 
+	1, 11, 11, 11, 11, 11, 11, 11, 
+	11, 11, 11, 11, 11, 11, 11, 11, 
+	11, 11, 11, 11, 11, 11, 11, 11, 
+	11, 11, 11, 11, 11, 11, 1, 11, 
+	1, 11, 34, 1, 1, 1, 1, 1, 
+	1, 1, 1, 1, 1, 1, 1, 1, 
+	1, 1, 1, 1, 1, 1, 1, 1, 
+	1, 35, 1, 1, 1, 1, 1, 1, 
+	1, 1, 1, 1, 1, 1, 1, 1, 
+	1, 1, 1, 1, 1, 1, 1, 1, 
+	1, 1, 1, 1, 1, 1, 1, 36, 
+	1, 37, 1, 1, 1, 1, 1, 1, 
+	1, 1, 1, 1, 1, 1, 1, 1, 
+	1, 1, 1, 1, 1, 1, 1, 1, 
+	38, 1, 0
 ]
 
 class << self
@@ -147,9 +194,11 @@ class << self
 	private :_query_trans_targs, :_query_trans_targs=
 end
 self._query_trans_targs = [
-	7, 0, 2, 7, 2, 4, 5, 11, 
-	4, 10, 5, 10, 1, 8, 3, 9, 
-	1, 9, 1, 1, 8, 3, 1, 8
+	2, 0, 13, 13, 1, 13, 4, 1, 
+	13, 4, 6, 15, 8, 9, 8, 11, 
+	17, 8, 9, 8, 16, 10, 11, 16, 
+	3, 14, 7, 15, 5, 3, 15, 5, 
+	3, 15, 3, 14, 7, 3, 14
 ]
 
 class << self
@@ -157,9 +206,11 @@ class << self
 	private :_query_trans_actions, :_query_trans_actions=
 end
 self._query_trans_actions = [
-	1, 0, 2, 0, 0, 1, 3, 0, 
-	0, 4, 0, 5, 6, 4, 4, 8, 
-	7, 0, 9, 10, 0, 0, 11, 12
+	0, 0, 0, 1, 2, 2, 3, 4, 
+	4, 0, 0, 0, 1, 2, 2, 5, 
+	0, 0, 4, 4, 6, 0, 0, 7, 
+	8, 6, 6, 10, 11, 9, 11, 4, 
+	12, 4, 13, 0, 0, 14, 15
 ]
 
 class << self
@@ -167,18 +218,19 @@ class << self
 	private :_query_eof_actions, :_query_eof_actions=
 end
 self._query_eof_actions = [
-	0, 0, 0, 0, 0, 0, 0, 6, 
-	7, 9, 10, 11
+	0, 0, 0, 0, 0, 0, 0, 0, 
+	0, 0, 0, 0, 0, 8, 9, 12, 
+	13, 14
 ]
 
 class << self
 	attr_accessor :query_start
 end
-self.query_start = 6;
+self.query_start = 12;
 class << self
 	attr_accessor :query_first_final
 end
-self.query_first_final = 6;
+self.query_first_final = 12;
 class << self
 	attr_accessor :query_error
 end
@@ -187,10 +239,10 @@ self.query_error = 0;
 class << self
 	attr_accessor :query_en_main
 end
-self.query_en_main = 6;
+self.query_en_main = 12;
 
 
-# line 73 "query.rl"
+# line 81 "query.rl"
 		
 		def self.parse_query(buffer, delegate)
 			data = buffer.read
@@ -203,18 +255,19 @@ self.query_en_main = 6;
 			string_begin = string_end = nil
 			integer_begin = integer_end = nil
 			value_begin = value_end = nil
+			encoded = false
 			
 			
-# line 209 "query.rb"
+# line 262 "query.rb"
 begin
 	p ||= 0
 	pe ||= data.length
 	cs = query_start
 end
 
-# line 87 "query.rl"
+# line 96 "query.rl"
 			
-# line 218 "query.rb"
+# line 271 "query.rb"
 begin
 	testEof = false
 	_slen, _trans, _keys, _inds, _acts, _nacts = nil
@@ -257,39 +310,58 @@ begin
 
 		string_begin = p
 			end
-	when 4 then
+	when 6 then
 # line 28 "query.rl"
 		begin
 
 		string_end = p
 		
-		delegate.string(data.byteslice(string_begin...string_end))
+		delegate.string(data.byteslice(string_begin...string_end), encoded)
+		
+		encoded = false
 			end
-	when 5 then
-# line 38 "query.rl"
+	when 7 then
+# line 40 "query.rl"
 		begin
 
 		integer_end = p
 		
 		delegate.integer(data.byteslice(integer_begin...integer_end))
 			end
-	when 12 then
-# line 44 "query.rl"
+	when 15 then
+# line 46 "query.rl"
 		begin
 
 		delegate.append
 			end
-	when 8 then
-# line 48 "query.rl"
+	when 10 then
+# line 50 "query.rl"
 		begin
 
 		value_begin = p
 			end
-	when 10 then
-# line 58 "query.rl"
+	when 13 then
+# line 62 "query.rl"
 		begin
 
 		delegate.pair
+			end
+	when 4 then
+# line 66 "query.rl"
+		begin
+
+		encoded = 1;
+			end
+	when 3 then
+# line 24 "query.rl"
+		begin
+
+		string_begin = p
+			end
+# line 36 "query.rl"
+		begin
+
+		integer_begin = p
 			end
 	when 2 then
 # line 24 "query.rl"
@@ -297,26 +369,28 @@ begin
 
 		string_begin = p
 			end
-# line 34 "query.rl"
+# line 66 "query.rl"
 		begin
 
-		integer_begin = p
+		encoded = 1;
 			end
-	when 6 then
+	when 8 then
 # line 28 "query.rl"
 		begin
 
 		string_end = p
 		
-		delegate.string(data.byteslice(string_begin...string_end))
+		delegate.string(data.byteslice(string_begin...string_end), encoded)
+		
+		encoded = false
 			end
-# line 58 "query.rl"
+# line 62 "query.rl"
 		begin
 
 		delegate.pair
 			end
-	when 3 then
-# line 34 "query.rl"
+	when 5 then
+# line 36 "query.rl"
 		begin
 
 		integer_begin = p
@@ -326,49 +400,64 @@ begin
 
 		string_begin = p
 			end
-	when 11 then
-# line 44 "query.rl"
+	when 14 then
+# line 46 "query.rl"
 		begin
 
 		delegate.append
 			end
-# line 58 "query.rl"
+# line 62 "query.rl"
+		begin
+
+		delegate.pair
+			end
+	when 11 then
+# line 50 "query.rl"
+		begin
+
+		value_begin = p
+			end
+# line 66 "query.rl"
+		begin
+
+		encoded = 1;
+			end
+	when 12 then
+# line 54 "query.rl"
+		begin
+
+		value_end = p
+		
+		delegate.assign(data.byteslice(value_begin...value_end), encoded)
+		
+		encoded = false
+			end
+# line 62 "query.rl"
 		begin
 
 		delegate.pair
 			end
 	when 9 then
-# line 52 "query.rl"
-		begin
-
-		value_end = p
-		
-		delegate.assign(data.byteslice(value_begin...value_end))
-			end
-# line 58 "query.rl"
-		begin
-
-		delegate.pair
-			end
-	when 7 then
-# line 48 "query.rl"
+# line 50 "query.rl"
 		begin
 
 		value_begin = p
 			end
-# line 52 "query.rl"
+# line 54 "query.rl"
 		begin
 
 		value_end = p
 		
-		delegate.assign(data.byteslice(value_begin...value_end))
+		delegate.assign(data.byteslice(value_begin...value_end), encoded)
+		
+		encoded = false
 			end
-# line 58 "query.rl"
+# line 62 "query.rl"
 		begin
 
 		delegate.pair
 			end
-# line 372 "query.rb"
+# line 461 "query.rb"
 	end
 	end
 	end
@@ -386,68 +475,74 @@ begin
 	if _goto_level <= _test_eof
 	if p == eof
 	  case _query_eof_actions[cs]
-	when 10 then
-# line 58 "query.rl"
+	when 13 then
+# line 62 "query.rl"
 		begin
 
 		delegate.pair
 			end
-	when 6 then
+	when 8 then
 # line 28 "query.rl"
 		begin
 
 		string_end = p
 		
-		delegate.string(data.byteslice(string_begin...string_end))
+		delegate.string(data.byteslice(string_begin...string_end), encoded)
+		
+		encoded = false
 			end
-# line 58 "query.rl"
+# line 62 "query.rl"
 		begin
 
 		delegate.pair
 			end
-	when 11 then
-# line 44 "query.rl"
+	when 14 then
+# line 46 "query.rl"
 		begin
 
 		delegate.append
 			end
-# line 58 "query.rl"
+# line 62 "query.rl"
+		begin
+
+		delegate.pair
+			end
+	when 12 then
+# line 54 "query.rl"
+		begin
+
+		value_end = p
+		
+		delegate.assign(data.byteslice(value_begin...value_end), encoded)
+		
+		encoded = false
+			end
+# line 62 "query.rl"
 		begin
 
 		delegate.pair
 			end
 	when 9 then
-# line 52 "query.rl"
-		begin
-
-		value_end = p
-		
-		delegate.assign(data.byteslice(value_begin...value_end))
-			end
-# line 58 "query.rl"
-		begin
-
-		delegate.pair
-			end
-	when 7 then
-# line 48 "query.rl"
+# line 50 "query.rl"
 		begin
 
 		value_begin = p
 			end
-# line 52 "query.rl"
+# line 54 "query.rl"
 		begin
 
 		value_end = p
 		
-		delegate.assign(data.byteslice(value_begin...value_end))
+		delegate.assign(data.byteslice(value_begin...value_end), encoded)
+		
+		encoded = false
 			end
-# line 58 "query.rl"
+# line 62 "query.rl"
 		begin
 
 		delegate.pair
 			end
-# line 451 "query.rb"
+# line 546 "query.rb"
 	  end
 	end
 
@@ -458,7 +553,7 @@ begin
 end
 	end
 
-# line 88 "query.rl"
+# line 97 "query.rl"
 			
 			if p != eof
 				raise ParseError.new("could not consume all input", buffer, p)

@@ -28,7 +28,9 @@
 	action string_end {
 		string_end = p
 		
-		delegate.string(data.byteslice(string_begin...string_end))
+		delegate.string(data.byteslice(string_begin...string_end), encoded)
+		
+		encoded = false
 	}
 	
 	action integer_begin {
@@ -52,11 +54,17 @@
 	action value_end {
 		value_end = p
 		
-		delegate.assign(data.byteslice(value_begin...value_end))
+		delegate.assign(data.byteslice(value_begin...value_end), encoded)
+		
+		encoded = false
 	}
 	
 	action pair {
 		delegate.pair
+	}
+	
+	action encoded {
+		encoded = 1;
 	}
 	
 	# This magic ensures that we process bytes.
@@ -82,6 +90,7 @@ module Trenni
 			string_begin = string_end = nil
 			integer_begin = integer_end = nil
 			value_begin = value_end = nil
+			encoded = false
 			
 			%% write init;
 			%% write exec;

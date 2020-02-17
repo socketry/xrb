@@ -11,7 +11,9 @@
 	action string_end {
 		string_token.end = p;
 		
-		rb_funcall(delegate, id_string, 1, Trenni_Token_string(string_token, encoding));
+		rb_funcall(delegate, id_string, 2, Trenni_Token_string(string_token, encoding), encoded ? Qtrue : Qfalse);
+		
+		encoded = 0;
 	}
 	
 	action integer_begin {
@@ -35,11 +37,17 @@
 	action value_end {
 		value_token.end = p;
 		
-		rb_funcall(delegate, id_assign, 1, Trenni_Token_string(value_token, encoding));
+		rb_funcall(delegate, id_assign, 2, Trenni_Token_string(value_token, encoding), encoded ? Qtrue : Qfalse);
+		
+		encoded = 0;
 	}
 	
 	action pair {
 		rb_funcall(delegate, id_pair, 0);
+	}
+	
+	action encoded {
+		encoded = 1;
 	}
 	
 	include query "trenni/query.rl";
@@ -56,6 +64,7 @@ VALUE Trenni_Native_parse_query(VALUE self, VALUE buffer, VALUE delegate) {
 	unsigned long cs;
 	
 	Trenni_Token string_token = {0}, integer_token = {0}, value_token = {0};
+	unsigned encoded = 0;
 	
 	s = p = RSTRING_PTR(string);
 	eof = pe = p + RSTRING_LEN(string);
