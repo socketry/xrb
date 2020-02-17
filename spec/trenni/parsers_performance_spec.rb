@@ -4,6 +4,9 @@ require 'benchmark/ips'
 require 'trenni/parsers'
 require 'trenni/entities'
 
+require 'trenni/query'
+require 'rack/utils'
+
 require 'nokogiri'
 
 RSpec.describe Trenni::Parsers do
@@ -64,6 +67,28 @@ RSpec.describe Trenni::Parsers do
 				x.report("Large (ERB)") do |times|
 					while (times -= 1) >= 0
 						ERB.new(erb_buffer.read)
+					end
+				end
+				
+				x.compare!
+			end
+		end
+	end
+	
+	describe '#parse_query' do
+		let(:query) {"foo=hi%20there&bar%5Bblah%5D=123&bar%5Bquux%5D%5B0%5D=1&bar%5Bquux%5D%5B1%5D=2&bar%5Bquux%5D%5B2%5D=3"}
+		
+		it "should be fast to parse large query strings" do
+			Benchmark.ips do |x|
+				x.report("Large (Trenni)") do |times|
+					while (times -= 1) >= 0
+						Trenni::Query.new.parse(Trenni::Buffer.new query)
+					end
+				end
+				
+				x.report("Large (Rack)") do |times|
+					while (times -= 1) >= 0
+						Rack::Utils.parse_query(query)
 					end
 				end
 				

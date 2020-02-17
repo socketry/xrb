@@ -73,13 +73,15 @@ static void Trenni_Tag_append_tag_attribute(VALUE buffer, VALUE key, VALUE value
 	}
 }
 
-struct TagAttributeForeachArg {
+typedef struct {
 	VALUE buffer;
 	VALUE prefix;
-};
+} Trenni_Tag_Accumulation;
 
-static int Trenni_Tag_append_tag_attribute_foreach(VALUE key, VALUE value, struct TagAttributeForeachArg * arg) {
-	Trenni_Tag_append_tag_attribute(arg->buffer, key, value, arg->prefix);
+static int Trenni_Tag_append_tag_attribute_foreach(VALUE key, VALUE value, VALUE _argument) {
+	Trenni_Tag_Accumulation * argument = (Trenni_Tag_Accumulation *)_argument;
+	
+	Trenni_Tag_append_tag_attribute(argument->buffer, key, value, argument->prefix);
 	
 	return ST_CONTINUE;
 }
@@ -88,8 +90,8 @@ VALUE Trenni_Tag_append_attributes(VALUE self, VALUE buffer, VALUE attributes, V
 	int type = rb_type(attributes);
 	
 	if (type == T_HASH) {
-		struct TagAttributeForeachArg arg = {buffer, prefix};
-		rb_hash_foreach(attributes, &Trenni_Tag_append_tag_attribute_foreach, (VALUE)&arg);
+		Trenni_Tag_Accumulation argument = {buffer, prefix};
+		rb_hash_foreach(attributes, &Trenni_Tag_append_tag_attribute_foreach, (VALUE)&argument);
 	} else if (type == T_ARRAY) {
 		long i;
 		

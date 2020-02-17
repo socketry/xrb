@@ -30,6 +30,7 @@ Gem::Specification.new do |spec|
 	spec.extensions = %w[ext/Rakefile]
 	spec.add_dependency "rake-compiler"
 	
+	spec.add_development_dependency "rack"
 	spec.add_development_dependency "bundler"
 	spec.add_development_dependency "rspec", "~> 3.4"
 	spec.add_development_dependency "rake"

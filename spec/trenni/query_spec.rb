@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# Copyright, 2016, by Samuel G. D. Williams. <http://www.codeotaku.com>
+# Copyright, 2020, by Samuel G. D. Williams. <http://www.codeotaku.com>
 # 
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -20,14 +20,24 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-require_relative 'error'
+require 'trenni/query'
 
-# Methods on the following classes may be replaced by native implementations:
-require_relative 'tag'
-
-begin
-	# Load native code:
-	require_relative 'trenni'
-rescue LoadError
-	warn "Could not load native implementation: #{$!}" if $VERBOSE
-end unless ENV['TRENNI_PREFER_FALLBACK']
+RSpec.describe Trenni::Query do
+	def parse(string)
+		subject.parse(Trenni::Buffer.new(string))
+		
+		return subject
+	end
+	
+	it "can parse query string with integer key" do
+		expect(parse "q[0]=0").to be == {q: {0 => "0"}}
+	end
+	
+	it "can parse query string with mixed integer/string key" do
+		expect(parse "q[2d]=3d").to be == {q: {:'2d' => "3d"}}
+	end
+	
+	it "can parse query string appending items to array" do
+		expect(parse "q[]=a&q[]=b").to be == {q: ["a", "b"]}
+	end
+end

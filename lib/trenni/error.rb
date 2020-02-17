@@ -23,7 +23,10 @@
 require_relative 'buffer'
 
 module Trenni
-	class ParseError < StandardError
+	class Error < StandardError
+	end
+	
+	class ParseError < Error
 		def initialize(message, buffer, offset)
 			super(message)
 			

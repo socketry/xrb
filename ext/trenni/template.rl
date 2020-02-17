@@ -13,11 +13,11 @@
 	}
 	
 	action emit_instruction {
-		rb_funcall(delegate, id_instruction, 1, Trenni_token(instruction, encoding));
+		rb_funcall(delegate, id_instruction, 1, Trenni_Token_string(instruction, encoding));
 	}
 	
 	action emit_instruction_line {
-		rb_funcall(delegate, id_instruction, 2, Trenni_token(instruction, encoding), newline);
+		rb_funcall(delegate, id_instruction, 2, Trenni_Token_string(instruction, encoding), newline);
 	}
 	
 	action instruction_error {
@@ -33,7 +33,7 @@
 	}
 	
 	action emit_expression {
-		rb_funcall(delegate, id_expression, 1, Trenni_token(expression, encoding));
+		rb_funcall(delegate, id_expression, 1, Trenni_Token_string(expression, encoding));
 	}
 	
 	action expression_error {
@@ -59,7 +59,7 @@ VALUE Trenni_Native_parse_template(VALUE self, VALUE buffer, VALUE delegate) {
 	const char *s, *p, *pe, *eof, *ts, *te;
 	unsigned long cs, act, top = 0, stack[32] = {0};
 	
-	Token expression = {0}, instruction = {0};
+	Trenni_Token expression = {0}, instruction = {0};
 	
 	s = p = RSTRING_PTR(string);
 	eof = pe = p + RSTRING_LEN(string);

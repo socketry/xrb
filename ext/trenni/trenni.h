@@ -54,6 +54,11 @@ extern ID
 	id_key_get,
 	id_new,
 	id_name,
+	id_integer,
+	id_string,
+	id_append,
+	id_assign,
+	id_pair,
 	id_attributes,
 	id_closed,
 	id_to_s,
@@ -63,10 +68,10 @@ extern ID
 typedef struct {
 	const char * begin;
 	const char * end;
-} Token;
+} Trenni_Token;
 
 // Convert a token to a Ruby string.
-static inline VALUE Trenni_token(Token token, rb_encoding * encoding) {
+static inline VALUE Trenni_Token_string(Trenni_Token token, rb_encoding * encoding) {
 	return rb_enc_str_new(token.begin, token.end - token.begin, encoding);
 }
 
@@ -97,7 +102,7 @@ static inline void Trenni_append(VALUE * buffer, rb_encoding * encoding, VALUE s
 }
 
 // Append a token to a buffer. The buffer may or may not be initialized.
-static inline void Trenni_append_token(VALUE * buffer, rb_encoding * encoding, Token token) {
+static inline void Trenni_append_token(VALUE * buffer, rb_encoding * encoding, Trenni_Token token) {
 	if (*buffer == Qnil) {
 		// Allocate a buffer exactly the right size:
 		*buffer = rb_enc_str_new(token.begin, token.end - token.begin, encoding);

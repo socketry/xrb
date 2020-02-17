@@ -1,4 +1,4 @@
-# Copyright, 2016, by Samuel G. D. Williams. <http://www.codeotaku.com>
+# Copyright, 2020, by Samuel G. D. Williams. <http://www.codeotaku.com>
 # 
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -19,52 +19,50 @@
 # THE SOFTWARE.
 
 %%{
-	machine template;
+	machine query;
 	
-	action instruction_begin {
-		instruction_begin = p
+	action string_begin {
+		string_begin = p
 	}
 	
-	action instruction_end {
-		instruction_end = p
+	action string_end {
+		string_end = p
+		
+		delegate.string(data.byteslice(string_begin...string_end))
 	}
 	
-	action emit_instruction {
-		delegate.instruction(data.byteslice(instruction_begin...instruction_end))
+	action integer_begin {
+		integer_begin = p
 	}
 	
-	action emit_instruction_line {
-		delegate.instruction(data.byteslice(instruction_begin...instruction_end), "\n")
+	action integer_end {
+		integer_end = p
+		
+		delegate.integer(data.byteslice(integer_begin...integer_end))
 	}
 	
-	action instruction_error {
-		raise ParseError.new("failed to parse instruction", buffer, p)
+	action append {
+		delegate.append
 	}
 	
-	action expression_begin {
-		expression_begin = p
+	action value_begin {
+		value_begin = p
 	}
 	
-	action expression_end {
-		expression_end = p
+	action value_end {
+		value_end = p
+		
+		delegate.assign(data.byteslice(value_begin...value_end))
 	}
 	
-	action emit_expression {
-		delegate.expression(data.byteslice(expression_begin...expression_end))
-	}
-	
-	action expression_error {
-		raise ParseError.new("failed to parse expression", buffer, p)
-	}
-	
-	action emit_text {
-		delegate.text(data.byteslice(ts...te))
+	action pair {
+		delegate.pair
 	}
 	
 	# This magic ensures that we process bytes.
 	getkey bytes[p];
 	
-	include template "trenni/template.rl";
+	include query "trenni/query.rl";
 }%%
 
 require_relative '../error'
@@ -73,7 +71,7 @@ module Trenni
 	module Fallback
 		%% write data;
 		
-		def self.parse_template(buffer, delegate)
+		def self.parse_query(buffer, delegate)
 			data = buffer.read
 			bytes = data.bytes
 			
@@ -81,8 +79,9 @@ module Trenni
 			pe = eof = data.bytesize
 			stack = []
 			
-			expression_begin = expression_end = nil
-			instruction_begin = instruction_end = nil
+			string_begin = string_end = nil
+			integer_begin = integer_end = nil
+			value_begin = value_end = nil
 			
 			%% write init;
 			%% write exec;

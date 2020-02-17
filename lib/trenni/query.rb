@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# Copyright, 2016, by Samuel G. D. Williams. <http://www.codeotaku.com>
+# Copyright, 2020, by Samuel G. D. Williams. <http://www.codeotaku.com>
 # 
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -20,14 +20,65 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-require_relative 'error'
+require_relative 'buffer'
 
-# Methods on the following classes may be replaced by native implementations:
-require_relative 'tag'
-
-begin
-	# Load native code:
-	require_relative 'trenni'
-rescue LoadError
-	warn "Could not load native implementation: #{$!}" if $VERBOSE
-end unless ENV['TRENNI_PREFER_FALLBACK']
+module Trenni
+	class Query < Hash
+		def parse(buffer)
+			Parsers.parse_query(buffer, Delegate.new(self))
+		end
+		
+		class Delegate
+			def initialize(top = {})
+				@top = top
+				
+				@current = @top
+				@index = nil
+			end
+			
+			def string(key)
+				index(key.to_sym)
+			end
+			
+			def integer(key)
+				index(key.to_i)
+			end
+			
+			def index(key)
+				if @index
+					@current = @current.fetch(@index) do
+						@current[@index] = {}
+					end
+				end
+				
+				@index = key
+			end
+			
+			def append
+				if @index
+					@current = @current.fetch(@index) do
+						@current[@index] = []
+					end
+				end
+				
+				@index = @current.size
+			end
+			
+			def assign(value)
+				@current[@index] = value
+				
+				@current = @top
+				@index = nil
+			end
+			
+			def pair
+				if @index
+					@current[@index] = true
+				end
+				
+				@current = @top
+				@index = nil
+			end
+		end
+	end
+end
