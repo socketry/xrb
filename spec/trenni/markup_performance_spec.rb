@@ -9,13 +9,25 @@ RSpec.describe Trenni::Markup do
 	
 	it "should be fast to parse large documents" do
 		Benchmark.ips do |x|
-			x.report("General String") do |times|
+			x.report("CGI.escapeHTML(general_string)") do |times|
+				while (times -= 1) >= 0
+					CGI.escapeHTML(general_string)
+				end
+			end
+			
+			x.report("CGI.escapeHTML(code_string)") do |times|
+				while (times -= 1) >= 0
+					CGI.escapeHTML(code_string)
+				end
+			end
+			
+			x.report("Trenni::Markup.escape_string(general_string)") do |times|
 				while (times -= 1) >= 0
 					Trenni::Markup.escape_string(general_string)
 				end
 			end
 			
-			x.report("Code String") do |times|
+			x.report("Trenni::Markup.escape_string(code_string)") do |times|
 				while (times -= 1) >= 0
 					Trenni::Markup.escape_string(code_string)
 				end
