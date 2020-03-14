@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# Copyright, 2017, by Samuel G. D. Williams. <http://www.codeotaku.com>
+# Copyright, 2020, by Samuel G. D. Williams. <http://www.codeotaku.com>
 # 
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -20,35 +20,30 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+require_relative 'query'
+
 module Trenni
-	# This class is superceeded by `Trenni::Reference`.
-	class URI
-		def initialize(path, query_string, fragment, parameters)
+	class Reference
+		def initialize(path, query = {}, fragment: nil)
 			@path = path
-			@query_string = query_string
+			@query = query
 			@fragment = fragment
-			@parameters = parameters
 		end
 		
 		# The path component of the URI, e.g. /foo/bar/index.html
 		attr :path
 		
-		# The un-parsed query string of the URI, e.g. 'x=10&y=20'
-		attr :query_string
+		# The query parameters.
+		attr :query
 		
 		# A fragment identifier, the part after the '#'
 		attr :fragment
 		
-		# User supplied parameters that will be appended to the query part.
-		attr :parameters
-		
 		def append(buffer)
-			if @query_string
-				buffer << escape_path(@path) << '?' << query_string
-				buffer << '&' << query_parameters if @parameters
-			else
-				buffer << escape_path(@path)
-				buffer << '?' << query_parameters if @parameters
+			buffer << escape_path(@path)
+			
+			unless @query.empty?
+				buffer << '?' << query_string
 			end
 			
 			if @fragment
@@ -84,8 +79,8 @@ module Trenni
 			end.force_encoding(encoding)
 		end
 		
-		def query_parameters
-			build_nested_query(@parameters)
+		def query_string
+			build_nested_query(@query)
 		end
 		
 		def build_nested_query(value, prefix = nil)
@@ -108,10 +103,18 @@ module Trenni
 	end
 	
 	# Generate a URI from a path and user parameters. The path may contain a `#fragment` or `?query=parameters`.
-	def self.URI(path = '', parameters = nil)
-		base, fragment = path.split('#', 2)
+	def self.Reference(path = '', **parameters)
+		base, fragment = path.to_s.split('#', 2)
 		path, query_string = base.split('?', 2)
 		
-		URI.new(path, query_string, fragment, parameters)
+		query = Query.new
+		
+		if query_string
+			query.parse(Buffer.new(query_string))
+		end
+		
+		query.update(parameters)
+		
+		Reference.new(path, query, fragment: fragment)
 	end
 end

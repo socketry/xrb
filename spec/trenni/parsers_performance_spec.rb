@@ -79,6 +79,12 @@ RSpec.describe Trenni::Parsers do
 		let(:string) {"foo=hi%20there&bar[blah]=123&bar[quux][0]=1&bar[quux][1]=2&bar[quux][2]=3"}
 		
 		it "should be fast to parse large query strings" do
+			# query = Trenni::Query.new
+			# query.parse(Trenni::Buffer.new string)
+			# pp query
+			# 
+			# pp Rack::Utils.parse_nested_query(string)
+			
 			Benchmark.ips do |x|
 				x.report("Large (Trenni)") do |times|
 					while (times -= 1) >= 0
