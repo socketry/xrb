@@ -62,7 +62,12 @@ module Trenni
 		private
 		
 		# According to https://tools.ietf.org/html/rfc3986#section-3.3, we escape non-pchar.
-		NON_PCHAR = /([^a-zA-Z0-9_\-\.~!$&'()*+,;=:@\/]+)/.freeze
+		NON_PCHAR = /([^
+			a-zA-Z0-9
+			\-\._~
+			!\$&'\(\)\*\+,;=
+			:@\/
+		]+)/x.freeze
 		
 		def escape_path(path)
 			encoding = path.encoding
