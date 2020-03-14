@@ -23,3 +23,5 @@
 require_relative 'trenni/native'
 require_relative 'trenni/builder'
 require_relative 'trenni/template'
+
+require_relative 'trenni/reference'
