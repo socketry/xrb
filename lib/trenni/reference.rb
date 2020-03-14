@@ -25,7 +25,7 @@ require_relative 'query'
 module Trenni
 	class Reference
 		def initialize(path, query = {}, fragment: nil)
-			@path = path
+			@path = path.to_s
 			@query = query
 			@fragment = fragment
 		end
@@ -104,7 +104,7 @@ module Trenni
 	
 	# Generate a URI from a path and user parameters. The path may contain a `#fragment` or `?query=parameters`.
 	def self.Reference(path = '', **parameters)
-		base, fragment = path.to_s.split('#', 2)
+		base, fragment = path.split('#', 2)
 		path, query_string = base.split('?', 2)
 		
 		query = Query.new
