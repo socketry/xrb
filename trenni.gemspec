@@ -4,6 +4,7 @@ require_relative 'lib/trenni/version'
 Gem::Specification.new do |spec|
 	spec.name = "trenni"
 	spec.platform = Gem::Platform::RUBY
+  spec.license = "MIT"
 	spec.version = Trenni::VERSION
 	spec.authors = ["Samuel Williams"]
 	spec.email = ["samuel.williams@oriontransfer.co.nz"]
