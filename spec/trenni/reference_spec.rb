@@ -42,7 +42,7 @@ RSpec.describe Trenni::Reference do
 		end
 	end
 	
-	describe Trenni::Reference('index', 'my name' => 'Bob Dole') do
+	describe Trenni::Reference('index', :'my name' => 'Bob Dole') do
 		it "encodes query" do
 			expect(subject.to_s).to be == "index?my%20name=Bob%20Dole"
 		end
