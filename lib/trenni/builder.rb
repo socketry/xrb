@@ -103,19 +103,23 @@ module Trenni
 			end
 		end
 		
-		def text(value)
-			return unless value
+		def text(content)
+			return unless content
 			
 			if @indent
 				@output << "\n" if @level.last > 0
 				@output << indentation
 			end
 			
-			Markup.append(@output, value)
+			Markup.append(@output, content)
 			
 			if @indent
 				@output << "\n"
 			end
+		end
+		
+		def << content
+			text(content)
 		end
 		
 		# Append pre-existing markup:

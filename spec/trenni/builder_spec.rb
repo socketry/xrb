@@ -55,6 +55,18 @@ module Trenni::BuilderSpec
 	end
 	
 	describe Trenni::Builder do
+		describe '#<<' do
+			it 'can append text' do
+				subject << 'text'
+				expect(subject.output).to be == "text\n"
+			end
+			
+			it "doesn't append nil" do
+				subject << nil
+				expect(subject.output).to be == ""
+			end
+		end
+		
 		it 'should be able to append nil' do
 			expect{subject.append(nil)}.to_not raise_error
 		end
