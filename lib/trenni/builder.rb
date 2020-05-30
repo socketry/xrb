@@ -32,10 +32,10 @@ module Trenni
 		
 		# A helper to generate fragments of markup.
 		def self.fragment(builder = nil, &block)
-			if builder
+			if builder.is_a?(self)
 				yield builder
 			else
-				builder = self.new
+				builder = self.new(builder)
 				
 				yield builder
 			end
@@ -63,6 +63,10 @@ module Trenni
 		end
 		
 		attr :output
+		
+		def encoding
+			@output.encoding
+		end
 		
 		# Required for output to buffer.
 		def to_str
@@ -118,8 +122,14 @@ module Trenni
 			end
 		end
 		
-		def << content
-			text(content)
+		def raw(content)
+			@output << content
+		end
+		
+		def <<(content)
+			return unless content
+			
+			Markup.append(@output, content)
 		end
 		
 		# Append pre-existing markup:

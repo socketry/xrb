@@ -47,18 +47,18 @@ module Trenni
 		# Returns the output produced by calling the given block.
 		def self.capture(*args, &block)
 			scope = block.binding
-			output_buffer = scope.local_variable_get(OUT)
+			out = scope.local_variable_get(OUT)
 			
-			capture_buffer = String.new.force_encoding(output_buffer.encoding)
-			scope.local_variable_set(OUT, capture_buffer)
+			capture = out.class.new(encoding: out.encoding)
+			scope.local_variable_set(OUT, capture)
 			
 			begin
 				block.call(*args)
 			ensure
-				scope.local_variable_set(OUT, output_buffer)
+				scope.local_variable_set(OUT, out)
 			end
 			
-			return capture_buffer
+			return capture
 		end
 		
 		# Returns the buffer used for capturing output.
@@ -125,7 +125,7 @@ module Trenni
 		end
 		
 		def to_proc(scope = @binding.dup)
-			@compiled_proc ||= eval("\# frozen_string_literals: true\nproc{|#{OUT}|;#{code}}", scope, @buffer.path, 0).freeze
+			@compiled_proc ||= eval("\# frozen_string_literal: true\nproc{|#{OUT}|;#{code}}", scope, @buffer.path, 0).freeze
 		end
 		
 		protected
@@ -154,9 +154,19 @@ module Trenni
 	class MarkupTemplate < Template
 		class Assembler < Template::Assembler
 			# Output a string interpolation.
-			def expression(text)
-				@code << "Trenni::Markup.append(#{OUT},(#{text}));"
+			def expression(code)
+				@code << "#{OUT}<<(#{code});"
 			end
+			
+			# Output raw text to the template.
+			def text(text)
+				text = text.gsub("'", "\\\\'")
+				@code << "#{OUT}.raw('#{text}');"
+			end
+		end
+		
+		def to_string(scope = Object.new, output = nil)
+			super.output
 		end
 		
 		protected
@@ -168,7 +178,7 @@ module Trenni
 		
 		# The output of the markup template is encoded markup (e.g. with entities, tags, etc).
 		def output_buffer
-			MarkupString.new.force_encoding(code.encoding)
+			Builder.new(encoding: code.encoding)
 		end
 	end
 end
