@@ -21,12 +21,10 @@
 module Trenni
 	# We only support a small subset of markup entities.
 	module Entities
-		HTML_NAMED_ENTITIES = {
+		HTML5 = {
 			<?r self.each do |string, metadata| ?>
 			#{string.gsub(/^&|;$/, '').inspect} => #{metadata['characters'].dump}, # #{metadata['characters'].inspect}
 			<?r end ?>
 		}
-		
-		HTML = UnicodeEntities.new(HTML_NAMED_ENTITIES)
 	end
 end
