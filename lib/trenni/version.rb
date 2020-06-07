@@ -21,5 +21,5 @@
 # THE SOFTWARE.
 
 module Trenni
-	VERSION = "3.11.0"
+	VERSION = "3.12.0"
 end
