@@ -50,7 +50,7 @@ module Trenni::BuilderSpec
 			result = Trenni::Builder.fragment(builder) do |builder|
 			end
 			
-			expect(result).to_not be_nil
+			expect(result).to be_nil
 		end
 	end
 	

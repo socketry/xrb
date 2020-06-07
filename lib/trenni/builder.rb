@@ -28,25 +28,57 @@ module Trenni
 	class Builder
 		include Markup
 		
-		INDENT = "\t".freeze
+		INDENT = "\t"
 		
-		# A helper to generate fragments of markup.
-		def self.fragment(builder = nil, &block)
-			if builder.is_a?(self)
-				yield builder
-			else
-				builder = self.new(builder)
-				
-				yield builder
+		class Fragment
+			def initialize(block)
+				@block = block
+				@builder = nil
 			end
 			
-			return builder
+			def call(builder)
+				@block.call(builder)
+			end
+			
+			def to_s
+				unless @builder
+					@builder = Builder.new
+					
+					self.call(@builder)
+				end
+				
+				return @builder.to_s
+			end
+			
+			def == other
+				# This is a bit of a hack... but is required for existing specs to pass:
+				self.to_s == other.to_s
+			end
+		end
+		
+		# A helper to generate fragments of markup.
+		def self.fragment(output = nil, &block)
+			if output.is_a?(Binding)
+				output = Template.buffer(output)
+			end
+			
+			if output.nil?
+				return Fragment.new(block)
+			end
+			
+			if output.is_a?(Builder)
+				block.call(output)
+			else
+				block.call(Builder.new(output))
+			end
+			
+			return nil
 		end
 		
 		def self.tag(name, content, **attributes)
 			self.fragment do |builder|
 				builder.inline(name, attributes) do
-					builder.text content
+					builder.text(content)
 				end
 			end
 		end
@@ -129,7 +161,11 @@ module Trenni
 		def <<(content)
 			return unless content
 			
-			Markup.append(@output, content)
+			if content.is_a?(Fragment)
+				content.call(self)
+			else
+				Markup.append(@output, content)
+			end
 		end
 		
 		# Append pre-existing markup:

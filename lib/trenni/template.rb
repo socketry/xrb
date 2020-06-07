@@ -29,36 +29,27 @@ module Trenni
 	BINDING = binding
 	
 	class Builder
-		def >> block
-			if block
-				Template.buffer(block.binding) << self
-				return nil
-			else
-				return self
-			end
-		end
-		
-		def capture(*args, &block)
-			self.append Template.capture(*args, &block)
+		def capture(*arguments, &block)
+			Template.capture(*arguments, output: self, &block)
 		end
 	end
 	
 	class Template
 		# Returns the output produced by calling the given block.
-		def self.capture(*args, &block)
+		def self.capture(*arguments, output: nil, &block)
 			scope = block.binding
-			out = scope.local_variable_get(OUT)
+			previous_output = scope.local_variable_get(OUT)
 			
-			capture = out.class.new(encoding: out.encoding)
-			scope.local_variable_set(OUT, capture)
+			output ||= previous_output.class.new(encoding: previous_output.encoding)
+			scope.local_variable_set(OUT, output)
 			
 			begin
-				block.call(*args)
+				block.call(*arguments)
 			ensure
-				scope.local_variable_set(OUT, out)
+				scope.local_variable_set(OUT, previous_output)
 			end
 			
-			return capture
+			return output
 		end
 		
 		# Returns the buffer used for capturing output.

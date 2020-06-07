@@ -1,8 +1,8 @@
 <?r
 def append_to_buffer(&block)
-	Trenni::Builder.fragment do |builder|
+	Trenni::Builder.fragment(block.binding) do |builder|
 		builder.capture(&block)
-	end >> block
+	end
 end
 
 append_to_buffer do ?>Hello World!<?r end ?>
