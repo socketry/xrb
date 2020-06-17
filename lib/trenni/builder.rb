@@ -129,14 +129,26 @@ module Trenni
 		end
 		
 		# Begin an inline tag.
-		def inline(name, attributes = {}, &block)
-			indent = @indent
+		def inline_tag(name, attributes = {}, &block)
+			original_indent = @indent
 			
 			full_tag(name, attributes, @indent, false) do
 				@indent = false
 				yield if block_given?
-				@indent = indent
 			end
+		ensure
+			@indent = original_indent
+		end
+		
+		alias inline inline_tag
+		
+		def inline!
+			original_indent = @indent
+			@indent = false
+			
+			yield
+		ensure
+			@indent = original_indent
 		end
 		
 		def text(content)
@@ -162,7 +174,9 @@ module Trenni
 			return unless content
 			
 			if content.is_a?(Fragment)
-				content.call(self)
+				inline! do
+					content.call(self)
+				end
 			else
 				Markup.append(@output, content)
 			end

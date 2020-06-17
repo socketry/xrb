@@ -21,22 +21,34 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-require 'trenni'
+require 'trenni/builder'
 
-module Trenni::BuilderSpec
-	describe 'Trenni::Builder#tag' do
-		subject {Trenni::Builder.new}
-		
-		it "should format nested attributes" do
-			subject.tag('div', data: {id: 10})
-			
-			expect(subject.output).to be == '<div data-id="10"/>'
+RSpec.describe Trenni::Builder do
+	it "should produce valid html" do
+		subject.doctype
+		subject.tag('html') do
+			subject.tag('head') do
+				subject.inline('title') do
+					subject.text('Hello World')
+				end
+			end
+			subject.tag('body') do
+			end
 		end
+		
+		expect(subject.output).to be == <<~HTML.chomp
+		<!DOCTYPE html>
+		<html>
+			<head>
+				<title>Hello World</title>
+			</head>
+			<body>
+			</body>
+		</html>
+		HTML
 	end
 	
-	describe 'Trenni::Builder#fragment' do
-		let(:builder) {Trenni::Builder.new}
-		
+	describe '.fragment' do
 		it "should use an existing builder" do
 			result = Trenni::Builder.fragment do |builder|
 			end
@@ -47,79 +59,30 @@ module Trenni::BuilderSpec
 		it "should use an existing builder" do
 			expect(Trenni::Builder).to receive(:new).and_call_original
 			
-			result = Trenni::Builder.fragment(builder) do |builder|
+			result = Trenni::Builder.fragment(subject) do |builder|
 			end
 			
 			expect(result).to be_nil
 		end
 	end
 	
-	describe Trenni::Builder do
-		describe '#<<' do
-			it 'can append text' do
-				subject << 'text'
-				expect(subject.output).to be == "text"
-			end
+	describe '#tag' do
+		it "should format nested attributes" do
+			subject.tag('div', data: {id: 10})
 			
-			it "doesn't append nil" do
-				subject << nil
-				expect(subject.output).to be == ""
-			end
-		end
-		
-		it 'should be able to append nil' do
-			expect{subject.append(nil)}.to_not raise_error
-		end
-		
-		it 'should append existing markup' do
-			subject.tag("outer") do
-				subject.append("<inner>\n\t<nested/>\n</inner>")
-			end
-			
-			expect(subject.output).to be == "<outer>\n\t<inner>\n\t\t<nested/>\n\t</inner>\n</outer>"
-		end
-		
-		it "should produce valid html" do
-			subject.doctype
-			subject.tag('html') do
-				subject.tag('head') do
-					subject.inline('title') do
-						subject.text('Hello World')
-					end
-				end
-				subject.tag('body') do
-				end
-			end
-			
-			expect(subject.output).to be == "<!DOCTYPE html>\n<html>\n\t<head>\n\t\t<title>Hello World</title>\n\t</head>\n\t<body>\n\t</body>\n</html>"
+			expect(subject.output).to be == '<div data-id="10"/>'
 		end
 		
 		it "should indent self-closing tag correctly" do
 			builder = Trenni::Builder.new
 			
-			builder.tag('foo') { builder.tag('bar') }
+			builder.tag('foo') {builder.tag('bar')}
 			
-			expect(builder.output).to be == "<foo>\n\t<bar/>\n</foo>"
-		end
-		
-		it "should produce inline html" do
-			subject.inline("div") do
-				subject.tag("strong") do
-					subject.text("Hello")
-				end
-				
-				subject.text "World!"
-			end
-			
-			expect(subject.output).to be == "<div><strong>Hello</strong>World!</div>"
-		end
-		
-		it "escapes attributes and text correctly" do
-			subject.inline :foo, :bar => %Q{"Hello World"} do
-				subject.text %Q{if x < 10}
-			end
-			
-			expect(subject.output).to be == %Q{<foo bar="&quot;Hello World&quot;">if x &lt; 10</foo>}
+			expect(builder.output).to be == <<~HTML.chomp
+			<foo>
+				<bar/>
+			</foo>
+			HTML
 		end
 		
 		it "should support compact attributes" do
@@ -145,6 +108,74 @@ module Trenni::BuilderSpec
 		it "shouldn't output attributes with nil value" do
 			subject.tag :t, [[:a, 10], [:b, nil]]
 			expect(subject.output).to be == %Q{<t a="10"/>}
+		end
+	end
+	
+	describe '#inline' do
+		it "should produce inline html" do
+			subject.inline("div") do
+				subject.tag("strong") do
+					subject.text("Hello")
+				end
+				
+				subject.text "World!"
+			end
+			
+			expect(subject.output).to be == "<div><strong>Hello</strong>World!</div>"
+		end
+		
+		it "can inline fragments" do
+			subject.inline! do
+				subject.inline('a') do
+					subject << "Hello"
+				end
+				
+				subject.inline('a') do
+					subject << "World"
+				end
+			end
+			
+			expect(subject.output).to be == "<a>Hello</a><a>World</a>"
+		end
+		
+		it "escapes attributes and text correctly" do
+			subject.inline :foo, :bar => %Q{"Hello World"} do
+				subject.text %Q{if x < 10}
+			end
+			
+			expect(subject.output).to be == %Q{<foo bar="&quot;Hello World&quot;">if x &lt; 10</foo>}
+		end
+	end
+	
+	describe '#<<' do
+		it 'can append text' do
+			subject << 'text'
+			expect(subject.output).to be == "text"
+		end
+		
+		it "doesn't append nil" do
+			subject << nil
+			expect(subject.output).to be == ""
+		end
+	end
+	
+	describe '#append' do
+		it 'should be able to append nil' do
+			expect{subject.append(nil)}.to_not raise_error
+		end
+		
+		it 'should append existing markup' do
+			subject.tag("outer") do
+				subject.append("<inner>\n\t<nested/>\n</inner>")
+			end
+			
+			expect(subject.output).to be == <<~HTML.chomp
+			<outer>
+				<inner>
+					<nested/>
+				</inner>
+			</outer>
+			HTML
 		end
 	end
 end
