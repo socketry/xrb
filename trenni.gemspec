@@ -16,13 +16,12 @@ Gem::Specification.new do |spec|
 	}
 	
 	spec.files = Dir.glob('{bake,ext,lib,parsers,spec}/**/*', File::FNM_DOTMATCH, base: __dir__)
+	spec.require_paths = ['lib']
 	
 	spec.extensions = ["ext/trenni/extconf.rb"]
-
+	
 	spec.required_ruby_version = ">= 2.5"
 	
-	spec.add_development_dependency "bake-bundler"
-	spec.add_development_dependency "bake-modernize"
 	spec.add_development_dependency "bundler"
 	spec.add_development_dependency "covered"
 	spec.add_development_dependency "rspec", "~> 3.4"

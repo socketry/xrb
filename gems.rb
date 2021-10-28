@@ -14,3 +14,8 @@ group :test do
 	# For comparisons:
 	gem "nokogiri"
 end
+
+group :maintenance do
+	gem "bake-gem"
+	gem "bake-modernize"
+end
