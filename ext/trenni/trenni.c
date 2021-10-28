@@ -48,18 +48,25 @@ void Init_trenni() {
 	id_is_a = rb_intern("is_a?");
 	
 	rb_Trenni = rb_define_module("Trenni");
+	rb_gc_register_mark_object(rb_Trenni);
+	
 	rb_Trenni_Markup = rb_define_module_under(rb_Trenni, "Markup");
+	rb_gc_register_mark_object(rb_Trenni_Markup);
+	
 	rb_Trenni_Native = rb_define_module_under(rb_Trenni, "Native");
+	rb_gc_register_mark_object(rb_Trenni_Native);
 	
 	Init_trenni_escape();
 	
 	rb_Trenni_ParseError = rb_const_get_at(rb_Trenni, rb_intern("ParseError"));
+	rb_gc_register_mark_object(rb_Trenni_ParseError);
 	
 	rb_define_module_function(rb_Trenni_Native, "parse_markup", Trenni_Native_parse_markup, 3);
 	rb_define_module_function(rb_Trenni_Native, "parse_template", Trenni_Native_parse_template, 2);
 	rb_define_module_function(rb_Trenni_Native, "parse_query", Trenni_Native_parse_query, 2);
 	
 	rb_Trenni_Tag = rb_const_get_at(rb_Trenni, rb_intern("Tag"));
+	rb_gc_register_mark_object(rb_Trenni_Tag);
 	
 	Init_trenni_tag();
 }

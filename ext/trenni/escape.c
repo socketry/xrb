@@ -137,6 +137,8 @@ VALUE Trenni_Markup_escape_string(VALUE self, VALUE string) {
 
 void Init_trenni_escape() {
 	rb_Trenni_MarkupString = rb_define_class_under(rb_Trenni, "MarkupString", rb_cString);
+	rb_gc_register_mark_object(rb_Trenni_MarkupString);
+	
 	rb_include_module(rb_Trenni_MarkupString, rb_Trenni_Markup);
 	
 	rb_undef_method(rb_class_of(rb_Trenni_Markup), "escape_string");
