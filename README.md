@@ -76,7 +76,7 @@ require 'trenni'
 buffer = Trenni::Buffer(string)
 
 # Custom entities, or could use Trenni::Entities::HTML5
-entities = {'amp' => '&', 'lt', => '<', 'gt' => '>', 'quot' => '"'}
+entities = {'amp' => '&', 'lt' => '<', 'gt' => '>', 'quot' => '"'}
 
 # Modify this class to accumulate events or pass them on somewhere else.
 class Delegate
