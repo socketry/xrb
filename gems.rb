@@ -2,7 +2,6 @@
 
 source 'https://rubygems.org'
 
-# Specify your gem's dependencies in trenni.gemspec
 gemspec
 
 group :test do
@@ -15,7 +14,7 @@ group :test do
 	gem "nokogiri"
 end
 
-group :maintenance do
+group :maintenance, optional: true do
 	gem "bake-gem"
 	gem "bake-modernize"
 end

@@ -43,5 +43,5 @@ jobs:
     - name: Run tests
       timeout-minutes: 5
       run: |
-        ${{matrix.env}} bake trenni:parsers:generate
+        ${{matrix.env}} bundle exec bake trenni:parsers:generate
         ${{matrix.env}} bundle exec rspec
