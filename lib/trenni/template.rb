@@ -22,6 +22,7 @@
 
 require_relative 'parsers'
 require_relative 'markup'
+require_relative 'buffer'
 
 module Trenni
 	# The output variable that will be used in templates:
@@ -85,8 +86,12 @@ module Trenni
 			end
 		end
 		
-		def self.load_file(path, *args)
-			self.new(FileBuffer.new(path), *args).freeze
+		def self.load_file(path, **options)
+			self.new(FileBuffer.new(path), **options).freeze
+		end
+		
+		def self.load(string, *arguments, **options)
+			self.new(Buffer.new(string), **options).freeze
 		end
 		
 		# @param binding [Binding] The binding in which the template is compiled. e.g. `TOPLEVEL_BINDING`.
