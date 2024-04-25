@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Released under the MIT License.
-# Copyright, 2023-2024, by Samuel Williams.
+# Copyright, 2012-2024, by Samuel Williams.
 
 source 'https://rubygems.org'
 
@@ -29,3 +29,8 @@ group :test do
 	# For comparisons:
 	gem "nokogiri"
 end
+
+# Moved Development Dependencies
+gem "bake"
+gem "covered"
+gem "rspec", "~> 3.4"

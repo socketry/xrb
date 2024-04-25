@@ -1,5 +1,8 @@
 # frozen_string_literal: true
 
+# Released under the MIT License.
+# Copyright, 2016-2024, by Samuel Williams.
+
 require 'benchmark/ips'
 
 puts "Ruby #{RUBY_VERSION} at #{Time.now}"

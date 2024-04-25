@@ -1,5 +1,8 @@
 # frozen_string_literal: true
 
+# Released under the MIT License.
+# Copyright, 2017-2024, by Samuel Williams.
+
 # Fetch the HTML5 entities from w3.org and update the local cache.
 # @parameter force [Boolean] Whether to force regenerate the local cache.
 def fetch_entities(force: false)

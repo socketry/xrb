@@ -2,7 +2,7 @@
 
 XRB is a templating system built loosely on top of XHTML markup. It uses efficient native parsers where possible and compiles templates into efficient Ruby. It also includes a markup builder to assist with the generation of pleasantly formatted markup which is compatible with the included parsers.
 
-[![Development Status](https://github.com/ioquatix/xrb/workflows/Development/badge.svg)](https://github.com/ioquatix/xrb/actions?workflow=Development)
+[![Development Status](https://github.com/ioquatix/trenni/workflows/Test/badge.svg)](https://github.com/ioquatix/trenni/actions?workflow=Test)
 
 ## Motivation
 
@@ -273,32 +273,18 @@ Evaluating templates and generating output is critical to performance. You can c
 
 ## Contributing
 
-1.  Fork it
-2.  Create your feature branch (`git checkout -b my-new-feature`)
-3.  Commit your changes (`git commit -am 'Add some feature'`)
-4.  Push to the branch (`git push origin my-new-feature`)
-5.  Create new Pull Request
+We welcome contributions to this project.
 
-## License
+1.  Fork it.
+2.  Create your feature branch (`git checkout -b my-new-feature`).
+3.  Commit your changes (`git commit -am 'Add some feature'`).
+4.  Push to the branch (`git push origin my-new-feature`).
+5.  Create new Pull Request.
 
-Released under the MIT license.
+### Developer Certificate of Origin
 
-Copyright, 2017, by [Samuel G. D. Williams](http://www.codeotaku.com/samuel-williams).
+This project uses the [Developer Certificate of Origin](https://developercertificate.org/). All contributors to this project must agree to this document to have their contributions accepted.
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+### Contributor Covenant
 
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE.
+This project is governed by the [Contributor Covenant](https://www.contributor-covenant.org/). All contributors and participants agree to abide by its terms.

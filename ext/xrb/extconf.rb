@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
-# Loads mkmf which is used to make makefiles for Ruby extensions
+# Released under the MIT License.
+# Copyright, 2016-2024, by Samuel Williams.
+
 require 'mkmf'
 
 $CFLAGS << " -O3 -std=c99"

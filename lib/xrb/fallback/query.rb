@@ -1,3 +1,7 @@
+# frozen_string_literal: true
+
+# Released under the MIT License.
+# Copyright, 2020-2024, by Samuel Williams.
 
 # line 1 "query.rl"
 # Copyright, 2020, by Samuel G. D. Williams. <http://www.codeotaku.com>

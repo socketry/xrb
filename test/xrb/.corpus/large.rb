@@ -1,5 +1,8 @@
 # frozen_string_literal: true
 
+# Released under the MIT License.
+# Copyright, 2016-2024, by Samuel Williams.
+
 [
 	[:instruction, "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"],
 	[:text, "\n"],
