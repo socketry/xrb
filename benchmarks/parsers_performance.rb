@@ -9,11 +9,11 @@ require 'rack/utils'
 
 require 'nokogiri'
 
-RSpec.describe XRB::Parsers do
+describe XRB::Parsers do
 	# include_context "profile"
 	
 	describe '#parse_markup' do
-		let(:xhtml_path) {File.expand_path('corpus/large.xhtml', __dir__)}
+		let(:xhtml_path) {File.expand_path('.corpus/large.xhtml', __dir__)}
 		let(:xhtml_buffer) {XRB::FileBuffer.new(xhtml_path)}
 		let(:entities) {XRB::Entities::HTML5}
 		
@@ -46,10 +46,10 @@ RSpec.describe XRB::Parsers do
 	end
 	
 	describe '#parse_template' do
-		let(:large_xrb_path) {File.expand_path('template_spec/large.xrb', __dir__)}
+		let(:large_xrb_path) {File.expand_path('.corpus/large.xrb', __dir__)}
 		let(:xrb_buffer) {XRB::FileBuffer.new(large_xrb_path)}
 		
-		let(:large_erb_path) {File.expand_path('template_spec/large.erb', __dir__)}
+		let(:large_erb_path) {File.expand_path('.corpus/large.erb', __dir__)}
 		let(:erb_buffer) {XRB::FileBuffer.new(large_erb_path)}
 		
 		it "should be fast to parse large templates" do
@@ -88,7 +88,7 @@ RSpec.describe XRB::Parsers do
 			Benchmark.ips do |x|
 				x.report("Large (XRB)") do |times|
 					while (times -= 1) >= 0
-						XRB::Query.new.parse(XRB::Buffer.new string)
+						XRB::Query.parse(XRB::Buffer.new string)
 					end
 				end
 				

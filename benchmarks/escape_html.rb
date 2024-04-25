@@ -3,7 +3,7 @@
 require 'benchmark/ips'
 require 'xrb/markup'
 
-RSpec.describe XRB::Markup do
+describe XRB::Markup do
 	let(:code_string) {'javascript:if (foo < bar) {alert("Hello World")}'}
 	let(:general_string) {"a" * code_string.size}
 	

@@ -21,13 +21,16 @@
 # THE SOFTWARE.
 
 require_relative 'buffer'
+require_relative 'parsers'
 
 require 'uri'
 
 module XRB
-	class Query < Hash
-		def parse(buffer)
-			Parsers.parse_query(buffer, Delegate.new(self))
+	module Query
+		def self.parse(buffer)
+			Hash.new.tap do |query|
+				Parsers.parse_query(buffer, Delegate.new(query))
+			end
 		end
 		
 		class Delegate

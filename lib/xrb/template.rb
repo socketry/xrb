@@ -23,6 +23,7 @@
 require_relative 'parsers'
 require_relative 'markup'
 require_relative 'buffer'
+require_relative 'builder'
 
 module XRB
 	# The output variable that will be used in templates:

@@ -1,6 +1,7 @@
+#!/usr/bin/env rspec
 # frozen_string_literal: true
 
-# Copyright, 2020, by Samuel G. D. Williams. <http://www.codeotaku.com>
+# Copyright, 2016, by Samuel G. D. Williams. <http://www.codeotaku.com>
 # 
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -20,32 +21,17 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-require 'xrb/query'
+require 'xrb/template'
+require 'xrb/parsers'
 
-RSpec.describe XRB::Query do
-	def parse(string)
-		subject.parse(XRB::Buffer.new(string))
-		
-		return subject
-	end
+describe XRB::Template do
+	let(:template_path) {File.expand_path('.corpus/error.xrb', __dir__)}
+	let(:template) {XRB::Template.load_file template_path}
+	let(:output) {template.to_string}
 	
-	it "can parse query string with integer key" do
-		expect(parse "q[0]=0").to be == {q: {0 => "0"}}
-	end
-	
-	it "can parse query string with mixed integer/string key" do
-		expect(parse "q[2d]=3d").to be == {q: {:'2d' => "3d"}}
-	end
-	
-	it "can parse query string appending items to array" do
-		expect(parse "q[]=a&q[]=b").to be == {q: ["a", "b"]}
-	end
-	
-	it "can decode encoded keys" do
-		expect(parse "hello+world=true").to be == {:"hello world" => "true"}
-	end
-	
-	it "can decode encoded values" do
-		expect(parse "message=hello+world").to be == {message: "hello world"}
+	it "should produce error on correct line" do
+		expect{output}.to raise_exception(NameError) do |error|
+			expect(error.backtrace.first).to be =~ /error.xrb:4:/
+		end
 	end
 end

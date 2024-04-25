@@ -8,7 +8,7 @@
 # in the Software without restriction, including without limitation the rights
 # to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 # copies of the Software, and to permit persons to whom the Software is
-# furnished to do so, subject to the following conditions:
+# furnished to do so, builder to the following conditions:
 # 
 # The above copyright notice and this permission notice shall be included in
 # all copies or substantial portions of the Software.
@@ -23,20 +23,22 @@
 
 require 'xrb/builder'
 
-RSpec.describe XRB::Builder do
+describe XRB::Builder do
+	let(:builder) {subject.new}
+	
 	it "should produce valid html" do
-		subject.doctype
-		subject.tag('html') do
-			subject.tag('head') do
-				subject.inline('title') do
-					subject.text('Hello World')
+		builder.doctype
+		builder.tag('html') do
+			builder.tag('head') do
+				builder.inline('title') do
+					builder.text('Hello World')
 				end
 			end
-			subject.tag('body') do
+			builder.tag('body') do
 			end
 		end
 		
-		expect(subject.output).to be == <<~HTML.chomp
+		expect(builder.output).to be == <<~HTML.chomp
 		<!DOCTYPE html>
 		<html>
 			<head>
@@ -48,29 +50,29 @@ RSpec.describe XRB::Builder do
 		HTML
 	end
 	
-	describe '.fragment' do
+	with '.fragment' do
 		it "should use an existing builder" do
 			result = XRB::Builder.fragment do |builder|
 			end
 			
-			expect(result).to_not be_nil
+			expect(result).not.to be_nil
 		end
 		
 		it "should use an existing builder" do
-			expect(XRB::Builder).to receive(:new).and_call_original
+			expect(XRB::Builder).to receive(:new)
 			
-			result = XRB::Builder.fragment(subject) do |builder|
+			result = XRB::Builder.fragment(builder) do |builder|
 			end
 			
 			expect(result).to be_nil
 		end
 	end
 	
-	describe '#tag' do
+	with '#tag' do
 		it "should format nested attributes" do
-			subject.tag('div', data: {id: 10})
+			builder.tag('div', data: {id: 10})
 			
-			expect(subject.output).to be == '<div data-id="10"/>'
+			expect(builder.output).to be == '<div data-id="10"/>'
 		end
 		
 		it "should indent self-closing tag correctly" do
@@ -86,90 +88,90 @@ RSpec.describe XRB::Builder do
 		end
 		
 		it "should support compact attributes" do
-			subject.tag :option, :required => true
-			expect(subject.output).to be == %Q{<option required/>}
+			builder.tag :option, :required => true
+			expect(builder.output).to be == %Q{<option required/>}
 		end
 		
 		it "should output without changing escaped characters" do
-			subject.tag "section", :'data-text' => 'foo\nbar'
-			expect(subject.output).to be == '<section data-text="foo\nbar"/>'
+			builder.tag "section", :'data-text' => 'foo\nbar'
+			expect(builder.output).to be == '<section data-text="foo\nbar"/>'
 		end
 		
 		it "should order array attributes as specified" do
-			subject.tag :t, [[:a, 10], [:b, 20]]
-			expect(subject.output).to be == %Q{<t a="10" b="20"/>}
+			builder.tag :t, [[:a, 10], [:b, 20]]
+			expect(builder.output).to be == %Q{<t a="10" b="20"/>}
 		end
 		
 		it "should order hash attributes as specified" do
-			subject.tag :t, :b => 20, :a => 10
-			expect(subject.output).to be == %Q{<t b="20" a="10"/>}
+			builder.tag :t, :b => 20, :a => 10
+			expect(builder.output).to be == %Q{<t b="20" a="10"/>}
 		end
 		
 		it "shouldn't output attributes with nil value" do
-			subject.tag :t, [[:a, 10], [:b, nil]]
-			expect(subject.output).to be == %Q{<t a="10"/>}
+			builder.tag :t, [[:a, 10], [:b, nil]]
+			expect(builder.output).to be == %Q{<t a="10"/>}
 		end
 	end
 	
-	describe '#inline' do
+	with '#inline' do
 		it "should produce inline html" do
-			subject.inline("div") do
-				subject.tag("strong") do
-					subject.text("Hello")
+			builder.inline("div") do
+				builder.tag("strong") do
+					builder.text("Hello")
 				end
 				
-				subject.text "World!"
+				builder.text "World!"
 			end
 			
-			expect(subject.output).to be == "<div><strong>Hello</strong>World!</div>"
+			expect(builder.output).to be == "<div><strong>Hello</strong>World!</div>"
 		end
 		
 		it "can inline fragments" do
-			subject.inline! do
-				subject.inline('a') do
-					subject << "Hello"
+			builder.inline! do
+				builder.inline('a') do
+					builder << "Hello"
 				end
 				
-				subject.inline('a') do
-					subject << "World"
+				builder.inline('a') do
+					builder << "World"
 				end
 			end
 			
-			expect(subject.output).to be == "<a>Hello</a><a>World</a>"
+			expect(builder.output).to be == "<a>Hello</a><a>World</a>"
 		end
 		
 		it "escapes attributes and text correctly" do
-			subject.inline :foo, :bar => %Q{"Hello World"} do
-				subject.text %Q{if x < 10}
+			builder.inline :foo, :bar => %Q{"Hello World"} do
+				builder.text %Q{if x < 10}
 			end
 			
-			expect(subject.output).to be == %Q{<foo bar="&quot;Hello World&quot;">if x &lt; 10</foo>}
+			expect(builder.output).to be == %Q{<foo bar="&quot;Hello World&quot;">if x &lt; 10</foo>}
 		end
 	end
 	
-	describe '#<<' do
+	with '#<<' do
 		it 'can append text' do
-			subject << 'text'
-			expect(subject.output).to be == "text"
+			builder << 'text'
+			expect(builder.output).to be == "text"
 		end
 		
 		it "doesn't append nil" do
-			subject << nil
-			expect(subject.output).to be == ""
+			builder << nil
+			expect(builder.output).to be == ""
 		end
 	end
 	
-	describe '#append' do
+	with '#append' do
 		it 'should be able to append nil' do
-			expect{subject.append(nil)}.to_not raise_error
+			expect{builder.append(nil)}.not.to raise_exception
 		end
 		
 		it 'should append existing markup' do
-			subject.tag("outer") do
-				subject.append("<inner>\n\t<nested/>\n</inner>")
+			builder.tag("outer") do
+				builder.append("<inner>\n\t<nested/>\n</inner>")
 			end
 			
-			expect(subject.output).to be == <<~HTML.chomp
+			expect(builder.output).to be == <<~HTML.chomp
 			<outer>
 				<inner>
 					<nested/>

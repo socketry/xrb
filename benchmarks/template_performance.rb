@@ -5,17 +5,17 @@ require 'xrb/parsers'
 require 'xrb/template'
 require 'erb'
 
-RSpec.describe XRB::Template do
-	class Model
-		def name
-			"Bob Dole"
-		end
-		
-		def reverse(&block)
-			XRB::Template.capture(&block).reverse
-		end
+class Model
+	def name
+		"Bob Dole"
 	end
 	
+	def reverse(&block)
+		XRB::Template.capture(&block).reverse
+	end
+end
+
+describe XRB::Template do
 	# let(:large_template) {XRB::Template.load_file File.expand_path('template_spec/large.xrb', __dir__)}
 	#
 	# it "should have better performance using instance" do
@@ -35,7 +35,7 @@ RSpec.describe XRB::Template do
 	# 	expect(object_time).to be < binding_time
 	# end
 	
-	let(:interpolations_path) {File.expand_path('template_spec/interpolations.xrb', __dir__)}
+	let(:interpolations_path) {File.expand_path('.corpus/interpolations.xrb', __dir__)}
 	
 	it "should be fast for lots of interpolations" do
 		xrb_template = XRB::MarkupTemplate.new(XRB::Buffer.load_file(interpolations_path))

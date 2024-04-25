@@ -112,10 +112,10 @@ module XRB
 		base, fragment = path.split('#', 2)
 		path, query_string = base.split('?', 2)
 		
-		query = Query.new
-		
 		if query_string
-			query.parse(Buffer.new(query_string))
+			query = Query.parse(Buffer.new(query_string))
+		else
+			query = {}
 		end
 		
 		query.update(parameters)

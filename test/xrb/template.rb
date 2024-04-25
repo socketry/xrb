@@ -25,31 +25,31 @@ require 'xrb/template'
 require 'xrb/parsers'
 require 'benchmark'
 
-RSpec.describe XRB::Template do
-	context 'large.xhtml' do
-		let(:template_path) {File.expand_path('corpus/large.xhtml', __dir__)}
+describe XRB::Template do
+	with 'large.xhtml' do
+		let(:template_path) {File.expand_path('.corpus/large.xhtml', __dir__)}
 		let(:template) {XRB::Template.load_file template_path}
 		let(:output) {template.to_string}
 		
 		it "should parse xhtml template and produce identical output" do
-			expect{output}.to_not raise_error
+			expect{output}.not.to raise_exception
 			expect(output).to be == File.read(template_path)
 		end
 	end
 	
-	context 'lines.xrb' do
-		let(:template_path) {File.expand_path('template_spec/lines.xrb', __dir__)}
+	with 'lines.xrb' do
+		let(:template_path) {File.expand_path('.corpus//lines.xrb', __dir__)}
 		let(:template) {XRB::Template.load_file template_path}
 		let(:code) {template.send(:code)}
 		
 		it "should parse xhtml template and produce identical output" do
-			expect(code.lines[0]).to match(/apple/)
-			expect(code.lines[5]).to match(/banana/)
+			expect(code.lines[0]).to be =~ /apple/
+			expect(code.lines[5]).to be =~ /banana/
 		end
 	end
 	
-	context 'builder.xrb' do
-		let(:template_path) {File.expand_path('template_spec/builder.xrb', __dir__)}
+	with 'builder.xrb' do
+		let(:template_path) {File.expand_path('.corpus//builder.xrb', __dir__)}
 		let(:template) {XRB::Template.load_file template_path}
 		let(:code) {template.send(:code)}
 		
@@ -58,8 +58,8 @@ RSpec.describe XRB::Template do
 		end
 	end
 	
-	context 'capture.xrb' do
-		let(:capture_template) {XRB::Template.load_file File.expand_path('template_spec/capture.xrb', __dir__)}
+	with 'capture.xrb' do
+		let(:capture_template) {XRB::Template.load_file File.expand_path('.corpus//capture.xrb', __dir__)}
 		
 		it "should be able to capture output" do
 			expect(capture_template.to_string).to be == '"TEST TEST TEST\n"'
@@ -69,27 +69,27 @@ RSpec.describe XRB::Template do
 			code_lines = capture_template.send(:code).lines
 			
 			expect(code_lines.count).to be == 4
-			expect(code_lines[3]).to include("inspect")
+			expect(code_lines[3]).to be(:include?, "inspect")
 		end
 	end
 	
-	context 'buffer.xrb' do
-		let(:buffer_template) {XRB::Template.load_file File.expand_path('template_spec/buffer.xrb', __dir__)}
+	with 'buffer.xrb' do
+		let(:buffer_template) {XRB::Template.load_file File.expand_path('.corpus//buffer.xrb', __dir__)}
 		
 		it "should be able to fetch output buffer" do
 			expect(buffer_template.to_string).to be == 'test'
 		end
 	end
 	
-	context 'nested.xrb' do
-		let(:nested_template) {XRB::Template.load_file File.expand_path('template_spec/nested.xrb', __dir__)}
+	with 'nested.xrb' do
+		let(:nested_template) {XRB::Template.load_file File.expand_path('.corpus//nested.xrb', __dir__)}
 		
 		it "should be able to handle nested interpolations" do
 			expect(nested_template.to_string).to be == "Hello world!"
 		end
 	end
 	
-	context 'items' do
+	with 'items' do
 		let(:items) {1..4}
 		
 		it "should process list of items" do
@@ -107,8 +107,8 @@ RSpec.describe XRB::Template do
 		end
 	end
 	
-	context 'escaped.xrb' do
-		let(:escaped_template) {XRB::Template.load_file File.expand_path('template_spec/escaped.xrb', __dir__)}
+	with 'escaped.xrb' do
+		let(:escaped_template) {XRB::Template.load_file File.expand_path('.corpus//escaped.xrb', __dir__)}
 		
 		it "should have the same number of lines as input" do
 			expect(escaped_template.send(:code).lines.count).to be == 2
@@ -121,7 +121,7 @@ RSpec.describe XRB::Template do
 		end
 	end
 	
-	context 'scope' do
+	with 'scope' do
 		it "should use default top-level binding if none provided" do
 			buffer = XRB::Buffer.new('#{Module.nesting.inspect}')
 			template = XRB::Template.new(buffer)
@@ -131,7 +131,7 @@ RSpec.describe XRB::Template do
 	end
 end
 
-RSpec.shared_examples "template parser" do
+ATemplateParser = Sus::Shared("template parser") do
 	let(:delegate) {XRB::ParseDelegate.new}
 	
 	it "should fail to parse incomplete expression" do
@@ -139,7 +139,7 @@ RSpec.shared_examples "template parser" do
 		
 		expect{
 			subject.parse_template(buffer, delegate)
-		}.to raise_error(XRB::ParseError)
+		}.to raise_exception(XRB::ParseError)
 	end
 	
 	it "should fail to parse incomplete instruction" do
@@ -147,18 +147,18 @@ RSpec.shared_examples "template parser" do
 		
 		expect{
 			subject.parse_template(buffer, delegate)
-		}.to raise_error(XRB::ParseError)
+		}.to raise_exception(XRB::ParseError)
 	end
 end
 
 if defined? XRB::Fallback
-	RSpec.describe XRB::Fallback do
-		it_behaves_like "template parser"
+	describe XRB::Fallback do
+		it_behaves_like ATemplateParser
 	end
 end
 
 if defined? XRB::Native
-	RSpec.describe XRB::Native do
-		it_behaves_like "template parser"
+	describe XRB::Native do
+		it_behaves_like ATemplateParser
 	end
 end

@@ -1,10 +1,26 @@
 # frozen_string_literal: true
 
+# Released under the MIT License.
+# Copyright, 2023-2024, by Samuel Williams.
+
 source 'https://rubygems.org'
 
 gemspec
 
+group :maintenance, optional: true do
+	gem "bake-modernize"
+	gem "bake-gem"
+	
+	gem "utopia-project"
+end
+
 group :test do
+	gem "sus"
+	gem "covered"
+	
+	gem "bake-test"
+	gem "bake-test-external"
+	
 	gem 'ruby-prof', platforms: [:mri]
 	gem "benchmark-ips"
 	
@@ -12,9 +28,4 @@ group :test do
 	
 	# For comparisons:
 	gem "nokogiri"
-end
-
-group :maintenance, optional: true do
-	gem "bake-gem"
-	gem "bake-modernize"
 end

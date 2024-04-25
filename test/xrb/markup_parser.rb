@@ -26,7 +26,7 @@ require 'xrb/entities'
 require 'xrb/template'
 require 'xrb/markup'
 
-RSpec.shared_context "html parsers" do
+HTMLParsers = Sus::Shared("HTML Parsers") do
 	let(:delegate) {XRB::ParseDelegate.new}
 	let(:buffer) {XRB::Buffer(subject)}
 	let(:parsers) {XRB::Parsers}
@@ -34,16 +34,16 @@ RSpec.shared_context "html parsers" do
 	let(:events) {parsers.parse_markup(buffer, delegate, entities); delegate.events}
 end
 
-RSpec.shared_context "valid markup" do
-	include_context "html parsers"
+ValidMarkup = Sus::Shared("valid markup") do
+	include_context HTMLParsers
 	
 	it "should parse without error" do
-		expect{events}.to_not raise_error
+		expect{events}.not.to raise_exception
 	end
 end
 
-RSpec.describe "<br/>" do
-	include_context "valid markup"
+describe "<br/>" do
+	include_context ValidMarkup
 	
 	it "should parse self-closing tag" do
 		expect(events).to be == [
@@ -53,8 +53,8 @@ RSpec.describe "<br/>" do
 	end
 end
 
-RSpec.describe "<!DOCTYPE html>" do
-	include_context "valid markup"
+describe "<!DOCTYPE html>" do
+	include_context ValidMarkup
 	
 	it "should parse doctype" do
 		expect(events).to be == [
@@ -63,8 +63,8 @@ RSpec.describe "<!DOCTYPE html>" do
 	end
 end
 
-RSpec.describe "<?r foo=bar?>" do
-	include_context "valid markup"
+describe "<?r foo=bar?>" do
+	include_context ValidMarkup
 	
 	it "should parse instruction" do
 		expect(events).to be == [
@@ -73,8 +73,8 @@ RSpec.describe "<?r foo=bar?>" do
 	end
 end
 
-RSpec.describe %Q{<!--comment-->} do
-	include_context "valid markup"
+describe %Q{<!--comment-->} do
+	include_context ValidMarkup
 	
 	it "should parse comment" do
 		expect(events).to be == [
@@ -83,8 +83,8 @@ RSpec.describe %Q{<!--comment-->} do
 	end
 end
 
-RSpec.describe "<tag key=\"A&amp;B\" />" do
-	include_context "valid markup"
+describe "<tag key=\"A&amp;B\" />" do
+	include_context ValidMarkup
 	
 	it "should parse escaped attributes" do
 		expect(events).to be == [
@@ -95,8 +95,8 @@ RSpec.describe "<tag key=\"A&amp;B\" />" do
 	end
 end
 
-RSpec.describe "<foo bar=\"20\" baz>Hello World</foo>" do
-	include_context "valid markup"
+describe "<foo bar=\"20\" baz>Hello World</foo>" do
+	include_context ValidMarkup
 	
 	it "should parse tag with content" do
 		expect(events).to be == [
@@ -118,13 +118,13 @@ RSpec.describe "<foo bar=\"20\" baz>Hello World</foo>" do
 	end
 	
 	it "should track entities" do
-		expect(events[1][2]).to be_kind_of XRB::Markup
-		expect(events[4][1]).to be_kind_of XRB::Markup
+		expect(events[1][2]).to be_a XRB::Markup
+		expect(events[4][1]).to be_a XRB::Markup
 	end
 end
 
-RSpec.describe "<test><![CDATA[Hello World]]></test>" do
-	include_context "valid markup"
+describe "<test><![CDATA[Hello World]]></test>" do
+	include_context ValidMarkup
 	
 	it "should parse CDATA" do
 		expect(events).to be == [
@@ -136,8 +136,8 @@ RSpec.describe "<test><![CDATA[Hello World]]></test>" do
 	end
 end
 
-RSpec.describe "<foo bar=\"\" baz />" do
-	include_context "valid markup"
+describe "<foo bar=\"\" baz />" do
+	include_context ValidMarkup
 	
 	it "should parse empty attributes" do
 		expect(events).to be == [
@@ -149,8 +149,8 @@ RSpec.describe "<foo bar=\"\" baz />" do
 	end
 end
 
-RSpec.describe "<p attr=\"foo&amp;bar\">&quot;</p>" do
-	include_context "valid markup"
+describe "<p attr=\"foo&amp;bar\">&quot;</p>" do
+	include_context ValidMarkup
 	
 	let(:template_text) {%q{<p attr="#{events[1][2]}">#{events[3][1]}</p>}}
 	let(:template_buffer) {XRB::Buffer(template_text)}
@@ -172,19 +172,19 @@ RSpec.describe "<p attr=\"foo&amp;bar\">&quot;</p>" do
 	end
 	
 	it "should track entities" do
-		expect(events[1][2]).to_not be_kind_of XRB::Markup
-		expect(events[3][1]).to_not be_kind_of XRB::Markup
+		expect(events[1][2]).not.to be_a XRB::Markup
+		expect(events[3][1]).not.to be_a XRB::Markup
 	end
 end
 
-RSpec.shared_examples "valid markup file" do |base|
+ValidMarkupFile = Sus::Shared("valid markup file") do |base|
+	include_context ValidMarkup
+	
 	let(:xhtml_path) {File.join(__dir__, base + '.xhtml')}
 	let(:events_path) {File.join(__dir__, base + '.rb')}
 	
-	subject {XRB::FileBuffer.new(xhtml_path)}
+	let(:buffer) {XRB::FileBuffer.new(xhtml_path)}
 	let(:expected_events) {eval(File.read(events_path), nil, events_path)}
-	
-	include_context "valid markup"
 	
 	def dump_events!
 		File.open(events_path, "w+") do |output|
@@ -205,28 +205,28 @@ RSpec.shared_examples "valid markup file" do |base|
 	end
 end
 
-RSpec.describe "corpus/large" do
-	it_behaves_like "valid markup file", description
+describe ".corpus/large" do
+	include_context ValidMarkupFile, description
 end
 
-RSpec.shared_context "invalid markup" do
-	include_context "html parsers"
+InvalidMarkup = Sus::Shared("invalid markup") do
+	include_context HTMLParsers
 	
 	it "should fail to parse" do
-		expect{events}.to raise_error XRB::ParseError
+		expect{events}.to raise_exception XRB::ParseError
 	end
 end
 
-RSpec.describe "<foo" do
-	include_context "invalid markup"
+describe "<foo" do
+	include_context InvalidMarkup
 end
 
-RSpec.describe "<foo bar=>" do
-	include_context "invalid markup"
+describe "<foo bar=>" do
+	include_context InvalidMarkup
 end
 
-RSpec.describe "<p>\nこんにちは World<p" do
-	include_context "invalid markup"
+describe "<p>\nこんにちは World<p" do
+	include_context InvalidMarkup
 
 	let(:error) {events rescue $!}
 	
@@ -236,19 +236,5 @@ RSpec.describe "<p>\nこんにちは World<p" do
 	
 	it "should fail at offset 23" do
 		expect(error.location.line_offset).to be == 23
-	end
-end
-
-RSpec.describe XRB::Location do
-	subject{described_class.new("Hello\nWorld\nFoo\nBar!", 7)}
-	
-	it "should know about line numbers" do
-		expect(subject.to_i).to be == 7
-		expect(subject.to_s).to be == "[2:1]"
-		expect(subject.line_text).to be == "World"
-		
-		expect(subject.line_number).to be == 2
-		expect(subject.line_range.min).to be == 6
-		expect(subject.line_offset).to be == 1
 	end
 end

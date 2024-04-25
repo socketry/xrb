@@ -22,29 +22,29 @@
 
 require 'xrb/tag'
 
-RSpec.describe XRB::Tag.new("body", false, class: 'main') do
+describe XRB::Tag.new("body", false, class: 'main') do
 	it "should have name" do
 		expect(subject.name).to be == "body"
 	end
 	
 	it "should be open by default" do
-		expect(subject).to_not be_self_closed
+		expect(subject).not.to be(:self_closed?)
 	end
 	
 	it "should have an attribute" do
-		expect(subject.attributes).to include(:class)
+		expect(subject.attributes).to be(:include?, :class)
 		expect(subject[:class]).to be == 'main'
-		expect(subject.to_s).to include('class="main"')
+		expect(subject.to_s).to be(:include?, 'class="main"')
 	end
 end
 
-RSpec.describe XRB::Tag.new("button", true, 'onclick' => 'javascript:alert("Hello World")') do
+describe XRB::Tag.new("button", true, 'onclick' => 'javascript:alert("Hello World")') do
 	it "should have name" do
 		expect(subject.name).to be == "button"
 	end
 	
 	it "should have an attribute" do
-		expect(subject.attributes).to include('onclick')
+		expect(subject.attributes).to be(:include?, 'onclick')
 	end
 	
 	it "should generate valid string" do
@@ -52,19 +52,19 @@ RSpec.describe XRB::Tag.new("button", true, 'onclick' => 'javascript:alert("Hell
 	end
 end
 
-RSpec.describe XRB::Tag.new("p", false, {}) do
+describe XRB::Tag.new("p", false, {}) do
 	it "should include content" do
 		expect(subject.to_s("Hello World")).to be == "<p>Hello World</p>"
 	end
 end
 
-RSpec.describe "namespace:name" do
+describe "namespace:name" do
 	it "should have namespace" do
 		expect(XRB::Tag.split(subject)).to be == ['namespace', 'name']
 	end
 end
 
-RSpec.describe "name" do
+describe "name" do
 	it "should not have namespace" do
 		expect(XRB::Tag.split(subject)).to be == [nil, 'name']
 	end
