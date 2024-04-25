@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
 require 'benchmark/ips'
-require 'trenni/markup'
+require 'xrb/markup'
 
-RSpec.describe Trenni::Markup do
+RSpec.describe XRB::Markup do
 	let(:code_string) {'javascript:if (foo < bar) {alert("Hello World")}'}
 	let(:general_string) {"a" * code_string.size}
 	
@@ -21,15 +21,15 @@ RSpec.describe Trenni::Markup do
 				end
 			end
 			
-			x.report("Trenni::Markup.escape_string(general_string)") do |times|
+			x.report("XRB::Markup.escape_string(general_string)") do |times|
 				while (times -= 1) >= 0
-					Trenni::Markup.escape_string(general_string)
+					XRB::Markup.escape_string(general_string)
 				end
 			end
 			
-			x.report("Trenni::Markup.escape_string(code_string)") do |times|
+			x.report("XRB::Markup.escape_string(code_string)") do |times|
 				while (times -= 1) >= 0
-					Trenni::Markup.escape_string(code_string)
+					XRB::Markup.escape_string(code_string)
 				end
 			end
 			

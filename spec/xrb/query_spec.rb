@@ -20,11 +20,11 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-require 'trenni/query'
+require 'xrb/query'
 
-RSpec.describe Trenni::Query do
+RSpec.describe XRB::Query do
 	def parse(string)
-		subject.parse(Trenni::Buffer.new(string))
+		subject.parse(XRB::Buffer.new(string))
 		
 		return subject
 	end

@@ -22,7 +22,7 @@
 
 require_relative 'query'
 
-module Trenni
+module XRB
 	class Reference
 		def initialize(path, query = {}, fragment: nil)
 			@path = path.to_s

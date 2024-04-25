@@ -20,8 +20,8 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-require_relative 'trenni/native'
-require_relative 'trenni/builder'
-require_relative 'trenni/template'
+require_relative 'xrb/native'
+require_relative 'xrb/builder'
+require_relative 'xrb/template'
 
-require_relative 'trenni/reference'
+require_relative 'xrb/reference'

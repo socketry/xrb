@@ -24,7 +24,7 @@ require_relative 'buffer'
 
 require 'uri'
 
-module Trenni
+module XRB
 	class Query < Hash
 		def parse(buffer)
 			Parsers.parse_query(buffer, Delegate.new(self))

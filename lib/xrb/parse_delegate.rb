@@ -20,7 +20,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-module Trenni
+module XRB
 	# This is a sample delegate for capturing all events. It's only use is for testing.
 	class ParseDelegate
 		def initialize

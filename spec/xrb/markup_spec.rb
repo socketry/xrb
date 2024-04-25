@@ -21,11 +21,11 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-require 'trenni'
-require 'trenni/markup'
+require 'xrb'
+require 'xrb/markup'
 
-RSpec.describe Trenni::MarkupString do
-	let(:template) {Trenni::MarkupTemplate.load_file File.expand_path('template_spec/basic.trenni', __dir__)}
+RSpec.describe XRB::MarkupString do
+	let(:template) {XRB::MarkupTemplate.load_file File.expand_path('template_spec/basic.xrb', __dir__)}
 	
 	let(:html_text) {"<h1>Hello World</h1>"}
 	
@@ -35,7 +35,7 @@ RSpec.describe Trenni::MarkupString do
 		expect(template.to_string(model)).to be == "&lt;h1&gt;Hello World&lt;/h1&gt;"
 	end
 	
-	let(:safe_html_text) {Trenni::Builder.tag('h1', 'Hello World')}
+	let(:safe_html_text) {XRB::Builder.tag('h1', 'Hello World')}
 	
 	it "should not escape safe text" do
 		model = double(text: safe_html_text)
@@ -44,7 +44,7 @@ RSpec.describe Trenni::MarkupString do
 	end
 	
 	it "should convert nil to empty string" do
-		Trenni::Markup.append(subject, nil)
+		XRB::Markup.append(subject, nil)
 		
 		expect(subject).to be_empty
 	end

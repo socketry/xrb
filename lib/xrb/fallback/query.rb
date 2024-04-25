@@ -26,7 +26,7 @@
 
 require_relative '../error'
 
-module Trenni
+module XRB
 	module Fallback
 		
 # line 33 "query.rb"

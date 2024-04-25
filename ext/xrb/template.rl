@@ -2,7 +2,7 @@
 #include "template.h"
 
 %%{
-	machine Trenni_template_parser;
+	machine XRB_template_parser;
 	
 	action instruction_begin {
 		instruction.begin = p;
@@ -13,15 +13,15 @@
 	}
 	
 	action emit_instruction {
-		rb_funcall(delegate, id_instruction, 1, Trenni_Token_string(instruction, encoding));
+		rb_funcall(delegate, id_instruction, 1, XRB_Token_string(instruction, encoding));
 	}
 	
 	action emit_instruction_line {
-		rb_funcall(delegate, id_instruction, 2, Trenni_Token_string(instruction, encoding), newline);
+		rb_funcall(delegate, id_instruction, 2, XRB_Token_string(instruction, encoding), newline);
 	}
 	
 	action instruction_error {
-		Trenni_raise_error("failed to parse instruction", buffer, p-s);
+		XRB_raise_error("failed to parse instruction", buffer, p-s);
 	}
 	
 	action expression_begin {
@@ -33,23 +33,23 @@
 	}
 	
 	action emit_expression {
-		rb_funcall(delegate, id_expression, 1, Trenni_Token_string(expression, encoding));
+		rb_funcall(delegate, id_expression, 1, XRB_Token_string(expression, encoding));
 	}
 	
 	action expression_error {
-		Trenni_raise_error("failed to parse expression", buffer, p-s);
+		XRB_raise_error("failed to parse expression", buffer, p-s);
 	}
 	
 	action emit_text {
-		rb_funcall(delegate, id_text, 1, Trenni_string(ts, te, encoding));
+		rb_funcall(delegate, id_text, 1, XRB_string(ts, te, encoding));
 	}
 	
-	include template "trenni/template.rl";
+	include template "xrb/template.rl";
 	
 	write data;
 }%%
 
-VALUE Trenni_Native_parse_template(VALUE self, VALUE buffer, VALUE delegate) {
+VALUE XRB_Native_parse_template(VALUE self, VALUE buffer, VALUE delegate) {
 	VALUE string = rb_funcall(buffer, id_read, 0);
 	
 	rb_encoding *encoding = rb_enc_get(string);
@@ -59,7 +59,7 @@ VALUE Trenni_Native_parse_template(VALUE self, VALUE buffer, VALUE delegate) {
 	const char *s, *p, *pe, *eof, *ts, *te;
 	unsigned long cs, act, top = 0, stack[32] = {0};
 	
-	Trenni_Token expression = {0}, instruction = {0};
+	XRB_Token expression = {0}, instruction = {0};
 	
 	s = p = RSTRING_PTR(string);
 	eof = pe = p + RSTRING_LEN(string);
@@ -70,7 +70,7 @@ VALUE Trenni_Native_parse_template(VALUE self, VALUE buffer, VALUE delegate) {
 	}%%
 	
 	if (p != eof) {
-		Trenni_raise_error("could not parse all input", buffer, p-s);
+		XRB_raise_error("could not parse all input", buffer, p-s);
 	}
 	
 	return Qnil;

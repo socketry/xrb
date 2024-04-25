@@ -26,7 +26,7 @@
 
 require_relative '../error'
 
-module Trenni
+module XRB
 	module Fallback
 		
 # line 33 "template.rb"
@@ -597,7 +597,7 @@ ts = p
 		raise ParseError.new("failed to parse instruction", buffer, p)
 			end
 	when 16 then
-# line 13 "/home/samuel/Documents/ioquatix/trenni/parsers/trenni/template.rl"
+# line 13 "/home/samuel/Documents/ioquatix/xrb/parsers/xrb/template.rl"
 		begin
 	begin
 		stack[top] = cs
@@ -608,7 +608,7 @@ ts = p
 	end
 		end
 	when 13 then
-# line 17 "/home/samuel/Documents/ioquatix/trenni/parsers/trenni/template.rl"
+# line 17 "/home/samuel/Documents/ioquatix/xrb/parsers/xrb/template.rl"
 		begin
 	begin
 		stack[top] = cs
@@ -619,7 +619,7 @@ ts = p
 	end
 		end
 	when 14 then
-# line 20 "/home/samuel/Documents/ioquatix/trenni/parsers/trenni/template.rl"
+# line 20 "/home/samuel/Documents/ioquatix/xrb/parsers/xrb/template.rl"
 		begin
 	begin
 		top -= 1
@@ -724,13 +724,13 @@ end
 
 		expression_begin = p
 			end
-# line 53 "/home/samuel/Documents/ioquatix/trenni/parsers/trenni/template.rl"
+# line 53 "/home/samuel/Documents/ioquatix/xrb/parsers/xrb/template.rl"
 		begin
 te = p
 p = p - 1; begin cs = 32; end
 		end
 	when 15 then
-# line 13 "/home/samuel/Documents/ioquatix/trenni/parsers/trenni/template.rl"
+# line 13 "/home/samuel/Documents/ioquatix/xrb/parsers/xrb/template.rl"
 		begin
 	begin
 		stack[top] = cs
@@ -740,7 +740,7 @@ p = p - 1; begin cs = 32; end
 		next
 	end
 		end
-# line 17 "/home/samuel/Documents/ioquatix/trenni/parsers/trenni/template.rl"
+# line 17 "/home/samuel/Documents/ioquatix/xrb/parsers/xrb/template.rl"
 		begin
 	begin
 		stack[top] = cs
@@ -777,7 +777,7 @@ act = 6;		end
 
 		delegate.expression(data.byteslice(expression_begin...expression_end))
 			end
-# line 21 "/home/samuel/Documents/ioquatix/trenni/parsers/trenni/template.rl"
+# line 21 "/home/samuel/Documents/ioquatix/xrb/parsers/xrb/template.rl"
 		begin
 cs = 43;		end
 # line 784 "template.rb"

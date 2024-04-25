@@ -27,7 +27,7 @@ require_relative 'tag'
 
 begin
 	# Load native code:
-	require 'trenni/trenni'
+	require 'xrb/xrb'
 rescue LoadError
 	warn "Could not load native implementation: #{$!}" if $VERBOSE
 end unless ENV['TRENNI_PREFER_FALLBACK']

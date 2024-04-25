@@ -5,19 +5,19 @@
 
 
 #line 8 "template.c"
-static const int Trenni_template_parser_start = 43;
-static const int Trenni_template_parser_first_final = 43;
-static const int Trenni_template_parser_error = 0;
+static const int XRB_template_parser_start = 43;
+static const int XRB_template_parser_first_final = 43;
+static const int XRB_template_parser_error = 0;
 
-static const int Trenni_template_parser_en_parse_nested_expression = 21;
-static const int Trenni_template_parser_en_parse_expression = 32;
-static const int Trenni_template_parser_en_main = 43;
+static const int XRB_template_parser_en_parse_nested_expression = 21;
+static const int XRB_template_parser_en_parse_expression = 32;
+static const int XRB_template_parser_en_main = 43;
 
 
 #line 50 "template.rl"
 
 
-VALUE Trenni_Native_parse_template(VALUE self, VALUE buffer, VALUE delegate) {
+VALUE XRB_Native_parse_template(VALUE self, VALUE buffer, VALUE delegate) {
 	VALUE string = rb_funcall(buffer, id_read, 0);
 	
 	rb_encoding *encoding = rb_enc_get(string);
@@ -27,7 +27,7 @@ VALUE Trenni_Native_parse_template(VALUE self, VALUE buffer, VALUE delegate) {
 	const char *s, *p, *pe, *eof, *ts, *te;
 	unsigned long cs, act, top = 0, stack[32] = {0};
 	
-	Trenni_Token expression = {0}, instruction = {0};
+	XRB_Token expression = {0}, instruction = {0};
 	
 	s = p = RSTRING_PTR(string);
 	eof = pe = p + RSTRING_LEN(string);
@@ -35,7 +35,7 @@ VALUE Trenni_Native_parse_template(VALUE self, VALUE buffer, VALUE delegate) {
 	
 #line 37 "template.c"
 	{
-	cs = Trenni_template_parser_start;
+	cs = XRB_template_parser_start;
 	top = 0;
 	ts = 0;
 	te = 0;
@@ -118,23 +118,23 @@ _resume:
 tr0:
 #line 43 "template.rl"
 	{{p = ((te))-1;}{
-		rb_funcall(delegate, id_text, 1, Trenni_string(ts, te, encoding));
+		rb_funcall(delegate, id_text, 1, XRB_string(ts, te, encoding));
 	}}
 	goto st43;
 tr5:
 #line 43 "template.rl"
 	{{p = ((te))-1;}{
-		rb_funcall(delegate, id_text, 1, Trenni_string(ts, te, encoding));
+		rb_funcall(delegate, id_text, 1, XRB_string(ts, te, encoding));
 	}}
 	goto st43;
 tr9:
 #line 23 "template.rl"
 	{
-		Trenni_raise_error("failed to parse instruction", buffer, p-s);
+		XRB_raise_error("failed to parse instruction", buffer, p-s);
 	}
 #line 43 "template.rl"
 	{{p = ((te))-1;}{
-		rb_funcall(delegate, id_text, 1, Trenni_string(ts, te, encoding));
+		rb_funcall(delegate, id_text, 1, XRB_string(ts, te, encoding));
 	}}
 	goto st43;
 tr14:
@@ -142,12 +142,12 @@ tr14:
 	{	switch( act ) {
 	case 3:
 	{{p = ((te))-1;}
-		rb_funcall(delegate, id_instruction, 1, Trenni_Token_string(instruction, encoding));
+		rb_funcall(delegate, id_instruction, 1, XRB_Token_string(instruction, encoding));
 	}
 	break;
 	case 6:
 	{{p = ((te))-1;}
-		rb_funcall(delegate, id_text, 1, Trenni_string(ts, te, encoding));
+		rb_funcall(delegate, id_text, 1, XRB_string(ts, te, encoding));
 	}
 	break;
 	}
@@ -156,25 +156,25 @@ tr14:
 tr15:
 #line 19 "template.rl"
 	{te = p+1;{
-		rb_funcall(delegate, id_instruction, 2, Trenni_Token_string(instruction, encoding), newline);
+		rb_funcall(delegate, id_instruction, 2, XRB_Token_string(instruction, encoding), newline);
 	}}
 	goto st43;
 tr23:
 #line 43 "template.rl"
 	{te = p+1;{
-		rb_funcall(delegate, id_text, 1, Trenni_string(ts, te, encoding));
+		rb_funcall(delegate, id_text, 1, XRB_string(ts, te, encoding));
 	}}
 	goto st43;
 tr77:
 #line 43 "template.rl"
 	{te = p;p--;{
-		rb_funcall(delegate, id_text, 1, Trenni_string(ts, te, encoding));
+		rb_funcall(delegate, id_text, 1, XRB_string(ts, te, encoding));
 	}}
 	goto st43;
 tr80:
 #line 43 "template.rl"
 	{te = p;p--;{
-		rb_funcall(delegate, id_text, 1, Trenni_string(ts, te, encoding));
+		rb_funcall(delegate, id_text, 1, XRB_string(ts, te, encoding));
 	}}
 	goto st43;
 tr82:
@@ -183,13 +183,13 @@ tr82:
 	{
 		expression.begin = p;
 	}
-#line 53 "/home/samuel/Documents/ioquatix/trenni/parsers/trenni/template.rl"
+#line 53 "/home/samuel/Documents/ioquatix/xrb/parsers/xrb/template.rl"
 	{te = p;p--;{cs = 32;}}
 	goto _again;
 tr83:
 #line 15 "template.rl"
 	{te = p;p--;{
-		rb_funcall(delegate, id_instruction, 1, Trenni_Token_string(instruction, encoding));
+		rb_funcall(delegate, id_instruction, 1, XRB_Token_string(instruction, encoding));
 	}}
 	goto st43;
 st43:
@@ -430,7 +430,7 @@ case 15:
 tr19:
 #line 23 "template.rl"
 	{
-		Trenni_raise_error("failed to parse instruction", buffer, p-s);
+		XRB_raise_error("failed to parse instruction", buffer, p-s);
 	}
 	goto st0;
 #line 437 "template.c"
@@ -525,7 +525,7 @@ case 48:
 		goto st11;
 	goto tr83;
 tr31:
-#line 17 "/home/samuel/Documents/ioquatix/trenni/parsers/trenni/template.rl"
+#line 17 "/home/samuel/Documents/ioquatix/xrb/parsers/xrb/template.rl"
 	{{stack[top++] = 21;goto st21;}}
 	goto st21;
 st21:
@@ -543,7 +543,7 @@ case 21:
 	}
 	goto st21;
 tr47:
-#line 13 "/home/samuel/Documents/ioquatix/trenni/parsers/trenni/template.rl"
+#line 13 "/home/samuel/Documents/ioquatix/xrb/parsers/xrb/template.rl"
 	{{stack[top++] = 22;goto st21;}}
 	goto st22;
 st22:
@@ -559,13 +559,13 @@ case 22:
 	}
 	goto st22;
 tr37:
-#line 17 "/home/samuel/Documents/ioquatix/trenni/parsers/trenni/template.rl"
+#line 17 "/home/samuel/Documents/ioquatix/xrb/parsers/xrb/template.rl"
 	{{stack[top++] = 23;goto st21;}}
 	goto st23;
 tr39:
-#line 13 "/home/samuel/Documents/ioquatix/trenni/parsers/trenni/template.rl"
+#line 13 "/home/samuel/Documents/ioquatix/xrb/parsers/xrb/template.rl"
 	{{stack[top++] = 23;goto st21;}}
-#line 17 "/home/samuel/Documents/ioquatix/trenni/parsers/trenni/template.rl"
+#line 17 "/home/samuel/Documents/ioquatix/xrb/parsers/xrb/template.rl"
 	{{stack[top++] = 23;goto st21;}}
 	goto st23;
 st23:
@@ -594,7 +594,7 @@ case 24:
 	}
 	goto st23;
 tr46:
-#line 13 "/home/samuel/Documents/ioquatix/trenni/parsers/trenni/template.rl"
+#line 13 "/home/samuel/Documents/ioquatix/xrb/parsers/xrb/template.rl"
 	{{stack[top++] = 25;goto st21;}}
 	goto st25;
 st25:
@@ -611,13 +611,13 @@ case 25:
 	}
 	goto st25;
 tr43:
-#line 17 "/home/samuel/Documents/ioquatix/trenni/parsers/trenni/template.rl"
+#line 17 "/home/samuel/Documents/ioquatix/xrb/parsers/xrb/template.rl"
 	{{stack[top++] = 26;goto st21;}}
 	goto st26;
 tr45:
-#line 13 "/home/samuel/Documents/ioquatix/trenni/parsers/trenni/template.rl"
+#line 13 "/home/samuel/Documents/ioquatix/xrb/parsers/xrb/template.rl"
 	{{stack[top++] = 26;goto st21;}}
-#line 17 "/home/samuel/Documents/ioquatix/trenni/parsers/trenni/template.rl"
+#line 17 "/home/samuel/Documents/ioquatix/xrb/parsers/xrb/template.rl"
 	{{stack[top++] = 26;goto st21;}}
 	goto st26;
 st26:
@@ -644,7 +644,7 @@ case 27:
 	}
 	goto st26;
 tr44:
-#line 20 "/home/samuel/Documents/ioquatix/trenni/parsers/trenni/template.rl"
+#line 20 "/home/samuel/Documents/ioquatix/xrb/parsers/xrb/template.rl"
 	{{cs = stack[--top];goto _again;}}
 	goto st49;
 st49:
@@ -670,7 +670,7 @@ case 28:
 	}
 	goto st25;
 tr38:
-#line 20 "/home/samuel/Documents/ioquatix/trenni/parsers/trenni/template.rl"
+#line 20 "/home/samuel/Documents/ioquatix/xrb/parsers/xrb/template.rl"
 	{{cs = stack[--top];goto _again;}}
 	goto st50;
 st50:
@@ -701,7 +701,7 @@ case 30:
 		goto st31;
 	goto st30;
 tr49:
-#line 17 "/home/samuel/Documents/ioquatix/trenni/parsers/trenni/template.rl"
+#line 17 "/home/samuel/Documents/ioquatix/xrb/parsers/xrb/template.rl"
 	{{stack[top++] = 31;goto st21;}}
 	goto st31;
 st31:
@@ -718,7 +718,7 @@ case 31:
 	}
 	goto st31;
 tr50:
-#line 20 "/home/samuel/Documents/ioquatix/trenni/parsers/trenni/template.rl"
+#line 20 "/home/samuel/Documents/ioquatix/xrb/parsers/xrb/template.rl"
 	{{cs = stack[--top];goto _again;}}
 	goto st51;
 st51:
@@ -730,7 +730,7 @@ case 51:
 		goto st31;
 	goto st30;
 tr32:
-#line 20 "/home/samuel/Documents/ioquatix/trenni/parsers/trenni/template.rl"
+#line 20 "/home/samuel/Documents/ioquatix/xrb/parsers/xrb/template.rl"
 	{{cs = stack[--top];goto _again;}}
 	goto st52;
 st52:
@@ -740,7 +740,7 @@ case 52:
 #line 741 "template.c"
 	goto st0;
 tr54:
-#line 17 "/home/samuel/Documents/ioquatix/trenni/parsers/trenni/template.rl"
+#line 17 "/home/samuel/Documents/ioquatix/xrb/parsers/xrb/template.rl"
 	{{stack[top++] = 32;goto st21;}}
 	goto st32;
 st32:
@@ -758,7 +758,7 @@ case 32:
 	}
 	goto st32;
 tr70:
-#line 13 "/home/samuel/Documents/ioquatix/trenni/parsers/trenni/template.rl"
+#line 13 "/home/samuel/Documents/ioquatix/xrb/parsers/xrb/template.rl"
 	{{stack[top++] = 33;goto st21;}}
 	goto st33;
 st33:
@@ -774,13 +774,13 @@ case 33:
 	}
 	goto st33;
 tr60:
-#line 17 "/home/samuel/Documents/ioquatix/trenni/parsers/trenni/template.rl"
+#line 17 "/home/samuel/Documents/ioquatix/xrb/parsers/xrb/template.rl"
 	{{stack[top++] = 34;goto st21;}}
 	goto st34;
 tr62:
-#line 13 "/home/samuel/Documents/ioquatix/trenni/parsers/trenni/template.rl"
+#line 13 "/home/samuel/Documents/ioquatix/xrb/parsers/xrb/template.rl"
 	{{stack[top++] = 34;goto st21;}}
-#line 17 "/home/samuel/Documents/ioquatix/trenni/parsers/trenni/template.rl"
+#line 17 "/home/samuel/Documents/ioquatix/xrb/parsers/xrb/template.rl"
 	{{stack[top++] = 34;goto st21;}}
 	goto st34;
 st34:
@@ -809,7 +809,7 @@ case 35:
 	}
 	goto st34;
 tr69:
-#line 13 "/home/samuel/Documents/ioquatix/trenni/parsers/trenni/template.rl"
+#line 13 "/home/samuel/Documents/ioquatix/xrb/parsers/xrb/template.rl"
 	{{stack[top++] = 36;goto st21;}}
 	goto st36;
 st36:
@@ -826,13 +826,13 @@ case 36:
 	}
 	goto st36;
 tr66:
-#line 17 "/home/samuel/Documents/ioquatix/trenni/parsers/trenni/template.rl"
+#line 17 "/home/samuel/Documents/ioquatix/xrb/parsers/xrb/template.rl"
 	{{stack[top++] = 37;goto st21;}}
 	goto st37;
 tr68:
-#line 13 "/home/samuel/Documents/ioquatix/trenni/parsers/trenni/template.rl"
+#line 13 "/home/samuel/Documents/ioquatix/xrb/parsers/xrb/template.rl"
 	{{stack[top++] = 37;goto st21;}}
-#line 17 "/home/samuel/Documents/ioquatix/trenni/parsers/trenni/template.rl"
+#line 17 "/home/samuel/Documents/ioquatix/xrb/parsers/xrb/template.rl"
 	{{stack[top++] = 37;goto st21;}}
 	goto st37;
 st37:
@@ -866,9 +866,9 @@ tr67:
 	}
 #line 35 "template.rl"
 	{
-		rb_funcall(delegate, id_expression, 1, Trenni_Token_string(expression, encoding));
+		rb_funcall(delegate, id_expression, 1, XRB_Token_string(expression, encoding));
 	}
-#line 21 "/home/samuel/Documents/ioquatix/trenni/parsers/trenni/template.rl"
+#line 21 "/home/samuel/Documents/ioquatix/xrb/parsers/xrb/template.rl"
 	{cs = 43;}
 	goto _again;
 st53:
@@ -901,9 +901,9 @@ tr61:
 	}
 #line 35 "template.rl"
 	{
-		rb_funcall(delegate, id_expression, 1, Trenni_Token_string(expression, encoding));
+		rb_funcall(delegate, id_expression, 1, XRB_Token_string(expression, encoding));
 	}
-#line 21 "/home/samuel/Documents/ioquatix/trenni/parsers/trenni/template.rl"
+#line 21 "/home/samuel/Documents/ioquatix/xrb/parsers/xrb/template.rl"
 	{cs = 43;}
 	goto _again;
 st54:
@@ -934,7 +934,7 @@ case 41:
 		goto st42;
 	goto st41;
 tr72:
-#line 17 "/home/samuel/Documents/ioquatix/trenni/parsers/trenni/template.rl"
+#line 17 "/home/samuel/Documents/ioquatix/xrb/parsers/xrb/template.rl"
 	{{stack[top++] = 42;goto st21;}}
 	goto st42;
 st42:
@@ -958,9 +958,9 @@ tr73:
 	}
 #line 35 "template.rl"
 	{
-		rb_funcall(delegate, id_expression, 1, Trenni_Token_string(expression, encoding));
+		rb_funcall(delegate, id_expression, 1, XRB_Token_string(expression, encoding));
 	}
-#line 21 "/home/samuel/Documents/ioquatix/trenni/parsers/trenni/template.rl"
+#line 21 "/home/samuel/Documents/ioquatix/xrb/parsers/xrb/template.rl"
 	{cs = 43;}
 	goto _again;
 st55:
@@ -979,9 +979,9 @@ tr55:
 	}
 #line 35 "template.rl"
 	{
-		rb_funcall(delegate, id_expression, 1, Trenni_Token_string(expression, encoding));
+		rb_funcall(delegate, id_expression, 1, XRB_Token_string(expression, encoding));
 	}
-#line 21 "/home/samuel/Documents/ioquatix/trenni/parsers/trenni/template.rl"
+#line 21 "/home/samuel/Documents/ioquatix/xrb/parsers/xrb/template.rl"
 	{cs = 43;}
 	goto _again;
 st56:
@@ -1077,7 +1077,7 @@ case 56:
 	case 20: 
 #line 23 "template.rl"
 	{
-		Trenni_raise_error("failed to parse instruction", buffer, p-s);
+		XRB_raise_error("failed to parse instruction", buffer, p-s);
 	}
 	break;
 	case 32: 
@@ -1093,7 +1093,7 @@ case 56:
 	case 42: 
 #line 39 "template.rl"
 	{
-		Trenni_raise_error("failed to parse expression", buffer, p-s);
+		XRB_raise_error("failed to parse expression", buffer, p-s);
 	}
 	break;
 #line 1100 "template.c"
@@ -1107,7 +1107,7 @@ case 56:
 
 	
 	if (p != eof) {
-		Trenni_raise_error("could not parse all input", buffer, p-s);
+		XRB_raise_error("could not parse all input", buffer, p-s);
 	}
 	
 	return Qnil;

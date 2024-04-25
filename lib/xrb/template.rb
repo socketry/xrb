@@ -24,7 +24,7 @@ require_relative 'parsers'
 require_relative 'markup'
 require_relative 'buffer'
 
-module Trenni
+module XRB
 	# The output variable that will be used in templates:
 	OUT = :_out
 	BINDING = binding

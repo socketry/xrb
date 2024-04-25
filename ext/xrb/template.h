@@ -1,6 +1,6 @@
 
 #pragma once
 
-#include "trenni.h"
+#include "xrb.h"
 
-VALUE Trenni_Native_parse_template(VALUE self, VALUE buffer, VALUE delegate);
+VALUE XRB_Native_parse_template(VALUE self, VALUE buffer, VALUE delegate);

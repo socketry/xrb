@@ -54,7 +54,7 @@ def parsers_directory
 end
 
 def fallback_directory
-	File.expand_path("lib/trenni/fallback", context.root)
+	File.expand_path("lib/xrb/fallback", context.root)
 end
 
 def extensions_directory
@@ -62,5 +62,5 @@ def extensions_directory
 end
 
 def native_directory
-	File.expand_path("ext/trenni", context.root)
+	File.expand_path("ext/xrb", context.root)
 end

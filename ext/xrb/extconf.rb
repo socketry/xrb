@@ -11,7 +11,7 @@ have_func("rb_str_cat_cstr")
 have_func("rb_str_reserve")
 
 gem_name = File.basename(__dir__)
-extension_name = 'trenni'
+extension_name = 'xrb'
 
 # The destination
 dir_config(extension_name)

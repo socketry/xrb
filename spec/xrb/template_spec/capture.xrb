@@ -1,4 +1,4 @@
-<?r result = Trenni::Template.capture do ?>
+<?r result = XRB::Template.capture do ?>
 test test test
 <?r end ?>
 #{result.upcase.inspect}

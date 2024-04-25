@@ -23,7 +23,7 @@
 require_relative 'markup'
 require_relative 'tag'
 
-module Trenni
+module XRB
 	# Build markup quickly and efficiently.
 	class Builder
 		include Markup
@@ -208,7 +208,7 @@ module Trenni
 					@output << indentation
 				end
 				
-				tag = Trenni::Tag.opened(name.to_s, attributes)
+				tag = XRB::Tag.opened(name.to_s, attributes)
 				tag.write_opening_tag(@output)
 				@output << "\n" if indent_inner
 				
@@ -232,7 +232,7 @@ module Trenni
 				@level[-1] += 1
 				
 				@output << indentation
-				Trenni::Tag.append_tag(@output, name.to_s, attributes, nil)
+				XRB::Tag.append_tag(@output, name.to_s, attributes, nil)
 			end
 		end
 	end

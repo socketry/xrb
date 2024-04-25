@@ -21,14 +21,14 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-require 'trenni/template'
-require 'trenni/parsers'
+require 'xrb/template'
+require 'xrb/parsers'
 require 'benchmark'
 
-RSpec.describe Trenni::Template do
+RSpec.describe XRB::Template do
 	context 'large.xhtml' do
 		let(:template_path) {File.expand_path('corpus/large.xhtml', __dir__)}
-		let(:template) {Trenni::Template.load_file template_path}
+		let(:template) {XRB::Template.load_file template_path}
 		let(:output) {template.to_string}
 		
 		it "should parse xhtml template and produce identical output" do
@@ -37,9 +37,9 @@ RSpec.describe Trenni::Template do
 		end
 	end
 	
-	context 'lines.trenni' do
-		let(:template_path) {File.expand_path('template_spec/lines.trenni', __dir__)}
-		let(:template) {Trenni::Template.load_file template_path}
+	context 'lines.xrb' do
+		let(:template_path) {File.expand_path('template_spec/lines.xrb', __dir__)}
+		let(:template) {XRB::Template.load_file template_path}
 		let(:code) {template.send(:code)}
 		
 		it "should parse xhtml template and produce identical output" do
@@ -48,9 +48,9 @@ RSpec.describe Trenni::Template do
 		end
 	end
 	
-	context 'builder.trenni' do
-		let(:template_path) {File.expand_path('template_spec/builder.trenni', __dir__)}
-		let(:template) {Trenni::Template.load_file template_path}
+	context 'builder.xrb' do
+		let(:template_path) {File.expand_path('template_spec/builder.xrb', __dir__)}
+		let(:template) {XRB::Template.load_file template_path}
 		let(:code) {template.send(:code)}
 		
 		it "should capture and output the contents of the block" do
@@ -58,8 +58,8 @@ RSpec.describe Trenni::Template do
 		end
 	end
 	
-	context 'capture.trenni' do
-		let(:capture_template) {Trenni::Template.load_file File.expand_path('template_spec/capture.trenni', __dir__)}
+	context 'capture.xrb' do
+		let(:capture_template) {XRB::Template.load_file File.expand_path('template_spec/capture.xrb', __dir__)}
 		
 		it "should be able to capture output" do
 			expect(capture_template.to_string).to be == '"TEST TEST TEST\n"'
@@ -73,16 +73,16 @@ RSpec.describe Trenni::Template do
 		end
 	end
 	
-	context 'buffer.trenni' do
-		let(:buffer_template) {Trenni::Template.load_file File.expand_path('template_spec/buffer.trenni', __dir__)}
+	context 'buffer.xrb' do
+		let(:buffer_template) {XRB::Template.load_file File.expand_path('template_spec/buffer.xrb', __dir__)}
 		
 		it "should be able to fetch output buffer" do
 			expect(buffer_template.to_string).to be == 'test'
 		end
 	end
 	
-	context 'nested.trenni' do
-		let(:nested_template) {Trenni::Template.load_file File.expand_path('template_spec/nested.trenni', __dir__)}
+	context 'nested.xrb' do
+		let(:nested_template) {XRB::Template.load_file File.expand_path('template_spec/nested.xrb', __dir__)}
 		
 		it "should be able to handle nested interpolations" do
 			expect(nested_template.to_string).to be == "Hello world!"
@@ -93,22 +93,22 @@ RSpec.describe Trenni::Template do
 		let(:items) {1..4}
 		
 		it "should process list of items" do
-			buffer = Trenni::Buffer.new('<?r items.each do |item| ?>#{item}<?r end ?>')
-			template = Trenni::Template.new(buffer)
+			buffer = XRB::Buffer.new('<?r items.each do |item| ?>#{item}<?r end ?>')
+			template = XRB::Template.new(buffer)
 			
 			expect(template.to_string(self)).to be == "1234"
 		end
 		
 		it "should have correct indentation" do
-			buffer = Trenni::Buffer.new("\t<?r items.each do |item| ?>\n\t\#{item}\n\t<?r end ?>\n")
-			template = Trenni::Template.new(buffer)
+			buffer = XRB::Buffer.new("\t<?r items.each do |item| ?>\n\t\#{item}\n\t<?r end ?>\n")
+			template = XRB::Template.new(buffer)
 			
 			expect(template.to_string(self)).to be == "\t1\n\t2\n\t3\n\t4\n"
 		end
 	end
 	
-	context 'escaped.trenni' do
-		let(:escaped_template) {Trenni::Template.load_file File.expand_path('template_spec/escaped.trenni', __dir__)}
+	context 'escaped.xrb' do
+		let(:escaped_template) {XRB::Template.load_file File.expand_path('template_spec/escaped.xrb', __dir__)}
 		
 		it "should have the same number of lines as input" do
 			expect(escaped_template.send(:code).lines.count).to be == 2
@@ -123,42 +123,42 @@ RSpec.describe Trenni::Template do
 	
 	context 'scope' do
 		it "should use default top-level binding if none provided" do
-			buffer = Trenni::Buffer.new('#{Module.nesting.inspect}')
-			template = Trenni::Template.new(buffer)
+			buffer = XRB::Buffer.new('#{Module.nesting.inspect}')
+			template = XRB::Template.new(buffer)
 			
-			expect(template.to_string(self)).to be == "[Trenni]"
+			expect(template.to_string(self)).to be == "[XRB]"
 		end
 	end
 end
 
 RSpec.shared_examples "template parser" do
-	let(:delegate) {Trenni::ParseDelegate.new}
+	let(:delegate) {XRB::ParseDelegate.new}
 	
 	it "should fail to parse incomplete expression" do
-		buffer = Trenni::Buffer.new('<img src="#{poi_product.photo.thumbnail_url" />')
+		buffer = XRB::Buffer.new('<img src="#{poi_product.photo.thumbnail_url" />')
 		
 		expect{
 			subject.parse_template(buffer, delegate)
-		}.to raise_error(Trenni::ParseError)
+		}.to raise_error(XRB::ParseError)
 	end
 	
 	it "should fail to parse incomplete instruction" do
-		buffer = Trenni::Buffer.new('<?r foo')
+		buffer = XRB::Buffer.new('<?r foo')
 		
 		expect{
 			subject.parse_template(buffer, delegate)
-		}.to raise_error(Trenni::ParseError)
+		}.to raise_error(XRB::ParseError)
 	end
 end
 
-if defined? Trenni::Fallback
-	RSpec.describe Trenni::Fallback do
+if defined? XRB::Fallback
+	RSpec.describe XRB::Fallback do
 		it_behaves_like "template parser"
 	end
 end
 
-if defined? Trenni::Native
-	RSpec.describe Trenni::Native do
+if defined? XRB::Native
+	RSpec.describe XRB::Native do
 		it_behaves_like "template parser"
 	end
 end

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require 'covered/rspec'
-require 'trenni'
+require 'xrb'
 
 begin
 	require 'ruby-prof'

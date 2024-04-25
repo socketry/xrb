@@ -2,7 +2,7 @@
 #include "markup.h"
 
 %%{
-	machine Trenni_markup_parser;
+	machine XRB_markup_parser;
 	
 	# Track the location of an identifier (tag name, attribute name, etc)
 	action identifier_begin {
@@ -25,7 +25,7 @@
 	}
 	
 	action text_end {
-		rb_funcall(delegate, id_text, 1, Trenni_markup_safe(pcdata, has_entities));
+		rb_funcall(delegate, id_text, 1, XRB_markup_safe(pcdata, has_entities));
 	}
 	
 	action characters_begin {
@@ -35,11 +35,11 @@
 	action characters_end {
 		characters.end = p;
 		
-		Trenni_append_token(&pcdata, encoding, characters);
+		XRB_append_token(&pcdata, encoding, characters);
 	}
 	
 	action entity_error {
-		Trenni_raise_error("could not parse entity", buffer, p-s);
+		XRB_raise_error("could not parse entity", buffer, p-s);
 	}
 	
 	action entity_begin {
@@ -51,8 +51,8 @@
 		
 		has_entities = 1;
 		
-		Trenni_append(&pcdata, encoding,
-			rb_funcall(entities, id_key_get, 1, Trenni_Token_string(entity, encoding))
+		XRB_append(&pcdata, encoding,
+			rb_funcall(entities, id_key_get, 1, XRB_Token_string(entity, encoding))
 		);
 	}
 	
@@ -63,7 +63,7 @@
 		
 		codepoint = strtoul(entity.begin, (char **)&entity.end, 16);
 		
-		Trenni_append_codepoint(&pcdata, encoding, codepoint);
+		XRB_append_codepoint(&pcdata, encoding, codepoint);
 	}
 	
 	action entity_number {
@@ -73,7 +73,7 @@
 		
 		codepoint = strtoul(entity.begin, (char **)&entity.end, 10);
 		
-		Trenni_append_codepoint(&pcdata, encoding, codepoint);
+		XRB_append_codepoint(&pcdata, encoding, codepoint);
 	}
 	
 	action doctype_begin {
@@ -83,11 +83,11 @@
 	action doctype_end {
 		doctype.end = p;
 		
-		rb_funcall(delegate, id_doctype, 1, Trenni_Token_string(doctype, encoding));
+		rb_funcall(delegate, id_doctype, 1, XRB_Token_string(doctype, encoding));
 	}
 	
 	action doctype_error {
-		Trenni_raise_error("could not parse doctype", buffer, p-s);
+		XRB_raise_error("could not parse doctype", buffer, p-s);
 	}
 	
 	action comment_begin {
@@ -97,11 +97,11 @@
 	action comment_end {
 		comment.end = p;
 		
-		rb_funcall(delegate, id_comment, 1, Trenni_Token_string(comment, encoding));
+		rb_funcall(delegate, id_comment, 1, XRB_Token_string(comment, encoding));
 	}
 	
 	action comment_error {
-		Trenni_raise_error("could not parse comment", buffer, p-s);
+		XRB_raise_error("could not parse comment", buffer, p-s);
 	}
 	
 	action instruction_begin {
@@ -117,18 +117,18 @@
 	action instruction_end {
 		instruction.end = p;
 		
-		rb_funcall(delegate, id_instruction, 1, Trenni_Token_string(instruction, encoding));
+		rb_funcall(delegate, id_instruction, 1, XRB_Token_string(instruction, encoding));
 	}
 	
 	action instruction_error {
-		Trenni_raise_error("could not parse instruction", buffer, p-s);
+		XRB_raise_error("could not parse instruction", buffer, p-s);
 	}
 	
 	action tag_name {
 		// Reset self-closing state - we don't know yet.
 		self_closing = 0;
 		
-		rb_funcall(delegate, id_open_tag_begin, 2, Trenni_Token_string(identifier, encoding), ULONG2NUM(identifier.begin-s));
+		rb_funcall(delegate, id_open_tag_begin, 2, XRB_Token_string(identifier, encoding), ULONG2NUM(identifier.begin-s));
 	}
 	
 	action tag_opening_begin {
@@ -152,11 +152,11 @@
 	
 	action attribute {
 		if (has_value == 1) {
-			rb_funcall(delegate, id_attribute, 2, Trenni_Token_string(identifier, encoding), Trenni_markup_safe(pcdata, has_entities));
+			rb_funcall(delegate, id_attribute, 2, XRB_Token_string(identifier, encoding), XRB_markup_safe(pcdata, has_entities));
 		} else if (has_value == 2) {
-			rb_funcall(delegate, id_attribute, 2, Trenni_Token_string(identifier, encoding), empty_string);
+			rb_funcall(delegate, id_attribute, 2, XRB_Token_string(identifier, encoding), empty_string);
 		} else {
-			rb_funcall(delegate, id_attribute, 2, Trenni_Token_string(identifier, encoding), Qtrue);
+			rb_funcall(delegate, id_attribute, 2, XRB_Token_string(identifier, encoding), Qtrue);
 		}
 	}
 	
@@ -168,11 +168,11 @@
 	}
 	
 	action tag_closing_end {
-		rb_funcall(delegate, id_close_tag, 2, Trenni_Token_string(identifier, encoding), ULONG2NUM(identifier.begin-s));
+		rb_funcall(delegate, id_close_tag, 2, XRB_Token_string(identifier, encoding), ULONG2NUM(identifier.begin-s));
 	}
 	
 	action tag_error {
-		Trenni_raise_error("could not parse tag", buffer, p-s);
+		XRB_raise_error("could not parse tag", buffer, p-s);
 	}
 	
 	action cdata_begin {
@@ -182,19 +182,19 @@
 	action cdata_end {
 		cdata.end = p;
 		
-		rb_funcall(delegate, id_cdata, 1, Trenni_Token_string(cdata, encoding));
+		rb_funcall(delegate, id_cdata, 1, XRB_Token_string(cdata, encoding));
 	}
 	
 	action cdata_error {
-		Trenni_raise_error("could not parse cdata", buffer, p-s);
+		XRB_raise_error("could not parse cdata", buffer, p-s);
 	}
 	
-	include markup "trenni/markup.rl";
+	include markup "xrb/markup.rl";
 	
 	write data;
 }%%
 
-VALUE Trenni_Native_parse_markup(VALUE self, VALUE buffer, VALUE delegate, VALUE entities) {
+VALUE XRB_Native_parse_markup(VALUE self, VALUE buffer, VALUE delegate, VALUE entities) {
 	VALUE string = rb_funcall(buffer, id_read, 0);
 	
 	rb_encoding *encoding = rb_enc_get(string);
@@ -207,7 +207,7 @@ VALUE Trenni_Native_parse_markup(VALUE self, VALUE buffer, VALUE delegate, VALUE
 	unsigned long cs, top = 0, stack[2] = {0};
 	unsigned long codepoint = 0;
 	
-	Trenni_Token identifier = {0}, cdata = {0}, characters = {0}, entity = {0}, doctype = {0}, comment = {0}, instruction = {0};
+	XRB_Token identifier = {0}, cdata = {0}, characters = {0}, entity = {0}, doctype = {0}, comment = {0}, instruction = {0};
 	unsigned self_closing = 0, has_value = 0, has_entities = 0;
 	
 	s = p = RSTRING_PTR(string);
@@ -219,7 +219,7 @@ VALUE Trenni_Native_parse_markup(VALUE self, VALUE buffer, VALUE delegate, VALUE
 	}%%
 	
 	if (p != eof) {
-		Trenni_raise_error("could not parse all input", buffer, p-s);
+		XRB_raise_error("could not parse all input", buffer, p-s);
 	}
 	
 	return Qnil;

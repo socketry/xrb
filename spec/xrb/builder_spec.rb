@@ -21,9 +21,9 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-require 'trenni/builder'
+require 'xrb/builder'
 
-RSpec.describe Trenni::Builder do
+RSpec.describe XRB::Builder do
 	it "should produce valid html" do
 		subject.doctype
 		subject.tag('html') do
@@ -50,16 +50,16 @@ RSpec.describe Trenni::Builder do
 	
 	describe '.fragment' do
 		it "should use an existing builder" do
-			result = Trenni::Builder.fragment do |builder|
+			result = XRB::Builder.fragment do |builder|
 			end
 			
 			expect(result).to_not be_nil
 		end
 		
 		it "should use an existing builder" do
-			expect(Trenni::Builder).to receive(:new).and_call_original
+			expect(XRB::Builder).to receive(:new).and_call_original
 			
-			result = Trenni::Builder.fragment(subject) do |builder|
+			result = XRB::Builder.fragment(subject) do |builder|
 			end
 			
 			expect(result).to be_nil
@@ -74,7 +74,7 @@ RSpec.describe Trenni::Builder do
 		end
 		
 		it "should indent self-closing tag correctly" do
-			builder = Trenni::Builder.new
+			builder = XRB::Builder.new
 			
 			builder.tag('foo') {builder.tag('bar')}
 			

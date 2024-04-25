@@ -1,6 +1,6 @@
 <?r
 def append_to_buffer(&block)
-	out = Trenni::Template.buffer(block.binding)
+	out = XRB::Template.buffer(block.binding)
 	out << "test"
 end
 

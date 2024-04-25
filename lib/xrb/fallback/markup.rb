@@ -26,7 +26,7 @@
 
 require_relative '../error'
 
-module Trenni
+module XRB
 	module Fallback
 		
 # line 33 "markup.rb"
@@ -561,7 +561,7 @@ begin
 		raise ParseError.new("could not parse tag", buffer, p)
 			end
 	when 18 then
-# line 10 "/home/samuel/Documents/ioquatix/trenni/parsers/trenni/entities.rl"
+# line 10 "/home/samuel/Documents/ioquatix/xrb/parsers/xrb/entities.rl"
 		begin
 	begin
 		stack[top] = cs
@@ -632,7 +632,7 @@ begin
 		pcdata = ""
 		has_entities = false
 			end
-# line 10 "/home/samuel/Documents/ioquatix/trenni/parsers/trenni/entities.rl"
+# line 10 "/home/samuel/Documents/ioquatix/xrb/parsers/xrb/entities.rl"
 		begin
 	begin
 		stack[top] = cs
@@ -662,7 +662,7 @@ begin
 		
 		pcdata << data.byteslice(characters_begin...characters_end)
 			end
-# line 10 "/home/samuel/Documents/ioquatix/trenni/parsers/trenni/entities.rl"
+# line 10 "/home/samuel/Documents/ioquatix/xrb/parsers/xrb/entities.rl"
 		begin
 	begin
 		stack[top] = cs
@@ -683,7 +683,7 @@ begin
 		has_entities = true
 		pcdata << entities[name]
 			end
-# line 8 "/home/samuel/Documents/ioquatix/trenni/parsers/trenni/entities.rl"
+# line 8 "/home/samuel/Documents/ioquatix/xrb/parsers/xrb/entities.rl"
 		begin
 	begin
 		top -= 1
@@ -701,7 +701,7 @@ begin
 		has_entities = true
 		pcdata << data.byteslice(entity_begin...entity_end).to_i(16)
 			end
-# line 8 "/home/samuel/Documents/ioquatix/trenni/parsers/trenni/entities.rl"
+# line 8 "/home/samuel/Documents/ioquatix/xrb/parsers/xrb/entities.rl"
 		begin
 	begin
 		top -= 1
@@ -719,7 +719,7 @@ begin
 		has_entities = true
 		pcdata << data.byteslice(entity_begin...entity_end).to_i(10)
 			end
-# line 8 "/home/samuel/Documents/ioquatix/trenni/parsers/trenni/entities.rl"
+# line 8 "/home/samuel/Documents/ioquatix/xrb/parsers/xrb/entities.rl"
 		begin
 	begin
 		top -= 1
@@ -847,7 +847,7 @@ begin
 		pcdata = ""
 		has_entities = false
 			end
-# line 10 "/home/samuel/Documents/ioquatix/trenni/parsers/trenni/entities.rl"
+# line 10 "/home/samuel/Documents/ioquatix/xrb/parsers/xrb/entities.rl"
 		begin
 	begin
 		stack[top] = cs
@@ -946,7 +946,7 @@ begin
 		pcdata = ""
 		has_entities = false
 			end
-# line 10 "/home/samuel/Documents/ioquatix/trenni/parsers/trenni/entities.rl"
+# line 10 "/home/samuel/Documents/ioquatix/xrb/parsers/xrb/entities.rl"
 		begin
 	begin
 		stack[top] = cs
@@ -997,7 +997,7 @@ begin
 		pcdata = ""
 		has_entities = false
 			end
-# line 10 "/home/samuel/Documents/ioquatix/trenni/parsers/trenni/entities.rl"
+# line 10 "/home/samuel/Documents/ioquatix/xrb/parsers/xrb/entities.rl"
 		begin
 	begin
 		stack[top] = cs
@@ -1044,7 +1044,7 @@ begin
 		pcdata = ""
 		has_entities = false
 			end
-# line 10 "/home/samuel/Documents/ioquatix/trenni/parsers/trenni/entities.rl"
+# line 10 "/home/samuel/Documents/ioquatix/xrb/parsers/xrb/entities.rl"
 		begin
 	begin
 		stack[top] = cs
@@ -1091,7 +1091,7 @@ begin
 		pcdata = ""
 		has_entities = false
 			end
-# line 10 "/home/samuel/Documents/ioquatix/trenni/parsers/trenni/entities.rl"
+# line 10 "/home/samuel/Documents/ioquatix/xrb/parsers/xrb/entities.rl"
 		begin
 	begin
 		stack[top] = cs
@@ -1138,7 +1138,7 @@ begin
 		pcdata = ""
 		has_entities = false
 			end
-# line 10 "/home/samuel/Documents/ioquatix/trenni/parsers/trenni/entities.rl"
+# line 10 "/home/samuel/Documents/ioquatix/xrb/parsers/xrb/entities.rl"
 		begin
 	begin
 		stack[top] = cs
@@ -1189,7 +1189,7 @@ begin
 		pcdata = ""
 		has_entities = false
 			end
-# line 10 "/home/samuel/Documents/ioquatix/trenni/parsers/trenni/entities.rl"
+# line 10 "/home/samuel/Documents/ioquatix/xrb/parsers/xrb/entities.rl"
 		begin
 	begin
 		stack[top] = cs

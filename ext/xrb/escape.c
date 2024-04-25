@@ -2,22 +2,22 @@
 #include "escape.h"
 #include <assert.h>
 
-inline static int Trenni_Markup_is_markup(VALUE value) {
+inline static int XRB_Markup_is_markup(VALUE value) {
 	if (RB_IMMEDIATE_P(value))
 		return 0;
 	
 	// This is a short-cut:
-	if (rb_class_of(value) == rb_Trenni_MarkupString) {
+	if (rb_class_of(value) == rb_XRB_MarkupString) {
 		return 1;
 	}
 	
-	return rb_funcall(value, id_is_a, 1, rb_Trenni_Markup) == Qtrue;
+	return rb_funcall(value, id_is_a, 1, rb_XRB_Markup) == Qtrue;
 }
 
-VALUE Trenni_MarkupString_raw(VALUE self, VALUE string) {
+VALUE XRB_MarkupString_raw(VALUE self, VALUE string) {
 	string = rb_str_dup(string);
 	
-	rb_obj_reveal(string, rb_Trenni_MarkupString);
+	rb_obj_reveal(string, rb_XRB_MarkupString);
 	
 	return string;
 }
@@ -30,7 +30,7 @@ VALUE Trenni_MarkupString_raw(VALUE self, VALUE string) {
 // static const uint32_t MASK_QUOT = 0x22222222;
 // static const uint32_t MASK_AMP = 0x26262626;
 
-static inline const char * Trenni_Markup_index_symbol(const char * begin, const char * end) {
+static inline const char * XRB_Markup_index_symbol(const char * begin, const char * end) {
 	const char * p = begin;
 
 	while (p < end) {
@@ -57,7 +57,7 @@ static inline const char * Trenni_Markup_index_symbol(const char * begin, const 
 	return end;
 }
 
-static inline void Trenni_Markup_append_entity(const char * p, VALUE buffer) {
+static inline void XRB_Markup_append_entity(const char * p, VALUE buffer) {
 	// What symbol are we looking at?
 	switch (*p) {
 		case '<':
@@ -75,7 +75,7 @@ static inline void Trenni_Markup_append_entity(const char * p, VALUE buffer) {
 	}
 }
 
-static inline VALUE Trenni_Markup_append_buffer(VALUE buffer, const char * s, const char * p, const char * end) {
+static inline VALUE XRB_Markup_append_buffer(VALUE buffer, const char * s, const char * p, const char * end) {
 	while (1) {
 		// Append the non-symbol part:
 		rb_str_buf_cat(buffer, s, p - s);
@@ -83,70 +83,70 @@ static inline VALUE Trenni_Markup_append_buffer(VALUE buffer, const char * s, co
 		// We escape early if there were no changes to be made:
 		if (p == end) return buffer;
 
-		Trenni_Markup_append_entity(p, buffer);
+		XRB_Markup_append_entity(p, buffer);
 
 		s = p + 1;
-		p = Trenni_Markup_index_symbol(s, end);
+		p = XRB_Markup_index_symbol(s, end);
 	}
 }
 
 // Escape and append a string to the output buffer.
-VALUE Trenni_Markup_append_string(VALUE buffer, VALUE string) {
+VALUE XRB_Markup_append_string(VALUE buffer, VALUE string) {
 	const char * begin = RSTRING_PTR(string);
 	const char * end = begin + RSTRING_LEN(string);
 	
 	const char * s = begin;
 
 	// There are two outcomes, either p is at end, or p points to a symbol:
-	const char * p = Trenni_Markup_index_symbol(s, end);
+	const char * p = XRB_Markup_index_symbol(s, end);
 	
-	return Trenni_Markup_append_buffer(buffer, s, p, end);
+	return XRB_Markup_append_buffer(buffer, s, p, end);
 }
 
-VALUE Trenni_Markup_append(VALUE self, VALUE buffer, VALUE value) {
+VALUE XRB_Markup_append(VALUE self, VALUE buffer, VALUE value) {
 	if (value == Qnil) return Qnil;
 	
-	if (Trenni_Markup_is_markup(value)) {
+	if (XRB_Markup_is_markup(value)) {
 		rb_str_append(buffer, value);
 	} else {
 		if (rb_type(value) != T_STRING) {
 			value = rb_funcall(value, id_to_s, 0);
 		}
 		
-		Trenni_Markup_append_string(buffer, value);
+		XRB_Markup_append_string(buffer, value);
 	}
 	
 	return buffer;
 }
 
 // Convert markup special characters to entities. May return the original string if no changes were made.
-VALUE Trenni_Markup_escape_string(VALUE self, VALUE string) {
+VALUE XRB_Markup_escape_string(VALUE self, VALUE string) {
 	const char * begin = RSTRING_PTR(string);
 	const char * end = begin + RSTRING_LEN(string);
 	
 	const char * s = begin;
 
 	// There are two outcomes, either p is at end, or p points to a symbol:
-	const char * p = Trenni_Markup_index_symbol(s, end);
+	const char * p = XRB_Markup_index_symbol(s, end);
 
 	// We escape early if there were no changes to be made:
 	if (p == end) return string;
 	
-	return Trenni_Markup_append_buffer(Trenni_buffer_for(string), s, p, end);
+	return XRB_Markup_append_buffer(XRB_buffer_for(string), s, p, end);
 }
 
-void Init_trenni_escape() {
-	rb_Trenni_MarkupString = rb_define_class_under(rb_Trenni, "MarkupString", rb_cString);
-	rb_gc_register_mark_object(rb_Trenni_MarkupString);
+void Init_xrb_escape() {
+	rb_XRB_MarkupString = rb_define_class_under(rb_XRB, "MarkupString", rb_cString);
+	rb_gc_register_mark_object(rb_XRB_MarkupString);
 	
-	rb_include_module(rb_Trenni_MarkupString, rb_Trenni_Markup);
+	rb_include_module(rb_XRB_MarkupString, rb_XRB_Markup);
 	
-	rb_undef_method(rb_class_of(rb_Trenni_Markup), "escape_string");
-	rb_define_singleton_method(rb_Trenni_Markup, "escape_string", Trenni_Markup_escape_string, 1);
+	rb_undef_method(rb_class_of(rb_XRB_Markup), "escape_string");
+	rb_define_singleton_method(rb_XRB_Markup, "escape_string", XRB_Markup_escape_string, 1);
 	
-	rb_undef_method(rb_class_of(rb_Trenni_Markup), "append");
-	rb_define_singleton_method(rb_Trenni_Markup, "append", Trenni_Markup_append, 2);
+	rb_undef_method(rb_class_of(rb_XRB_Markup), "append");
+	rb_define_singleton_method(rb_XRB_Markup, "append", XRB_Markup_append, 2);
 	
-	rb_undef_method(rb_class_of(rb_Trenni_Markup), "raw");
-	rb_define_singleton_method(rb_Trenni_Markup, "raw", Trenni_MarkupString_raw, 1);
+	rb_undef_method(rb_class_of(rb_XRB_Markup), "raw");
+	rb_define_singleton_method(rb_XRB_Markup, "raw", XRB_MarkupString_raw, 1);
 }

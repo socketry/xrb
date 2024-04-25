@@ -2,7 +2,7 @@
 #include "query.h"
 
 %%{
-	machine Trenni_query_parser;
+	machine XRB_query_parser;
 	
 	action string_begin {
 		string_token.begin = p;
@@ -11,7 +11,7 @@
 	action string_end {
 		string_token.end = p;
 		
-		rb_funcall(delegate, id_string, 2, Trenni_Token_string(string_token, encoding), encoded ? Qtrue : Qfalse);
+		rb_funcall(delegate, id_string, 2, XRB_Token_string(string_token, encoding), encoded ? Qtrue : Qfalse);
 		
 		encoded = 0;
 	}
@@ -23,7 +23,7 @@
 	action integer_end {
 		integer_token.end = p;
 		
-		rb_funcall(delegate, id_integer, 1, Trenni_Token_string(integer_token, encoding));
+		rb_funcall(delegate, id_integer, 1, XRB_Token_string(integer_token, encoding));
 	}
 	
 	action append {
@@ -37,7 +37,7 @@
 	action value_end {
 		value_token.end = p;
 		
-		rb_funcall(delegate, id_assign, 2, Trenni_Token_string(value_token, encoding), encoded ? Qtrue : Qfalse);
+		rb_funcall(delegate, id_assign, 2, XRB_Token_string(value_token, encoding), encoded ? Qtrue : Qfalse);
 		
 		encoded = 0;
 	}
@@ -50,12 +50,12 @@
 		encoded = 1;
 	}
 	
-	include query "trenni/query.rl";
+	include query "xrb/query.rl";
 	
 	write data;
 }%%
 
-VALUE Trenni_Native_parse_query(VALUE self, VALUE buffer, VALUE delegate) {
+VALUE XRB_Native_parse_query(VALUE self, VALUE buffer, VALUE delegate) {
 	VALUE string = rb_funcall(buffer, id_read, 0);
 	
 	rb_encoding *encoding = rb_enc_get(string);
@@ -63,7 +63,7 @@ VALUE Trenni_Native_parse_query(VALUE self, VALUE buffer, VALUE delegate) {
 	const char *s, *p, *pe, *eof;
 	unsigned long cs;
 	
-	Trenni_Token string_token = {0}, integer_token = {0}, value_token = {0};
+	XRB_Token string_token = {0}, integer_token = {0}, value_token = {0};
 	unsigned encoded = 0;
 	
 	s = p = RSTRING_PTR(string);
@@ -75,7 +75,7 @@ VALUE Trenni_Native_parse_query(VALUE self, VALUE buffer, VALUE delegate) {
 	}%%
 	
 	if (p != eof) {
-		Trenni_raise_error("could not parse all input", buffer, p-s);
+		XRB_raise_error("could not parse all input", buffer, p-s);
 	}
 	
 	return Qnil;

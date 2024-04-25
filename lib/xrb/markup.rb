@@ -22,7 +22,7 @@
 
 require 'cgi'
 
-module Trenni
+module XRB
 	# A wrapper which indicates that `value` can be appended to the output buffer without any changes.
 	module Markup
 		# Converts special characters `<`, `>`, `&`, and `"` into their equivalent entities.

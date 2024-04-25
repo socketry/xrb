@@ -70,12 +70,12 @@
 	# This magic ensures that we process bytes.
 	getkey bytes[p];
 	
-	include query "trenni/query.rl";
+	include query "xrb/query.rl";
 }%%
 
 require_relative '../error'
 
-module Trenni
+module XRB
 	module Fallback
 		%% write data;
 		

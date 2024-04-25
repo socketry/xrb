@@ -1,22 +1,22 @@
 # frozen_string_literal: true
 
 require 'benchmark/ips'
-require 'trenni/parsers'
-require 'trenni/template'
+require 'xrb/parsers'
+require 'xrb/template'
 require 'erb'
 
-RSpec.describe Trenni::Template do
+RSpec.describe XRB::Template do
 	class Model
 		def name
 			"Bob Dole"
 		end
 		
 		def reverse(&block)
-			Trenni::Template.capture(&block).reverse
+			XRB::Template.capture(&block).reverse
 		end
 	end
 	
-	# let(:large_template) {Trenni::Template.load_file File.expand_path('template_spec/large.trenni', __dir__)}
+	# let(:large_template) {XRB::Template.load_file File.expand_path('template_spec/large.xrb', __dir__)}
 	#
 	# it "should have better performance using instance" do
 	# 	n = 1_000
@@ -35,18 +35,18 @@ RSpec.describe Trenni::Template do
 	# 	expect(object_time).to be < binding_time
 	# end
 	
-	let(:interpolations_path) {File.expand_path('template_spec/interpolations.trenni', __dir__)}
+	let(:interpolations_path) {File.expand_path('template_spec/interpolations.xrb', __dir__)}
 	
 	it "should be fast for lots of interpolations" do
-		trenni_template = Trenni::MarkupTemplate.new(Trenni::Buffer.load_file(interpolations_path))
+		xrb_template = XRB::MarkupTemplate.new(XRB::Buffer.load_file(interpolations_path))
 		model = Model.new
 		
 		Benchmark.ips do |x|
-			x.report("Trenni") do |times|
+			x.report("XRB") do |times|
 				i = 0
 				
 				while i < times
-					trenni_template.to_string(model)
+					xrb_template.to_string(model)
 					
 					i += 1
 				end
@@ -55,7 +55,7 @@ RSpec.describe Trenni::Template do
 	end
 	
 	it "should be fast for basic templates" do
-		trenni_template = Trenni::Template.new(Trenni::Buffer.load('Hi, #{name}!'))
+		xrb_template = XRB::Template.new(XRB::Buffer.load('Hi, #{name}!'))
 		model = Model.new
 		model_binding = model.instance_eval{binding}
 		
@@ -63,21 +63,21 @@ RSpec.describe Trenni::Template do
 		
 		# There IS a measuarble difference:
 		Benchmark.ips do |x|
-			x.report("Trenni (object)") do |times|
+			x.report("XRB (object)") do |times|
 				i = 0
 				
 				while i < times
-					trenni_template.to_string(model)
+					xrb_template.to_string(model)
 					
 					i += 1
 				end
 			end
 			
-			# x.report("Trenni (binding)") do |times|
+			# x.report("XRB (binding)") do |times|
 			# 	i = 0
 			# 	
 			# 	while i < times
-			# 		trenni_template.to_string(model_binding)
+			# 		xrb_template.to_string(model_binding)
 			# 		
 			# 		i += 1
 			# 	end
@@ -98,16 +98,16 @@ RSpec.describe Trenni::Template do
 	end
 	
 	it "should be fast with capture" do
-		trenni_template = Trenni::Template.new(Trenni::Buffer.load('Hi, <?r reverse do ?>#{name}!<?r end ?>'))
+		xrb_template = XRB::Template.new(XRB::Buffer.load('Hi, <?r reverse do ?>#{name}!<?r end ?>'))
 		model = Model.new
 		
 		# There IS a measuarble difference:
 		Benchmark.ips do |x|
-			x.report("Trenni") do |times|
+			x.report("XRB") do |times|
 				i = 0
 				
 				while i < times
-					trenni_template.to_string(model)
+					xrb_template.to_string(model)
 					
 					i += 1
 				end

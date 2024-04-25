@@ -22,10 +22,10 @@
 
 require_relative 'markup'
 
-module Trenni
+module XRB
 	# This represents an individual SGML tag, e.g. <a>, </a> or <a />, with attributes. Attribute values must be escaped.
 	Tag = Struct.new(:name, :closed, :attributes) do
-		include Trenni::Markup
+		include XRB::Markup
 		
 		def self.split(qualified_name)
 			if i = qualified_name.index(':')

@@ -20,7 +20,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-module Trenni
+module XRB
 	class Buffer
 		def initialize(string, path: '<string>')
 			@string = string

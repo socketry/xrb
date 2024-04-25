@@ -20,9 +20,9 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-require 'trenni/tag'
+require 'xrb/tag'
 
-RSpec.describe Trenni::Tag.new("body", false, class: 'main') do
+RSpec.describe XRB::Tag.new("body", false, class: 'main') do
 	it "should have name" do
 		expect(subject.name).to be == "body"
 	end
@@ -38,7 +38,7 @@ RSpec.describe Trenni::Tag.new("body", false, class: 'main') do
 	end
 end
 
-RSpec.describe Trenni::Tag.new("button", true, 'onclick' => 'javascript:alert("Hello World")') do
+RSpec.describe XRB::Tag.new("button", true, 'onclick' => 'javascript:alert("Hello World")') do
 	it "should have name" do
 		expect(subject.name).to be == "button"
 	end
@@ -52,7 +52,7 @@ RSpec.describe Trenni::Tag.new("button", true, 'onclick' => 'javascript:alert("H
 	end
 end
 
-RSpec.describe Trenni::Tag.new("p", false, {}) do
+RSpec.describe XRB::Tag.new("p", false, {}) do
 	it "should include content" do
 		expect(subject.to_s("Hello World")).to be == "<p>Hello World</p>"
 	end
@@ -60,12 +60,12 @@ end
 
 RSpec.describe "namespace:name" do
 	it "should have namespace" do
-		expect(Trenni::Tag.split(subject)).to be == ['namespace', 'name']
+		expect(XRB::Tag.split(subject)).to be == ['namespace', 'name']
 	end
 end
 
 RSpec.describe "name" do
 	it "should not have namespace" do
-		expect(Trenni::Tag.split(subject)).to be == [nil, 'name']
+		expect(XRB::Tag.split(subject)).to be == [nil, 'name']
 	end
 end

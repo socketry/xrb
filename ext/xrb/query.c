@@ -5,17 +5,17 @@
 
 
 #line 8 "query.c"
-static const int Trenni_query_parser_start = 12;
-static const int Trenni_query_parser_first_final = 12;
-static const int Trenni_query_parser_error = 0;
+static const int XRB_query_parser_start = 12;
+static const int XRB_query_parser_first_final = 12;
+static const int XRB_query_parser_error = 0;
 
-static const int Trenni_query_parser_en_main = 12;
+static const int XRB_query_parser_en_main = 12;
 
 
 #line 56 "query.rl"
 
 
-VALUE Trenni_Native_parse_query(VALUE self, VALUE buffer, VALUE delegate) {
+VALUE XRB_Native_parse_query(VALUE self, VALUE buffer, VALUE delegate) {
 	VALUE string = rb_funcall(buffer, id_read, 0);
 	
 	rb_encoding *encoding = rb_enc_get(string);
@@ -23,7 +23,7 @@ VALUE Trenni_Native_parse_query(VALUE self, VALUE buffer, VALUE delegate) {
 	const char *s, *p, *pe, *eof;
 	unsigned long cs;
 	
-	Trenni_Token string_token = {0}, integer_token = {0}, value_token = {0};
+	XRB_Token string_token = {0}, integer_token = {0}, value_token = {0};
 	unsigned encoded = 0;
 	
 	s = p = RSTRING_PTR(string);
@@ -32,7 +32,7 @@ VALUE Trenni_Native_parse_query(VALUE self, VALUE buffer, VALUE delegate) {
 	
 #line 34 "query.c"
 	{
-	cs = Trenni_query_parser_start;
+	cs = XRB_query_parser_start;
 	}
 
 #line 39 "query.c"
@@ -140,7 +140,7 @@ tr24:
 	{
 		string_token.end = p;
 		
-		rb_funcall(delegate, id_string, 2, Trenni_Token_string(string_token, encoding), encoded ? Qtrue : Qfalse);
+		rb_funcall(delegate, id_string, 2, XRB_Token_string(string_token, encoding), encoded ? Qtrue : Qfalse);
 		
 		encoded = 0;
 	}
@@ -158,7 +158,7 @@ tr29:
 	{
 		value_token.end = p;
 		
-		rb_funcall(delegate, id_assign, 2, Trenni_Token_string(value_token, encoding), encoded ? Qtrue : Qfalse);
+		rb_funcall(delegate, id_assign, 2, XRB_Token_string(value_token, encoding), encoded ? Qtrue : Qfalse);
 		
 		encoded = 0;
 	}
@@ -172,7 +172,7 @@ tr32:
 	{
 		value_token.end = p;
 		
-		rb_funcall(delegate, id_assign, 2, Trenni_Token_string(value_token, encoding), encoded ? Qtrue : Qfalse);
+		rb_funcall(delegate, id_assign, 2, XRB_Token_string(value_token, encoding), encoded ? Qtrue : Qfalse);
 		
 		encoded = 0;
 	}
@@ -244,7 +244,7 @@ tr25:
 	{
 		string_token.end = p;
 		
-		rb_funcall(delegate, id_string, 2, Trenni_Token_string(string_token, encoding), encoded ? Qtrue : Qfalse);
+		rb_funcall(delegate, id_string, 2, XRB_Token_string(string_token, encoding), encoded ? Qtrue : Qfalse);
 		
 		encoded = 0;
 	}
@@ -353,7 +353,7 @@ tr26:
 	{
 		string_token.end = p;
 		
-		rb_funcall(delegate, id_string, 2, Trenni_Token_string(string_token, encoding), encoded ? Qtrue : Qfalse);
+		rb_funcall(delegate, id_string, 2, XRB_Token_string(string_token, encoding), encoded ? Qtrue : Qfalse);
 		
 		encoded = 0;
 	}
@@ -458,7 +458,7 @@ tr20:
 	{
 		string_token.end = p;
 		
-		rb_funcall(delegate, id_string, 2, Trenni_Token_string(string_token, encoding), encoded ? Qtrue : Qfalse);
+		rb_funcall(delegate, id_string, 2, XRB_Token_string(string_token, encoding), encoded ? Qtrue : Qfalse);
 		
 		encoded = 0;
 	}
@@ -468,7 +468,7 @@ tr23:
 	{
 		integer_token.end = p;
 		
-		rb_funcall(delegate, id_integer, 1, Trenni_Token_string(integer_token, encoding));
+		rb_funcall(delegate, id_integer, 1, XRB_Token_string(integer_token, encoding));
 	}
 	goto st16;
 st16:
@@ -550,7 +550,7 @@ case 17:
 	{
 		string_token.end = p;
 		
-		rb_funcall(delegate, id_string, 2, Trenni_Token_string(string_token, encoding), encoded ? Qtrue : Qfalse);
+		rb_funcall(delegate, id_string, 2, XRB_Token_string(string_token, encoding), encoded ? Qtrue : Qfalse);
 		
 		encoded = 0;
 	}
@@ -574,7 +574,7 @@ case 17:
 	{
 		value_token.end = p;
 		
-		rb_funcall(delegate, id_assign, 2, Trenni_Token_string(value_token, encoding), encoded ? Qtrue : Qfalse);
+		rb_funcall(delegate, id_assign, 2, XRB_Token_string(value_token, encoding), encoded ? Qtrue : Qfalse);
 		
 		encoded = 0;
 	}
@@ -592,7 +592,7 @@ case 17:
 	{
 		value_token.end = p;
 		
-		rb_funcall(delegate, id_assign, 2, Trenni_Token_string(value_token, encoding), encoded ? Qtrue : Qfalse);
+		rb_funcall(delegate, id_assign, 2, XRB_Token_string(value_token, encoding), encoded ? Qtrue : Qfalse);
 		
 		encoded = 0;
 	}
@@ -612,7 +612,7 @@ case 17:
 
 	
 	if (p != eof) {
-		Trenni_raise_error("could not parse all input", buffer, p-s);
+		XRB_raise_error("could not parse all input", buffer, p-s);
 	}
 	
 	return Qnil;

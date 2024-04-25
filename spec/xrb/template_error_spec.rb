@@ -21,17 +21,17 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-require 'trenni/template'
-require 'trenni/parsers'
+require 'xrb/template'
+require 'xrb/parsers'
 
-RSpec.describe Trenni::Template do
-	let(:template_path) {File.expand_path('template_spec/error.trenni', __dir__)}
-	let(:template) {Trenni::Template.load_file template_path}
+RSpec.describe XRB::Template do
+	let(:template_path) {File.expand_path('template_spec/error.xrb', __dir__)}
+	let(:template) {XRB::Template.load_file template_path}
 	let(:output) {template.to_string}
 	
 	it "should produce error on correct line" do
 		expect{output}.to raise_error(NameError) do |error|
-			expect(error.backtrace.first).to be =~ /error.trenni:4:/
+			expect(error.backtrace.first).to be =~ /error.xrb:4:/
 		end
 	end
 end

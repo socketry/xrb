@@ -29,14 +29,14 @@ inline VALUE rb_str_reserve(VALUE string, long extra) {
 }
 #endif
 
-// Modules and classes exposed by Trenni.
+// Modules and classes exposed by XRB.
 extern VALUE
-	rb_Trenni,
-	rb_Trenni_Markup,
-	rb_Trenni_Tag,
-	rb_Trenni_MarkupString,
-	rb_Trenni_Native,
-	rb_Trenni_ParseError;
+	rb_XRB,
+	rb_XRB_Markup,
+	rb_XRB_Tag,
+	rb_XRB_MarkupString,
+	rb_XRB_Native,
+	rb_XRB_ParseError;
 
 // Symbols used for delegate callbacks and general function calls.
 extern ID
@@ -68,20 +68,20 @@ extern ID
 typedef struct {
 	const char * begin;
 	const char * end;
-} Trenni_Token;
+} XRB_Token;
 
 // Convert a token to a Ruby string.
-static inline VALUE Trenni_Token_string(Trenni_Token token, rb_encoding * encoding) {
+static inline VALUE XRB_Token_string(XRB_Token token, rb_encoding * encoding) {
 	return rb_enc_str_new(token.begin, token.end - token.begin, encoding);
 }
 
 // Convert a C string to a Ruby string.
-static inline VALUE Trenni_string(const char * begin, const char * end, rb_encoding * encoding) {
+static inline VALUE XRB_string(const char * begin, const char * end, rb_encoding * encoding) {
 	return rb_enc_str_new(begin, end - begin, encoding);
 }
 
 // Create an empty buffer for the given input string.
-static inline VALUE Trenni_buffer_for(VALUE string) {
+static inline VALUE XRB_buffer_for(VALUE string) {
 	VALUE buffer = rb_enc_str_new(0, 0, rb_enc_get(string));
 	
 	rb_str_reserve(buffer, RSTRING_LEN(string) + 128);
@@ -90,10 +90,10 @@ static inline VALUE Trenni_buffer_for(VALUE string) {
 }
 
 // Raise a parse error for the given input buffer at a specific offset.
-NORETURN(void Trenni_raise_error(const char * message, VALUE buffer, size_t offset));
+NORETURN(void XRB_raise_error(const char * message, VALUE buffer, size_t offset));
 
 // Append a string to a buffer. The buffer may or may not be initialized.
-static inline void Trenni_append(VALUE * buffer, rb_encoding * encoding, VALUE string) {
+static inline void XRB_append(VALUE * buffer, rb_encoding * encoding, VALUE string) {
 	if (*buffer == Qnil) {
 		*buffer = rb_enc_str_new(0, 0, encoding);
 	}
@@ -102,7 +102,7 @@ static inline void Trenni_append(VALUE * buffer, rb_encoding * encoding, VALUE s
 }
 
 // Append a token to a buffer. The buffer may or may not be initialized.
-static inline void Trenni_append_token(VALUE * buffer, rb_encoding * encoding, Trenni_Token token) {
+static inline void XRB_append_token(VALUE * buffer, rb_encoding * encoding, XRB_Token token) {
 	if (*buffer == Qnil) {
 		// Allocate a buffer exactly the right size:
 		*buffer = rb_enc_str_new(token.begin, token.end - token.begin, encoding);
@@ -113,7 +113,7 @@ static inline void Trenni_append_token(VALUE * buffer, rb_encoding * encoding, T
 }
 
 // Append a (unicode) codepoint to a buffer. The buffer may or may not be initialized.
-static inline void Trenni_append_codepoint(VALUE * buffer, rb_encoding * encoding, unsigned long codepoint) {
+static inline void XRB_append_codepoint(VALUE * buffer, rb_encoding * encoding, unsigned long codepoint) {
 	if (*buffer == Qnil) {
 		*buffer = rb_enc_str_new(0, 0, encoding);
 	}
@@ -122,10 +122,10 @@ static inline void Trenni_append_codepoint(VALUE * buffer, rb_encoding * encodin
 }
 
 // Convert the class of a string if there were no entities detected.
-static inline VALUE Trenni_markup_safe(VALUE string, unsigned has_entities) {
+static inline VALUE XRB_markup_safe(VALUE string, unsigned has_entities) {
 	if (!has_entities) {
 		// Apparently should not use this to change klass, but it's exactly what we need here to make things lightning fast.
-		rb_obj_reveal(string, rb_Trenni_MarkupString);
+		rb_obj_reveal(string, rb_XRB_MarkupString);
 	}
 	
 	return string;

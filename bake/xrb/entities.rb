@@ -24,11 +24,11 @@ end
 # Consume the HTML5 entites and generate parsers to escape them.
 # @parameter wet [Boolean] Whether to write updated files.
 def update_entities(wet: false)
-	require 'trenni/template'
+	require 'xrb/template'
 	
 	paths = {
-		# 'ext/trenni/entities.rl' => 'ext/trenni/entities.trenni',
-		'lib/trenni/entities.rb' => 'lib/trenni/entities.trenni',
+		# 'ext/xrb/entities.rl' => 'ext/xrb/entities.xrb',
+		'lib/xrb/entities.rb' => 'lib/xrb/entities.xrb',
 	}
 	
 	entities = self.fetch_entities
@@ -37,7 +37,7 @@ def update_entities(wet: false)
 		template_path = File.expand_path(template_path, context.root)
 		output_path = File.expand_path(output_path, context.root)
 		
-		template = Trenni::Template.load_file(template_path)
+		template = XRB::Template.load_file(template_path)
 		
 		output = template.to_string(entities)
 		

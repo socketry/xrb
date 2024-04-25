@@ -64,12 +64,12 @@
 	# This magic ensures that we process bytes.
 	getkey bytes[p];
 	
-	include template "trenni/template.rl";
+	include template "xrb/template.rl";
 }%%
 
 require_relative '../error'
 
-module Trenni
+module XRB
 	module Fallback
 		%% write data;
 		

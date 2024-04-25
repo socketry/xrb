@@ -21,16 +21,16 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-require 'trenni/parsers'
-require 'trenni/entities'
-require 'trenni/template'
-require 'trenni/markup'
+require 'xrb/parsers'
+require 'xrb/entities'
+require 'xrb/template'
+require 'xrb/markup'
 
 RSpec.shared_context "html parsers" do
-	let(:delegate) {Trenni::ParseDelegate.new}
-	let(:buffer) {Trenni::Buffer(subject)}
-	let(:parsers) {Trenni::Parsers}
-	let(:entities) {Trenni::Entities::HTML5}
+	let(:delegate) {XRB::ParseDelegate.new}
+	let(:buffer) {XRB::Buffer(subject)}
+	let(:parsers) {XRB::Parsers}
+	let(:entities) {XRB::Entities::HTML5}
 	let(:events) {parsers.parse_markup(buffer, delegate, entities); delegate.events}
 end
 
@@ -118,8 +118,8 @@ RSpec.describe "<foo bar=\"20\" baz>Hello World</foo>" do
 	end
 	
 	it "should track entities" do
-		expect(events[1][2]).to be_kind_of Trenni::Markup
-		expect(events[4][1]).to be_kind_of Trenni::Markup
+		expect(events[1][2]).to be_kind_of XRB::Markup
+		expect(events[4][1]).to be_kind_of XRB::Markup
 	end
 end
 
@@ -153,8 +153,8 @@ RSpec.describe "<p attr=\"foo&amp;bar\">&quot;</p>" do
 	include_context "valid markup"
 	
 	let(:template_text) {%q{<p attr="#{events[1][2]}">#{events[3][1]}</p>}}
-	let(:template_buffer) {Trenni::Buffer(template_text)}
-	let(:template) {Trenni::MarkupTemplate.new(template_buffer)}
+	let(:template_buffer) {XRB::Buffer(template_text)}
+	let(:template) {XRB::MarkupTemplate.new(template_buffer)}
 	
 	it "should parse empty attributes" do
 		expect(events).to be == [
@@ -172,8 +172,8 @@ RSpec.describe "<p attr=\"foo&amp;bar\">&quot;</p>" do
 	end
 	
 	it "should track entities" do
-		expect(events[1][2]).to_not be_kind_of Trenni::Markup
-		expect(events[3][1]).to_not be_kind_of Trenni::Markup
+		expect(events[1][2]).to_not be_kind_of XRB::Markup
+		expect(events[3][1]).to_not be_kind_of XRB::Markup
 	end
 end
 
@@ -181,7 +181,7 @@ RSpec.shared_examples "valid markup file" do |base|
 	let(:xhtml_path) {File.join(__dir__, base + '.xhtml')}
 	let(:events_path) {File.join(__dir__, base + '.rb')}
 	
-	subject {Trenni::FileBuffer.new(xhtml_path)}
+	subject {XRB::FileBuffer.new(xhtml_path)}
 	let(:expected_events) {eval(File.read(events_path), nil, events_path)}
 	
 	include_context "valid markup"
@@ -213,7 +213,7 @@ RSpec.shared_context "invalid markup" do
 	include_context "html parsers"
 	
 	it "should fail to parse" do
-		expect{events}.to raise_error Trenni::ParseError
+		expect{events}.to raise_error XRB::ParseError
 	end
 end
 
@@ -239,7 +239,7 @@ RSpec.describe "<p>\nこんにちは World<p" do
 	end
 end
 
-RSpec.describe Trenni::Location do
+RSpec.describe XRB::Location do
 	subject{described_class.new("Hello\nWorld\nFoo\nBar!", 7)}
 	
 	it "should know about line numbers" do

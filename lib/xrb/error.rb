@@ -22,7 +22,7 @@
 
 require_relative 'buffer'
 
-module Trenni
+module XRB
 	class Error < StandardError
 	end
 	

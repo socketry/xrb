@@ -203,12 +203,12 @@
 	# This magic ensures that we process bytes.
 	getkey bytes[p];
 	
-	include markup "trenni/markup.rl";
+	include markup "xrb/markup.rl";
 }%%
 
 require_relative '../error'
 
-module Trenni
+module XRB
 	module Fallback
 		%% write data;
 		

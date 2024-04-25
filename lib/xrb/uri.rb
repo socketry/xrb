@@ -20,8 +20,8 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-module Trenni
-	# This class is superceeded by `Trenni::Reference`.
+module XRB
+	# This class is superceeded by `XRB::Reference`.
 	class URI
 		def initialize(path, query_string, fragment, parameters)
 			@path = path
