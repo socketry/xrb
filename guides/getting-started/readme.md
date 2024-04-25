@@ -106,7 +106,7 @@ end.to_s
 
 To test the Ruby parsers:
 
-    rake generate_fallback_parsers && TRENNI_PREFER_FALLBACK=y rspec
+    rake generate_fallback_parsers && XRB_PREFER_FALLBACK=y rspec
 
 To test the native C parsers:
 
@@ -153,7 +153,7 @@ You can evaluate and compare template performance with ERB:
     Finished in 28.2 seconds (files took 0.14204 seconds to load)
     2 examples, 0 failures
 
-To run this with the pure ruby implementation, use `TRENNI_PREFER_FALLBACK=y rspec spec/xrb/parsers_performance_spec.rb`.
+To run this with the pure ruby implementation, use `XRB_PREFER_FALLBACK=y sus benchmarks`.
 
 #### Markup String Performance
 
