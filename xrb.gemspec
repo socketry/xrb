@@ -21,10 +21,10 @@ Gem::Specification.new do |spec|
 		"source_code_uri" => "https://github.com/ioquatix/xrb.git",
 	}
 	
-	spec.files = Dir.glob(['{bake,ext,lib,parsers}/**/*', '*.md'], File::FNM_DOTMATCH, base: __dir__)
+	spec.files = Dir.glob(['{bake,ext,lib}/**/*', '*.md'], File::FNM_DOTMATCH, base: __dir__)
 	spec.require_paths = ['lib']
 	
-	spec.extensions = ["ext/xrb/extconf.rb"]
+	spec.extensions = ["ext/extconf.rb"]
 	
 	spec.required_ruby_version = ">= 3.1"
 end

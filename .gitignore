@@ -4,15 +4,9 @@
 /.covered.db
 /external
 
-/.bundle/
-/.yardoc
-/gems.locked
-/_yardoc/
-/coverage/
-/doc/
-/pkg/
-/spec/reports/
-tmp/
-
-.rspec_status
-.covered.db
+# Native extension build artifacts:
+/ext/*.o
+/ext/mkmf.log
+/ext/Makefile
+/ext/extconf.h
+/ext/XRB.*
