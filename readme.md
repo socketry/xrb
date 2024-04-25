@@ -6,6 +6,10 @@ XRB is a templating system built loosely on top of XHTML markup. It uses efficie
 
 ## Usage
 
+Please see the [project documentation](https://socketry.github.io/xrb/) for more details.
+
+  - [Usage](https://socketry.github.io/xrb/guides/getting-started/index) - This guide gives a brief overview of the XRB templating system and how to use it.
+
 ## See Also
 
   - [xrb-vscode](https://github.com/socketry/xrb-vscode) package for Visual Studio Code.
