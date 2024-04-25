@@ -2,17 +2,13 @@
 
 XRB is a templating system built loosely on top of XHTML markup. It uses efficient native parsers where possible and compiles templates into efficient Ruby. It also includes a markup builder to assist with the generation of pleasantly formatted markup which is compatible with the included parsers.
 
-[![Development Status](https://github.com/ioquatix/trenni/workflows/Test/badge.svg)](https://github.com/ioquatix/trenni/actions?workflow=Test)
+[![Development Status](https://github.com/socketry/xrb/workflows/Test/badge.svg)](https://github.com/socketry/xrb/actions?workflow=Test)
 
 ## Usage
 
 ## See Also
 
-  - [language-xrb](https://atom.io/packages/language-xrb) package for the [Atom text editor](https://atom.io). It provides syntax highlighting and integration when XRB is used with the [utopia web framework](https://github.com/ioquatix/utopia).
-
-  - [vim-xrb](https://github.com/huba/vim-xrb) package for Vim.
-
-  - [XRB Formatters](https://github.com/ioquatix/xrb-formatters) is a separate gem that uses `XRB::Builder` to generate HTML forms easily.
+  - [xrb-vscode](https://github.com/socketry/xrb-vscode) package for Visual Studio Code.
 
 ## Contributing
 
