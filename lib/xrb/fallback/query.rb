@@ -1,31 +1,10 @@
-# frozen_string_literal: true
-
-# Released under the MIT License.
-# Copyright, 2020-2024, by Samuel Williams.
 
 # line 1 "query.rl"
-# Copyright, 2020, by Samuel G. D. Williams. <http://www.codeotaku.com>
-# 
-# Permission is hereby granted, free of charge, to any person obtaining a copy
-# of this software and associated documentation files (the "Software"), to deal
-# in the Software without restriction, including without limitation the rights
-# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-# copies of the Software, and to permit persons to whom the Software is
-# furnished to do so, subject to the following conditions:
-# 
-# The above copyright notice and this permission notice shall be included in
-# all copies or substantial portions of the Software.
-# 
-# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-# THE SOFTWARE.
+# Released under the MIT License.
+# Copyright, 2016-2024, by Samuel Williams.
 
 
-# line 74 "query.rl"
+# line 57 "query.rl"
 
 
 require_relative '../error'
@@ -33,7 +12,7 @@ require_relative '../error'
 module XRB
 	module Fallback
 		
-# line 33 "query.rb"
+# line 16 "query.rb"
 class << self
 	attr_accessor :_query_trans_keys
 	private :_query_trans_keys, :_query_trans_keys=
@@ -246,7 +225,7 @@ end
 self.query_en_main = 12;
 
 
-# line 81 "query.rl"
+# line 64 "query.rl"
 		
 		def self.parse_query(buffer, delegate)
 			data = buffer.read
@@ -262,16 +241,16 @@ self.query_en_main = 12;
 			encoded = false
 			
 			
-# line 262 "query.rb"
+# line 245 "query.rb"
 begin
 	p ||= 0
 	pe ||= data.length
 	cs = query_start
 end
 
-# line 96 "query.rl"
+# line 79 "query.rl"
 			
-# line 271 "query.rb"
+# line 254 "query.rb"
 begin
 	testEof = false
 	_slen, _trans, _keys, _inds, _acts, _nacts = nil
@@ -309,13 +288,13 @@ begin
 	if _query_trans_actions[_trans] != 0
 	case _query_trans_actions[_trans]
 	when 1 then
-# line 24 "query.rl"
+# line 7 "query.rl"
 		begin
 
 		string_begin = p
 			end
 	when 6 then
-# line 28 "query.rl"
+# line 11 "query.rl"
 		begin
 
 		string_end = p
@@ -325,7 +304,7 @@ begin
 		encoded = false
 			end
 	when 7 then
-# line 40 "query.rl"
+# line 23 "query.rl"
 		begin
 
 		integer_end = p
@@ -333,53 +312,53 @@ begin
 		delegate.integer(data.byteslice(integer_begin...integer_end))
 			end
 	when 15 then
-# line 46 "query.rl"
+# line 29 "query.rl"
 		begin
 
 		delegate.append
 			end
 	when 10 then
-# line 50 "query.rl"
+# line 33 "query.rl"
 		begin
 
 		value_begin = p
 			end
 	when 13 then
-# line 62 "query.rl"
+# line 45 "query.rl"
 		begin
 
 		delegate.pair
 			end
 	when 4 then
-# line 66 "query.rl"
+# line 49 "query.rl"
 		begin
 
 		encoded = 1;
 			end
 	when 3 then
-# line 24 "query.rl"
+# line 7 "query.rl"
 		begin
 
 		string_begin = p
 			end
-# line 36 "query.rl"
+# line 19 "query.rl"
 		begin
 
 		integer_begin = p
 			end
 	when 2 then
-# line 24 "query.rl"
+# line 7 "query.rl"
 		begin
 
 		string_begin = p
 			end
-# line 66 "query.rl"
+# line 49 "query.rl"
 		begin
 
 		encoded = 1;
 			end
 	when 8 then
-# line 28 "query.rl"
+# line 11 "query.rl"
 		begin
 
 		string_end = p
@@ -388,46 +367,46 @@ begin
 		
 		encoded = false
 			end
-# line 62 "query.rl"
+# line 45 "query.rl"
 		begin
 
 		delegate.pair
 			end
 	when 5 then
-# line 36 "query.rl"
+# line 19 "query.rl"
 		begin
 
 		integer_begin = p
 			end
-# line 24 "query.rl"
+# line 7 "query.rl"
 		begin
 
 		string_begin = p
 			end
 	when 14 then
-# line 46 "query.rl"
+# line 29 "query.rl"
 		begin
 
 		delegate.append
 			end
-# line 62 "query.rl"
+# line 45 "query.rl"
 		begin
 
 		delegate.pair
 			end
 	when 11 then
-# line 50 "query.rl"
+# line 33 "query.rl"
 		begin
 
 		value_begin = p
 			end
-# line 66 "query.rl"
+# line 49 "query.rl"
 		begin
 
 		encoded = 1;
 			end
 	when 12 then
-# line 54 "query.rl"
+# line 37 "query.rl"
 		begin
 
 		value_end = p
@@ -436,18 +415,18 @@ begin
 		
 		encoded = false
 			end
-# line 62 "query.rl"
+# line 45 "query.rl"
 		begin
 
 		delegate.pair
 			end
 	when 9 then
-# line 50 "query.rl"
+# line 33 "query.rl"
 		begin
 
 		value_begin = p
 			end
-# line 54 "query.rl"
+# line 37 "query.rl"
 		begin
 
 		value_end = p
@@ -456,12 +435,12 @@ begin
 		
 		encoded = false
 			end
-# line 62 "query.rl"
+# line 45 "query.rl"
 		begin
 
 		delegate.pair
 			end
-# line 461 "query.rb"
+# line 444 "query.rb"
 	end
 	end
 	end
@@ -480,13 +459,13 @@ begin
 	if p == eof
 	  case _query_eof_actions[cs]
 	when 13 then
-# line 62 "query.rl"
+# line 45 "query.rl"
 		begin
 
 		delegate.pair
 			end
 	when 8 then
-# line 28 "query.rl"
+# line 11 "query.rl"
 		begin
 
 		string_end = p
@@ -495,24 +474,24 @@ begin
 		
 		encoded = false
 			end
-# line 62 "query.rl"
+# line 45 "query.rl"
 		begin
 
 		delegate.pair
 			end
 	when 14 then
-# line 46 "query.rl"
+# line 29 "query.rl"
 		begin
 
 		delegate.append
 			end
-# line 62 "query.rl"
+# line 45 "query.rl"
 		begin
 
 		delegate.pair
 			end
 	when 12 then
-# line 54 "query.rl"
+# line 37 "query.rl"
 		begin
 
 		value_end = p
@@ -521,18 +500,18 @@ begin
 		
 		encoded = false
 			end
-# line 62 "query.rl"
+# line 45 "query.rl"
 		begin
 
 		delegate.pair
 			end
 	when 9 then
-# line 50 "query.rl"
+# line 33 "query.rl"
 		begin
 
 		value_begin = p
 			end
-# line 54 "query.rl"
+# line 37 "query.rl"
 		begin
 
 		value_end = p
@@ -541,12 +520,12 @@ begin
 		
 		encoded = false
 			end
-# line 62 "query.rl"
+# line 45 "query.rl"
 		begin
 
 		delegate.pair
 			end
-# line 546 "query.rb"
+# line 529 "query.rb"
 	  end
 	end
 
@@ -557,7 +536,7 @@ begin
 end
 	end
 
-# line 97 "query.rl"
+# line 80 "query.rl"
 			
 			if p != eof
 				raise ParseError.new("could not consume all input", buffer, p)

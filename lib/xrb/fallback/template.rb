@@ -1,31 +1,10 @@
-# frozen_string_literal: true
 
+# line 1 "template.rl"
 # Released under the MIT License.
 # Copyright, 2016-2024, by Samuel Williams.
 
-# line 1 "template.rl"
-# Copyright, 2016, by Samuel G. D. Williams. <http://www.codeotaku.com>
-# 
-# Permission is hereby granted, free of charge, to any person obtaining a copy
-# of this software and associated documentation files (the "Software"), to deal
-# in the Software without restriction, including without limitation the rights
-# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-# copies of the Software, and to permit persons to whom the Software is
-# furnished to do so, subject to the following conditions:
-# 
-# The above copyright notice and this permission notice shall be included in
-# all copies or substantial portions of the Software.
-# 
-# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-# THE SOFTWARE.
 
-
-# line 68 "template.rl"
+# line 51 "template.rl"
 
 
 require_relative '../error'
@@ -33,7 +12,7 @@ require_relative '../error'
 module XRB
 	module Fallback
 		
-# line 33 "template.rb"
+# line 16 "template.rb"
 class << self
 	attr_accessor :_template_trans_keys
 	private :_template_trans_keys, :_template_trans_keys=
@@ -508,7 +487,7 @@ end
 self.template_en_main = 43;
 
 
-# line 75 "template.rl"
+# line 58 "template.rl"
 		
 		def self.parse_template(buffer, delegate)
 			data = buffer.read
@@ -522,7 +501,7 @@ self.template_en_main = 43;
 			instruction_begin = instruction_end = nil
 			
 			
-# line 522 "template.rb"
+# line 505 "template.rb"
 begin
 	p ||= 0
 	pe ||= data.length
@@ -533,9 +512,9 @@ begin
 	act = 0
 end
 
-# line 88 "template.rl"
+# line 71 "template.rl"
 			
-# line 535 "template.rb"
+# line 518 "template.rb"
 begin
 	testEof = false
 	_slen, _trans, _keys, _inds, _acts, _nacts = nil
@@ -563,7 +542,7 @@ begin
 		begin
 ts = p
 		end
-# line 563 "template.rb"
+# line 546 "template.rb"
 	end
 	_keys = cs << 1
 	_inds = _template_index_offsets[cs]
@@ -583,25 +562,25 @@ ts = p
 	if _template_trans_actions[_trans] != 0
 	case _template_trans_actions[_trans]
 	when 5 then
-# line 24 "template.rl"
+# line 7 "template.rl"
 		begin
 
 		instruction_begin = p
 			end
 	when 6 then
-# line 28 "template.rl"
+# line 11 "template.rl"
 		begin
 
 		instruction_end = p
 			end
 	when 9 then
-# line 40 "template.rl"
+# line 23 "template.rl"
 		begin
 
 		raise ParseError.new("failed to parse instruction", buffer, p)
 			end
 	when 16 then
-# line 13 "/home/samuel/Documents/ioquatix/xrb/parsers/xrb/template.rl"
+# line 13 "/home/samuel/Projects/socketry/xrb/parsers/xrb/template.rl"
 		begin
 	begin
 		stack[top] = cs
@@ -612,7 +591,7 @@ ts = p
 	end
 		end
 	when 13 then
-# line 17 "/home/samuel/Documents/ioquatix/xrb/parsers/xrb/template.rl"
+# line 17 "/home/samuel/Projects/socketry/xrb/parsers/xrb/template.rl"
 		begin
 	begin
 		stack[top] = cs
@@ -623,7 +602,7 @@ ts = p
 	end
 		end
 	when 14 then
-# line 20 "/home/samuel/Documents/ioquatix/xrb/parsers/xrb/template.rl"
+# line 20 "/home/samuel/Projects/socketry/xrb/parsers/xrb/template.rl"
 		begin
 	begin
 		top -= 1
@@ -638,7 +617,7 @@ ts = p
 te = p+1
 		end
 	when 8 then
-# line 36 "template.rl"
+# line 19 "template.rl"
 		begin
 te = p+1
  begin 
@@ -646,7 +625,7 @@ te = p+1
 	 end
 		end
 	when 10 then
-# line 60 "template.rl"
+# line 43 "template.rl"
 		begin
 te = p+1
  begin 
@@ -654,7 +633,7 @@ te = p+1
 	 end
 		end
 	when 22 then
-# line 60 "template.rl"
+# line 43 "template.rl"
 		begin
 te = p
 p = p - 1; begin 
@@ -662,7 +641,7 @@ p = p - 1; begin
 	 end
 		end
 	when 24 then
-# line 32 "template.rl"
+# line 15 "template.rl"
 		begin
 te = p
 p = p - 1; begin 
@@ -670,7 +649,7 @@ p = p - 1; begin
 	 end
 		end
 	when 21 then
-# line 60 "template.rl"
+# line 43 "template.rl"
 		begin
 te = p
 p = p - 1; begin 
@@ -678,7 +657,7 @@ p = p - 1; begin
 	 end
 		end
 	when 1 then
-# line 60 "template.rl"
+# line 43 "template.rl"
 		begin
  begin p = ((te))-1; end
  begin 
@@ -686,7 +665,7 @@ p = p - 1; begin
 	 end
 		end
 	when 3 then
-# line 60 "template.rl"
+# line 43 "template.rl"
 		begin
  begin p = ((te))-1; end
  begin 
@@ -710,12 +689,12 @@ p = p - 1; begin
 end 
 			end
 	when 4 then
-# line 40 "template.rl"
+# line 23 "template.rl"
 		begin
 
 		raise ParseError.new("failed to parse instruction", buffer, p)
 			end
-# line 60 "template.rl"
+# line 43 "template.rl"
 		begin
  begin p = ((te))-1; end
  begin 
@@ -723,18 +702,18 @@ end
 	 end
 		end
 	when 23 then
-# line 44 "template.rl"
+# line 27 "template.rl"
 		begin
 
 		expression_begin = p
 			end
-# line 53 "/home/samuel/Documents/ioquatix/xrb/parsers/xrb/template.rl"
+# line 53 "/home/samuel/Projects/socketry/xrb/parsers/xrb/template.rl"
 		begin
 te = p
 p = p - 1; begin cs = 32; end
 		end
 	when 15 then
-# line 13 "/home/samuel/Documents/ioquatix/xrb/parsers/xrb/template.rl"
+# line 13 "/home/samuel/Projects/socketry/xrb/parsers/xrb/template.rl"
 		begin
 	begin
 		stack[top] = cs
@@ -744,7 +723,7 @@ p = p - 1; begin cs = 32; end
 		next
 	end
 		end
-# line 17 "/home/samuel/Documents/ioquatix/xrb/parsers/xrb/template.rl"
+# line 17 "/home/samuel/Projects/socketry/xrb/parsers/xrb/template.rl"
 		begin
 	begin
 		stack[top] = cs
@@ -759,7 +738,7 @@ p = p - 1; begin cs = 32; end
 		begin
 te = p+1
 		end
-# line 32 "template.rl"
+# line 15 "template.rl"
 		begin
 act = 3;		end
 	when 20 then
@@ -767,24 +746,24 @@ act = 3;		end
 		begin
 te = p+1
 		end
-# line 60 "template.rl"
+# line 43 "template.rl"
 		begin
 act = 6;		end
 	when 18 then
-# line 48 "template.rl"
+# line 31 "template.rl"
 		begin
 
 		expression_end = p
 			end
-# line 52 "template.rl"
+# line 35 "template.rl"
 		begin
 
 		delegate.expression(data.byteslice(expression_begin...expression_end))
 			end
-# line 21 "/home/samuel/Documents/ioquatix/xrb/parsers/xrb/template.rl"
+# line 21 "/home/samuel/Projects/socketry/xrb/parsers/xrb/template.rl"
 		begin
 cs = 43;		end
-# line 784 "template.rb"
+# line 767 "template.rb"
 	end
 	end
 	end
@@ -794,7 +773,7 @@ cs = 43;		end
 # line 1 "NONE"
 		begin
 ts = nil;		end
-# line 794 "template.rb"
+# line 777 "template.rb"
 	end
 
 	if cs == 0
@@ -816,18 +795,18 @@ ts = nil;		end
 	end
 	  case _template_eof_actions[cs]
 	when 9 then
-# line 40 "template.rl"
+# line 23 "template.rl"
 		begin
 
 		raise ParseError.new("failed to parse instruction", buffer, p)
 			end
 	when 17 then
-# line 56 "template.rl"
+# line 39 "template.rl"
 		begin
 
 		raise ParseError.new("failed to parse expression", buffer, p)
 			end
-# line 827 "template.rb"
+# line 810 "template.rb"
 	  end
 	end
 
@@ -838,7 +817,7 @@ ts = nil;		end
 end
 	end
 
-# line 89 "template.rl"
+# line 72 "template.rl"
 			
 			if p != eof
 				raise ParseError.new("could not consume all input", buffer, p)
