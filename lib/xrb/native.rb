@@ -9,8 +9,7 @@ require_relative 'error'
 require_relative 'tag'
 
 begin
-	# Load native code:
-	require 'xrb/xrb'
-rescue LoadError
-	warn "Could not load native implementation: #{$!}" if $VERBOSE
-end unless ENV['TRENNI_PREFER_FALLBACK']
+	require 'XRB_Extension'
+rescue LoadError => error
+	warn "Could not load native parsers: #{error}"
+end unless ENV['XRB_PREFER_FALLBACK']

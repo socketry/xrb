@@ -18,4 +18,4 @@ $VPATH << "$(srcdir)/xrb"
 
 create_header
 
-create_makefile('XRB')
+create_makefile('XRB_Extension')

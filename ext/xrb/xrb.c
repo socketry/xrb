@@ -16,7 +16,7 @@ void XRB_raise_error(const char * message, VALUE buffer, size_t offset) {
 	rb_exc_raise(exception);
 }
 
-void Init_xrb() {
+void Init_XRB_Extension() {
 	id_open_tag_begin = rb_intern("open_tag_begin");
 	id_open_tag_end = rb_intern("open_tag_end");
 	id_close_tag = rb_intern("close_tag");
