@@ -37,6 +37,21 @@ module XRB
 				# This is a bit of a hack... but is required for existing specs to pass:
 				self.to_s == other.to_s
 			end
+			
+			def >> block
+				if block
+					output = Template.buffer(block.binding)
+					if output.is_a?(Builder)
+						@block.call(output)
+					else
+						@block.call(Builder.new(output))
+					end
+					
+					return nil
+				else
+					return self
+				end
+			end
 		end
 		
 		# A helper to generate fragments of markup.
@@ -161,7 +176,8 @@ module XRB
 					content.call(self)
 				end
 			else
-				Markup.append(@output, content)
+				# Markup.append(@output, content)
+				@output << content
 			end
 		end
 		

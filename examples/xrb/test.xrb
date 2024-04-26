@@ -2,12 +2,14 @@
 f = Formatter.new
 ?>
 
+<?r $stderr.puts "(1) #{_out.class}" ?>
+<dl>
 # Test Interpolation
 #{f.row :title => 'Test title', :value => "Test value"}
 
 # Test Tag
 <?r f.row title: 'Title Test' do ?>
+	<?r $stderr.puts "(2) #{_out.class}" ?>
 	<a href="test-link">Test Link</a>
 <?r end ?>
-
-# Done
+</dl>

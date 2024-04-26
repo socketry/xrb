@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 
-require_relative 'lib/xrb'
+require 'xrb'
 
 class Formatter
 	def title_for(options)
@@ -14,19 +14,18 @@ class Formatter
 	def row(options = {}, &block)
 		XRB::Builder.fragment do |builder|
 			builder.inline(:dt) { builder.text title_for(options) }
-
+			
 			if block_given?
-				binding.irb
 				builder.inline(:dd) { builder.capture(self, &block) }
 			else
 				builder.inline(:dd) { builder.text value_for(options) }
 			end
-		end
+		end >> block
 	end
 end
 
 template = XRB::Template.load_file('test.xrb')
 
-binding.irb
+puts template.send(:code)
 
 puts template.to_string(binding)

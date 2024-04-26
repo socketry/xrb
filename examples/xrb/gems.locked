@@ -1,0 +1,18 @@
+PATH
+  remote: ../..
+  specs:
+    xrb (0.2.0)
+
+GEM
+  remote: https://rubygems.org/
+  specs:
+
+PLATFORMS
+  arm64-darwin-23
+  ruby
+
+DEPENDENCIES
+  xrb!
+
+BUNDLED WITH
+   2.5.5
