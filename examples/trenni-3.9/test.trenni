@@ -1,0 +1,13 @@
+<?r
+f = Formatter.new
+?>
+
+# Test Interpolation
+#{f.row :title => 'Test title', :value => "Test value"}
+
+# Test Tag
+<?r f.row title: 'Title Test' do ?>
+	<a href="test-link">Test Link</a>
+<?r end ?>
+
+# Done

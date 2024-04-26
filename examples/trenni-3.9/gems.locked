@@ -1,0 +1,14 @@
+GEM
+  remote: https://rubygems.org/
+  specs:
+    trenni (3.14.0)
+
+PLATFORMS
+  ruby
+  x86_64-linux
+
+DEPENDENCIES
+  trenni (~> 3.9)
+
+BUNDLED WITH
+   2.5.5
