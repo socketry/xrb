@@ -1,0 +1,8 @@
+<?r
+def my_capture(value = nil, &block)
+	XRB::Builder.fragment do |builder|
+		builder.inline(:div) { builder.raw value }
+	end
+end
+?>
+#{my_capture "Hello <World>"}
