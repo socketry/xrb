@@ -6,6 +6,8 @@
 require 'xrb/template'
 require 'xrb/parsers'
 
+require 'xrb/parse_delegate'
+
 class Formatter
 	def title_for(options)
 		options[:title]

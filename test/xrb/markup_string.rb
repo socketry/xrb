@@ -11,7 +11,7 @@ Model = Struct.new(:text)
 
 describe XRB::MarkupString do
 	with 'basic template' do
-		let(:template) {XRB::MarkupTemplate.load_file File.expand_path('.corpus/basic.xrb', __dir__)}
+		let(:template) {XRB::Template.load_file File.expand_path('.corpus/basic.xrb', __dir__)}
 		let(:html_text) {"<h1>Hello World</h1>"}
 		
 		it "should escape unsafe text" do

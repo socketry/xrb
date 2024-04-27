@@ -9,5 +9,5 @@
 /ext/mkmf.log
 /ext/Makefile
 /ext/extconf.h
-/ext/XRB.*
+/ext/XRB_Extension.*
 /ext/tmp

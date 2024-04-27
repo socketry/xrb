@@ -4,7 +4,6 @@
 # Copyright, 2012-2024, by Samuel Williams.
 
 require_relative 'native'
-require_relative 'parse_delegate'
 
 if defined? XRB::Native
 	XRB::Parsers = XRB::Native

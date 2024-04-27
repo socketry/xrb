@@ -8,6 +8,7 @@ require 'xrb/parsers'
 require 'xrb/entities'
 require 'xrb/template'
 require 'xrb/markup'
+require 'xrb/parse_delegate'
 
 HTMLParsers = Sus::Shared("HTML Parsers") do
 	let(:delegate) {XRB::ParseDelegate.new}
@@ -137,7 +138,7 @@ describe "<p attr=\"foo&amp;bar\">&quot;</p>" do
 	
 	let(:template_text) {%q{<p attr="#{events[1][2]}">#{events[3][1]}</p>}}
 	let(:template_buffer) {XRB::Buffer(template_text)}
-	let(:template) {XRB::MarkupTemplate.new(template_buffer)}
+	let(:template) {XRB::Template.new(template_buffer)}
 	
 	it "should parse empty attributes" do
 		expect(events).to be == [

@@ -46,13 +46,13 @@ module XRB
 			def initialize(encoding: Encoding::UTF_8)
 				@code = String.new.force_encoding(encoding)
 			end
-
+			
 			attr :code
-
+			
 			# Output raw text to the template.
 			def text(text)
 				text = text.gsub("'", "\\\\'")
-				@code << "#{OUT}<<'#{text}';"
+				@code << "#{OUT}.raw('#{text}');"
 				
 				# This is an interesting approach, but it doens't preserve newlines or tabs as raw characters, so template line numbers don't match up.
 				# @parts << "#{OUT}<<#{text.dump};"
@@ -64,9 +64,8 @@ module XRB
 			end
 			
 			# Output a string interpolation.
-			def expression(text)
-				# Double brackets are required here to handle expressions like #{foo rescue "bar"}.
-				@code << "#{OUT}<<String(#{text});"
+			def expression(code)
+				@code << "#{OUT}<<(#{code});"
 			end
 		end
 		
@@ -93,11 +92,11 @@ module XRB
 		end
 		
 		def to_string(scope = Object.new, output = nil)
-			output ||= output_buffer
+			builder = Builder.new(output, encoding: code.encoding)
 			
-			scope.instance_exec(output, &to_proc)
+			scope.instance_exec(builder, &to_proc)
 			
-			return output
+			return builder.output
 		end
 		
 		def to_buffer(scope)
@@ -109,10 +108,6 @@ module XRB
 		end
 		
 		protected
-		
-		def output_buffer
-			String.new.force_encoding(code.encoding)
-		end
 		
 		def code
 			@code ||= compile!

@@ -6,6 +6,7 @@
 require 'benchmark/ips'
 require 'xrb/parsers'
 require 'xrb/entities'
+require 'xrb/parse_delegate'
 
 require 'xrb/query'
 require 'rack/utils'

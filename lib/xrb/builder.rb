@@ -179,7 +179,6 @@ module XRB
 				end
 			else
 				Markup.append(@output, content)
-				# @output << content
 			end
 		end
 		
