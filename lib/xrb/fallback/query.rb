@@ -233,19 +233,26 @@ module XRB
 							
 			p = 0
 			pe = eof = data.bytesize
+			stack = []
+							
+			string_begin = string_end = nil
+			integer_begin = integer_end = nil
+			value_begin = value_end = nil
+			encoded = false
 							
 							
-			# line 240 "query.rb"
+			# line 245 "query.rb"
 			begin
 				p ||= 0
 				pe ||= data.length
 				cs = query_start
 			end
 
-			# line 74 "query.rl"
+			# line 79 "query.rl"
 							
-			# line 249 "query.rb"
+			# line 254 "query.rb"
 			begin
+				testEof = false
 				_slen, _trans, _keys, _inds, _acts, _nacts = nil
 				_goto_level = 0
 				_resume = 10
@@ -337,7 +344,7 @@ module XRB
 								# line 19 "query.rl"
 								begin
 
-									p
+									integer_begin = p
 								end
 							when 2 then
 								# line 7 "query.rl"
@@ -369,7 +376,7 @@ module XRB
 								# line 19 "query.rl"
 								begin
 
-									p
+									integer_begin = p
 								end
 								# line 7 "query.rl"
 								begin
@@ -433,7 +440,7 @@ module XRB
 
 									delegate.pair
 								end
-								# line 439 "query.rb"
+								# line 444 "query.rb"
 							end
 						end
 					end
@@ -518,7 +525,7 @@ module XRB
 
 									delegate.pair
 								end
-								# line 524 "query.rb"
+								# line 529 "query.rb"
 							end
 						end
 
@@ -529,7 +536,7 @@ module XRB
 				end
 			end
 
-			# line 75 "query.rl"
+			# line 80 "query.rl"
 							
 			if p != eof
 				raise ParseError.new("could not consume all input", buffer, p)

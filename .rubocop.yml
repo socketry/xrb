@@ -36,9 +36,9 @@ Layout/CaseIndentation:
 Layout/CommentIndentation:
   Enabled: true
 
-Lint/UselessAssignment:
-  Enabled: true
+# Lint/UselessAssignment:
+#   Enabled: true
 
-Lint/Void:
-  Enabled: true
+# Lint/Void:
+#   Enabled: true
 

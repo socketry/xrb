@@ -426,8 +426,18 @@ module XRB
 			pe = eof = data.bytesize
 			stack = []
 							
+			pcdata = nil
+			characters_begin = characters_end = nil
+			entity_begin = entity_end = nil
+			identifier_begin = identifier_end = nil
+			doctype_begin = doctype_end = nil
+			comment_begin = comment_end = nil
+			instruction_begin = instruction_end = nil
+			cdata_begin = cdata_end = nil
+			has_entities = has_value = false
 							
-			# line 431 "markup.rb"
+							
+			# line 441 "markup.rb"
 			begin
 				p ||= 0
 				pe ||= data.length
@@ -435,10 +445,11 @@ module XRB
 				top = 0
 			end
 
-			# line 208 "markup.rl"
+			# line 218 "markup.rl"
 							
-			# line 441 "markup.rb"
+			# line 451 "markup.rb"
 			begin
+				testEof = false
 				_slen, _trans, _keys, _inds, _acts, _nacts = nil
 				_goto_level = 0
 				_resume = 10
@@ -1496,7 +1507,7 @@ module XRB
 
 									cdata_begin = p
 								end
-								# line 1501 "markup.rb"
+								# line 1511 "markup.rb"
 							end
 						end
 					end
@@ -1623,7 +1634,7 @@ module XRB
 												
 									delegate.text(pcdata)
 								end
-								# line 1628 "markup.rb"
+								# line 1638 "markup.rb"
 							end
 						end
 
@@ -1634,7 +1645,7 @@ module XRB
 				end
 			end
 
-			# line 209 "markup.rl"
+			# line 219 "markup.rl"
 							
 			if p != eof
 				raise ParseError.new("could not consume all input", buffer, p)

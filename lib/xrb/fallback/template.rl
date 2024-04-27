@@ -64,6 +64,9 @@ module XRB
 			pe = eof = data.bytesize
 			stack = []
 			
+			expression_begin = expression_end = nil
+			instruction_begin = instruction_end = nil
+			
 			%% write init;
 			%% write exec;
 			

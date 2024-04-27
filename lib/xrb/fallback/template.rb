@@ -497,8 +497,11 @@ module XRB
 			pe = eof = data.bytesize
 			stack = []
 							
+			expression_begin = expression_end = nil
+			instruction_begin = instruction_end = nil
 							
-			# line 502 "template.rb"
+							
+			# line 505 "template.rb"
 			begin
 				p ||= 0
 				pe ||= data.length
@@ -509,10 +512,11 @@ module XRB
 				act = 0
 			end
 
-			# line 68 "template.rl"
+			# line 71 "template.rl"
 							
-			# line 515 "template.rb"
+			# line 518 "template.rb"
 			begin
+				testEof = false
 				_slen, _trans, _keys, _inds, _acts, _nacts = nil
 				_goto_level = 0
 				_resume = 10
@@ -538,7 +542,7 @@ module XRB
 							begin
 								ts = p
 							end
-							# line 543 "template.rb"
+							# line 546 "template.rb"
 						end
 						_keys = cs << 1
 						_inds = _template_index_offsets[cs]
@@ -759,7 +763,7 @@ module XRB
 								# line 21 "/Users/samuel/Developer/socketry/xrb/parsers/xrb/template.rl"
 								begin
 						cs = 43;		end
-								# line 764 "template.rb"
+								# line 767 "template.rb"
 							end
 						end
 					end
@@ -769,7 +773,7 @@ module XRB
 							# line 1 "NONE"
 							begin
 					ts = nil;		end
-							# line 774 "template.rb"
+							# line 777 "template.rb"
 						end
 
 						if cs == 0
@@ -802,7 +806,7 @@ module XRB
 
 									raise ParseError.new("failed to parse expression", buffer, p)
 								end
-								# line 807 "template.rb"
+								# line 810 "template.rb"
 							end
 						end
 
@@ -813,7 +817,7 @@ module XRB
 				end
 			end
 
-			# line 69 "template.rl"
+			# line 72 "template.rl"
 							
 			if p != eof
 				raise ParseError.new("could not consume all input", buffer, p)
