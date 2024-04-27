@@ -10,3 +10,4 @@
 /ext/Makefile
 /ext/extconf.h
 /ext/XRB.*
+/ext/tmp
