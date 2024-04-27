@@ -12,7 +12,8 @@ Please see the [project documentation](https://socketry.github.io/xrb/) for more
 
 ## See Also
 
-  - [xrb-vscode](https://github.com/socketry/xrb-vscode) package for Visual Studio Code.
+  - [xrb-vscode](https://github.com/socketry/xrb-vscode) - A syntax highlighting package for Visual Studio Code.
+  - [trenni](https://github.com/ioquatix/trenni) - The original templating system which XRB is based on.
 
 ## Contributing
 
