@@ -1,0 +1,10 @@
+<?r binding.irb ?>
+<dl>
+# Test Interpolation
+#{formatter.row :title => 'Test title', :value => "Test value"}
+
+# Test Tag
+<?r formatter.row title: 'Title Test' do ?>
+	<a href="test-link">Test Link</a>
+<?r end ?>
+</dl>
