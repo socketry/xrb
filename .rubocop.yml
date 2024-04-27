@@ -36,9 +36,8 @@ Layout/CaseIndentation:
 Layout/CommentIndentation:
   Enabled: true
 
-# Lint/UselessAssignment:
-#   Enabled: true
+Layout/EmptyLinesAroundClassBody:
+  Enabled: true
 
-# Lint/Void:
-#   Enabled: true
-
+Layout/EmptyLinesAroundModuleBody:
+  Enabled: true
