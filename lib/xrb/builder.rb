@@ -41,11 +41,13 @@ module XRB
 			def >> block
 				if block
 					output = Template.buffer(block.binding)
-					if output.is_a?(Builder)
-						@block.call(output)
-					else
-						@block.call(Builder.new(output))
+					builder = output
+					
+					unless output.is_a?(Builder)
+						output = Builder.new(output)
 					end
+					
+					output << self
 					
 					return nil
 				else
@@ -176,8 +178,8 @@ module XRB
 					content.call(self)
 				end
 			else
-				# Markup.append(@output, content)
-				@output << content
+				Markup.append(@output, content)
+				# @output << content
 			end
 		end
 		
