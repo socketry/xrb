@@ -1,10 +1,10 @@
 
-# line 1 "query.rl"
+# line 1 "lib/xrb/fallback/query.rl"
 # Released under the MIT License.
 # Copyright, 2016-2024, by Samuel Williams.
 
 
-# line 57 "query.rl"
+# line 57 "lib/xrb/fallback/query.rl"
 
 
 require_relative '../error'
@@ -12,7 +12,7 @@ require_relative '../error'
 module XRB
 	module Fallback
 		
-		# line 16 "query.rb"
+		# line 16 "lib/xrb/fallback/query.rb"
 		class << self
 			attr_accessor :_query_trans_keys
 			private :_query_trans_keys, :_query_trans_keys=
@@ -225,7 +225,7 @@ module XRB
 		self.query_en_main = 12;
 
 
-		# line 64 "query.rl"
+		# line 64 "lib/xrb/fallback/query.rl"
 		
 		def self.parse_query(buffer, delegate)
 			data = buffer.read
@@ -241,16 +241,16 @@ module XRB
 			encoded = false
 							
 							
-			# line 245 "query.rb"
+			# line 245 "lib/xrb/fallback/query.rb"
 			begin
 				p ||= 0
 				pe ||= data.length
 				cs = query_start
 			end
 
-			# line 79 "query.rl"
+			# line 79 "lib/xrb/fallback/query.rl"
 							
-			# line 254 "query.rb"
+			# line 254 "lib/xrb/fallback/query.rb"
 			begin
 				testEof = false
 				_slen, _trans, _keys, _inds, _acts, _nacts = nil
@@ -288,13 +288,13 @@ module XRB
 						if _query_trans_actions[_trans] != 0
 							case _query_trans_actions[_trans]
 							when 1 then
-								# line 7 "query.rl"
+								# line 7 "lib/xrb/fallback/query.rl"
 								begin
 
 									string_begin = p
 								end
 							when 6 then
-								# line 11 "query.rl"
+								# line 11 "lib/xrb/fallback/query.rl"
 								begin
 
 									string_end = p
@@ -304,7 +304,7 @@ module XRB
 									encoded = false
 								end
 							when 7 then
-								# line 23 "query.rl"
+								# line 23 "lib/xrb/fallback/query.rl"
 								begin
 
 									integer_end = p
@@ -312,53 +312,53 @@ module XRB
 									delegate.integer(data.byteslice(integer_begin...integer_end))
 								end
 							when 15 then
-								# line 29 "query.rl"
+								# line 29 "lib/xrb/fallback/query.rl"
 								begin
 
 									delegate.append
 								end
 							when 10 then
-								# line 33 "query.rl"
+								# line 33 "lib/xrb/fallback/query.rl"
 								begin
 
 									value_begin = p
 								end
 							when 13 then
-								# line 45 "query.rl"
+								# line 45 "lib/xrb/fallback/query.rl"
 								begin
 
 									delegate.pair
 								end
 							when 4 then
-								# line 49 "query.rl"
+								# line 49 "lib/xrb/fallback/query.rl"
 								begin
 
 									encoded = 1;
 								end
 							when 3 then
-								# line 7 "query.rl"
+								# line 7 "lib/xrb/fallback/query.rl"
 								begin
 
 									string_begin = p
 								end
-								# line 19 "query.rl"
+								# line 19 "lib/xrb/fallback/query.rl"
 								begin
 
 									integer_begin = p
 								end
 							when 2 then
-								# line 7 "query.rl"
+								# line 7 "lib/xrb/fallback/query.rl"
 								begin
 
 									string_begin = p
 								end
-								# line 49 "query.rl"
+								# line 49 "lib/xrb/fallback/query.rl"
 								begin
 
 									encoded = 1;
 								end
 							when 8 then
-								# line 11 "query.rl"
+								# line 11 "lib/xrb/fallback/query.rl"
 								begin
 
 									string_end = p
@@ -367,46 +367,46 @@ module XRB
 								
 									encoded = false
 								end
-								# line 45 "query.rl"
+								# line 45 "lib/xrb/fallback/query.rl"
 								begin
 
 									delegate.pair
 								end
 							when 5 then
-								# line 19 "query.rl"
+								# line 19 "lib/xrb/fallback/query.rl"
 								begin
 
 									integer_begin = p
 								end
-								# line 7 "query.rl"
+								# line 7 "lib/xrb/fallback/query.rl"
 								begin
 
 									string_begin = p
 								end
 							when 14 then
-								# line 29 "query.rl"
+								# line 29 "lib/xrb/fallback/query.rl"
 								begin
 
 									delegate.append
 								end
-								# line 45 "query.rl"
+								# line 45 "lib/xrb/fallback/query.rl"
 								begin
 
 									delegate.pair
 								end
 							when 11 then
-								# line 33 "query.rl"
+								# line 33 "lib/xrb/fallback/query.rl"
 								begin
 
 									value_begin = p
 								end
-								# line 49 "query.rl"
+								# line 49 "lib/xrb/fallback/query.rl"
 								begin
 
 									encoded = 1;
 								end
 							when 12 then
-								# line 37 "query.rl"
+								# line 37 "lib/xrb/fallback/query.rl"
 								begin
 
 									value_end = p
@@ -415,18 +415,18 @@ module XRB
 								
 									encoded = false
 								end
-								# line 45 "query.rl"
+								# line 45 "lib/xrb/fallback/query.rl"
 								begin
 
 									delegate.pair
 								end
 							when 9 then
-								# line 33 "query.rl"
+								# line 33 "lib/xrb/fallback/query.rl"
 								begin
 
 									value_begin = p
 								end
-								# line 37 "query.rl"
+								# line 37 "lib/xrb/fallback/query.rl"
 								begin
 
 									value_end = p
@@ -435,12 +435,12 @@ module XRB
 								
 									encoded = false
 								end
-								# line 45 "query.rl"
+								# line 45 "lib/xrb/fallback/query.rl"
 								begin
 
 									delegate.pair
 								end
-								# line 444 "query.rb"
+								# line 444 "lib/xrb/fallback/query.rb"
 							end
 						end
 					end
@@ -459,13 +459,13 @@ module XRB
 						if p == eof
 							case _query_eof_actions[cs]
 							when 13 then
-								# line 45 "query.rl"
+								# line 45 "lib/xrb/fallback/query.rl"
 								begin
 
 									delegate.pair
 								end
 							when 8 then
-								# line 11 "query.rl"
+								# line 11 "lib/xrb/fallback/query.rl"
 								begin
 
 									string_end = p
@@ -474,24 +474,24 @@ module XRB
 												
 									encoded = false
 								end
-								# line 45 "query.rl"
+								# line 45 "lib/xrb/fallback/query.rl"
 								begin
 
 									delegate.pair
 								end
 							when 14 then
-								# line 29 "query.rl"
+								# line 29 "lib/xrb/fallback/query.rl"
 								begin
 
 									delegate.append
 								end
-								# line 45 "query.rl"
+								# line 45 "lib/xrb/fallback/query.rl"
 								begin
 
 									delegate.pair
 								end
 							when 12 then
-								# line 37 "query.rl"
+								# line 37 "lib/xrb/fallback/query.rl"
 								begin
 
 									value_end = p
@@ -500,18 +500,18 @@ module XRB
 												
 									encoded = false
 								end
-								# line 45 "query.rl"
+								# line 45 "lib/xrb/fallback/query.rl"
 								begin
 
 									delegate.pair
 								end
 							when 9 then
-								# line 33 "query.rl"
+								# line 33 "lib/xrb/fallback/query.rl"
 								begin
 
 									value_begin = p
 								end
-								# line 37 "query.rl"
+								# line 37 "lib/xrb/fallback/query.rl"
 								begin
 
 									value_end = p
@@ -520,12 +520,12 @@ module XRB
 												
 									encoded = false
 								end
-								# line 45 "query.rl"
+								# line 45 "lib/xrb/fallback/query.rl"
 								begin
 
 									delegate.pair
 								end
-								# line 529 "query.rb"
+								# line 529 "lib/xrb/fallback/query.rb"
 							end
 						end
 
@@ -536,7 +536,7 @@ module XRB
 				end
 			end
 
-			# line 80 "query.rl"
+			# line 80 "lib/xrb/fallback/query.rl"
 							
 			if p != eof
 				raise ParseError.new("could not consume all input", buffer, p)

@@ -1,10 +1,10 @@
 
-# line 1 "template.rl"
+# line 1 "lib/xrb/fallback/template.rl"
 # Released under the MIT License.
 # Copyright, 2016-2024, by Samuel Williams.
 
 
-# line 51 "template.rl"
+# line 51 "lib/xrb/fallback/template.rl"
 
 
 require_relative '../error'
@@ -12,7 +12,7 @@ require_relative '../error'
 module XRB
 	module Fallback
 		
-		# line 16 "template.rb"
+		# line 16 "lib/xrb/fallback/template.rb"
 		class << self
 			attr_accessor :_template_trans_keys
 			private :_template_trans_keys, :_template_trans_keys=
@@ -487,7 +487,7 @@ module XRB
 		self.template_en_main = 43;
 
 
-		# line 58 "template.rl"
+		# line 58 "lib/xrb/fallback/template.rl"
 		
 		def self.parse_template(buffer, delegate)
 			data = buffer.read
@@ -501,7 +501,7 @@ module XRB
 			instruction_begin = instruction_end = nil
 							
 							
-			# line 505 "template.rb"
+			# line 505 "lib/xrb/fallback/template.rb"
 			begin
 				p ||= 0
 				pe ||= data.length
@@ -512,9 +512,9 @@ module XRB
 				act = 0
 			end
 
-			# line 71 "template.rl"
+			# line 71 "lib/xrb/fallback/template.rl"
 							
-			# line 518 "template.rb"
+			# line 518 "lib/xrb/fallback/template.rb"
 			begin
 				testEof = false
 				_slen, _trans, _keys, _inds, _acts, _nacts = nil
@@ -542,7 +542,7 @@ module XRB
 							begin
 								ts = p
 							end
-							# line 546 "template.rb"
+							# line 546 "lib/xrb/fallback/template.rb"
 						end
 						_keys = cs << 1
 						_inds = _template_index_offsets[cs]
@@ -562,25 +562,25 @@ module XRB
 						if _template_trans_actions[_trans] != 0
 							case _template_trans_actions[_trans]
 							when 5 then
-								# line 7 "template.rl"
+								# line 7 "lib/xrb/fallback/template.rl"
 								begin
 
 									instruction_begin = p
 								end
 							when 6 then
-								# line 11 "template.rl"
+								# line 11 "lib/xrb/fallback/template.rl"
 								begin
 
 									instruction_end = p
 								end
 							when 9 then
-								# line 23 "template.rl"
+								# line 23 "lib/xrb/fallback/template.rl"
 								begin
 
 									raise ParseError.new("failed to parse instruction", buffer, p)
 								end
 							when 16 then
-								# line 13 "/home/samuel/Documents/ioquatix/xrb/parsers/xrb/template.rl"
+								# line 13 "parsers/xrb/template.rl"
 								begin
 									begin
 										stack[top] = cs
@@ -591,7 +591,7 @@ module XRB
 									end
 								end
 							when 13 then
-								# line 17 "/home/samuel/Documents/ioquatix/xrb/parsers/xrb/template.rl"
+								# line 17 "parsers/xrb/template.rl"
 								begin
 									begin
 										stack[top] = cs
@@ -602,7 +602,7 @@ module XRB
 									end
 								end
 							when 14 then
-								# line 20 "/home/samuel/Documents/ioquatix/xrb/parsers/xrb/template.rl"
+								# line 20 "parsers/xrb/template.rl"
 								begin
 									begin
 										top -= 1
@@ -617,7 +617,7 @@ module XRB
 									te = p+1
 								end
 							when 8 then
-								# line 19 "template.rl"
+								# line 19 "lib/xrb/fallback/template.rl"
 								begin
 									te = p+1
 									begin 
@@ -625,7 +625,7 @@ module XRB
 									end
 								end
 							when 10 then
-								# line 43 "template.rl"
+								# line 43 "lib/xrb/fallback/template.rl"
 								begin
 									te = p+1
 									begin 
@@ -633,7 +633,7 @@ module XRB
 									end
 								end
 							when 22 then
-								# line 43 "template.rl"
+								# line 43 "lib/xrb/fallback/template.rl"
 								begin
 									te = p
 									p = p - 1; begin 
@@ -641,7 +641,7 @@ module XRB
 									end
 								end
 							when 24 then
-								# line 15 "template.rl"
+								# line 15 "lib/xrb/fallback/template.rl"
 								begin
 									te = p
 									p = p - 1; begin 
@@ -649,7 +649,7 @@ module XRB
 									end
 								end
 							when 21 then
-								# line 43 "template.rl"
+								# line 43 "lib/xrb/fallback/template.rl"
 								begin
 									te = p
 									p = p - 1; begin 
@@ -657,7 +657,7 @@ module XRB
 									end
 								end
 							when 1 then
-								# line 43 "template.rl"
+								# line 43 "lib/xrb/fallback/template.rl"
 								begin
 									begin p = ((te))-1; end
 									begin 
@@ -665,7 +665,7 @@ module XRB
 									end
 								end
 							when 3 then
-								# line 43 "template.rl"
+								# line 43 "lib/xrb/fallback/template.rl"
 								begin
 									begin p = ((te))-1; end
 									begin 
@@ -689,12 +689,12 @@ module XRB
 									end 
 								end
 							when 4 then
-								# line 23 "template.rl"
+								# line 23 "lib/xrb/fallback/template.rl"
 								begin
 
 									raise ParseError.new("failed to parse instruction", buffer, p)
 								end
-								# line 43 "template.rl"
+								# line 43 "lib/xrb/fallback/template.rl"
 								begin
 									begin p = ((te))-1; end
 									begin 
@@ -702,18 +702,18 @@ module XRB
 									end
 								end
 							when 23 then
-								# line 27 "template.rl"
+								# line 27 "lib/xrb/fallback/template.rl"
 								begin
 
 									expression_begin = p
 								end
-								# line 53 "/home/samuel/Documents/ioquatix/xrb/parsers/xrb/template.rl"
+								# line 53 "parsers/xrb/template.rl"
 								begin
 									te = p
 									p = p - 1; begin cs = 32; end
 								end
 							when 15 then
-								# line 13 "/home/samuel/Documents/ioquatix/xrb/parsers/xrb/template.rl"
+								# line 13 "parsers/xrb/template.rl"
 								begin
 									begin
 										stack[top] = cs
@@ -723,7 +723,7 @@ module XRB
 										next
 									end
 								end
-								# line 17 "/home/samuel/Documents/ioquatix/xrb/parsers/xrb/template.rl"
+								# line 17 "parsers/xrb/template.rl"
 								begin
 									begin
 										stack[top] = cs
@@ -738,7 +738,7 @@ module XRB
 								begin
 									te = p+1
 								end
-								# line 15 "template.rl"
+								# line 15 "lib/xrb/fallback/template.rl"
 								begin
 						act = 3;		end
 							when 20 then
@@ -746,24 +746,24 @@ module XRB
 								begin
 									te = p+1
 								end
-								# line 43 "template.rl"
+								# line 43 "lib/xrb/fallback/template.rl"
 								begin
 						act = 6;		end
 							when 18 then
-								# line 31 "template.rl"
+								# line 31 "lib/xrb/fallback/template.rl"
 								begin
 
 									expression_end = p
 								end
-								# line 35 "template.rl"
+								# line 35 "lib/xrb/fallback/template.rl"
 								begin
 
 									delegate.expression(data.byteslice(expression_begin...expression_end))
 								end
-								# line 21 "/home/samuel/Documents/ioquatix/xrb/parsers/xrb/template.rl"
+								# line 21 "parsers/xrb/template.rl"
 								begin
 						cs = 43;		end
-								# line 767 "template.rb"
+								# line 767 "lib/xrb/fallback/template.rb"
 							end
 						end
 					end
@@ -773,7 +773,7 @@ module XRB
 							# line 1 "NONE"
 							begin
 					ts = nil;		end
-							# line 777 "template.rb"
+							# line 777 "lib/xrb/fallback/template.rb"
 						end
 
 						if cs == 0
@@ -795,18 +795,18 @@ module XRB
 							end
 							case _template_eof_actions[cs]
 							when 9 then
-								# line 23 "template.rl"
+								# line 23 "lib/xrb/fallback/template.rl"
 								begin
 
 									raise ParseError.new("failed to parse instruction", buffer, p)
 								end
 							when 17 then
-								# line 39 "template.rl"
+								# line 39 "lib/xrb/fallback/template.rl"
 								begin
 
 									raise ParseError.new("failed to parse expression", buffer, p)
 								end
-								# line 810 "template.rb"
+								# line 810 "lib/xrb/fallback/template.rb"
 							end
 						end
 
@@ -817,7 +817,7 @@ module XRB
 				end
 			end
 
-			# line 72 "template.rl"
+			# line 72 "lib/xrb/fallback/template.rl"
 							
 			if p != eof
 				raise ParseError.new("could not consume all input", buffer, p)

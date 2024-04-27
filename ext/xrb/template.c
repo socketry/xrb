@@ -1,10 +1,10 @@
 
-#line 1 "template.rl"
+#line 1 "ext/xrb/template.rl"
 
 #include "template.h"
 
 
-#line 8 "template.c"
+#line 8 "ext/xrb/template.c"
 static const int XRB_template_parser_start = 43;
 static const int XRB_template_parser_first_final = 43;
 static const int XRB_template_parser_error = 0;
@@ -14,7 +14,7 @@ static const int XRB_template_parser_en_parse_expression = 32;
 static const int XRB_template_parser_en_main = 43;
 
 
-#line 50 "template.rl"
+#line 50 "ext/xrb/template.rl"
 
 
 VALUE XRB_Native_parse_template(VALUE self, VALUE buffer, VALUE delegate) {
@@ -33,7 +33,7 @@ VALUE XRB_Native_parse_template(VALUE self, VALUE buffer, VALUE delegate) {
 	eof = pe = p + RSTRING_LEN(string);
 	
 	
-#line 37 "template.c"
+#line 37 "ext/xrb/template.c"
 	{
 	cs = XRB_template_parser_start;
 	top = 0;
@@ -42,7 +42,7 @@ VALUE XRB_Native_parse_template(VALUE self, VALUE buffer, VALUE delegate) {
 	act = 0;
 	}
 
-#line 46 "template.c"
+#line 46 "ext/xrb/template.c"
 	{
 	if ( p == pe )
 		goto _test_eof;
@@ -116,23 +116,23 @@ _resume:
 	switch ( cs )
 	{
 tr0:
-#line 43 "template.rl"
+#line 43 "ext/xrb/template.rl"
 	{{p = ((te))-1;}{
 		rb_funcall(delegate, id_text, 1, XRB_string(ts, te, encoding));
 	}}
 	goto st43;
 tr5:
-#line 43 "template.rl"
+#line 43 "ext/xrb/template.rl"
 	{{p = ((te))-1;}{
 		rb_funcall(delegate, id_text, 1, XRB_string(ts, te, encoding));
 	}}
 	goto st43;
 tr9:
-#line 23 "template.rl"
+#line 23 "ext/xrb/template.rl"
 	{
 		XRB_raise_error("failed to parse instruction", buffer, p-s);
 	}
-#line 43 "template.rl"
+#line 43 "ext/xrb/template.rl"
 	{{p = ((te))-1;}{
 		rb_funcall(delegate, id_text, 1, XRB_string(ts, te, encoding));
 	}}
@@ -154,40 +154,40 @@ tr14:
 	}
 	goto st43;
 tr15:
-#line 19 "template.rl"
+#line 19 "ext/xrb/template.rl"
 	{te = p+1;{
 		rb_funcall(delegate, id_instruction, 2, XRB_Token_string(instruction, encoding), newline);
 	}}
 	goto st43;
 tr23:
-#line 43 "template.rl"
+#line 43 "ext/xrb/template.rl"
 	{te = p+1;{
 		rb_funcall(delegate, id_text, 1, XRB_string(ts, te, encoding));
 	}}
 	goto st43;
 tr77:
-#line 43 "template.rl"
+#line 43 "ext/xrb/template.rl"
 	{te = p;p--;{
 		rb_funcall(delegate, id_text, 1, XRB_string(ts, te, encoding));
 	}}
 	goto st43;
 tr80:
-#line 43 "template.rl"
+#line 43 "ext/xrb/template.rl"
 	{te = p;p--;{
 		rb_funcall(delegate, id_text, 1, XRB_string(ts, te, encoding));
 	}}
 	goto st43;
 tr82:
 	cs = 43;
-#line 27 "template.rl"
+#line 27 "ext/xrb/template.rl"
 	{
 		expression.begin = p;
 	}
-#line 53 "/home/samuel/Documents/ioquatix/xrb/parsers/xrb/template.rl"
+#line 53 "parsers/xrb/template.rl"
 	{te = p;p--;{cs = 32;}}
 	goto _again;
 tr83:
-#line 15 "template.rl"
+#line 15 "ext/xrb/template.rl"
 	{te = p;p--;{
 		rb_funcall(delegate, id_instruction, 1, XRB_Token_string(instruction, encoding));
 	}}
@@ -200,7 +200,7 @@ st43:
 case 43:
 #line 1 "NONE"
 	{ts = p;}
-#line 204 "template.c"
+#line 204 "ext/xrb/template.c"
 	switch( (*p) ) {
 		case 10: goto tr2;
 		case 32: goto tr74;
@@ -218,7 +218,7 @@ st44:
 	if ( ++p == pe )
 		goto _test_eof44;
 case 44:
-#line 222 "template.c"
+#line 222 "ext/xrb/template.c"
 	switch( (*p) ) {
 		case 10: goto tr2;
 		case 35: goto st4;
@@ -233,7 +233,7 @@ st45:
 	if ( ++p == pe )
 		goto _test_eof45;
 case 45:
-#line 237 "template.c"
+#line 237 "ext/xrb/template.c"
 	switch( (*p) ) {
 		case 10: goto tr2;
 		case 35: goto st2;
@@ -281,14 +281,14 @@ case 5:
 tr74:
 #line 1 "NONE"
 	{te = p+1;}
-#line 43 "template.rl"
+#line 43 "ext/xrb/template.rl"
 	{act = 6;}
 	goto st46;
 st46:
 	if ( ++p == pe )
 		goto _test_eof46;
 case 46:
-#line 292 "template.c"
+#line 292 "ext/xrb/template.c"
 	switch( (*p) ) {
 		case 10: goto tr2;
 		case 32: goto tr74;
@@ -322,7 +322,7 @@ case 8:
 		goto tr10;
 	goto tr5;
 tr10:
-#line 7 "template.rl"
+#line 7 "ext/xrb/template.rl"
 	{
 		instruction.begin = p;
 	}
@@ -331,12 +331,12 @@ st9:
 	if ( ++p == pe )
 		goto _test_eof9;
 case 9:
-#line 335 "template.c"
+#line 335 "ext/xrb/template.c"
 	if ( (*p) == 63 )
 		goto tr12;
 	goto st9;
 tr12:
-#line 11 "template.rl"
+#line 11 "ext/xrb/template.rl"
 	{
 		instruction.end = p;
 	}
@@ -345,7 +345,7 @@ st10:
 	if ( ++p == pe )
 		goto _test_eof10;
 case 10:
-#line 349 "template.c"
+#line 349 "ext/xrb/template.c"
 	if ( (*p) == 62 )
 		goto st11;
 	goto st9;
@@ -428,12 +428,12 @@ case 15:
 		goto tr19;
 	goto st15;
 tr19:
-#line 23 "template.rl"
+#line 23 "ext/xrb/template.rl"
 	{
 		XRB_raise_error("failed to parse instruction", buffer, p-s);
 	}
 	goto st0;
-#line 437 "template.c"
+#line 437 "ext/xrb/template.c"
 st0:
 cs = 0;
 	goto _out;
@@ -479,7 +479,7 @@ case 18:
 		goto tr19;
 	goto st15;
 tr24:
-#line 7 "template.rl"
+#line 7 "ext/xrb/template.rl"
 	{
 		instruction.begin = p;
 	}
@@ -488,12 +488,12 @@ st19:
 	if ( ++p == pe )
 		goto _test_eof19;
 case 19:
-#line 492 "template.c"
+#line 492 "ext/xrb/template.c"
 	if ( (*p) == 63 )
 		goto tr26;
 	goto st19;
 tr26:
-#line 11 "template.rl"
+#line 11 "ext/xrb/template.rl"
 	{
 		instruction.end = p;
 	}
@@ -502,21 +502,21 @@ st20:
 	if ( ++p == pe )
 		goto _test_eof20;
 case 20:
-#line 506 "template.c"
+#line 506 "ext/xrb/template.c"
 	if ( (*p) == 62 )
 		goto tr27;
 	goto st19;
 tr27:
 #line 1 "NONE"
 	{te = p+1;}
-#line 15 "template.rl"
+#line 15 "ext/xrb/template.rl"
 	{act = 3;}
 	goto st48;
 st48:
 	if ( ++p == pe )
 		goto _test_eof48;
 case 48:
-#line 520 "template.c"
+#line 520 "ext/xrb/template.c"
 	switch( (*p) ) {
 		case 10: goto tr15;
 		case 32: goto st11;
@@ -525,7 +525,7 @@ case 48:
 		goto st11;
 	goto tr83;
 tr31:
-#line 17 "/home/samuel/Documents/ioquatix/xrb/parsers/xrb/template.rl"
+#line 17 "parsers/xrb/template.rl"
 	{{stack[top++] = 21;goto st21;}}
 	goto st21;
 st21:
@@ -534,7 +534,7 @@ st21:
 	if ( ++p == pe )
 		goto _test_eof21;
 case 21:
-#line 538 "template.c"
+#line 538 "ext/xrb/template.c"
 	switch( (*p) ) {
 		case 34: goto st22;
 		case 39: goto st30;
@@ -543,7 +543,7 @@ case 21:
 	}
 	goto st21;
 tr47:
-#line 13 "/home/samuel/Documents/ioquatix/xrb/parsers/xrb/template.rl"
+#line 13 "parsers/xrb/template.rl"
 	{{stack[top++] = 22;goto st21;}}
 	goto st22;
 st22:
@@ -552,20 +552,20 @@ st22:
 	if ( ++p == pe )
 		goto _test_eof22;
 case 22:
-#line 556 "template.c"
+#line 556 "ext/xrb/template.c"
 	switch( (*p) ) {
 		case 34: goto st23;
 		case 35: goto st29;
 	}
 	goto st22;
 tr37:
-#line 17 "/home/samuel/Documents/ioquatix/xrb/parsers/xrb/template.rl"
+#line 17 "parsers/xrb/template.rl"
 	{{stack[top++] = 23;goto st21;}}
 	goto st23;
 tr39:
-#line 13 "/home/samuel/Documents/ioquatix/xrb/parsers/xrb/template.rl"
+#line 13 "parsers/xrb/template.rl"
 	{{stack[top++] = 23;goto st21;}}
-#line 17 "/home/samuel/Documents/ioquatix/xrb/parsers/xrb/template.rl"
+#line 17 "parsers/xrb/template.rl"
 	{{stack[top++] = 23;goto st21;}}
 	goto st23;
 st23:
@@ -574,7 +574,7 @@ st23:
 	if ( ++p == pe )
 		goto _test_eof23;
 case 23:
-#line 578 "template.c"
+#line 578 "ext/xrb/template.c"
 	switch( (*p) ) {
 		case 35: goto st24;
 		case 39: goto st25;
@@ -594,7 +594,7 @@ case 24:
 	}
 	goto st23;
 tr46:
-#line 13 "/home/samuel/Documents/ioquatix/xrb/parsers/xrb/template.rl"
+#line 13 "parsers/xrb/template.rl"
 	{{stack[top++] = 25;goto st21;}}
 	goto st25;
 st25:
@@ -603,7 +603,7 @@ st25:
 	if ( ++p == pe )
 		goto _test_eof25;
 case 25:
-#line 607 "template.c"
+#line 607 "ext/xrb/template.c"
 	switch( (*p) ) {
 		case 34: goto st26;
 		case 35: goto st28;
@@ -611,13 +611,13 @@ case 25:
 	}
 	goto st25;
 tr43:
-#line 17 "/home/samuel/Documents/ioquatix/xrb/parsers/xrb/template.rl"
+#line 17 "parsers/xrb/template.rl"
 	{{stack[top++] = 26;goto st21;}}
 	goto st26;
 tr45:
-#line 13 "/home/samuel/Documents/ioquatix/xrb/parsers/xrb/template.rl"
+#line 13 "parsers/xrb/template.rl"
 	{{stack[top++] = 26;goto st21;}}
-#line 17 "/home/samuel/Documents/ioquatix/xrb/parsers/xrb/template.rl"
+#line 17 "parsers/xrb/template.rl"
 	{{stack[top++] = 26;goto st21;}}
 	goto st26;
 st26:
@@ -626,7 +626,7 @@ st26:
 	if ( ++p == pe )
 		goto _test_eof26;
 case 26:
-#line 630 "template.c"
+#line 630 "ext/xrb/template.c"
 	switch( (*p) ) {
 		case 35: goto st27;
 		case 123: goto tr43;
@@ -644,14 +644,14 @@ case 27:
 	}
 	goto st26;
 tr44:
-#line 20 "/home/samuel/Documents/ioquatix/xrb/parsers/xrb/template.rl"
+#line 20 "parsers/xrb/template.rl"
 	{{cs = stack[--top];goto _again;}}
 	goto st49;
 st49:
 	if ( ++p == pe )
 		goto _test_eof49;
 case 49:
-#line 655 "template.c"
+#line 655 "ext/xrb/template.c"
 	switch( (*p) ) {
 		case 34: goto st26;
 		case 35: goto st28;
@@ -670,14 +670,14 @@ case 28:
 	}
 	goto st25;
 tr38:
-#line 20 "/home/samuel/Documents/ioquatix/xrb/parsers/xrb/template.rl"
+#line 20 "parsers/xrb/template.rl"
 	{{cs = stack[--top];goto _again;}}
 	goto st50;
 st50:
 	if ( ++p == pe )
 		goto _test_eof50;
 case 50:
-#line 681 "template.c"
+#line 681 "ext/xrb/template.c"
 	switch( (*p) ) {
 		case 34: goto st23;
 		case 35: goto st29;
@@ -701,7 +701,7 @@ case 30:
 		goto st31;
 	goto st30;
 tr49:
-#line 17 "/home/samuel/Documents/ioquatix/xrb/parsers/xrb/template.rl"
+#line 17 "parsers/xrb/template.rl"
 	{{stack[top++] = 31;goto st21;}}
 	goto st31;
 st31:
@@ -710,7 +710,7 @@ st31:
 	if ( ++p == pe )
 		goto _test_eof31;
 case 31:
-#line 714 "template.c"
+#line 714 "ext/xrb/template.c"
 	switch( (*p) ) {
 		case 34: goto st25;
 		case 123: goto tr49;
@@ -718,29 +718,29 @@ case 31:
 	}
 	goto st31;
 tr50:
-#line 20 "/home/samuel/Documents/ioquatix/xrb/parsers/xrb/template.rl"
+#line 20 "parsers/xrb/template.rl"
 	{{cs = stack[--top];goto _again;}}
 	goto st51;
 st51:
 	if ( ++p == pe )
 		goto _test_eof51;
 case 51:
-#line 729 "template.c"
+#line 729 "ext/xrb/template.c"
 	if ( (*p) == 39 )
 		goto st31;
 	goto st30;
 tr32:
-#line 20 "/home/samuel/Documents/ioquatix/xrb/parsers/xrb/template.rl"
+#line 20 "parsers/xrb/template.rl"
 	{{cs = stack[--top];goto _again;}}
 	goto st52;
 st52:
 	if ( ++p == pe )
 		goto _test_eof52;
 case 52:
-#line 741 "template.c"
+#line 741 "ext/xrb/template.c"
 	goto st0;
 tr54:
-#line 17 "/home/samuel/Documents/ioquatix/xrb/parsers/xrb/template.rl"
+#line 17 "parsers/xrb/template.rl"
 	{{stack[top++] = 32;goto st21;}}
 	goto st32;
 st32:
@@ -749,7 +749,7 @@ st32:
 	if ( ++p == pe )
 		goto _test_eof32;
 case 32:
-#line 753 "template.c"
+#line 753 "ext/xrb/template.c"
 	switch( (*p) ) {
 		case 34: goto st33;
 		case 39: goto st41;
@@ -758,7 +758,7 @@ case 32:
 	}
 	goto st32;
 tr70:
-#line 13 "/home/samuel/Documents/ioquatix/xrb/parsers/xrb/template.rl"
+#line 13 "parsers/xrb/template.rl"
 	{{stack[top++] = 33;goto st21;}}
 	goto st33;
 st33:
@@ -767,20 +767,20 @@ st33:
 	if ( ++p == pe )
 		goto _test_eof33;
 case 33:
-#line 771 "template.c"
+#line 771 "ext/xrb/template.c"
 	switch( (*p) ) {
 		case 34: goto st34;
 		case 35: goto st40;
 	}
 	goto st33;
 tr60:
-#line 17 "/home/samuel/Documents/ioquatix/xrb/parsers/xrb/template.rl"
+#line 17 "parsers/xrb/template.rl"
 	{{stack[top++] = 34;goto st21;}}
 	goto st34;
 tr62:
-#line 13 "/home/samuel/Documents/ioquatix/xrb/parsers/xrb/template.rl"
+#line 13 "parsers/xrb/template.rl"
 	{{stack[top++] = 34;goto st21;}}
-#line 17 "/home/samuel/Documents/ioquatix/xrb/parsers/xrb/template.rl"
+#line 17 "parsers/xrb/template.rl"
 	{{stack[top++] = 34;goto st21;}}
 	goto st34;
 st34:
@@ -789,7 +789,7 @@ st34:
 	if ( ++p == pe )
 		goto _test_eof34;
 case 34:
-#line 793 "template.c"
+#line 793 "ext/xrb/template.c"
 	switch( (*p) ) {
 		case 35: goto st35;
 		case 39: goto st36;
@@ -809,7 +809,7 @@ case 35:
 	}
 	goto st34;
 tr69:
-#line 13 "/home/samuel/Documents/ioquatix/xrb/parsers/xrb/template.rl"
+#line 13 "parsers/xrb/template.rl"
 	{{stack[top++] = 36;goto st21;}}
 	goto st36;
 st36:
@@ -818,7 +818,7 @@ st36:
 	if ( ++p == pe )
 		goto _test_eof36;
 case 36:
-#line 822 "template.c"
+#line 822 "ext/xrb/template.c"
 	switch( (*p) ) {
 		case 34: goto st37;
 		case 35: goto st39;
@@ -826,13 +826,13 @@ case 36:
 	}
 	goto st36;
 tr66:
-#line 17 "/home/samuel/Documents/ioquatix/xrb/parsers/xrb/template.rl"
+#line 17 "parsers/xrb/template.rl"
 	{{stack[top++] = 37;goto st21;}}
 	goto st37;
 tr68:
-#line 13 "/home/samuel/Documents/ioquatix/xrb/parsers/xrb/template.rl"
+#line 13 "parsers/xrb/template.rl"
 	{{stack[top++] = 37;goto st21;}}
-#line 17 "/home/samuel/Documents/ioquatix/xrb/parsers/xrb/template.rl"
+#line 17 "parsers/xrb/template.rl"
 	{{stack[top++] = 37;goto st21;}}
 	goto st37;
 st37:
@@ -841,7 +841,7 @@ st37:
 	if ( ++p == pe )
 		goto _test_eof37;
 case 37:
-#line 845 "template.c"
+#line 845 "ext/xrb/template.c"
 	switch( (*p) ) {
 		case 35: goto st38;
 		case 123: goto tr66;
@@ -860,22 +860,22 @@ case 38:
 	goto st37;
 tr67:
 	cs = 53;
-#line 31 "template.rl"
+#line 31 "ext/xrb/template.rl"
 	{
 		expression.end = p;
 	}
-#line 35 "template.rl"
+#line 35 "ext/xrb/template.rl"
 	{
 		rb_funcall(delegate, id_expression, 1, XRB_Token_string(expression, encoding));
 	}
-#line 21 "/home/samuel/Documents/ioquatix/xrb/parsers/xrb/template.rl"
+#line 21 "parsers/xrb/template.rl"
 	{cs = 43;}
 	goto _again;
 st53:
 	if ( ++p == pe )
 		goto _test_eof53;
 case 53:
-#line 879 "template.c"
+#line 879 "ext/xrb/template.c"
 	switch( (*p) ) {
 		case 34: goto st37;
 		case 35: goto st39;
@@ -895,22 +895,22 @@ case 39:
 	goto st36;
 tr61:
 	cs = 54;
-#line 31 "template.rl"
+#line 31 "ext/xrb/template.rl"
 	{
 		expression.end = p;
 	}
-#line 35 "template.rl"
+#line 35 "ext/xrb/template.rl"
 	{
 		rb_funcall(delegate, id_expression, 1, XRB_Token_string(expression, encoding));
 	}
-#line 21 "/home/samuel/Documents/ioquatix/xrb/parsers/xrb/template.rl"
+#line 21 "parsers/xrb/template.rl"
 	{cs = 43;}
 	goto _again;
 st54:
 	if ( ++p == pe )
 		goto _test_eof54;
 case 54:
-#line 914 "template.c"
+#line 914 "ext/xrb/template.c"
 	switch( (*p) ) {
 		case 34: goto st34;
 		case 35: goto st40;
@@ -934,7 +934,7 @@ case 41:
 		goto st42;
 	goto st41;
 tr72:
-#line 17 "/home/samuel/Documents/ioquatix/xrb/parsers/xrb/template.rl"
+#line 17 "parsers/xrb/template.rl"
 	{{stack[top++] = 42;goto st21;}}
 	goto st42;
 st42:
@@ -943,7 +943,7 @@ st42:
 	if ( ++p == pe )
 		goto _test_eof42;
 case 42:
-#line 947 "template.c"
+#line 947 "ext/xrb/template.c"
 	switch( (*p) ) {
 		case 34: goto st36;
 		case 123: goto tr72;
@@ -952,43 +952,43 @@ case 42:
 	goto st42;
 tr73:
 	cs = 55;
-#line 31 "template.rl"
+#line 31 "ext/xrb/template.rl"
 	{
 		expression.end = p;
 	}
-#line 35 "template.rl"
+#line 35 "ext/xrb/template.rl"
 	{
 		rb_funcall(delegate, id_expression, 1, XRB_Token_string(expression, encoding));
 	}
-#line 21 "/home/samuel/Documents/ioquatix/xrb/parsers/xrb/template.rl"
+#line 21 "parsers/xrb/template.rl"
 	{cs = 43;}
 	goto _again;
 st55:
 	if ( ++p == pe )
 		goto _test_eof55;
 case 55:
-#line 971 "template.c"
+#line 971 "ext/xrb/template.c"
 	if ( (*p) == 39 )
 		goto st42;
 	goto st41;
 tr55:
 	cs = 56;
-#line 31 "template.rl"
+#line 31 "ext/xrb/template.rl"
 	{
 		expression.end = p;
 	}
-#line 35 "template.rl"
+#line 35 "ext/xrb/template.rl"
 	{
 		rb_funcall(delegate, id_expression, 1, XRB_Token_string(expression, encoding));
 	}
-#line 21 "/home/samuel/Documents/ioquatix/xrb/parsers/xrb/template.rl"
+#line 21 "parsers/xrb/template.rl"
 	{cs = 43;}
 	goto _again;
 st56:
 	if ( ++p == pe )
 		goto _test_eof56;
 case 56:
-#line 992 "template.c"
+#line 992 "ext/xrb/template.c"
 	goto st0;
 	}
 	_test_eof43: cs = 43; goto _test_eof; 
@@ -1075,7 +1075,7 @@ case 56:
 	case 18: 
 	case 19: 
 	case 20: 
-#line 23 "template.rl"
+#line 23 "ext/xrb/template.rl"
 	{
 		XRB_raise_error("failed to parse instruction", buffer, p-s);
 	}
@@ -1091,19 +1091,19 @@ case 56:
 	case 40: 
 	case 41: 
 	case 42: 
-#line 39 "template.rl"
+#line 39 "ext/xrb/template.rl"
 	{
 		XRB_raise_error("failed to parse expression", buffer, p-s);
 	}
 	break;
-#line 1100 "template.c"
+#line 1100 "ext/xrb/template.c"
 	}
 	}
 
 	_out: {}
 	}
 
-#line 70 "template.rl"
+#line 70 "ext/xrb/template.rl"
 
 	
 	if (p != eof) {

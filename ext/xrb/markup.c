@@ -1,10 +1,10 @@
 
-#line 1 "markup.rl"
+#line 1 "ext/xrb/markup.rl"
 
 #include "markup.h"
 
 
-#line 8 "markup.c"
+#line 8 "ext/xrb/markup.c"
 static const int XRB_markup_parser_start = 48;
 static const int XRB_markup_parser_first_final = 48;
 static const int XRB_markup_parser_error = 0;
@@ -13,7 +13,7 @@ static const int XRB_markup_parser_en_parse_entity = 42;
 static const int XRB_markup_parser_en_main = 48;
 
 
-#line 195 "markup.rl"
+#line 195 "ext/xrb/markup.rl"
 
 
 VALUE XRB_Native_parse_markup(VALUE self, VALUE buffer, VALUE delegate, VALUE entities) {
@@ -36,13 +36,13 @@ VALUE XRB_Native_parse_markup(VALUE self, VALUE buffer, VALUE delegate, VALUE en
 	eof = pe = p + RSTRING_LEN(string);
 	
 	
-#line 40 "markup.c"
+#line 40 "ext/xrb/markup.c"
 	{
 	cs = XRB_markup_parser_start;
 	top = 0;
 	}
 
-#line 46 "markup.c"
+#line 46 "ext/xrb/markup.c"
 	{
 	if ( p == pe )
 		goto _test_eof;
@@ -126,137 +126,137 @@ case 48:
 	}
 	goto tr87;
 tr93:
-#line 31 "markup.rl"
+#line 31 "ext/xrb/markup.rl"
 	{
 		characters.begin = p;
 	}
 	goto st49;
 tr87:
-#line 24 "markup.rl"
+#line 24 "ext/xrb/markup.rl"
 	{
 	}
-#line 16 "markup.rl"
+#line 16 "ext/xrb/markup.rl"
 	{
 		pcdata = Qnil;
 		has_entities = 0;
 	}
-#line 31 "markup.rl"
+#line 31 "ext/xrb/markup.rl"
 	{
 		characters.begin = p;
 	}
 	goto st49;
 tr96:
-#line 163 "markup.rl"
+#line 163 "ext/xrb/markup.rl"
 	{
 		rb_funcall(delegate, id_open_tag_end, 1, self_closing == 1 ? Qtrue : Qfalse);
 	}
-#line 24 "markup.rl"
+#line 24 "ext/xrb/markup.rl"
 	{
 	}
-#line 16 "markup.rl"
+#line 16 "ext/xrb/markup.rl"
 	{
 		pcdata = Qnil;
 		has_entities = 0;
 	}
-#line 31 "markup.rl"
+#line 31 "ext/xrb/markup.rl"
 	{
 		characters.begin = p;
 	}
 	goto st49;
 tr99:
-#line 97 "markup.rl"
+#line 97 "ext/xrb/markup.rl"
 	{
 		comment.end = p;
 		
 		rb_funcall(delegate, id_comment, 1, XRB_Token_string(comment, encoding));
 	}
-#line 24 "markup.rl"
+#line 24 "ext/xrb/markup.rl"
 	{
 	}
-#line 16 "markup.rl"
+#line 16 "ext/xrb/markup.rl"
 	{
 		pcdata = Qnil;
 		has_entities = 0;
 	}
-#line 31 "markup.rl"
+#line 31 "ext/xrb/markup.rl"
 	{
 		characters.begin = p;
 	}
 	goto st49;
 tr102:
-#line 83 "markup.rl"
+#line 83 "ext/xrb/markup.rl"
 	{
 		doctype.end = p;
 		
 		rb_funcall(delegate, id_doctype, 1, XRB_Token_string(doctype, encoding));
 	}
-#line 24 "markup.rl"
+#line 24 "ext/xrb/markup.rl"
 	{
 	}
-#line 16 "markup.rl"
+#line 16 "ext/xrb/markup.rl"
 	{
 		pcdata = Qnil;
 		has_entities = 0;
 	}
-#line 31 "markup.rl"
+#line 31 "ext/xrb/markup.rl"
 	{
 		characters.begin = p;
 	}
 	goto st49;
 tr105:
-#line 182 "markup.rl"
+#line 182 "ext/xrb/markup.rl"
 	{
 		cdata.end = p;
 		
 		rb_funcall(delegate, id_cdata, 1, XRB_Token_string(cdata, encoding));
 	}
-#line 24 "markup.rl"
+#line 24 "ext/xrb/markup.rl"
 	{
 	}
-#line 16 "markup.rl"
+#line 16 "ext/xrb/markup.rl"
 	{
 		pcdata = Qnil;
 		has_entities = 0;
 	}
-#line 31 "markup.rl"
+#line 31 "ext/xrb/markup.rl"
 	{
 		characters.begin = p;
 	}
 	goto st49;
 tr108:
-#line 170 "markup.rl"
+#line 170 "ext/xrb/markup.rl"
 	{
 		rb_funcall(delegate, id_close_tag, 2, XRB_Token_string(identifier, encoding), ULONG2NUM(identifier.begin-s));
 	}
-#line 24 "markup.rl"
+#line 24 "ext/xrb/markup.rl"
 	{
 	}
-#line 16 "markup.rl"
+#line 16 "ext/xrb/markup.rl"
 	{
 		pcdata = Qnil;
 		has_entities = 0;
 	}
-#line 31 "markup.rl"
+#line 31 "ext/xrb/markup.rl"
 	{
 		characters.begin = p;
 	}
 	goto st49;
 tr111:
-#line 117 "markup.rl"
+#line 117 "ext/xrb/markup.rl"
 	{
 		instruction.end = p;
 		
 		rb_funcall(delegate, id_instruction, 1, XRB_Token_string(instruction, encoding));
 	}
-#line 24 "markup.rl"
+#line 24 "ext/xrb/markup.rl"
 	{
 	}
-#line 16 "markup.rl"
+#line 16 "ext/xrb/markup.rl"
 	{
 		pcdata = Qnil;
 		has_entities = 0;
 	}
-#line 31 "markup.rl"
+#line 31 "ext/xrb/markup.rl"
 	{
 		characters.begin = p;
 	}
@@ -265,416 +265,416 @@ st49:
 	if ( ++p == pe )
 		goto _test_eof49;
 case 49:
-#line 269 "markup.c"
+#line 269 "ext/xrb/markup.c"
 	switch( (*p) ) {
 		case 38: goto tr91;
 		case 60: goto tr92;
 	}
 	goto st49;
 tr91:
-#line 35 "markup.rl"
+#line 35 "ext/xrb/markup.rl"
 	{
 		characters.end = p;
 		
 		XRB_append_token(&pcdata, encoding, characters);
 	}
-#line 10 "/home/samuel/Documents/ioquatix/xrb/parsers/xrb/entities.rl"
+#line 10 "parsers/xrb/entities.rl"
 	{{stack[top++] = 50;goto st42;}}
 	goto st50;
 tr94:
-#line 10 "/home/samuel/Documents/ioquatix/xrb/parsers/xrb/entities.rl"
+#line 10 "parsers/xrb/entities.rl"
 	{{stack[top++] = 50;goto st42;}}
 	goto st50;
 tr88:
-#line 24 "markup.rl"
+#line 24 "ext/xrb/markup.rl"
 	{
 	}
-#line 16 "markup.rl"
+#line 16 "ext/xrb/markup.rl"
 	{
 		pcdata = Qnil;
 		has_entities = 0;
 	}
-#line 10 "/home/samuel/Documents/ioquatix/xrb/parsers/xrb/entities.rl"
+#line 10 "parsers/xrb/entities.rl"
 	{{stack[top++] = 50;goto st42;}}
 	goto st50;
 tr97:
-#line 163 "markup.rl"
+#line 163 "ext/xrb/markup.rl"
 	{
 		rb_funcall(delegate, id_open_tag_end, 1, self_closing == 1 ? Qtrue : Qfalse);
 	}
-#line 24 "markup.rl"
+#line 24 "ext/xrb/markup.rl"
 	{
 	}
-#line 16 "markup.rl"
+#line 16 "ext/xrb/markup.rl"
 	{
 		pcdata = Qnil;
 		has_entities = 0;
 	}
-#line 10 "/home/samuel/Documents/ioquatix/xrb/parsers/xrb/entities.rl"
+#line 10 "parsers/xrb/entities.rl"
 	{{stack[top++] = 50;goto st42;}}
 	goto st50;
 tr100:
-#line 97 "markup.rl"
+#line 97 "ext/xrb/markup.rl"
 	{
 		comment.end = p;
 		
 		rb_funcall(delegate, id_comment, 1, XRB_Token_string(comment, encoding));
 	}
-#line 24 "markup.rl"
+#line 24 "ext/xrb/markup.rl"
 	{
 	}
-#line 16 "markup.rl"
+#line 16 "ext/xrb/markup.rl"
 	{
 		pcdata = Qnil;
 		has_entities = 0;
 	}
-#line 10 "/home/samuel/Documents/ioquatix/xrb/parsers/xrb/entities.rl"
+#line 10 "parsers/xrb/entities.rl"
 	{{stack[top++] = 50;goto st42;}}
 	goto st50;
 tr103:
-#line 83 "markup.rl"
+#line 83 "ext/xrb/markup.rl"
 	{
 		doctype.end = p;
 		
 		rb_funcall(delegate, id_doctype, 1, XRB_Token_string(doctype, encoding));
 	}
-#line 24 "markup.rl"
+#line 24 "ext/xrb/markup.rl"
 	{
 	}
-#line 16 "markup.rl"
+#line 16 "ext/xrb/markup.rl"
 	{
 		pcdata = Qnil;
 		has_entities = 0;
 	}
-#line 10 "/home/samuel/Documents/ioquatix/xrb/parsers/xrb/entities.rl"
+#line 10 "parsers/xrb/entities.rl"
 	{{stack[top++] = 50;goto st42;}}
 	goto st50;
 tr106:
-#line 182 "markup.rl"
+#line 182 "ext/xrb/markup.rl"
 	{
 		cdata.end = p;
 		
 		rb_funcall(delegate, id_cdata, 1, XRB_Token_string(cdata, encoding));
 	}
-#line 24 "markup.rl"
+#line 24 "ext/xrb/markup.rl"
 	{
 	}
-#line 16 "markup.rl"
+#line 16 "ext/xrb/markup.rl"
 	{
 		pcdata = Qnil;
 		has_entities = 0;
 	}
-#line 10 "/home/samuel/Documents/ioquatix/xrb/parsers/xrb/entities.rl"
+#line 10 "parsers/xrb/entities.rl"
 	{{stack[top++] = 50;goto st42;}}
 	goto st50;
 tr109:
-#line 170 "markup.rl"
+#line 170 "ext/xrb/markup.rl"
 	{
 		rb_funcall(delegate, id_close_tag, 2, XRB_Token_string(identifier, encoding), ULONG2NUM(identifier.begin-s));
 	}
-#line 24 "markup.rl"
+#line 24 "ext/xrb/markup.rl"
 	{
 	}
-#line 16 "markup.rl"
+#line 16 "ext/xrb/markup.rl"
 	{
 		pcdata = Qnil;
 		has_entities = 0;
 	}
-#line 10 "/home/samuel/Documents/ioquatix/xrb/parsers/xrb/entities.rl"
+#line 10 "parsers/xrb/entities.rl"
 	{{stack[top++] = 50;goto st42;}}
 	goto st50;
 tr112:
-#line 117 "markup.rl"
+#line 117 "ext/xrb/markup.rl"
 	{
 		instruction.end = p;
 		
 		rb_funcall(delegate, id_instruction, 1, XRB_Token_string(instruction, encoding));
 	}
-#line 24 "markup.rl"
+#line 24 "ext/xrb/markup.rl"
 	{
 	}
-#line 16 "markup.rl"
+#line 16 "ext/xrb/markup.rl"
 	{
 		pcdata = Qnil;
 		has_entities = 0;
 	}
-#line 10 "/home/samuel/Documents/ioquatix/xrb/parsers/xrb/entities.rl"
+#line 10 "parsers/xrb/entities.rl"
 	{{stack[top++] = 50;goto st42;}}
 	goto st50;
 st50:
 	if ( ++p == pe )
 		goto _test_eof50;
 case 50:
-#line 409 "markup.c"
+#line 409 "ext/xrb/markup.c"
 	switch( (*p) ) {
 		case 38: goto tr94;
 		case 60: goto tr95;
 	}
 	goto tr93;
 tr89:
-#line 134 "markup.rl"
+#line 134 "ext/xrb/markup.rl"
 	{
 	}
-#line 167 "markup.rl"
+#line 167 "ext/xrb/markup.rl"
 	{
 	}
-#line 107 "markup.rl"
+#line 107 "ext/xrb/markup.rl"
 	{
 		instruction.begin = p;
 	}
-#line 93 "markup.rl"
+#line 93 "ext/xrb/markup.rl"
 	{
 		comment.begin = p;
 	}
-#line 79 "markup.rl"
+#line 79 "ext/xrb/markup.rl"
 	{
 		doctype.begin = p;
 	}
-#line 178 "markup.rl"
+#line 178 "ext/xrb/markup.rl"
 	{
 		cdata.begin = p;
 	}
 	goto st1;
 tr92:
-#line 35 "markup.rl"
+#line 35 "ext/xrb/markup.rl"
 	{
 		characters.end = p;
 		
 		XRB_append_token(&pcdata, encoding, characters);
 	}
-#line 21 "markup.rl"
+#line 21 "ext/xrb/markup.rl"
 	{
 	}
-#line 27 "markup.rl"
+#line 27 "ext/xrb/markup.rl"
 	{
 		rb_funcall(delegate, id_text, 1, XRB_markup_safe(pcdata, has_entities));
 	}
-#line 134 "markup.rl"
+#line 134 "ext/xrb/markup.rl"
 	{
 	}
-#line 167 "markup.rl"
+#line 167 "ext/xrb/markup.rl"
 	{
 	}
-#line 107 "markup.rl"
+#line 107 "ext/xrb/markup.rl"
 	{
 		instruction.begin = p;
 	}
-#line 93 "markup.rl"
+#line 93 "ext/xrb/markup.rl"
 	{
 		comment.begin = p;
 	}
-#line 79 "markup.rl"
+#line 79 "ext/xrb/markup.rl"
 	{
 		doctype.begin = p;
 	}
-#line 178 "markup.rl"
+#line 178 "ext/xrb/markup.rl"
 	{
 		cdata.begin = p;
 	}
 	goto st1;
 tr95:
-#line 21 "markup.rl"
+#line 21 "ext/xrb/markup.rl"
 	{
 	}
-#line 27 "markup.rl"
+#line 27 "ext/xrb/markup.rl"
 	{
 		rb_funcall(delegate, id_text, 1, XRB_markup_safe(pcdata, has_entities));
 	}
-#line 134 "markup.rl"
+#line 134 "ext/xrb/markup.rl"
 	{
 	}
-#line 167 "markup.rl"
+#line 167 "ext/xrb/markup.rl"
 	{
 	}
-#line 107 "markup.rl"
+#line 107 "ext/xrb/markup.rl"
 	{
 		instruction.begin = p;
 	}
-#line 93 "markup.rl"
+#line 93 "ext/xrb/markup.rl"
 	{
 		comment.begin = p;
 	}
-#line 79 "markup.rl"
+#line 79 "ext/xrb/markup.rl"
 	{
 		doctype.begin = p;
 	}
-#line 178 "markup.rl"
+#line 178 "ext/xrb/markup.rl"
 	{
 		cdata.begin = p;
 	}
 	goto st1;
 tr98:
-#line 163 "markup.rl"
+#line 163 "ext/xrb/markup.rl"
 	{
 		rb_funcall(delegate, id_open_tag_end, 1, self_closing == 1 ? Qtrue : Qfalse);
 	}
-#line 134 "markup.rl"
+#line 134 "ext/xrb/markup.rl"
 	{
 	}
-#line 167 "markup.rl"
+#line 167 "ext/xrb/markup.rl"
 	{
 	}
-#line 107 "markup.rl"
+#line 107 "ext/xrb/markup.rl"
 	{
 		instruction.begin = p;
 	}
-#line 93 "markup.rl"
+#line 93 "ext/xrb/markup.rl"
 	{
 		comment.begin = p;
 	}
-#line 79 "markup.rl"
+#line 79 "ext/xrb/markup.rl"
 	{
 		doctype.begin = p;
 	}
-#line 178 "markup.rl"
+#line 178 "ext/xrb/markup.rl"
 	{
 		cdata.begin = p;
 	}
 	goto st1;
 tr101:
-#line 97 "markup.rl"
+#line 97 "ext/xrb/markup.rl"
 	{
 		comment.end = p;
 		
 		rb_funcall(delegate, id_comment, 1, XRB_Token_string(comment, encoding));
 	}
-#line 134 "markup.rl"
+#line 134 "ext/xrb/markup.rl"
 	{
 	}
-#line 167 "markup.rl"
+#line 167 "ext/xrb/markup.rl"
 	{
 	}
-#line 107 "markup.rl"
+#line 107 "ext/xrb/markup.rl"
 	{
 		instruction.begin = p;
 	}
-#line 93 "markup.rl"
+#line 93 "ext/xrb/markup.rl"
 	{
 		comment.begin = p;
 	}
-#line 79 "markup.rl"
+#line 79 "ext/xrb/markup.rl"
 	{
 		doctype.begin = p;
 	}
-#line 178 "markup.rl"
+#line 178 "ext/xrb/markup.rl"
 	{
 		cdata.begin = p;
 	}
 	goto st1;
 tr104:
-#line 83 "markup.rl"
+#line 83 "ext/xrb/markup.rl"
 	{
 		doctype.end = p;
 		
 		rb_funcall(delegate, id_doctype, 1, XRB_Token_string(doctype, encoding));
 	}
-#line 134 "markup.rl"
+#line 134 "ext/xrb/markup.rl"
 	{
 	}
-#line 167 "markup.rl"
+#line 167 "ext/xrb/markup.rl"
 	{
 	}
-#line 107 "markup.rl"
+#line 107 "ext/xrb/markup.rl"
 	{
 		instruction.begin = p;
 	}
-#line 93 "markup.rl"
+#line 93 "ext/xrb/markup.rl"
 	{
 		comment.begin = p;
 	}
-#line 79 "markup.rl"
+#line 79 "ext/xrb/markup.rl"
 	{
 		doctype.begin = p;
 	}
-#line 178 "markup.rl"
+#line 178 "ext/xrb/markup.rl"
 	{
 		cdata.begin = p;
 	}
 	goto st1;
 tr107:
-#line 182 "markup.rl"
+#line 182 "ext/xrb/markup.rl"
 	{
 		cdata.end = p;
 		
 		rb_funcall(delegate, id_cdata, 1, XRB_Token_string(cdata, encoding));
 	}
-#line 134 "markup.rl"
+#line 134 "ext/xrb/markup.rl"
 	{
 	}
-#line 167 "markup.rl"
+#line 167 "ext/xrb/markup.rl"
 	{
 	}
-#line 107 "markup.rl"
+#line 107 "ext/xrb/markup.rl"
 	{
 		instruction.begin = p;
 	}
-#line 93 "markup.rl"
+#line 93 "ext/xrb/markup.rl"
 	{
 		comment.begin = p;
 	}
-#line 79 "markup.rl"
+#line 79 "ext/xrb/markup.rl"
 	{
 		doctype.begin = p;
 	}
-#line 178 "markup.rl"
+#line 178 "ext/xrb/markup.rl"
 	{
 		cdata.begin = p;
 	}
 	goto st1;
 tr110:
-#line 170 "markup.rl"
+#line 170 "ext/xrb/markup.rl"
 	{
 		rb_funcall(delegate, id_close_tag, 2, XRB_Token_string(identifier, encoding), ULONG2NUM(identifier.begin-s));
 	}
-#line 134 "markup.rl"
+#line 134 "ext/xrb/markup.rl"
 	{
 	}
-#line 167 "markup.rl"
+#line 167 "ext/xrb/markup.rl"
 	{
 	}
-#line 107 "markup.rl"
+#line 107 "ext/xrb/markup.rl"
 	{
 		instruction.begin = p;
 	}
-#line 93 "markup.rl"
+#line 93 "ext/xrb/markup.rl"
 	{
 		comment.begin = p;
 	}
-#line 79 "markup.rl"
+#line 79 "ext/xrb/markup.rl"
 	{
 		doctype.begin = p;
 	}
-#line 178 "markup.rl"
+#line 178 "ext/xrb/markup.rl"
 	{
 		cdata.begin = p;
 	}
 	goto st1;
 tr113:
-#line 117 "markup.rl"
+#line 117 "ext/xrb/markup.rl"
 	{
 		instruction.end = p;
 		
 		rb_funcall(delegate, id_instruction, 1, XRB_Token_string(instruction, encoding));
 	}
-#line 134 "markup.rl"
+#line 134 "ext/xrb/markup.rl"
 	{
 	}
-#line 167 "markup.rl"
+#line 167 "ext/xrb/markup.rl"
 	{
 	}
-#line 107 "markup.rl"
+#line 107 "ext/xrb/markup.rl"
 	{
 		instruction.begin = p;
 	}
-#line 93 "markup.rl"
+#line 93 "ext/xrb/markup.rl"
 	{
 		comment.begin = p;
 	}
-#line 79 "markup.rl"
+#line 79 "ext/xrb/markup.rl"
 	{
 		doctype.begin = p;
 	}
-#line 178 "markup.rl"
+#line 178 "ext/xrb/markup.rl"
 	{
 		cdata.begin = p;
 	}
@@ -683,7 +683,7 @@ st1:
 	if ( ++p == pe )
 		goto _test_eof1;
 case 1:
-#line 687 "markup.c"
+#line 687 "ext/xrb/markup.c"
 	switch( (*p) ) {
 		case 33: goto st15;
 		case 47: goto st36;
@@ -703,7 +703,7 @@ case 1:
 		goto tr1;
 	goto tr0;
 tr0:
-#line 8 "markup.rl"
+#line 8 "ext/xrb/markup.rl"
 	{
 		identifier.begin = p;
 	}
@@ -712,7 +712,7 @@ st2:
 	if ( ++p == pe )
 		goto _test_eof2;
 case 2:
-#line 716 "markup.c"
+#line 716 "ext/xrb/markup.c"
 	switch( (*p) ) {
 		case 32: goto tr6;
 		case 47: goto tr7;
@@ -738,33 +738,33 @@ case 2:
 		goto tr1;
 	goto st2;
 tr1:
-#line 174 "markup.rl"
+#line 174 "ext/xrb/markup.rl"
 	{
 		XRB_raise_error("could not parse tag", buffer, p-s);
 	}
 	goto st0;
 tr69:
-#line 123 "markup.rl"
+#line 123 "ext/xrb/markup.rl"
 	{
 		XRB_raise_error("could not parse instruction", buffer, p-s);
 	}
 	goto st0;
 tr75:
-#line 41 "markup.rl"
+#line 41 "ext/xrb/markup.rl"
 	{
 		XRB_raise_error("could not parse entity", buffer, p-s);
 	}
 	goto st0;
-#line 759 "markup.c"
+#line 759 "ext/xrb/markup.c"
 st0:
 cs = 0;
 	goto _out;
 tr6:
-#line 12 "markup.rl"
+#line 12 "ext/xrb/markup.rl"
 	{
 		identifier.end = p;
 	}
-#line 127 "markup.rl"
+#line 127 "ext/xrb/markup.rl"
 	{
 		// Reset self-closing state - we don't know yet.
 		self_closing = 0;
@@ -773,11 +773,11 @@ tr6:
 	}
 	goto st3;
 tr14:
-#line 12 "markup.rl"
+#line 12 "ext/xrb/markup.rl"
 	{
 		identifier.end = p;
 	}
-#line 153 "markup.rl"
+#line 153 "ext/xrb/markup.rl"
 	{
 		if (has_value == 1) {
 			rb_funcall(delegate, id_attribute, 2, XRB_Token_string(identifier, encoding), XRB_markup_safe(pcdata, has_entities));
@@ -789,11 +789,11 @@ tr14:
 	}
 	goto st3;
 tr26:
-#line 145 "markup.rl"
+#line 145 "ext/xrb/markup.rl"
 	{
 		has_value = 1;
 	}
-#line 153 "markup.rl"
+#line 153 "ext/xrb/markup.rl"
 	{
 		if (has_value == 1) {
 			rb_funcall(delegate, id_attribute, 2, XRB_Token_string(identifier, encoding), XRB_markup_safe(pcdata, has_entities));
@@ -805,11 +805,11 @@ tr26:
 	}
 	goto st3;
 tr32:
-#line 149 "markup.rl"
+#line 149 "ext/xrb/markup.rl"
 	{
 		has_value = 2;
 	}
-#line 153 "markup.rl"
+#line 153 "ext/xrb/markup.rl"
 	{
 		if (has_value == 1) {
 			rb_funcall(delegate, id_attribute, 2, XRB_Token_string(identifier, encoding), XRB_markup_safe(pcdata, has_entities));
@@ -824,7 +824,7 @@ st3:
 	if ( ++p == pe )
 		goto _test_eof3;
 case 3:
-#line 828 "markup.c"
+#line 828 "ext/xrb/markup.c"
 	switch( (*p) ) {
 		case 32: goto st3;
 		case 47: goto tr11;
@@ -850,11 +850,11 @@ case 3:
 		goto tr1;
 	goto tr9;
 tr9:
-#line 141 "markup.rl"
+#line 141 "ext/xrb/markup.rl"
 	{
 		has_value = 0;
 	}
-#line 8 "markup.rl"
+#line 8 "ext/xrb/markup.rl"
 	{
 		identifier.begin = p;
 	}
@@ -863,7 +863,7 @@ st4:
 	if ( ++p == pe )
 		goto _test_eof4;
 case 4:
-#line 867 "markup.c"
+#line 867 "ext/xrb/markup.c"
 	switch( (*p) ) {
 		case 32: goto tr14;
 		case 47: goto tr15;
@@ -890,34 +890,34 @@ case 4:
 		goto tr1;
 	goto st4;
 tr7:
-#line 12 "markup.rl"
+#line 12 "ext/xrb/markup.rl"
 	{
 		identifier.end = p;
 	}
-#line 127 "markup.rl"
+#line 127 "ext/xrb/markup.rl"
 	{
 		// Reset self-closing state - we don't know yet.
 		self_closing = 0;
 		
 		rb_funcall(delegate, id_open_tag_begin, 2, XRB_Token_string(identifier, encoding), ULONG2NUM(identifier.begin-s));
 	}
-#line 137 "markup.rl"
+#line 137 "ext/xrb/markup.rl"
 	{
 		self_closing = 1;
 	}
 	goto st5;
 tr11:
-#line 137 "markup.rl"
+#line 137 "ext/xrb/markup.rl"
 	{
 		self_closing = 1;
 	}
 	goto st5;
 tr15:
-#line 12 "markup.rl"
+#line 12 "ext/xrb/markup.rl"
 	{
 		identifier.end = p;
 	}
-#line 153 "markup.rl"
+#line 153 "ext/xrb/markup.rl"
 	{
 		if (has_value == 1) {
 			rb_funcall(delegate, id_attribute, 2, XRB_Token_string(identifier, encoding), XRB_markup_safe(pcdata, has_entities));
@@ -927,17 +927,17 @@ tr15:
 			rb_funcall(delegate, id_attribute, 2, XRB_Token_string(identifier, encoding), Qtrue);
 		}
 	}
-#line 137 "markup.rl"
+#line 137 "ext/xrb/markup.rl"
 	{
 		self_closing = 1;
 	}
 	goto st5;
 tr27:
-#line 145 "markup.rl"
+#line 145 "ext/xrb/markup.rl"
 	{
 		has_value = 1;
 	}
-#line 153 "markup.rl"
+#line 153 "ext/xrb/markup.rl"
 	{
 		if (has_value == 1) {
 			rb_funcall(delegate, id_attribute, 2, XRB_Token_string(identifier, encoding), XRB_markup_safe(pcdata, has_entities));
@@ -947,17 +947,17 @@ tr27:
 			rb_funcall(delegate, id_attribute, 2, XRB_Token_string(identifier, encoding), Qtrue);
 		}
 	}
-#line 137 "markup.rl"
+#line 137 "ext/xrb/markup.rl"
 	{
 		self_closing = 1;
 	}
 	goto st5;
 tr33:
-#line 149 "markup.rl"
+#line 149 "ext/xrb/markup.rl"
 	{
 		has_value = 2;
 	}
-#line 153 "markup.rl"
+#line 153 "ext/xrb/markup.rl"
 	{
 		if (has_value == 1) {
 			rb_funcall(delegate, id_attribute, 2, XRB_Token_string(identifier, encoding), XRB_markup_safe(pcdata, has_entities));
@@ -967,7 +967,7 @@ tr33:
 			rb_funcall(delegate, id_attribute, 2, XRB_Token_string(identifier, encoding), Qtrue);
 		}
 	}
-#line 137 "markup.rl"
+#line 137 "ext/xrb/markup.rl"
 	{
 		self_closing = 1;
 	}
@@ -976,16 +976,16 @@ st5:
 	if ( ++p == pe )
 		goto _test_eof5;
 case 5:
-#line 980 "markup.c"
+#line 980 "ext/xrb/markup.c"
 	if ( (*p) == 62 )
 		goto st51;
 	goto tr1;
 tr8:
-#line 12 "markup.rl"
+#line 12 "ext/xrb/markup.rl"
 	{
 		identifier.end = p;
 	}
-#line 127 "markup.rl"
+#line 127 "ext/xrb/markup.rl"
 	{
 		// Reset self-closing state - we don't know yet.
 		self_closing = 0;
@@ -994,11 +994,11 @@ tr8:
 	}
 	goto st51;
 tr17:
-#line 12 "markup.rl"
+#line 12 "ext/xrb/markup.rl"
 	{
 		identifier.end = p;
 	}
-#line 153 "markup.rl"
+#line 153 "ext/xrb/markup.rl"
 	{
 		if (has_value == 1) {
 			rb_funcall(delegate, id_attribute, 2, XRB_Token_string(identifier, encoding), XRB_markup_safe(pcdata, has_entities));
@@ -1010,11 +1010,11 @@ tr17:
 	}
 	goto st51;
 tr28:
-#line 145 "markup.rl"
+#line 145 "ext/xrb/markup.rl"
 	{
 		has_value = 1;
 	}
-#line 153 "markup.rl"
+#line 153 "ext/xrb/markup.rl"
 	{
 		if (has_value == 1) {
 			rb_funcall(delegate, id_attribute, 2, XRB_Token_string(identifier, encoding), XRB_markup_safe(pcdata, has_entities));
@@ -1026,11 +1026,11 @@ tr28:
 	}
 	goto st51;
 tr34:
-#line 149 "markup.rl"
+#line 149 "ext/xrb/markup.rl"
 	{
 		has_value = 2;
 	}
-#line 153 "markup.rl"
+#line 153 "ext/xrb/markup.rl"
 	{
 		if (has_value == 1) {
 			rb_funcall(delegate, id_attribute, 2, XRB_Token_string(identifier, encoding), XRB_markup_safe(pcdata, has_entities));
@@ -1045,14 +1045,14 @@ st51:
 	if ( ++p == pe )
 		goto _test_eof51;
 case 51:
-#line 1049 "markup.c"
+#line 1049 "ext/xrb/markup.c"
 	switch( (*p) ) {
 		case 38: goto tr97;
 		case 60: goto tr98;
 	}
 	goto tr96;
 tr16:
-#line 12 "markup.rl"
+#line 12 "ext/xrb/markup.rl"
 	{
 		identifier.end = p;
 	}
@@ -1061,7 +1061,7 @@ st6:
 	if ( ++p == pe )
 		goto _test_eof6;
 case 6:
-#line 1065 "markup.c"
+#line 1065 "ext/xrb/markup.c"
 	switch( (*p) ) {
 		case 34: goto st7;
 		case 39: goto st12;
@@ -1078,18 +1078,18 @@ case 7:
 	}
 	goto tr20;
 tr20:
-#line 16 "markup.rl"
+#line 16 "ext/xrb/markup.rl"
 	{
 		pcdata = Qnil;
 		has_entities = 0;
 	}
-#line 31 "markup.rl"
+#line 31 "ext/xrb/markup.rl"
 	{
 		characters.begin = p;
 	}
 	goto st8;
 tr29:
-#line 31 "markup.rl"
+#line 31 "ext/xrb/markup.rl"
 	{
 		characters.begin = p;
 	}
@@ -1098,7 +1098,7 @@ st8:
 	if ( ++p == pe )
 		goto _test_eof8;
 case 8:
-#line 1102 "markup.c"
+#line 1102 "ext/xrb/markup.c"
 	switch( (*p) ) {
 		case 34: goto tr24;
 		case 38: goto tr25;
@@ -1106,18 +1106,18 @@ case 8:
 	}
 	goto st8;
 tr24:
-#line 35 "markup.rl"
+#line 35 "ext/xrb/markup.rl"
 	{
 		characters.end = p;
 		
 		XRB_append_token(&pcdata, encoding, characters);
 	}
-#line 21 "markup.rl"
+#line 21 "ext/xrb/markup.rl"
 	{
 	}
 	goto st9;
 tr30:
-#line 21 "markup.rl"
+#line 21 "ext/xrb/markup.rl"
 	{
 	}
 	goto st9;
@@ -1125,7 +1125,7 @@ st9:
 	if ( ++p == pe )
 		goto _test_eof9;
 case 9:
-#line 1129 "markup.c"
+#line 1129 "ext/xrb/markup.c"
 	switch( (*p) ) {
 		case 32: goto tr26;
 		case 47: goto tr27;
@@ -1135,33 +1135,33 @@ case 9:
 		goto tr26;
 	goto tr1;
 tr22:
-#line 16 "markup.rl"
+#line 16 "ext/xrb/markup.rl"
 	{
 		pcdata = Qnil;
 		has_entities = 0;
 	}
-#line 10 "/home/samuel/Documents/ioquatix/xrb/parsers/xrb/entities.rl"
+#line 10 "parsers/xrb/entities.rl"
 	{{stack[top++] = 10;goto st42;}}
 	goto st10;
 tr25:
-#line 35 "markup.rl"
+#line 35 "ext/xrb/markup.rl"
 	{
 		characters.end = p;
 		
 		XRB_append_token(&pcdata, encoding, characters);
 	}
-#line 10 "/home/samuel/Documents/ioquatix/xrb/parsers/xrb/entities.rl"
+#line 10 "parsers/xrb/entities.rl"
 	{{stack[top++] = 10;goto st42;}}
 	goto st10;
 tr31:
-#line 10 "/home/samuel/Documents/ioquatix/xrb/parsers/xrb/entities.rl"
+#line 10 "parsers/xrb/entities.rl"
 	{{stack[top++] = 10;goto st42;}}
 	goto st10;
 st10:
 	if ( ++p == pe )
 		goto _test_eof10;
 case 10:
-#line 1165 "markup.c"
+#line 1165 "ext/xrb/markup.c"
 	switch( (*p) ) {
 		case 34: goto tr30;
 		case 38: goto tr31;
@@ -1191,18 +1191,18 @@ case 12:
 	}
 	goto tr35;
 tr35:
-#line 16 "markup.rl"
+#line 16 "ext/xrb/markup.rl"
 	{
 		pcdata = Qnil;
 		has_entities = 0;
 	}
-#line 31 "markup.rl"
+#line 31 "ext/xrb/markup.rl"
 	{
 		characters.begin = p;
 	}
 	goto st13;
 tr39:
-#line 31 "markup.rl"
+#line 31 "ext/xrb/markup.rl"
 	{
 		characters.begin = p;
 	}
@@ -1211,7 +1211,7 @@ st13:
 	if ( ++p == pe )
 		goto _test_eof13;
 case 13:
-#line 1215 "markup.c"
+#line 1215 "ext/xrb/markup.c"
 	switch( (*p) ) {
 		case 38: goto tr38;
 		case 39: goto tr24;
@@ -1219,33 +1219,33 @@ case 13:
 	}
 	goto st13;
 tr36:
-#line 16 "markup.rl"
+#line 16 "ext/xrb/markup.rl"
 	{
 		pcdata = Qnil;
 		has_entities = 0;
 	}
-#line 10 "/home/samuel/Documents/ioquatix/xrb/parsers/xrb/entities.rl"
+#line 10 "parsers/xrb/entities.rl"
 	{{stack[top++] = 14;goto st42;}}
 	goto st14;
 tr38:
-#line 35 "markup.rl"
+#line 35 "ext/xrb/markup.rl"
 	{
 		characters.end = p;
 		
 		XRB_append_token(&pcdata, encoding, characters);
 	}
-#line 10 "/home/samuel/Documents/ioquatix/xrb/parsers/xrb/entities.rl"
+#line 10 "parsers/xrb/entities.rl"
 	{{stack[top++] = 14;goto st42;}}
 	goto st14;
 tr40:
-#line 10 "/home/samuel/Documents/ioquatix/xrb/parsers/xrb/entities.rl"
+#line 10 "parsers/xrb/entities.rl"
 	{{stack[top++] = 14;goto st42;}}
 	goto st14;
 st14:
 	if ( ++p == pe )
 		goto _test_eof14;
 case 14:
-#line 1249 "markup.c"
+#line 1249 "ext/xrb/markup.c"
 	switch( (*p) ) {
 		case 38: goto tr40;
 		case 39: goto tr30;
@@ -1454,7 +1454,7 @@ case 36:
 		goto tr1;
 	goto tr65;
 tr65:
-#line 8 "markup.rl"
+#line 8 "ext/xrb/markup.rl"
 	{
 		identifier.begin = p;
 	}
@@ -1463,7 +1463,7 @@ st37:
 	if ( ++p == pe )
 		goto _test_eof37;
 case 37:
-#line 1467 "markup.c"
+#line 1467 "ext/xrb/markup.c"
 	switch( (*p) ) {
 		case 47: goto tr1;
 		case 62: goto tr67;
@@ -1482,7 +1482,7 @@ case 37:
 		goto tr1;
 	goto st37;
 tr67:
-#line 12 "markup.rl"
+#line 12 "ext/xrb/markup.rl"
 	{
 		identifier.end = p;
 	}
@@ -1491,7 +1491,7 @@ st55:
 	if ( ++p == pe )
 		goto _test_eof55;
 case 55:
-#line 1495 "markup.c"
+#line 1495 "ext/xrb/markup.c"
 	switch( (*p) ) {
 		case 38: goto tr109;
 		case 60: goto tr110;
@@ -1518,7 +1518,7 @@ case 38:
 		goto tr69;
 	goto tr68;
 tr68:
-#line 8 "markup.rl"
+#line 8 "ext/xrb/markup.rl"
 	{
 		identifier.begin = p;
 	}
@@ -1527,7 +1527,7 @@ st39:
 	if ( ++p == pe )
 		goto _test_eof39;
 case 39:
-#line 1531 "markup.c"
+#line 1531 "ext/xrb/markup.c"
 	switch( (*p) ) {
 		case 32: goto tr71;
 		case 47: goto tr69;
@@ -1552,11 +1552,11 @@ case 39:
 		goto tr69;
 	goto st39;
 tr71:
-#line 12 "markup.rl"
+#line 12 "ext/xrb/markup.rl"
 	{
 		identifier.end = p;
 	}
-#line 111 "markup.rl"
+#line 111 "ext/xrb/markup.rl"
 	{
 	}
 	goto st40;
@@ -1564,12 +1564,12 @@ st40:
 	if ( ++p == pe )
 		goto _test_eof40;
 case 40:
-#line 1568 "markup.c"
+#line 1568 "ext/xrb/markup.c"
 	if ( (*p) == 63 )
 		goto tr73;
 	goto st40;
 tr73:
-#line 114 "markup.rl"
+#line 114 "ext/xrb/markup.rl"
 	{
 	}
 	goto st41;
@@ -1577,7 +1577,7 @@ st41:
 	if ( ++p == pe )
 		goto _test_eof41;
 case 41:
-#line 1581 "markup.c"
+#line 1581 "ext/xrb/markup.c"
 	switch( (*p) ) {
 		case 62: goto st56;
 		case 63: goto tr73;
@@ -1617,7 +1617,7 @@ case 43:
 		goto tr78;
 	goto tr75;
 tr78:
-#line 45 "markup.rl"
+#line 45 "ext/xrb/markup.rl"
 	{
 		entity.begin = p;
 	}
@@ -1626,14 +1626,14 @@ st44:
 	if ( ++p == pe )
 		goto _test_eof44;
 case 44:
-#line 1630 "markup.c"
+#line 1630 "ext/xrb/markup.c"
 	if ( (*p) == 59 )
 		goto tr81;
 	if ( 48 <= (*p) && (*p) <= 57 )
 		goto st44;
 	goto tr75;
 tr81:
-#line 69 "markup.rl"
+#line 69 "ext/xrb/markup.rl"
 	{
 		entity.end = p;
 		
@@ -1643,11 +1643,11 @@ tr81:
 		
 		XRB_append_codepoint(&pcdata, encoding, codepoint);
 	}
-#line 8 "/home/samuel/Documents/ioquatix/xrb/parsers/xrb/entities.rl"
+#line 8 "parsers/xrb/entities.rl"
 	{{cs = stack[--top];goto _again;}}
 	goto st57;
 tr84:
-#line 59 "markup.rl"
+#line 59 "ext/xrb/markup.rl"
 	{
 		entity.end = p;
 		
@@ -1657,11 +1657,11 @@ tr84:
 		
 		XRB_append_codepoint(&pcdata, encoding, codepoint);
 	}
-#line 8 "/home/samuel/Documents/ioquatix/xrb/parsers/xrb/entities.rl"
+#line 8 "parsers/xrb/entities.rl"
 	{{cs = stack[--top];goto _again;}}
 	goto st57;
 tr86:
-#line 49 "markup.rl"
+#line 49 "ext/xrb/markup.rl"
 	{
 		entity.end = p;
 		
@@ -1671,14 +1671,14 @@ tr86:
 			rb_funcall(entities, id_key_get, 1, XRB_Token_string(entity, encoding))
 		);
 	}
-#line 8 "/home/samuel/Documents/ioquatix/xrb/parsers/xrb/entities.rl"
+#line 8 "parsers/xrb/entities.rl"
 	{{cs = stack[--top];goto _again;}}
 	goto st57;
 st57:
 	if ( ++p == pe )
 		goto _test_eof57;
 case 57:
-#line 1682 "markup.c"
+#line 1682 "ext/xrb/markup.c"
 	goto st0;
 st45:
 	if ( ++p == pe )
@@ -1694,7 +1694,7 @@ case 45:
 		goto tr82;
 	goto tr75;
 tr82:
-#line 45 "markup.rl"
+#line 45 "ext/xrb/markup.rl"
 	{
 		entity.begin = p;
 	}
@@ -1703,7 +1703,7 @@ st46:
 	if ( ++p == pe )
 		goto _test_eof46;
 case 46:
-#line 1707 "markup.c"
+#line 1707 "ext/xrb/markup.c"
 	if ( (*p) == 59 )
 		goto tr84;
 	if ( (*p) < 65 ) {
@@ -1716,7 +1716,7 @@ case 46:
 		goto st46;
 	goto tr75;
 tr77:
-#line 45 "markup.rl"
+#line 45 "ext/xrb/markup.rl"
 	{
 		entity.begin = p;
 	}
@@ -1725,7 +1725,7 @@ st47:
 	if ( ++p == pe )
 		goto _test_eof47;
 case 47:
-#line 1729 "markup.c"
+#line 1729 "ext/xrb/markup.c"
 	if ( (*p) == 59 )
 		goto tr86;
 	if ( (*p) < 65 ) {
@@ -1806,13 +1806,13 @@ case 47:
 	case 45: 
 	case 46: 
 	case 47: 
-#line 41 "markup.rl"
+#line 41 "ext/xrb/markup.rl"
 	{
 		XRB_raise_error("could not parse entity", buffer, p-s);
 	}
 	break;
 	case 53: 
-#line 83 "markup.rl"
+#line 83 "ext/xrb/markup.rl"
 	{
 		doctype.end = p;
 		
@@ -1820,13 +1820,13 @@ case 47:
 	}
 	break;
 	case 26: 
-#line 89 "markup.rl"
+#line 89 "ext/xrb/markup.rl"
 	{
 		XRB_raise_error("could not parse doctype", buffer, p-s);
 	}
 	break;
 	case 52: 
-#line 97 "markup.rl"
+#line 97 "ext/xrb/markup.rl"
 	{
 		comment.end = p;
 		
@@ -1836,13 +1836,13 @@ case 47:
 	case 17: 
 	case 18: 
 	case 19: 
-#line 103 "markup.rl"
+#line 103 "ext/xrb/markup.rl"
 	{
 		XRB_raise_error("could not parse comment", buffer, p-s);
 	}
 	break;
 	case 56: 
-#line 117 "markup.rl"
+#line 117 "ext/xrb/markup.rl"
 	{
 		instruction.end = p;
 		
@@ -1853,19 +1853,19 @@ case 47:
 	case 39: 
 	case 40: 
 	case 41: 
-#line 123 "markup.rl"
+#line 123 "ext/xrb/markup.rl"
 	{
 		XRB_raise_error("could not parse instruction", buffer, p-s);
 	}
 	break;
 	case 51: 
-#line 163 "markup.rl"
+#line 163 "ext/xrb/markup.rl"
 	{
 		rb_funcall(delegate, id_open_tag_end, 1, self_closing == 1 ? Qtrue : Qfalse);
 	}
 	break;
 	case 55: 
-#line 170 "markup.rl"
+#line 170 "ext/xrb/markup.rl"
 	{
 		rb_funcall(delegate, id_close_tag, 2, XRB_Token_string(identifier, encoding), ULONG2NUM(identifier.begin-s));
 	}
@@ -1886,13 +1886,13 @@ case 47:
 	case 14: 
 	case 36: 
 	case 37: 
-#line 174 "markup.rl"
+#line 174 "ext/xrb/markup.rl"
 	{
 		XRB_raise_error("could not parse tag", buffer, p-s);
 	}
 	break;
 	case 54: 
-#line 182 "markup.rl"
+#line 182 "ext/xrb/markup.rl"
 	{
 		cdata.end = p;
 		
@@ -1902,43 +1902,43 @@ case 47:
 	case 33: 
 	case 34: 
 	case 35: 
-#line 188 "markup.rl"
+#line 188 "ext/xrb/markup.rl"
 	{
 		XRB_raise_error("could not parse cdata", buffer, p-s);
 	}
 	break;
 	case 50: 
-#line 21 "markup.rl"
+#line 21 "ext/xrb/markup.rl"
 	{
 	}
-#line 27 "markup.rl"
+#line 27 "ext/xrb/markup.rl"
 	{
 		rb_funcall(delegate, id_text, 1, XRB_markup_safe(pcdata, has_entities));
 	}
 	break;
 	case 49: 
-#line 35 "markup.rl"
+#line 35 "ext/xrb/markup.rl"
 	{
 		characters.end = p;
 		
 		XRB_append_token(&pcdata, encoding, characters);
 	}
-#line 21 "markup.rl"
+#line 21 "ext/xrb/markup.rl"
 	{
 	}
-#line 27 "markup.rl"
+#line 27 "ext/xrb/markup.rl"
 	{
 		rb_funcall(delegate, id_text, 1, XRB_markup_safe(pcdata, has_entities));
 	}
 	break;
-#line 1935 "markup.c"
+#line 1935 "ext/xrb/markup.c"
 	}
 	}
 
 	_out: {}
 	}
 
-#line 219 "markup.rl"
+#line 219 "ext/xrb/markup.rl"
 
 	
 	if (p != eof) {

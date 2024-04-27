@@ -5,21 +5,19 @@
 
 # Generate the pure Ruby parsers.
 def generate_fallback
-	Dir.chdir(fallback_directory) do
-		Dir.glob("*.rl").each do |parser_path|
-			system("ragel", "-I", parsers_directory, "-R", parser_path, "-F1")
-		end
-		
-		# sh("ruby-beautify", "--tabs", "--overwrite", *Dir.glob("*.rb"))
+	pattern = File.join(fallback_directory, "*.rl")
+	
+	Dir.glob(pattern, base: context.root).each do |parser_path|
+		system("ragel", "-I", parsers_directory, "-R", parser_path, "-F1", chdir: context.root)
 	end
 end
 
 # Generate the native C parsers.
 def generate_native
-	Dir.chdir(native_directory) do
-		Dir.glob("*.rl").each do |parser_path|
-			system("ragel", "-I", parsers_directory, "-C", parser_path, "-G2")
-		end
+	pattern = File.join(native_directory, "*.rl")
+	
+	Dir.glob(pattern, base: context.root).each do |parser_path|
+		system("ragel", "-I", parsers_directory, "-C", parser_path, "-G2", chdir: context.root)
 	end
 end
 
@@ -47,17 +45,17 @@ end
 private
 
 def parsers_directory
-	File.expand_path("parsers", context.root)
+	"parsers"
 end
 
 def fallback_directory
-	File.expand_path("lib/xrb/fallback", context.root)
+	"lib/xrb/fallback"
 end
 
 def extensions_directory
-	File.expand_path("ext", context.root)
+	"ext"
 end
 
 def native_directory
-	File.expand_path("ext/xrb", context.root)
+	"ext/xrb"
 end
