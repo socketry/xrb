@@ -40,13 +40,7 @@ module XRB
 			
 			def >> block
 				if block
-					output = Template.buffer(block.binding)
-					
-					unless output.is_a?(Builder)
-						output = Builder.new(output)
-					end
-					
-					output << self
+					Template.buffer(block.binding) << self
 					
 					return nil
 				else
@@ -65,12 +59,9 @@ module XRB
 				return Fragment.new(block)
 			end
 			
-			if output.is_a?(Builder)
-				block.call(output)
-			else
-				block.call(Builder.new(output))
-			end
+			block.call(output)
 			
+			# We explicitly return nil here as we don't want to append the output twice.
 			return nil
 		end
 		
