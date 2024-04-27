@@ -44,7 +44,7 @@ class Delegate
 	def close_tag(name, offset)
 	end
 	
-	# Called with the full doctype: '<!DOCTYPE html>'
+	# Called with the full doctype: '<!doctype html>'
 	def doctype(string)
 	end
 	

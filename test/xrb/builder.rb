@@ -22,7 +22,7 @@ describe XRB::Builder do
 		end
 		
 		expect(builder.output).to be == <<~HTML.chomp
-		<!DOCTYPE html>
+		<!doctype html>
 		<html>
 			<head>
 				<title>Hello World</title>

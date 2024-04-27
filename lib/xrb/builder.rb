@@ -119,7 +119,7 @@ module XRB
 		end
 		
 		def doctype(attributes = 'html')
-			@output << "<!DOCTYPE #{attributes}>\n"
+			@output << "<!doctype #{attributes}>\n"
 		end
 		
 		# Begin a block tag.
