@@ -19,15 +19,12 @@ describe "block.call vs yield with block vs yield" do
 	end
 	
 	it "should be fast to call a block" do
-		firstname = 'soundarapandian'
-		middlename = 'rathinasamy'
-		lastname = 'arumugam'
 		
 		existing_block = proc{}
 		
 		Benchmark.ips do |x|
 			x.report("block.call") do |i|
-				buffer = String.new
+				String.new
 				
 				while (i -= 1) > 0
 					do_call(&existing_block)
@@ -35,7 +32,7 @@ describe "block.call vs yield with block vs yield" do
 			end
 			
 			x.report("yield with block") do |i|
-				buffer = String.new
+				String.new
 				
 				while (i -= 1) > 0
 					do_yield(&existing_block)
@@ -43,7 +40,7 @@ describe "block.call vs yield with block vs yield" do
 			end
 			
 			x.report("yield") do |i|
-				buffer = String.new
+				String.new
 				
 				while (i -= 1) > 0
 					do_yield_without_block(&existing_block)

@@ -16,7 +16,7 @@ describe XRB::Template do
 		
 		with path, unique: name do
 			it "generates correct output" do
-				template_path = File.expand_path(path, ROOT)
+				File.expand_path(path, ROOT)
 				output_path = File.expand_path("#{name}.txt", ROOT)
 				
 				template = subject.load_file(File.expand_path(path, ROOT))
