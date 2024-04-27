@@ -278,11 +278,11 @@ tr91:
 		
 		XRB_append_token(&pcdata, encoding, characters);
 	}
-#line 10 "/Users/samuel/Developer/socketry/xrb/parsers/xrb/entities.rl"
+#line 10 "/home/samuel/Documents/ioquatix/xrb/parsers/xrb/entities.rl"
 	{{stack[top++] = 50;goto st42;}}
 	goto st50;
 tr94:
-#line 10 "/Users/samuel/Developer/socketry/xrb/parsers/xrb/entities.rl"
+#line 10 "/home/samuel/Documents/ioquatix/xrb/parsers/xrb/entities.rl"
 	{{stack[top++] = 50;goto st42;}}
 	goto st50;
 tr88:
@@ -294,7 +294,7 @@ tr88:
 		pcdata = Qnil;
 		has_entities = 0;
 	}
-#line 10 "/Users/samuel/Developer/socketry/xrb/parsers/xrb/entities.rl"
+#line 10 "/home/samuel/Documents/ioquatix/xrb/parsers/xrb/entities.rl"
 	{{stack[top++] = 50;goto st42;}}
 	goto st50;
 tr97:
@@ -310,7 +310,7 @@ tr97:
 		pcdata = Qnil;
 		has_entities = 0;
 	}
-#line 10 "/Users/samuel/Developer/socketry/xrb/parsers/xrb/entities.rl"
+#line 10 "/home/samuel/Documents/ioquatix/xrb/parsers/xrb/entities.rl"
 	{{stack[top++] = 50;goto st42;}}
 	goto st50;
 tr100:
@@ -328,7 +328,7 @@ tr100:
 		pcdata = Qnil;
 		has_entities = 0;
 	}
-#line 10 "/Users/samuel/Developer/socketry/xrb/parsers/xrb/entities.rl"
+#line 10 "/home/samuel/Documents/ioquatix/xrb/parsers/xrb/entities.rl"
 	{{stack[top++] = 50;goto st42;}}
 	goto st50;
 tr103:
@@ -346,7 +346,7 @@ tr103:
 		pcdata = Qnil;
 		has_entities = 0;
 	}
-#line 10 "/Users/samuel/Developer/socketry/xrb/parsers/xrb/entities.rl"
+#line 10 "/home/samuel/Documents/ioquatix/xrb/parsers/xrb/entities.rl"
 	{{stack[top++] = 50;goto st42;}}
 	goto st50;
 tr106:
@@ -364,7 +364,7 @@ tr106:
 		pcdata = Qnil;
 		has_entities = 0;
 	}
-#line 10 "/Users/samuel/Developer/socketry/xrb/parsers/xrb/entities.rl"
+#line 10 "/home/samuel/Documents/ioquatix/xrb/parsers/xrb/entities.rl"
 	{{stack[top++] = 50;goto st42;}}
 	goto st50;
 tr109:
@@ -380,7 +380,7 @@ tr109:
 		pcdata = Qnil;
 		has_entities = 0;
 	}
-#line 10 "/Users/samuel/Developer/socketry/xrb/parsers/xrb/entities.rl"
+#line 10 "/home/samuel/Documents/ioquatix/xrb/parsers/xrb/entities.rl"
 	{{stack[top++] = 50;goto st42;}}
 	goto st50;
 tr112:
@@ -398,7 +398,7 @@ tr112:
 		pcdata = Qnil;
 		has_entities = 0;
 	}
-#line 10 "/Users/samuel/Developer/socketry/xrb/parsers/xrb/entities.rl"
+#line 10 "/home/samuel/Documents/ioquatix/xrb/parsers/xrb/entities.rl"
 	{{stack[top++] = 50;goto st42;}}
 	goto st50;
 st50:
@@ -1140,7 +1140,7 @@ tr22:
 		pcdata = Qnil;
 		has_entities = 0;
 	}
-#line 10 "/Users/samuel/Developer/socketry/xrb/parsers/xrb/entities.rl"
+#line 10 "/home/samuel/Documents/ioquatix/xrb/parsers/xrb/entities.rl"
 	{{stack[top++] = 10;goto st42;}}
 	goto st10;
 tr25:
@@ -1150,11 +1150,11 @@ tr25:
 		
 		XRB_append_token(&pcdata, encoding, characters);
 	}
-#line 10 "/Users/samuel/Developer/socketry/xrb/parsers/xrb/entities.rl"
+#line 10 "/home/samuel/Documents/ioquatix/xrb/parsers/xrb/entities.rl"
 	{{stack[top++] = 10;goto st42;}}
 	goto st10;
 tr31:
-#line 10 "/Users/samuel/Developer/socketry/xrb/parsers/xrb/entities.rl"
+#line 10 "/home/samuel/Documents/ioquatix/xrb/parsers/xrb/entities.rl"
 	{{stack[top++] = 10;goto st42;}}
 	goto st10;
 st10:
@@ -1224,7 +1224,7 @@ tr36:
 		pcdata = Qnil;
 		has_entities = 0;
 	}
-#line 10 "/Users/samuel/Developer/socketry/xrb/parsers/xrb/entities.rl"
+#line 10 "/home/samuel/Documents/ioquatix/xrb/parsers/xrb/entities.rl"
 	{{stack[top++] = 14;goto st42;}}
 	goto st14;
 tr38:
@@ -1234,11 +1234,11 @@ tr38:
 		
 		XRB_append_token(&pcdata, encoding, characters);
 	}
-#line 10 "/Users/samuel/Developer/socketry/xrb/parsers/xrb/entities.rl"
+#line 10 "/home/samuel/Documents/ioquatix/xrb/parsers/xrb/entities.rl"
 	{{stack[top++] = 14;goto st42;}}
 	goto st14;
 tr40:
-#line 10 "/Users/samuel/Developer/socketry/xrb/parsers/xrb/entities.rl"
+#line 10 "/home/samuel/Documents/ioquatix/xrb/parsers/xrb/entities.rl"
 	{{stack[top++] = 14;goto st42;}}
 	goto st14;
 st14:
@@ -1643,7 +1643,7 @@ tr81:
 		
 		XRB_append_codepoint(&pcdata, encoding, codepoint);
 	}
-#line 8 "/Users/samuel/Developer/socketry/xrb/parsers/xrb/entities.rl"
+#line 8 "/home/samuel/Documents/ioquatix/xrb/parsers/xrb/entities.rl"
 	{{cs = stack[--top];goto _again;}}
 	goto st57;
 tr84:
@@ -1657,7 +1657,7 @@ tr84:
 		
 		XRB_append_codepoint(&pcdata, encoding, codepoint);
 	}
-#line 8 "/Users/samuel/Developer/socketry/xrb/parsers/xrb/entities.rl"
+#line 8 "/home/samuel/Documents/ioquatix/xrb/parsers/xrb/entities.rl"
 	{{cs = stack[--top];goto _again;}}
 	goto st57;
 tr86:
@@ -1671,7 +1671,7 @@ tr86:
 			rb_funcall(entities, id_key_get, 1, XRB_Token_string(entity, encoding))
 		);
 	}
-#line 8 "/Users/samuel/Developer/socketry/xrb/parsers/xrb/entities.rl"
+#line 8 "/home/samuel/Documents/ioquatix/xrb/parsers/xrb/entities.rl"
 	{{cs = stack[--top];goto _again;}}
 	goto st57;
 st57:

@@ -580,7 +580,7 @@ module XRB
 									raise ParseError.new("failed to parse instruction", buffer, p)
 								end
 							when 16 then
-								# line 13 "/Users/samuel/Developer/socketry/xrb/parsers/xrb/template.rl"
+								# line 13 "/home/samuel/Documents/ioquatix/xrb/parsers/xrb/template.rl"
 								begin
 									begin
 										stack[top] = cs
@@ -591,7 +591,7 @@ module XRB
 									end
 								end
 							when 13 then
-								# line 17 "/Users/samuel/Developer/socketry/xrb/parsers/xrb/template.rl"
+								# line 17 "/home/samuel/Documents/ioquatix/xrb/parsers/xrb/template.rl"
 								begin
 									begin
 										stack[top] = cs
@@ -602,7 +602,7 @@ module XRB
 									end
 								end
 							when 14 then
-								# line 20 "/Users/samuel/Developer/socketry/xrb/parsers/xrb/template.rl"
+								# line 20 "/home/samuel/Documents/ioquatix/xrb/parsers/xrb/template.rl"
 								begin
 									begin
 										top -= 1
@@ -707,13 +707,13 @@ module XRB
 
 									expression_begin = p
 								end
-								# line 53 "/Users/samuel/Developer/socketry/xrb/parsers/xrb/template.rl"
+								# line 53 "/home/samuel/Documents/ioquatix/xrb/parsers/xrb/template.rl"
 								begin
 									te = p
 									p = p - 1; begin cs = 32; end
 								end
 							when 15 then
-								# line 13 "/Users/samuel/Developer/socketry/xrb/parsers/xrb/template.rl"
+								# line 13 "/home/samuel/Documents/ioquatix/xrb/parsers/xrb/template.rl"
 								begin
 									begin
 										stack[top] = cs
@@ -723,7 +723,7 @@ module XRB
 										next
 									end
 								end
-								# line 17 "/Users/samuel/Developer/socketry/xrb/parsers/xrb/template.rl"
+								# line 17 "/home/samuel/Documents/ioquatix/xrb/parsers/xrb/template.rl"
 								begin
 									begin
 										stack[top] = cs
@@ -760,7 +760,7 @@ module XRB
 
 									delegate.expression(data.byteslice(expression_begin...expression_end))
 								end
-								# line 21 "/Users/samuel/Developer/socketry/xrb/parsers/xrb/template.rl"
+								# line 21 "/home/samuel/Documents/ioquatix/xrb/parsers/xrb/template.rl"
 								begin
 						cs = 43;		end
 								# line 767 "template.rb"
