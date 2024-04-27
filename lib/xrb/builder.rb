@@ -41,7 +41,6 @@ module XRB
 			def >> block
 				if block
 					output = Template.buffer(block.binding)
-					builder = output
 					
 					unless output.is_a?(Builder)
 						output = Builder.new(output)

@@ -197,7 +197,6 @@ module XRB
 		
 		def self.parse_markup(buffer, delegate, entities)
 			data = buffer.read
-			encoding = buffer.encoding
 			bytes = data.bytes
 			
 			p = 0
