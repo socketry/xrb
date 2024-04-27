@@ -16,10 +16,10 @@ describe XRB::Template do
 		
 		with path, unique: name do
 			it "generates correct output" do
-				File.expand_path(path, ROOT)
+				template_path = File.expand_path(path, ROOT)
 				output_path = File.expand_path("#{name}.txt", ROOT)
 				
-				template = subject.load_file(File.expand_path(path, ROOT))
+				template = subject.load_file(template_path)
 				output = template.to_string
 				
 				if File.exist?(output_path)
