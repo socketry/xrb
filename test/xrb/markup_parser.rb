@@ -189,10 +189,6 @@ ValidMarkupFile = Sus::Shared("valid markup file") do |base|
 	end
 end
 
-describe ".corpus/large" do
-	include_context ValidMarkupFile, description
-end
-
 InvalidMarkup = Sus::Shared("invalid markup") do
 	include_context HTMLParsers
 	

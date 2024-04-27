@@ -8,28 +8,6 @@ require 'xrb/parsers'
 
 require 'xrb/parse_delegate'
 
-class Formatter
-	def title_for(options)
-		options[:title]
-	end
-	
-	def value_for(options)
-		options[:value]
-	end
-	
-	def row(options = {}, &block)
-		XRB::Builder.fragment do |builder|
-			builder.inline(:dt) { builder.text title_for(options) }
-			
-			if block_given?
-				builder.inline(:dd) { builder.capture(self, &block) }
-			else
-				builder.inline(:dd) { builder.text value_for(options) }
-			end
-		end >> block
-	end
-end
-
 describe XRB::Template do
 	ROOT = File.expand_path(".template", __dir__)
 	
@@ -45,7 +23,7 @@ describe XRB::Template do
 				output = template.to_string
 				
 				if File.exist?(output_path)
-					expect(template.to_string).to be == File.read(output_path)
+					expect(output).to be == File.read(output_path)
 				else
 					File.write(output_path, output)
 				end

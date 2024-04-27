@@ -63,11 +63,11 @@ describe XRB::Builder do
 			
 			builder.tag('foo') {builder.tag('bar')}
 			
-			expect(builder.output).to be == <<~HTML.chomp
+			expect(builder.output).to be == <<~XML.chomp
 			<foo>
 				<bar/>
 			</foo>
-			HTML
+			XML
 		end
 		
 		it "should support compact attributes" do
@@ -154,13 +154,13 @@ describe XRB::Builder do
 				builder.append("<inner>\n\t<nested/>\n</inner>")
 			end
 			
-			expect(builder.output).to be == <<~HTML.chomp
+			expect(builder.output).to be == <<~XML.chomp
 			<outer>
 				<inner>
 					<nested/>
 				</inner>
 			</outer>
-			HTML
+			XML
 		end
 	end
 end
