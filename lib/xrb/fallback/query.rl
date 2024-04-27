@@ -70,11 +70,6 @@ module XRB
 			pe = eof = data.bytesize
 			stack = []
 			
-			string_begin = string_end = nil
-			integer_begin = integer_end = nil
-			value_begin = value_end = nil
-			encoded = false
-			
 			%% write init;
 			%% write exec;
 			

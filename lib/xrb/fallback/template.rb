@@ -497,11 +497,8 @@ module XRB
 			pe = eof = data.bytesize
 			stack = []
 							
-			expression_begin = nil
-			instruction_begin = instruction_end = nil
 							
-							
-			# line 505 "template.rb"
+			# line 502 "template.rb"
 			begin
 				p ||= 0
 				pe ||= data.length
@@ -512,9 +509,9 @@ module XRB
 				act = 0
 			end
 
-			# line 71 "template.rl"
+			# line 68 "template.rl"
 							
-			# line 518 "template.rb"
+			# line 515 "template.rb"
 			begin
 				_slen, _trans, _keys, _inds, _acts, _nacts = nil
 				_goto_level = 0
@@ -541,16 +538,16 @@ module XRB
 							begin
 								ts = p
 							end
-							# line 546 "template.rb"
+							# line 543 "template.rb"
 						end
 						_keys = cs << 1
 						_inds = _template_index_offsets[cs]
 						_slen = _template_key_spans[cs]
 						_wide = ( bytes[p])
 						_trans = if (   _slen > 0 && 
-									_template_trans_keys[_keys] <= _wide && 
-									_wide <= _template_trans_keys[_keys + 1] 
-												) then
+								_template_trans_keys[_keys] <= _wide && 
+								_wide <= _template_trans_keys[_keys + 1] 
+											) then
 							_template_indicies[ _inds + _wide - _template_trans_keys[_keys] ] 
 						else 
 							_template_indicies[ _inds + _slen ]
@@ -579,7 +576,7 @@ module XRB
 									raise ParseError.new("failed to parse instruction", buffer, p)
 								end
 							when 16 then
-								# line 13 "/home/samuel/Projects/socketry/xrb/parsers/xrb/template.rl"
+								# line 13 "/Users/samuel/Developer/socketry/xrb/parsers/xrb/template.rl"
 								begin
 									begin
 										stack[top] = cs
@@ -590,7 +587,7 @@ module XRB
 									end
 								end
 							when 13 then
-								# line 17 "/home/samuel/Projects/socketry/xrb/parsers/xrb/template.rl"
+								# line 17 "/Users/samuel/Developer/socketry/xrb/parsers/xrb/template.rl"
 								begin
 									begin
 										stack[top] = cs
@@ -601,7 +598,7 @@ module XRB
 									end
 								end
 							when 14 then
-								# line 20 "/home/samuel/Projects/socketry/xrb/parsers/xrb/template.rl"
+								# line 20 "/Users/samuel/Developer/socketry/xrb/parsers/xrb/template.rl"
 								begin
 									begin
 										top -= 1
@@ -706,13 +703,13 @@ module XRB
 
 									expression_begin = p
 								end
-								# line 53 "/home/samuel/Projects/socketry/xrb/parsers/xrb/template.rl"
+								# line 53 "/Users/samuel/Developer/socketry/xrb/parsers/xrb/template.rl"
 								begin
 									te = p
 									p = p - 1; begin cs = 32; end
 								end
 							when 15 then
-								# line 13 "/home/samuel/Projects/socketry/xrb/parsers/xrb/template.rl"
+								# line 13 "/Users/samuel/Developer/socketry/xrb/parsers/xrb/template.rl"
 								begin
 									begin
 										stack[top] = cs
@@ -722,7 +719,7 @@ module XRB
 										next
 									end
 								end
-								# line 17 "/home/samuel/Projects/socketry/xrb/parsers/xrb/template.rl"
+								# line 17 "/Users/samuel/Developer/socketry/xrb/parsers/xrb/template.rl"
 								begin
 									begin
 										stack[top] = cs
@@ -739,7 +736,7 @@ module XRB
 								end
 								# line 15 "template.rl"
 								begin
-							act = 3;		end
+						act = 3;		end
 							when 20 then
 								# line 1 "NONE"
 								begin
@@ -747,7 +744,7 @@ module XRB
 								end
 								# line 43 "template.rl"
 								begin
-							act = 6;		end
+						act = 6;		end
 							when 18 then
 								# line 31 "template.rl"
 								begin
@@ -759,10 +756,10 @@ module XRB
 
 									delegate.expression(data.byteslice(expression_begin...expression_end))
 								end
-								# line 21 "/home/samuel/Projects/socketry/xrb/parsers/xrb/template.rl"
+								# line 21 "/Users/samuel/Developer/socketry/xrb/parsers/xrb/template.rl"
 								begin
-							cs = 43;		end
-								# line 767 "template.rb"
+						cs = 43;		end
+								# line 764 "template.rb"
 							end
 						end
 					end
@@ -771,8 +768,8 @@ module XRB
 						when 12 then
 							# line 1 "NONE"
 							begin
-						ts = nil;		end
-							# line 777 "template.rb"
+					ts = nil;		end
+							# line 774 "template.rb"
 						end
 
 						if cs == 0
@@ -805,7 +802,7 @@ module XRB
 
 									raise ParseError.new("failed to parse expression", buffer, p)
 								end
-								# line 810 "template.rb"
+								# line 807 "template.rb"
 							end
 						end
 
@@ -816,7 +813,7 @@ module XRB
 				end
 			end
 
-			# line 72 "template.rl"
+			# line 69 "template.rl"
 							
 			if p != eof
 				raise ParseError.new("could not consume all input", buffer, p)

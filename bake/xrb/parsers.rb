@@ -23,16 +23,10 @@ def generate_native
 	end
 end
 
-# Compile the C extension.
-def compile
-	system("rake", "compile", chdir: extensions_directory)
-end
-
 # Generate the parsers and compile them as required.
 def generate
 	self.generate_native
 	self.generate_fallback
-	self.compile
 end
 
 # Generate a visualisation of the parsers.

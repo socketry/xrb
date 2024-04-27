@@ -419,7 +419,6 @@ module XRB
 		
 		def self.parse_markup(buffer, delegate, entities)
 			data = buffer.read
-			buffer.encoding
 			bytes = data.bytes
 							
 			p = 0
@@ -427,18 +426,8 @@ module XRB
 			pe = eof = data.bytesize
 			stack = []
 							
-			pcdata = nil
-			characters_begin = nil
-			entity_begin = nil
-			identifier_begin = identifier_end = nil
-			doctype_begin = nil
-			comment_begin = nil
-			instruction_begin = nil
-			cdata_begin = nil
-			has_entities = has_value = false
 							
-							
-			# line 442 "markup.rb"
+			# line 431 "markup.rb"
 			begin
 				p ||= 0
 				pe ||= data.length
@@ -446,9 +435,9 @@ module XRB
 				top = 0
 			end
 
-			# line 219 "markup.rl"
+			# line 208 "markup.rl"
 							
-			# line 452 "markup.rb"
+			# line 441 "markup.rb"
 			begin
 				_slen, _trans, _keys, _inds, _acts, _nacts = nil
 				_goto_level = 0
@@ -474,9 +463,9 @@ module XRB
 						_slen = _markup_key_spans[cs]
 						_wide = ( bytes[p])
 						_trans = if (   _slen > 0 && 
-									_markup_trans_keys[_keys] <= _wide && 
-									_wide <= _markup_trans_keys[_keys + 1] 
-												) then
+								_markup_trans_keys[_keys] <= _wide && 
+								_wide <= _markup_trans_keys[_keys + 1] 
+											) then
 							_markup_indicies[ _inds + _wide - _markup_trans_keys[_keys] ] 
 						else 
 							_markup_indicies[ _inds + _slen ]
@@ -543,7 +532,7 @@ module XRB
 									raise ParseError.new("could not parse tag", buffer, p)
 								end
 							when 18 then
-								# line 10 "/home/samuel/Projects/socketry/xrb/parsers/xrb/entities.rl"
+								# line 10 "/Users/samuel/Developer/socketry/xrb/parsers/xrb/entities.rl"
 								begin
 									begin
 										stack[top] = cs
@@ -573,7 +562,7 @@ module XRB
 								begin
 
 									self_closing = false
-									
+								
 									delegate.open_tag_begin(data.byteslice(identifier_begin...identifier_end), identifier_begin)
 								end
 							when 7 then
@@ -587,12 +576,12 @@ module XRB
 
 									if has_value
 										pcdata = MarkupString.raw(pcdata) unless has_entities
-												
+										
 										value = pcdata
 									else
 										value = true
 									end
-									
+								
 									delegate.attribute(data.byteslice(identifier_begin...identifier_end), value)
 								end
 							when 10 then
@@ -614,7 +603,7 @@ module XRB
 									pcdata = ""
 									has_entities = false
 								end
-								# line 10 "/home/samuel/Projects/socketry/xrb/parsers/xrb/entities.rl"
+								# line 10 "/Users/samuel/Developer/socketry/xrb/parsers/xrb/entities.rl"
 								begin
 									begin
 										stack[top] = cs
@@ -629,7 +618,7 @@ module XRB
 								begin
 
 									characters_end = p
-									
+								
 									pcdata << data.byteslice(characters_begin...characters_end)
 								end
 								# line 20 "markup.rl"
@@ -641,10 +630,10 @@ module XRB
 								begin
 
 									characters_end = p
-									
+								
 									pcdata << data.byteslice(characters_begin...characters_end)
 								end
-								# line 10 "/home/samuel/Projects/socketry/xrb/parsers/xrb/entities.rl"
+								# line 10 "/Users/samuel/Developer/socketry/xrb/parsers/xrb/entities.rl"
 								begin
 									begin
 										stack[top] = cs
@@ -659,13 +648,13 @@ module XRB
 								begin
 
 									entity_end = p
-									
+								
 									name = data.byteslice(entity_begin...entity_end)
-									
+								
 									has_entities = true
 									pcdata << entities[name]
 								end
-								# line 8 "/home/samuel/Projects/socketry/xrb/parsers/xrb/entities.rl"
+								# line 8 "/Users/samuel/Developer/socketry/xrb/parsers/xrb/entities.rl"
 								begin
 									begin
 										top -= 1
@@ -679,11 +668,11 @@ module XRB
 								begin
 
 									entity_end = p
-									
+								
 									has_entities = true
 									pcdata << data.byteslice(entity_begin...entity_end).to_i(16)
 								end
-								# line 8 "/home/samuel/Projects/socketry/xrb/parsers/xrb/entities.rl"
+								# line 8 "/Users/samuel/Developer/socketry/xrb/parsers/xrb/entities.rl"
 								begin
 									begin
 										top -= 1
@@ -697,11 +686,11 @@ module XRB
 								begin
 
 									entity_end = p
-									
+								
 									has_entities = true
 									pcdata << data.byteslice(entity_begin...entity_end).to_i(10)
 								end
-								# line 8 "/home/samuel/Projects/socketry/xrb/parsers/xrb/entities.rl"
+								# line 8 "/Users/samuel/Developer/socketry/xrb/parsers/xrb/entities.rl"
 								begin
 									begin
 										top -= 1
@@ -733,12 +722,12 @@ module XRB
 
 									if has_value
 										pcdata = MarkupString.raw(pcdata) unless has_entities
-												
+										
 										value = pcdata
 									else
 										value = true
 									end
-									
+								
 									delegate.attribute(data.byteslice(identifier_begin...identifier_end), value)
 								end
 							when 19 then
@@ -752,12 +741,12 @@ module XRB
 
 									if has_value
 										pcdata = MarkupString.raw(pcdata) unless has_entities
-												
+										
 										value = pcdata
 									else
 										value = true
 									end
-									
+								
 									delegate.attribute(data.byteslice(identifier_begin...identifier_end), value)
 								end
 							when 4 then
@@ -770,7 +759,7 @@ module XRB
 								begin
 
 									self_closing = false
-									
+								
 									delegate.open_tag_begin(data.byteslice(identifier_begin...identifier_end), identifier_begin)
 								end
 								# line 128 "markup.rl"
@@ -789,12 +778,12 @@ module XRB
 
 									if has_value
 										pcdata = MarkupString.raw(pcdata) unless has_entities
-												
+										
 										value = pcdata
 									else
 										value = true
 									end
-									
+								
 									delegate.attribute(data.byteslice(identifier_begin...identifier_end), value)
 								end
 								# line 128 "markup.rl"
@@ -829,7 +818,7 @@ module XRB
 									pcdata = ""
 									has_entities = false
 								end
-								# line 10 "/home/samuel/Projects/socketry/xrb/parsers/xrb/entities.rl"
+								# line 10 "/Users/samuel/Developer/socketry/xrb/parsers/xrb/entities.rl"
 								begin
 									begin
 										stack[top] = cs
@@ -850,12 +839,12 @@ module XRB
 
 									if has_value
 										pcdata = MarkupString.raw(pcdata) unless has_entities
-												
+										
 										value = pcdata
 									else
 										value = true
 									end
-									
+								
 									delegate.attribute(data.byteslice(identifier_begin...identifier_end), value)
 								end
 								# line 128 "markup.rl"
@@ -874,12 +863,12 @@ module XRB
 
 									if has_value
 										pcdata = MarkupString.raw(pcdata) unless has_entities
-												
+										
 										value = pcdata
 									else
 										value = true
 									end
-									
+								
 									delegate.attribute(data.byteslice(identifier_begin...identifier_end), value)
 								end
 								# line 128 "markup.rl"
@@ -892,7 +881,7 @@ module XRB
 								begin
 
 									doctype_end = p
-									
+								
 									delegate.doctype(data.byteslice(doctype_begin...doctype_end))
 								end
 								# line 23 "markup.rl"
@@ -915,7 +904,7 @@ module XRB
 								begin
 
 									doctype_end = p
-									
+								
 									delegate.doctype(data.byteslice(doctype_begin...doctype_end))
 								end
 								# line 23 "markup.rl"
@@ -928,7 +917,7 @@ module XRB
 									pcdata = ""
 									has_entities = false
 								end
-								# line 10 "/home/samuel/Projects/socketry/xrb/parsers/xrb/entities.rl"
+								# line 10 "/Users/samuel/Developer/socketry/xrb/parsers/xrb/entities.rl"
 								begin
 									begin
 										stack[top] = cs
@@ -943,7 +932,7 @@ module XRB
 								begin
 
 									comment_end = p
-									
+								
 									delegate.comment(data.byteslice(comment_begin...comment_end))
 								end
 								# line 23 "markup.rl"
@@ -966,7 +955,7 @@ module XRB
 								begin
 
 									comment_end = p
-									
+								
 									delegate.comment(data.byteslice(comment_begin...comment_end))
 								end
 								# line 23 "markup.rl"
@@ -979,7 +968,7 @@ module XRB
 									pcdata = ""
 									has_entities = false
 								end
-								# line 10 "/home/samuel/Projects/socketry/xrb/parsers/xrb/entities.rl"
+								# line 10 "/Users/samuel/Developer/socketry/xrb/parsers/xrb/entities.rl"
 								begin
 									begin
 										stack[top] = cs
@@ -1026,7 +1015,7 @@ module XRB
 									pcdata = ""
 									has_entities = false
 								end
-								# line 10 "/home/samuel/Projects/socketry/xrb/parsers/xrb/entities.rl"
+								# line 10 "/Users/samuel/Developer/socketry/xrb/parsers/xrb/entities.rl"
 								begin
 									begin
 										stack[top] = cs
@@ -1073,7 +1062,7 @@ module XRB
 									pcdata = ""
 									has_entities = false
 								end
-								# line 10 "/home/samuel/Projects/socketry/xrb/parsers/xrb/entities.rl"
+								# line 10 "/Users/samuel/Developer/socketry/xrb/parsers/xrb/entities.rl"
 								begin
 									begin
 										stack[top] = cs
@@ -1120,7 +1109,7 @@ module XRB
 									pcdata = ""
 									has_entities = false
 								end
-								# line 10 "/home/samuel/Projects/socketry/xrb/parsers/xrb/entities.rl"
+								# line 10 "/Users/samuel/Developer/socketry/xrb/parsers/xrb/entities.rl"
 								begin
 									begin
 										stack[top] = cs
@@ -1135,7 +1124,7 @@ module XRB
 								begin
 
 									cdata_end = p
-									
+								
 									delegate.cdata(data.byteslice(cdata_begin...cdata_end))
 								end
 								# line 23 "markup.rl"
@@ -1158,7 +1147,7 @@ module XRB
 								begin
 
 									cdata_end = p
-									
+								
 									delegate.cdata(data.byteslice(cdata_begin...cdata_end))
 								end
 								# line 23 "markup.rl"
@@ -1171,7 +1160,7 @@ module XRB
 									pcdata = ""
 									has_entities = false
 								end
-								# line 10 "/home/samuel/Projects/socketry/xrb/parsers/xrb/entities.rl"
+								# line 10 "/Users/samuel/Developer/socketry/xrb/parsers/xrb/entities.rl"
 								begin
 									begin
 										stack[top] = cs
@@ -1215,7 +1204,7 @@ module XRB
 								begin
 
 									doctype_end = p
-									
+								
 									delegate.doctype(data.byteslice(doctype_begin...doctype_end))
 								end
 								# line 125 "markup.rl"
@@ -1251,7 +1240,7 @@ module XRB
 								begin
 
 									comment_end = p
-									
+								
 									delegate.comment(data.byteslice(comment_begin...comment_end))
 								end
 								# line 125 "markup.rl"
@@ -1389,7 +1378,7 @@ module XRB
 								begin
 
 									cdata_end = p
-									
+								
 									delegate.cdata(data.byteslice(cdata_begin...cdata_end))
 								end
 								# line 125 "markup.rl"
@@ -1429,7 +1418,7 @@ module XRB
 								begin
 
 									pcdata = MarkupString.raw(pcdata) unless has_entities
-									
+								
 									delegate.text(pcdata)
 								end
 								# line 125 "markup.rl"
@@ -1465,7 +1454,7 @@ module XRB
 								begin
 
 									characters_end = p
-									
+								
 									pcdata << data.byteslice(characters_begin...characters_end)
 								end
 								# line 20 "markup.rl"
@@ -1476,7 +1465,7 @@ module XRB
 								begin
 
 									pcdata = MarkupString.raw(pcdata) unless has_entities
-									
+								
 									delegate.text(pcdata)
 								end
 								# line 125 "markup.rl"
@@ -1507,7 +1496,7 @@ module XRB
 
 									cdata_begin = p
 								end
-								# line 1512 "markup.rb"
+								# line 1501 "markup.rb"
 							end
 						end
 					end
@@ -1536,7 +1525,7 @@ module XRB
 								begin
 
 									doctype_end = p
-								
+												
 									delegate.doctype(data.byteslice(doctype_begin...doctype_end))
 								end
 							when 22 then
@@ -1550,7 +1539,7 @@ module XRB
 								begin
 
 									comment_end = p
-								
+												
 									delegate.comment(data.byteslice(comment_begin...comment_end))
 								end
 							when 21 then
@@ -1594,7 +1583,7 @@ module XRB
 								begin
 
 									cdata_end = p
-								
+												
 									delegate.cdata(data.byteslice(cdata_begin...cdata_end))
 								end
 							when 23 then
@@ -1612,7 +1601,7 @@ module XRB
 								begin
 
 									pcdata = MarkupString.raw(pcdata) unless has_entities
-								
+												
 									delegate.text(pcdata)
 								end
 							when 35 then
@@ -1620,7 +1609,7 @@ module XRB
 								begin
 
 									characters_end = p
-								
+												
 									pcdata << data.byteslice(characters_begin...characters_end)
 								end
 								# line 20 "markup.rl"
@@ -1631,10 +1620,10 @@ module XRB
 								begin
 
 									pcdata = MarkupString.raw(pcdata) unless has_entities
-								
+												
 									delegate.text(pcdata)
 								end
-								# line 1639 "markup.rb"
+								# line 1628 "markup.rb"
 							end
 						end
 
@@ -1645,7 +1634,7 @@ module XRB
 				end
 			end
 
-			# line 220 "markup.rl"
+			# line 209 "markup.rl"
 							
 			if p != eof
 				raise ParseError.new("could not consume all input", buffer, p)

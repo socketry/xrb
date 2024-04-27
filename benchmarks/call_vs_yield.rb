@@ -24,24 +24,18 @@ describe "block.call vs yield with block vs yield" do
 		
 		Benchmark.ips do |x|
 			x.report("block.call") do |i|
-				String.new
-				
 				while (i -= 1) > 0
 					do_call(&existing_block)
 				end
 			end
 			
 			x.report("yield with block") do |i|
-				String.new
-				
 				while (i -= 1) > 0
 					do_yield(&existing_block)
 				end
 			end
 			
 			x.report("yield") do |i|
-				String.new
-				
 				while (i -= 1) > 0
 					do_yield_without_block(&existing_block)
 				end

@@ -234,22 +234,17 @@ module XRB
 			p = 0
 			pe = eof = data.bytesize
 							
-			string_begin = nil
-			integer_begin = nil
-			value_begin = nil
-			encoded = false
 							
-							
-			# line 245 "query.rb"
+			# line 240 "query.rb"
 			begin
 				p ||= 0
 				pe ||= data.length
 				cs = query_start
 			end
 
-			# line 79 "query.rl"
+			# line 74 "query.rl"
 							
-			# line 254 "query.rb"
+			# line 249 "query.rb"
 			begin
 				_slen, _trans, _keys, _inds, _acts, _nacts = nil
 				_goto_level = 0
@@ -275,9 +270,9 @@ module XRB
 						_slen = _query_key_spans[cs]
 						_wide = ( bytes[p])
 						_trans = if (   _slen > 0 && 
-									_query_trans_keys[_keys] <= _wide && 
-									_wide <= _query_trans_keys[_keys + 1] 
-												) then
+								_query_trans_keys[_keys] <= _wide && 
+								_wide <= _query_trans_keys[_keys + 1] 
+											) then
 							_query_indicies[ _inds + _wide - _query_trans_keys[_keys] ] 
 						else 
 							_query_indicies[ _inds + _slen ]
@@ -296,9 +291,9 @@ module XRB
 								begin
 
 									string_end = p
-									
+								
 									delegate.string(data.byteslice(string_begin...string_end), encoded)
-									
+								
 									encoded = false
 								end
 							when 7 then
@@ -306,7 +301,7 @@ module XRB
 								begin
 
 									integer_end = p
-									
+								
 									delegate.integer(data.byteslice(integer_begin...integer_end))
 								end
 							when 15 then
@@ -342,7 +337,7 @@ module XRB
 								# line 19 "query.rl"
 								begin
 
-									integer_begin = p
+									p
 								end
 							when 2 then
 								# line 7 "query.rl"
@@ -360,9 +355,9 @@ module XRB
 								begin
 
 									string_end = p
-									
+								
 									delegate.string(data.byteslice(string_begin...string_end), encoded)
-									
+								
 									encoded = false
 								end
 								# line 45 "query.rl"
@@ -374,7 +369,7 @@ module XRB
 								# line 19 "query.rl"
 								begin
 
-									integer_begin = p
+									p
 								end
 								# line 7 "query.rl"
 								begin
@@ -408,9 +403,9 @@ module XRB
 								begin
 
 									value_end = p
-									
+								
 									delegate.assign(data.byteslice(value_begin...value_end), encoded)
-									
+								
 									encoded = false
 								end
 								# line 45 "query.rl"
@@ -428,9 +423,9 @@ module XRB
 								begin
 
 									value_end = p
-									
+								
 									delegate.assign(data.byteslice(value_begin...value_end), encoded)
-									
+								
 									encoded = false
 								end
 								# line 45 "query.rl"
@@ -438,7 +433,7 @@ module XRB
 
 									delegate.pair
 								end
-								# line 444 "query.rb"
+								# line 439 "query.rb"
 							end
 						end
 					end
@@ -467,9 +462,9 @@ module XRB
 								begin
 
 									string_end = p
-								
+												
 									delegate.string(data.byteslice(string_begin...string_end), encoded)
-								
+												
 									encoded = false
 								end
 								# line 45 "query.rl"
@@ -493,9 +488,9 @@ module XRB
 								begin
 
 									value_end = p
-								
+												
 									delegate.assign(data.byteslice(value_begin...value_end), encoded)
-								
+												
 									encoded = false
 								end
 								# line 45 "query.rl"
@@ -513,9 +508,9 @@ module XRB
 								begin
 
 									value_end = p
-								
+												
 									delegate.assign(data.byteslice(value_begin...value_end), encoded)
-								
+												
 									encoded = false
 								end
 								# line 45 "query.rl"
@@ -523,7 +518,7 @@ module XRB
 
 									delegate.pair
 								end
-								# line 529 "query.rb"
+								# line 524 "query.rb"
 							end
 						end
 
@@ -534,7 +529,7 @@ module XRB
 				end
 			end
 
-			# line 80 "query.rl"
+			# line 75 "query.rl"
 							
 			if p != eof
 				raise ParseError.new("could not consume all input", buffer, p)
