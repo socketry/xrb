@@ -121,6 +121,10 @@ VALUE XRB_Markup_append(VALUE self, VALUE buffer, VALUE value) {
 
 // Convert markup special characters to entities. May return the original string if no changes were made.
 VALUE XRB_Markup_escape_string(VALUE self, VALUE string) {
+	if (rb_type(string) != T_STRING) {
+		rb_raise(rb_eTypeError, "expected a string");
+	}
+	
 	const char * begin = RSTRING_PTR(string);
 	const char * end = begin + RSTRING_LEN(string);
 	

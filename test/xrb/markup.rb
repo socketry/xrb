@@ -51,4 +51,16 @@ describe XRB::Markup do
 			end
 		end
 	end
+	
+	with '.escape_string' do
+		it 'escapes special characters' do
+			expect(XRB::Markup.escape_string("<h1>Hello World</h1>")).to be == "&lt;h1&gt;Hello World&lt;/h1&gt;"
+		end
+		
+		it 'fails to escape non-string' do
+			expect do
+				XRB::Markup.escape_string(Object.new)
+			end.to raise_exception(TypeError)
+		end
+	end
 end
