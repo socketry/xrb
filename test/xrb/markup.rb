@@ -104,5 +104,13 @@ describe XRB::Markup do
 				XRB::Markup.append(buffer, "Hello")
 			end.to raise_exception(NoMethodError, message: be =~ /<</)
 		end
+		
+		it 'falls back to appending with #<<' do
+			buffer = []
+			
+			XRB::Markup.append(buffer, "<Hello>")
+			
+			expect(buffer).to be == ["&lt;Hello&gt;"]
+		end
 	end
 end
