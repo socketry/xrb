@@ -11,7 +11,7 @@ env:
 
 jobs:
   test:
-    name: ${{matrix.ruby}} on ${{matrix.os}}
+    name: ${{matrix.ruby}} on ${{matrix.os}} ${{matrix.env}}
     runs-on: ${{matrix.os}}-latest
     
     strategy:
