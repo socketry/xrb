@@ -20,7 +20,7 @@ module XRB
 	end
 	
 	class Template
-		# Returns the output produced by calling the given block.
+		# @returns [String] the output produced by calling the given block.
 		def self.capture(*arguments, output: nil, &block)
 			scope = block.binding
 			previous_output = scope.local_variable_get(OUT)
@@ -34,7 +34,7 @@ module XRB
 				scope.local_variable_set(OUT, previous_output)
 			end
 			
-			return output
+			return output.to_str
 		end
 		
 		# Returns the buffer used for capturing output.

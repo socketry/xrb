@@ -41,7 +41,7 @@ describe XRB::Template do
 	let(:interpolations_path) {File.expand_path('.corpus/interpolations.xrb', __dir__)}
 	
 	it "should be fast for lots of interpolations" do
-		xrb_template = XRB::MarkupTemplate.new(XRB::Buffer.load_file(interpolations_path))
+		xrb_template = XRB::Template.new(XRB::Buffer.load_file(interpolations_path))
 		model = Model.new
 		
 		Benchmark.ips do |x|

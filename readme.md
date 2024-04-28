@@ -4,6 +4,38 @@ XRB is a templating system built loosely on top of XHTML markup. It uses efficie
 
 [![Development Status](https://github.com/socketry/xrb/workflows/Test/badge.svg)](https://github.com/socketry/xrb/actions?workflow=Test)
 
+``` xrb
+<h1>XRB Examples</h1>
+
+<ul>
+	<li>XRB uses normal string interpolation syntax: #{"Hello World"}</li>
+
+	<?r if true ?>
+	<li>XRB also adopts standard #{"<?r ... ?>"} script tags</li>
+	<?r end ?>
+	
+	<!-- That's all of the syntax! -->
+<ul>
+```
+
+Generates:
+
+``` xml
+<h1>XRB Examples</h1>
+
+<ul>
+	<li>XRB uses normal string interpolation syntax: Hello World</li>
+
+	<li>XRB also adopts standard &lt;?r ... ?&gt; script tags</li>
+	
+	<!-- That's all of the syntax! -->
+<ul>
+```
+
+## Is it fast?
+
+Yes. XRB is designed to be fast. It uses a combination of efficient native parsers and Ruby code generation to ensure that templates are compiled into efficient Ruby code. This means that XRB is suitable for use in high performance applications. In comparison to `ERB`, it is generally about 10x faster.
+
 ## Usage
 
 Please see the [project documentation](https://socketry.github.io/xrb/) for more details.

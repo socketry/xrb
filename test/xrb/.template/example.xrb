@@ -1,0 +1,11 @@
+<h1>XRB Examples</h1>
+
+<ul>
+	<li>XRB uses normal string interpolation syntax: #{"Hello World"}</li>
+
+	<?r if true ?>
+	<li>XRB also adopts standard #{"<?r ... ?>"} script tags</li>
+	<?r end ?>
+	
+	<!-- That's all of the syntax! -->
+<ul>

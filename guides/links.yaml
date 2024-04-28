@@ -1,2 +1,4 @@
 getting-started:
   order: 1
+manipulating-output:
+  order: 2

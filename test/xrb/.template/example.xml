@@ -1,0 +1,9 @@
+<h1>XRB Examples</h1>
+
+<ul>
+	<li>XRB uses normal string interpolation syntax: Hello World</li>
+
+	<li>XRB also adopts standard &lt;?r ... ?&gt; script tags</li>
+	
+	<!-- That's all of the syntax! -->
+<ul>
