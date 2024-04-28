@@ -48,6 +48,7 @@ Please see the [project documentation](https://socketry.github.io/xrb/) for more
 
 ## See Also
 
+  - [xrb-rails](https://github.com/socketry/xrb-rails) - A Rails ActionView integration for rendering XRB templates.
   - [xrb-sanitize](https://github.com/socketry/xrb-sanitize) - A stream-based HTML sanitizer for XRB, based on the XRB Markup parser.
   - [xrb-vscode](https://github.com/socketry/xrb-vscode) - A syntax highlighting package for Visual Studio Code.
   - [trenni](https://github.com/ioquatix/trenni) - The original templating system which XRB is based on.
