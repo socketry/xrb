@@ -52,7 +52,8 @@ extern ID
 	id_attributes,
 	id_closed,
 	id_to_s,
-	id_is_a;
+	id_is_a,
+	id_concat;
 
 // A convenient C string token class.
 typedef struct {

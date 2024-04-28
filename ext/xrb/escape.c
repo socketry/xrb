@@ -103,8 +103,26 @@ VALUE XRB_Markup_append_string(VALUE buffer, VALUE string) {
 	return XRB_Markup_append_buffer(buffer, s, p, end);
 }
 
+VALUE XRB_Markup_append_slow(VALUE self, VALUE buffer, VALUE value) {
+	if (value == Qnil) return Qnil;
+	
+	if (!XRB_Markup_is_markup(value)) {
+		value = XRB_Markup_escape_string(Qnil, value);
+	}
+	 
+	rb_funcall(buffer, id_concat, 1, value);
+	
+	return buffer;
+}
+
 VALUE XRB_Markup_append(VALUE self, VALUE buffer, VALUE value) {
 	if (value == Qnil) return Qnil;
+	
+	if (RB_TYPE_P(buffer, T_STRING)) {
+		rb_str_modify(buffer);
+	} else {
+		return XRB_Markup_append_slow(self, buffer, value);
+	}
 	
 	if (XRB_Markup_is_markup(value)) {
 		rb_str_append(buffer, value);
