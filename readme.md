@@ -18,7 +18,7 @@ XRB is a templating system built loosely on top of XHTML markup. It uses efficie
 <ul>
 ```
 
-Generates:
+Generates the following output using `XRB::Template.load_file(path).to_string`:
 
 ``` xml
 <h1>XRB Examples</h1>
