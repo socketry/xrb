@@ -11,7 +11,6 @@ $CFLAGS << " -O3 -Wall -Wno-unknown-pragmas -std=c99"
 
 have_func("rb_sym2str")
 have_func("rb_str_cat_cstr")
-have_func("rb_str_reserve")
 
 $srcs = Dir.glob("xrb/*.c")
 $VPATH << "$(srcdir)/xrb"

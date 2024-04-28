@@ -3,7 +3,7 @@
 
 #include "xrb.h"
 
-void Init_xrb_escape();
+void Init_XRB_escape(void);
 
 // Given a string, replace it's class with XRB::MarkupString so that it would be output as is.
 VALUE XRB_MarkupString_raw(VALUE self, VALUE string);

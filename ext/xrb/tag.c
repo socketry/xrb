@@ -138,7 +138,7 @@ VALUE XRB_Tag_format_tag(VALUE self, VALUE name, VALUE attributes, VALUE content
 	rb_encoding *encoding = rb_enc_get(name);
 	
 	VALUE buffer = rb_enc_str_new(0, 0, encoding);
-	rb_str_reserve(buffer, 256);
+	rb_str_modify_expand(buffer, 256);
 	
 	XRB_Tag_append_tag(self, buffer, name, attributes, content);
 	
@@ -152,7 +152,7 @@ VALUE XRB_Tag_write_opening_tag(VALUE self, VALUE buffer) {
 
 	StringValue(name);
 	
-	rb_str_reserve(buffer, RSTRING_LEN(name) + 256);
+	rb_str_modify_expand(buffer, RSTRING_LEN(name) + 256);
 	
 	rb_str_cat_cstr(buffer, "<");
 	rb_str_buf_append(buffer, name);
@@ -173,7 +173,7 @@ VALUE XRB_Tag_write_closing_tag(VALUE self, VALUE buffer) {
 	
 	StringValue(name);
 	
-	rb_str_reserve(buffer, RSTRING_LEN(name) + 3);
+	rb_str_modify_expand(buffer, RSTRING_LEN(name) + 3);
 	
 	rb_str_cat_cstr(buffer, "</");
 	rb_str_buf_append(buffer, name);
@@ -182,7 +182,7 @@ VALUE XRB_Tag_write_closing_tag(VALUE self, VALUE buffer) {
 	return Qnil;
 }
 
-void Init_xrb_tag() {
+void Init_XRB_Tag(void) {
 	rb_undef_method(rb_class_of(rb_XRB_Tag), "append_attributes");
 	rb_define_singleton_method(rb_XRB_Tag, "append_attributes", XRB_Tag_append_attributes, 3);
 	

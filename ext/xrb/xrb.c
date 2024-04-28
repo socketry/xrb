@@ -16,7 +16,7 @@ void XRB_raise_error(const char * message, VALUE buffer, size_t offset) {
 	rb_exc_raise(exception);
 }
 
-void Init_XRB_Extension() {
+void Init_XRB_Extension(void) {
 	id_open_tag_begin = rb_intern("open_tag_begin");
 	id_open_tag_end = rb_intern("open_tag_end");
 	id_close_tag = rb_intern("close_tag");
@@ -56,7 +56,7 @@ void Init_XRB_Extension() {
 	rb_XRB_Native = rb_define_module_under(rb_XRB, "Native");
 	rb_gc_register_mark_object(rb_XRB_Native);
 	
-	Init_xrb_escape();
+	Init_XRB_escape();
 	
 	rb_XRB_ParseError = rb_const_get_at(rb_XRB, rb_intern("ParseError"));
 	rb_gc_register_mark_object(rb_XRB_ParseError);
@@ -68,5 +68,5 @@ void Init_XRB_Extension() {
 	rb_XRB_Tag = rb_const_get_at(rb_XRB, rb_intern("Tag"));
 	rb_gc_register_mark_object(rb_XRB_Tag);
 	
-	Init_xrb_tag();
+	Init_XRB_Tag();
 }

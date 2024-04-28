@@ -135,7 +135,7 @@ VALUE XRB_Markup_escape_string(VALUE self, VALUE string) {
 	return XRB_Markup_append_buffer(XRB_buffer_for(string), s, p, end);
 }
 
-void Init_xrb_escape() {
+void Init_XRB_escape(void) {
 	rb_XRB_MarkupString = rb_define_class_under(rb_XRB, "MarkupString", rb_cString);
 	rb_gc_register_mark_object(rb_XRB_MarkupString);
 	

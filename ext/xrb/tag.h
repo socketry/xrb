@@ -3,7 +3,7 @@
 
 #include "xrb.h"
 
-void Init_xrb_tag();
+void Init_XRB_Tag(void);
 
 // Split a qualified name `namespace:name` into it's components. Return `[nil, name]` if no namespace is present.
 // Usage: namespace, name = XRB::Tag.split(qualified_name)

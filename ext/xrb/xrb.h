@@ -19,16 +19,6 @@
 #define RB_IMMEDIATE_P IMMEDIATE_P
 #endif
 
-// A helper to reserve a specific capacity of data for a buffer.
-#ifndef HAVE_RB_STR_RESERVE
-inline VALUE rb_str_reserve(VALUE string, long extra) {
-	long actual = RSTRING_LEN(string);
-	rb_str_resize(string, actual + extra);
-	rb_str_set_len(string, actual);
-	return string;
-}
-#endif
-
 // Modules and classes exposed by XRB.
 extern VALUE
 	rb_XRB,
@@ -84,7 +74,7 @@ static inline VALUE XRB_string(const char * begin, const char * end, rb_encoding
 static inline VALUE XRB_buffer_for(VALUE string) {
 	VALUE buffer = rb_enc_str_new(0, 0, rb_enc_get(string));
 	
-	rb_str_reserve(buffer, RSTRING_LEN(string) + 128);
+	rb_str_modify_expand(buffer, RSTRING_LEN(string) + 128);
 	
 	return buffer;
 }
