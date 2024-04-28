@@ -8,7 +8,7 @@
 #include "escape.h"
 
 VALUE rb_XRB = Qnil, rb_XRB_Native = Qnil, rb_XRB_Tag = Qnil, rb_XRB_Markup = Qnil, rb_XRB_MarkupString = Qnil, rb_XRB_ParseError = Qnil;
-ID id_cdata, id_open_tag_begin, id_open_tag_end, id_attribute, id_close_tag, id_text, id_doctype, id_comment, id_instruction, id_read, id_expression, id_key_get, id_string, id_integer, id_append, id_assign, id_pair, id_new, id_name, id_attributes, id_closed, id_to_s, id_is_a;
+ID id_cdata, id_open_tag_begin, id_open_tag_end, id_attribute, id_close_tag, id_text, id_doctype, id_comment, id_instruction, id_read, id_expression, id_key_get, id_string, id_integer, id_append, id_assign, id_pair, id_new, id_name, id_attributes, id_closed, id_to_s, id_is_a, id_concat;
 
 void XRB_raise_error(const char * message, VALUE buffer, size_t offset) {
 	VALUE exception = rb_funcall(rb_XRB_ParseError, id_new, 3, rb_str_new_cstr(message), buffer, ULONG2NUM(offset));
@@ -46,6 +46,8 @@ void Init_XRB_Extension(void) {
 	
 	id_to_s = rb_intern("to_s");
 	id_is_a = rb_intern("is_a?");
+	
+	id_concat = rb_intern("<<");
 	
 	rb_XRB = rb_define_module("XRB");
 	rb_gc_register_mark_object(rb_XRB);

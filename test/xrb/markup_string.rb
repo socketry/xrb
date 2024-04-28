@@ -36,4 +36,29 @@ describe XRB::MarkupString do
 		
 		expect(markup_string).to be(:empty?)
 	end
+	
+	with '.raw' do
+		it 'fails with a type error when given a non-string' do
+			expect do
+				XRB::MarkupString.raw(Object.new)
+			end.to raise_exception(TypeError)
+		end
+		
+		it 'can wrap a string' do
+			string = XRB::MarkupString.raw("<h1>Hello World</h1>")
+			
+			expect(string).to be == "<h1>Hello World</h1>"
+			expect(string).to be_a(XRB::Markup)
+		end
+	end
+	
+	with '.new' do
+		it 'can escape a string' do
+			expect(XRB::MarkupString.new("<h1>Hello World</h1>", true)).to be == "&lt;h1&gt;Hello World&lt;/h1&gt;"
+		end
+		
+		it 'can wrap a string' do
+			expect(XRB::MarkupString.new("<h1>Hello World</h1>", false)).to be == "<h1>Hello World</h1>"
+		end
+	end
 end

@@ -51,4 +51,66 @@ describe XRB::Markup do
 			end
 		end
 	end
+	
+	with '.escape_string' do
+		it 'escapes special characters' do
+			expect(XRB::Markup.escape_string("<h1>Hello World</h1>")).to be == "&lt;h1&gt;Hello World&lt;/h1&gt;"
+		end
+		
+		it 'fails to escape non-string' do
+			expect do
+				XRB::Markup.escape_string(Object.new)
+			end.to raise_exception(TypeError)
+		end
+	end
+	
+	with '.append' do
+		it 'appends string to buffer' do
+			buffer = String.new
+			
+			XRB::Markup.append(buffer, "Hello")
+			
+			expect(buffer).to be == "Hello"
+		end
+		
+		it 'appends escaped string to buffer' do
+			buffer = String.new
+			
+			XRB::Markup.append(buffer, "<h1>Hello World</h1>")
+			
+			expect(buffer).to be == "&lt;h1&gt;Hello World&lt;/h1&gt;"
+		end
+		
+		it 'appends nil to buffer' do
+			buffer = String.new
+			
+			XRB::Markup.append(buffer, nil)
+			
+			expect(buffer).to be == ""
+		end
+		
+		it 'appends MarkupString to buffer' do
+			buffer = String.new
+			
+			XRB::Markup.append(buffer, XRB::MarkupString.raw("<h1>Hello World</h1>"))
+			
+			expect(buffer).to be == "<h1>Hello World</h1>"
+		end
+		
+		it 'fails to append to non-string buffer' do
+			buffer = Object.new
+			
+			expect do
+				XRB::Markup.append(buffer, "Hello")
+			end.to raise_exception(NoMethodError, message: be =~ /<</)
+		end
+		
+		it 'falls back to appending with #<<' do
+			buffer = []
+			
+			XRB::Markup.append(buffer, "<Hello>")
+			
+			expect(buffer).to be == ["&lt;Hello&gt;"]
+		end
+	end
 end
