@@ -1,4 +1,4 @@
-## Usage
+# Getting Started
 
 This guide gives a brief overview of the XRB templating system and how to use it.
 

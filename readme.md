@@ -40,7 +40,11 @@ Yes. XRB is designed to be fast. It uses a combination of efficient native parse
 
 Please see the [project documentation](https://socketry.github.io/xrb/) for more details.
 
-  - [Usage](https://socketry.github.io/xrb/guides/getting-started/index) - This guide gives a brief overview of the XRB templating system and how to use it.
+  - [Getting Started](https://socketry.github.io/xrb/guides/getting-started/index) - This guide gives a brief overview of the XRB templating system and how to use it.
+
+  - [Capturing Output](https://socketry.github.io/xrb/guides/capturing-output/index) - This guide explains how to capture intermediate output during template rendering.
+
+  - [Markup Parser](https://socketry.github.io/xrb/guides/markup-parser/index) - This guide explains how to parse and manipulate Markup using the XRB templating system.
 
 ## See Also
 
