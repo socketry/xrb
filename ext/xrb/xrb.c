@@ -50,13 +50,8 @@ void Init_XRB_Extension(void) {
 	id_concat = rb_intern("<<");
 	
 	rb_XRB = rb_define_module("XRB");
-	rb_gc_register_mark_object(rb_XRB);
-	
 	rb_XRB_Markup = rb_define_module_under(rb_XRB, "Markup");
-	rb_gc_register_mark_object(rb_XRB_Markup);
-	
 	rb_XRB_Native = rb_define_module_under(rb_XRB, "Native");
-	rb_gc_register_mark_object(rb_XRB_Native);
 	
 	Init_XRB_escape();
 	

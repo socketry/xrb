@@ -159,8 +159,6 @@ VALUE XRB_Markup_escape_string(VALUE self, VALUE string) {
 
 void Init_XRB_escape(void) {
 	rb_XRB_MarkupString = rb_define_class_under(rb_XRB, "MarkupString", rb_cString);
-	rb_gc_register_mark_object(rb_XRB_MarkupString);
-	
 	rb_include_module(rb_XRB_MarkupString, rb_XRB_Markup);
 	
 	rb_undef_method(rb_class_of(rb_XRB_Markup), "escape_string");
