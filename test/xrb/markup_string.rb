@@ -61,4 +61,10 @@ describe XRB::MarkupString do
 			expect(XRB::MarkupString.new("<h1>Hello World</h1>", false)).to be == "<h1>Hello World</h1>"
 		end
 	end
+	
+	with '#html_safe?' do
+		it 'can be used to safely append to an output buffer' do
+			expect(XRB::MarkupString.new.html_safe?).to be_truthy
+		end
+	end
 end

@@ -46,6 +46,12 @@ module XRB
 		def self.raw(string)
 			self.new(string, false)
 		end
+		
+		# This "string" is already escaped, thus it is safe to append to the output buffer.
+		# This predicate is used by Rails' `ActionView::OutputBuffer` to determine if the string should be escaped or not.
+		def html_safe?
+			true
+		end
 	end
 	
 	module Script
