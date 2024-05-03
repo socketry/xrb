@@ -163,4 +163,17 @@ describe XRB::Builder do
 			XML
 		end
 	end
+	
+	with '#to_s' do
+		it "generates html safe string" do
+			# This test is specifically for Rails compatibility.
+			fragment = XRB::Builder.fragment do |builder|
+				builder.tag('div') do
+					builder.text('Hello World')
+				end
+			end
+			
+			expect(fragment.to_s).to be(:html_safe?)
+		end
+	end
 end
