@@ -99,7 +99,11 @@ module XRB
 				when Hash
 					self.append_attributes(buffer, value, attribute_key)
 				when Array
-					self.append_attributes(buffer, value, attribute_key)
+					value.each do |attribute|
+						raise TypeError, "expected array of key-value pairs" unless attribute.is_a?(Array) and attribute.size == 2
+						
+						self.append_attributes(buffer, [attribute], attribute_key)
+					end
 				when TrueClass
 					buffer << ' ' << attribute_key.to_s
 				else

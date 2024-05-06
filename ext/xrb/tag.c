@@ -97,13 +97,18 @@ VALUE XRB_Tag_append_attributes(VALUE self, VALUE buffer, VALUE attributes, VALU
 		
 		for (i = 0; i < RARRAY_LEN(attributes); i++) {
 			VALUE attribute = RARRAY_AREF(attributes, i);
+			
+			if (rb_type(attribute) != T_ARRAY || RARRAY_LEN(attribute) != 2) {
+				rb_raise(rb_eTypeError, "expected array for attribute key/value pair");
+			}
+			
 			VALUE key = RARRAY_AREF(attribute, 0);
 			VALUE value = RARRAY_AREF(attribute, 1);
 			
 			XRB_Tag_append_tag_attribute(buffer, key, value, prefix);
 		}
 	} else {
-		rb_raise(rb_eArgError, "expected hash or array for attributes");
+		rb_raise(rb_eTypeError, "expected hash or array for attributes");
 	}
 	
 	return Qnil;

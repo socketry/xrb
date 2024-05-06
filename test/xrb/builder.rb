@@ -94,6 +94,12 @@ describe XRB::Builder do
 			builder.tag :t, [[:a, 10], [:b, nil]]
 			expect(builder.output).to be == %Q{<t a="10"/>}
 		end
+		
+		it "should raise type error for invalid attributes" do
+			expect do
+				builder.tag :t, {a: [1, 2, 3, 4, 5]}
+			end.to raise_exception(TypeError)
+		end
 	end
 	
 	with '#inline' do
