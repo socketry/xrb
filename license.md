@@ -3,6 +3,7 @@
 Copyright, 2012-2024, by Samuel Williams.  
 Copyright, 2020, by Cyril Roelandt.  
 Copyright, 2022, by Adam Daniels.  
+Copyright, 2024, by Jean Boussier.  
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

@@ -7,7 +7,7 @@ Gem::Specification.new do |spec|
 	spec.version = XRB::VERSION
 	
 	spec.summary = "A fast native templating system that compiles directly to Ruby code."
-	spec.authors = ["Samuel Williams", "Adam Daniels", "Cyril Roelandt"]
+	spec.authors = ["Samuel Williams", "Adam Daniels", "Cyril Roelandt", "Jean Boussier"]
 	spec.license = "MIT"
 	
 	spec.cert_chain  = ['release.cert']
