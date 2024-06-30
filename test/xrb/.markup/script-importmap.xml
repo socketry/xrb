@@ -1,0 +1,7 @@
+<script type="importmap">
+{
+	"imports": {
+		"test": "/test"
+	}
+}
+</script>

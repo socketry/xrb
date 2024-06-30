@@ -1,0 +1,7 @@
+[
+	["open_tag_begin","script",1],
+	["attribute","type","importmap"],
+	["open_tag_end",false],
+	["text","\n{\n\t\"imports\": {\n\t\t\"test\": \"/test\"\n\t}\n}\n"],
+	["close_tag","script",67]
+]

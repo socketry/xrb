@@ -1,0 +1,12 @@
+[
+	["open_tag_begin","script",1],
+	["attribute","type","text/javascript"],
+	["open_tag_end",false],
+	["text","\nlet paragraph = \""],
+	["open_tag_begin","p",50],
+	["open_tag_end",false],
+	["text","Hello World"],
+	["close_tag","p",65],
+	["text","\";\n"],
+	["close_tag","script",72]
+]

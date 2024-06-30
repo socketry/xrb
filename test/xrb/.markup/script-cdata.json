@@ -1,0 +1,9 @@
+[
+	["open_tag_begin","script",1],
+	["attribute","type","text/javascript"],
+	["open_tag_end",false],
+	["text","\n//"],
+	["cdata","<![CDATA[\nlet paragraph = \"<p>Hello World</p>\";\n//]]>"],
+	["text","\n"],
+	["close_tag","script",90]
+]
