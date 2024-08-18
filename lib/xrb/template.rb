@@ -55,8 +55,7 @@ module XRB
 			
 			# Output raw text to the template.
 			def text(text)
-				text = text.gsub("'", "\\\\'")
-				@code << "#{OUT}.raw('#{text}');"
+				@code << "#{OUT}.raw(#{text.inspect});"
 				
 				# This is an interesting approach, but it doens't preserve newlines or tabs as raw characters, so template line numbers don't match up.
 				# @parts << "#{OUT}<<#{text.dump};"
