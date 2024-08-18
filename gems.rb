@@ -17,6 +17,8 @@ end
 group :test do
 	gem "sus"
 	gem "covered"
+	gem "decode"
+	gem "rubocop"
 	
 	gem "bake-test"
 	gem "bake-test-external"
@@ -29,8 +31,3 @@ group :test do
 	# For comparisons:
 	gem "nokogiri"
 end
-
-# Moved Development Dependencies
-gem "bake"
-gem "covered"
-gem "rspec", "~> 3.4"

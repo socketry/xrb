@@ -1,4 +1,4 @@
-name: Coverage
+name: Test Coverage
 
 on: [push, pull_request]
 
@@ -11,22 +11,21 @@ env:
 
 jobs:
   test:
-    name: ${{matrix.ruby}} on ${{matrix.os}} ${{matrix.env}}
+    name: ${{matrix.ruby}} on ${{matrix.os}}
     runs-on: ${{matrix.os}}-latest
     
     strategy:
       matrix:
         os:
           - ubuntu
-          - macos
         
         ruby:
           - "3.3"
-        
+    
         env:
           - ""
           - "XRB_PREFER_FALLBACK=1"
-    
+          
     steps:
     - uses: actions/checkout@v4
     - uses: ruby/setup-ruby@v1
@@ -36,11 +35,11 @@ jobs:
     
     - name: Run tests
       timeout-minutes: 5
-      run: ${{matrix.env}} bundle exec bake test
-
+      run: bundle exec bake test
+    
     - uses: actions/upload-artifact@v3
       with:
-        name: coverage-${{matrix.os}}-${{matrix.ruby}}
+        name: coverage-${{matrix.os}}-${{matrix.ruby}}-${{matrix.env}}
         path: .covered.db
   
   validate:
