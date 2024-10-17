@@ -121,13 +121,13 @@ tr0:
 		rb_funcall(delegate, id_text, 1, XRB_string(ts, te, encoding));
 	}}
 	goto st43;
-tr5:
+tr6:
 #line 43 "ext/xrb/template.rl"
 	{{p = ((te))-1;}{
 		rb_funcall(delegate, id_text, 1, XRB_string(ts, te, encoding));
 	}}
 	goto st43;
-tr9:
+tr10:
 #line 23 "ext/xrb/template.rl"
 	{
 		XRB_raise_error("failed to parse instruction", buffer, p-s);
@@ -137,7 +137,7 @@ tr9:
 		rb_funcall(delegate, id_text, 1, XRB_string(ts, te, encoding));
 	}}
 	goto st43;
-tr14:
+tr15:
 #line 1 "NONE"
 	{	switch( act ) {
 	case 3:
@@ -153,40 +153,40 @@ tr14:
 	}
 	}
 	goto st43;
-tr15:
+tr16:
 #line 19 "ext/xrb/template.rl"
 	{te = p+1;{
 		rb_funcall(delegate, id_instruction, 2, XRB_Token_string(instruction, encoding), newline);
 	}}
 	goto st43;
-tr23:
+tr24:
 #line 43 "ext/xrb/template.rl"
 	{te = p+1;{
 		rb_funcall(delegate, id_text, 1, XRB_string(ts, te, encoding));
 	}}
 	goto st43;
-tr77:
-#line 43 "ext/xrb/template.rl"
-	{te = p;p--;{
-		rb_funcall(delegate, id_text, 1, XRB_string(ts, te, encoding));
-	}}
-	goto st43;
-tr80:
+tr79:
 #line 43 "ext/xrb/template.rl"
 	{te = p;p--;{
 		rb_funcall(delegate, id_text, 1, XRB_string(ts, te, encoding));
 	}}
 	goto st43;
 tr82:
+#line 43 "ext/xrb/template.rl"
+	{te = p;p--;{
+		rb_funcall(delegate, id_text, 1, XRB_string(ts, te, encoding));
+	}}
+	goto st43;
+tr84:
 	cs = 43;
 #line 27 "ext/xrb/template.rl"
 	{
 		expression.begin = p;
 	}
-#line 53 "parsers/xrb/template.rl"
+#line 62 "parsers/xrb/template.rl"
 	{te = p;p--;{cs = 32;}}
 	goto _again;
-tr83:
+tr85:
 #line 15 "ext/xrb/template.rl"
 	{te = p;p--;{
 		rb_funcall(delegate, id_instruction, 1, XRB_Token_string(instruction, encoding));
@@ -203,28 +203,38 @@ case 43:
 #line 204 "ext/xrb/template.c"
 	switch( (*p) ) {
 		case 10: goto tr2;
-		case 32: goto tr74;
+		case 32: goto tr76;
 		case 35: goto st12;
 		case 60: goto st13;
 	}
 	if ( 9 <= (*p) && (*p) <= 13 )
-		goto tr74;
-	goto tr6;
-tr6:
+		goto tr76;
+	goto tr75;
+tr75:
 #line 1 "NONE"
 	{te = p+1;}
+	goto st44;
+tr7:
+#line 1 "NONE"
+	{te = p+1;}
+#line 23 "parsers/xrb/template.rl"
+	{
+		fprintf(stderr, "backtrack p=%s te=%s\n", p, te);
+		p -= 1;
+		te -= 1;
+	}
 	goto st44;
 st44:
 	if ( ++p == pe )
 		goto _test_eof44;
 case 44:
-#line 222 "ext/xrb/template.c"
+#line 232 "ext/xrb/template.c"
 	switch( (*p) ) {
 		case 10: goto tr2;
 		case 35: goto st4;
 		case 60: goto st5;
 	}
-	goto tr6;
+	goto tr75;
 tr2:
 #line 1 "NONE"
 	{te = p+1;}
@@ -233,17 +243,26 @@ st45:
 	if ( ++p == pe )
 		goto _test_eof45;
 case 45:
-#line 237 "ext/xrb/template.c"
+#line 247 "ext/xrb/template.c"
 	switch( (*p) ) {
 		case 10: goto tr2;
 		case 35: goto st2;
 		case 60: goto st3;
 	}
 	goto st1;
+tr5:
+#line 23 "parsers/xrb/template.rl"
+	{
+		fprintf(stderr, "backtrack p=%s te=%s\n", p, te);
+		p -= 1;
+		te -= 1;
+	}
+	goto st1;
 st1:
 	if ( ++p == pe )
 		goto _test_eof1;
 case 1:
+#line 266 "ext/xrb/template.c"
 	switch( (*p) ) {
 		case 10: goto tr2;
 		case 35: goto st2;
@@ -256,29 +275,29 @@ st2:
 case 2:
 	if ( (*p) == 123 )
 		goto tr0;
-	goto st1;
+	goto tr5;
 st3:
 	if ( ++p == pe )
 		goto _test_eof3;
 case 3:
 	if ( (*p) == 63 )
 		goto tr0;
-	goto st1;
+	goto tr5;
 st4:
 	if ( ++p == pe )
 		goto _test_eof4;
 case 4:
 	if ( (*p) == 123 )
-		goto tr5;
-	goto tr6;
+		goto tr6;
+	goto tr7;
 st5:
 	if ( ++p == pe )
 		goto _test_eof5;
 case 5:
 	if ( (*p) == 63 )
-		goto tr5;
-	goto tr6;
-tr74:
+		goto tr6;
+	goto tr7;
+tr76:
 #line 1 "NONE"
 	{te = p+1;}
 #line 43 "ext/xrb/template.rl"
@@ -288,40 +307,40 @@ st46:
 	if ( ++p == pe )
 		goto _test_eof46;
 case 46:
-#line 292 "ext/xrb/template.c"
+#line 311 "ext/xrb/template.c"
 	switch( (*p) ) {
 		case 10: goto tr2;
-		case 32: goto tr74;
+		case 32: goto tr76;
 		case 35: goto st4;
 		case 60: goto st6;
 	}
 	if ( 9 <= (*p) && (*p) <= 13 )
-		goto tr74;
-	goto tr6;
+		goto tr76;
+	goto tr75;
 st6:
 	if ( ++p == pe )
 		goto _test_eof6;
 case 6:
 	if ( (*p) == 63 )
 		goto st7;
-	goto tr6;
+	goto tr7;
 st7:
 	if ( ++p == pe )
 		goto _test_eof7;
 case 7:
 	if ( (*p) == 114 )
 		goto st8;
-	goto tr5;
+	goto tr6;
 st8:
 	if ( ++p == pe )
 		goto _test_eof8;
 case 8:
 	if ( (*p) == 32 )
-		goto tr10;
+		goto tr11;
 	if ( 9 <= (*p) && (*p) <= 13 )
-		goto tr10;
-	goto tr5;
-tr10:
+		goto tr11;
+	goto tr6;
+tr11:
 #line 7 "ext/xrb/template.rl"
 	{
 		instruction.begin = p;
@@ -331,11 +350,11 @@ st9:
 	if ( ++p == pe )
 		goto _test_eof9;
 case 9:
-#line 335 "ext/xrb/template.c"
+#line 354 "ext/xrb/template.c"
 	if ( (*p) == 63 )
-		goto tr12;
+		goto tr13;
 	goto st9;
-tr12:
+tr13:
 #line 11 "ext/xrb/template.rl"
 	{
 		instruction.end = p;
@@ -345,7 +364,7 @@ st10:
 	if ( ++p == pe )
 		goto _test_eof10;
 case 10:
-#line 349 "ext/xrb/template.c"
+#line 368 "ext/xrb/template.c"
 	if ( (*p) == 62 )
 		goto st11;
 	goto st9;
@@ -354,51 +373,51 @@ st11:
 		goto _test_eof11;
 case 11:
 	switch( (*p) ) {
-		case 10: goto tr15;
+		case 10: goto tr16;
 		case 32: goto st11;
 	}
 	if ( 9 <= (*p) && (*p) <= 13 )
 		goto st11;
-	goto tr14;
+	goto tr15;
 st12:
 	if ( ++p == pe )
 		goto _test_eof12;
 case 12:
 	if ( (*p) == 123 )
 		goto st47;
-	goto tr6;
+	goto tr7;
 st47:
 	if ( ++p == pe )
 		goto _test_eof47;
 case 47:
-	goto tr82;
+	goto tr84;
 st13:
 	if ( ++p == pe )
 		goto _test_eof13;
 case 13:
 	if ( (*p) == 63 )
 		goto st14;
-	goto tr6;
+	goto tr7;
 st14:
 	if ( ++p == pe )
 		goto _test_eof14;
 case 14:
 	switch( (*p) ) {
-		case 47: goto tr19;
-		case 96: goto tr19;
+		case 47: goto tr20;
+		case 96: goto tr20;
 		case 114: goto st18;
 	}
 	if ( (*p) < 59 ) {
 		if ( 0 <= (*p) && (*p) <= 44 )
-			goto tr19;
+			goto tr20;
 	} else if ( (*p) > 64 ) {
 		if ( (*p) > 94 ) {
 			if ( 123 <= (*p) )
-				goto tr19;
+				goto tr20;
 		} else if ( (*p) >= 91 )
-			goto tr19;
+			goto tr20;
 	} else
-		goto tr19;
+		goto tr20;
 	goto st15;
 st15:
 	if ( ++p == pe )
@@ -406,34 +425,34 @@ st15:
 case 15:
 	switch( (*p) ) {
 		case 32: goto st16;
-		case 47: goto tr19;
-		case 96: goto tr19;
+		case 47: goto tr20;
+		case 96: goto tr20;
 	}
 	if ( (*p) < 14 ) {
 		if ( (*p) > 8 ) {
 			if ( 9 <= (*p) && (*p) <= 13 )
 				goto st16;
 		} else if ( (*p) >= 0 )
-			goto tr19;
+			goto tr20;
 	} else if ( (*p) > 44 ) {
 		if ( (*p) < 91 ) {
 			if ( 59 <= (*p) && (*p) <= 64 )
-				goto tr19;
+				goto tr20;
 		} else if ( (*p) > 94 ) {
 			if ( 123 <= (*p) )
-				goto tr19;
+				goto tr20;
 		} else
-			goto tr19;
+			goto tr20;
 	} else
-		goto tr19;
+		goto tr20;
 	goto st15;
-tr19:
+tr20:
 #line 23 "ext/xrb/template.rl"
 	{
 		XRB_raise_error("failed to parse instruction", buffer, p-s);
 	}
 	goto st0;
-#line 437 "ext/xrb/template.c"
+#line 456 "ext/xrb/template.c"
 st0:
 cs = 0;
 	goto _out;
@@ -449,36 +468,36 @@ st17:
 		goto _test_eof17;
 case 17:
 	if ( (*p) == 62 )
-		goto tr23;
+		goto tr24;
 	goto st16;
 st18:
 	if ( ++p == pe )
 		goto _test_eof18;
 case 18:
 	switch( (*p) ) {
-		case 32: goto tr24;
-		case 47: goto tr19;
-		case 96: goto tr19;
+		case 32: goto tr25;
+		case 47: goto tr20;
+		case 96: goto tr20;
 	}
 	if ( (*p) < 14 ) {
 		if ( (*p) > 8 ) {
 			if ( 9 <= (*p) && (*p) <= 13 )
-				goto tr24;
+				goto tr25;
 		} else if ( (*p) >= 0 )
-			goto tr19;
+			goto tr20;
 	} else if ( (*p) > 44 ) {
 		if ( (*p) < 91 ) {
 			if ( 59 <= (*p) && (*p) <= 64 )
-				goto tr19;
+				goto tr20;
 		} else if ( (*p) > 94 ) {
 			if ( 123 <= (*p) )
-				goto tr19;
+				goto tr20;
 		} else
-			goto tr19;
+			goto tr20;
 	} else
-		goto tr19;
+		goto tr20;
 	goto st15;
-tr24:
+tr25:
 #line 7 "ext/xrb/template.rl"
 	{
 		instruction.begin = p;
@@ -488,11 +507,11 @@ st19:
 	if ( ++p == pe )
 		goto _test_eof19;
 case 19:
-#line 492 "ext/xrb/template.c"
+#line 511 "ext/xrb/template.c"
 	if ( (*p) == 63 )
-		goto tr26;
+		goto tr27;
 	goto st19;
-tr26:
+tr27:
 #line 11 "ext/xrb/template.rl"
 	{
 		instruction.end = p;
@@ -502,11 +521,11 @@ st20:
 	if ( ++p == pe )
 		goto _test_eof20;
 case 20:
-#line 506 "ext/xrb/template.c"
+#line 525 "ext/xrb/template.c"
 	if ( (*p) == 62 )
-		goto tr27;
+		goto tr28;
 	goto st19;
-tr27:
+tr28:
 #line 1 "NONE"
 	{te = p+1;}
 #line 15 "ext/xrb/template.rl"
@@ -516,15 +535,15 @@ st48:
 	if ( ++p == pe )
 		goto _test_eof48;
 case 48:
-#line 520 "ext/xrb/template.c"
+#line 539 "ext/xrb/template.c"
 	switch( (*p) ) {
-		case 10: goto tr15;
+		case 10: goto tr16;
 		case 32: goto st11;
 	}
 	if ( 9 <= (*p) && (*p) <= 13 )
 		goto st11;
-	goto tr83;
-tr31:
+	goto tr85;
+tr32:
 #line 17 "parsers/xrb/template.rl"
 	{{stack[top++] = 21;goto st21;}}
 	goto st21;
@@ -534,15 +553,15 @@ st21:
 	if ( ++p == pe )
 		goto _test_eof21;
 case 21:
-#line 538 "ext/xrb/template.c"
+#line 557 "ext/xrb/template.c"
 	switch( (*p) ) {
 		case 34: goto st22;
 		case 39: goto st30;
-		case 123: goto tr31;
-		case 125: goto tr32;
+		case 123: goto tr32;
+		case 125: goto tr33;
 	}
 	goto st21;
-tr47:
+tr48:
 #line 13 "parsers/xrb/template.rl"
 	{{stack[top++] = 22;goto st21;}}
 	goto st22;
@@ -552,17 +571,17 @@ st22:
 	if ( ++p == pe )
 		goto _test_eof22;
 case 22:
-#line 556 "ext/xrb/template.c"
+#line 575 "ext/xrb/template.c"
 	switch( (*p) ) {
 		case 34: goto st23;
 		case 35: goto st29;
 	}
 	goto st22;
-tr37:
+tr38:
 #line 17 "parsers/xrb/template.rl"
 	{{stack[top++] = 23;goto st21;}}
 	goto st23;
-tr39:
+tr40:
 #line 13 "parsers/xrb/template.rl"
 	{{stack[top++] = 23;goto st21;}}
 #line 17 "parsers/xrb/template.rl"
@@ -574,12 +593,12 @@ st23:
 	if ( ++p == pe )
 		goto _test_eof23;
 case 23:
-#line 578 "ext/xrb/template.c"
+#line 597 "ext/xrb/template.c"
 	switch( (*p) ) {
 		case 35: goto st24;
 		case 39: goto st25;
-		case 123: goto tr37;
-		case 125: goto tr38;
+		case 123: goto tr38;
+		case 125: goto tr39;
 	}
 	goto st23;
 st24:
@@ -589,11 +608,11 @@ case 24:
 	switch( (*p) ) {
 		case 35: goto st24;
 		case 39: goto st25;
-		case 123: goto tr39;
-		case 125: goto tr38;
+		case 123: goto tr40;
+		case 125: goto tr39;
 	}
 	goto st23;
-tr46:
+tr47:
 #line 13 "parsers/xrb/template.rl"
 	{{stack[top++] = 25;goto st21;}}
 	goto st25;
@@ -603,18 +622,18 @@ st25:
 	if ( ++p == pe )
 		goto _test_eof25;
 case 25:
-#line 607 "ext/xrb/template.c"
+#line 626 "ext/xrb/template.c"
 	switch( (*p) ) {
 		case 34: goto st26;
 		case 35: goto st28;
 		case 39: goto st26;
 	}
 	goto st25;
-tr43:
+tr44:
 #line 17 "parsers/xrb/template.rl"
 	{{stack[top++] = 26;goto st21;}}
 	goto st26;
-tr45:
+tr46:
 #line 13 "parsers/xrb/template.rl"
 	{{stack[top++] = 26;goto st21;}}
 #line 17 "parsers/xrb/template.rl"
@@ -626,11 +645,11 @@ st26:
 	if ( ++p == pe )
 		goto _test_eof26;
 case 26:
-#line 630 "ext/xrb/template.c"
+#line 649 "ext/xrb/template.c"
 	switch( (*p) ) {
 		case 35: goto st27;
-		case 123: goto tr43;
-		case 125: goto tr44;
+		case 123: goto tr44;
+		case 125: goto tr45;
 	}
 	goto st26;
 st27:
@@ -639,11 +658,11 @@ st27:
 case 27:
 	switch( (*p) ) {
 		case 35: goto st27;
-		case 123: goto tr45;
-		case 125: goto tr44;
+		case 123: goto tr46;
+		case 125: goto tr45;
 	}
 	goto st26;
-tr44:
+tr45:
 #line 20 "parsers/xrb/template.rl"
 	{{cs = stack[--top];goto _again;}}
 	goto st49;
@@ -651,7 +670,7 @@ st49:
 	if ( ++p == pe )
 		goto _test_eof49;
 case 49:
-#line 655 "ext/xrb/template.c"
+#line 674 "ext/xrb/template.c"
 	switch( (*p) ) {
 		case 34: goto st26;
 		case 35: goto st28;
@@ -666,10 +685,10 @@ case 28:
 		case 34: goto st26;
 		case 35: goto st28;
 		case 39: goto st26;
-		case 123: goto tr46;
+		case 123: goto tr47;
 	}
 	goto st25;
-tr38:
+tr39:
 #line 20 "parsers/xrb/template.rl"
 	{{cs = stack[--top];goto _again;}}
 	goto st50;
@@ -677,7 +696,7 @@ st50:
 	if ( ++p == pe )
 		goto _test_eof50;
 case 50:
-#line 681 "ext/xrb/template.c"
+#line 700 "ext/xrb/template.c"
 	switch( (*p) ) {
 		case 34: goto st23;
 		case 35: goto st29;
@@ -690,7 +709,7 @@ case 29:
 	switch( (*p) ) {
 		case 34: goto st23;
 		case 35: goto st29;
-		case 123: goto tr47;
+		case 123: goto tr48;
 	}
 	goto st22;
 st30:
@@ -700,7 +719,7 @@ case 30:
 	if ( (*p) == 39 )
 		goto st31;
 	goto st30;
-tr49:
+tr50:
 #line 17 "parsers/xrb/template.rl"
 	{{stack[top++] = 31;goto st21;}}
 	goto st31;
@@ -710,14 +729,14 @@ st31:
 	if ( ++p == pe )
 		goto _test_eof31;
 case 31:
-#line 714 "ext/xrb/template.c"
+#line 733 "ext/xrb/template.c"
 	switch( (*p) ) {
 		case 34: goto st25;
-		case 123: goto tr49;
-		case 125: goto tr50;
+		case 123: goto tr50;
+		case 125: goto tr51;
 	}
 	goto st31;
-tr50:
+tr51:
 #line 20 "parsers/xrb/template.rl"
 	{{cs = stack[--top];goto _again;}}
 	goto st51;
@@ -725,11 +744,11 @@ st51:
 	if ( ++p == pe )
 		goto _test_eof51;
 case 51:
-#line 729 "ext/xrb/template.c"
+#line 748 "ext/xrb/template.c"
 	if ( (*p) == 39 )
 		goto st31;
 	goto st30;
-tr32:
+tr33:
 #line 20 "parsers/xrb/template.rl"
 	{{cs = stack[--top];goto _again;}}
 	goto st52;
@@ -737,9 +756,9 @@ st52:
 	if ( ++p == pe )
 		goto _test_eof52;
 case 52:
-#line 741 "ext/xrb/template.c"
+#line 760 "ext/xrb/template.c"
 	goto st0;
-tr54:
+tr55:
 #line 17 "parsers/xrb/template.rl"
 	{{stack[top++] = 32;goto st21;}}
 	goto st32;
@@ -749,15 +768,15 @@ st32:
 	if ( ++p == pe )
 		goto _test_eof32;
 case 32:
-#line 753 "ext/xrb/template.c"
+#line 772 "ext/xrb/template.c"
 	switch( (*p) ) {
 		case 34: goto st33;
 		case 39: goto st41;
-		case 123: goto tr54;
-		case 125: goto tr55;
+		case 123: goto tr55;
+		case 125: goto tr56;
 	}
 	goto st32;
-tr70:
+tr71:
 #line 13 "parsers/xrb/template.rl"
 	{{stack[top++] = 33;goto st21;}}
 	goto st33;
@@ -767,17 +786,17 @@ st33:
 	if ( ++p == pe )
 		goto _test_eof33;
 case 33:
-#line 771 "ext/xrb/template.c"
+#line 790 "ext/xrb/template.c"
 	switch( (*p) ) {
 		case 34: goto st34;
 		case 35: goto st40;
 	}
 	goto st33;
-tr60:
+tr61:
 #line 17 "parsers/xrb/template.rl"
 	{{stack[top++] = 34;goto st21;}}
 	goto st34;
-tr62:
+tr63:
 #line 13 "parsers/xrb/template.rl"
 	{{stack[top++] = 34;goto st21;}}
 #line 17 "parsers/xrb/template.rl"
@@ -789,12 +808,12 @@ st34:
 	if ( ++p == pe )
 		goto _test_eof34;
 case 34:
-#line 793 "ext/xrb/template.c"
+#line 812 "ext/xrb/template.c"
 	switch( (*p) ) {
 		case 35: goto st35;
 		case 39: goto st36;
-		case 123: goto tr60;
-		case 125: goto tr61;
+		case 123: goto tr61;
+		case 125: goto tr62;
 	}
 	goto st34;
 st35:
@@ -804,11 +823,11 @@ case 35:
 	switch( (*p) ) {
 		case 35: goto st35;
 		case 39: goto st36;
-		case 123: goto tr62;
-		case 125: goto tr61;
+		case 123: goto tr63;
+		case 125: goto tr62;
 	}
 	goto st34;
-tr69:
+tr70:
 #line 13 "parsers/xrb/template.rl"
 	{{stack[top++] = 36;goto st21;}}
 	goto st36;
@@ -818,18 +837,18 @@ st36:
 	if ( ++p == pe )
 		goto _test_eof36;
 case 36:
-#line 822 "ext/xrb/template.c"
+#line 841 "ext/xrb/template.c"
 	switch( (*p) ) {
 		case 34: goto st37;
 		case 35: goto st39;
 		case 39: goto st37;
 	}
 	goto st36;
-tr66:
+tr67:
 #line 17 "parsers/xrb/template.rl"
 	{{stack[top++] = 37;goto st21;}}
 	goto st37;
-tr68:
+tr69:
 #line 13 "parsers/xrb/template.rl"
 	{{stack[top++] = 37;goto st21;}}
 #line 17 "parsers/xrb/template.rl"
@@ -841,11 +860,11 @@ st37:
 	if ( ++p == pe )
 		goto _test_eof37;
 case 37:
-#line 845 "ext/xrb/template.c"
+#line 864 "ext/xrb/template.c"
 	switch( (*p) ) {
 		case 35: goto st38;
-		case 123: goto tr66;
-		case 125: goto tr67;
+		case 123: goto tr67;
+		case 125: goto tr68;
 	}
 	goto st37;
 st38:
@@ -854,11 +873,11 @@ st38:
 case 38:
 	switch( (*p) ) {
 		case 35: goto st38;
-		case 123: goto tr68;
-		case 125: goto tr67;
+		case 123: goto tr69;
+		case 125: goto tr68;
 	}
 	goto st37;
-tr67:
+tr68:
 	cs = 53;
 #line 31 "ext/xrb/template.rl"
 	{
@@ -875,7 +894,7 @@ st53:
 	if ( ++p == pe )
 		goto _test_eof53;
 case 53:
-#line 879 "ext/xrb/template.c"
+#line 898 "ext/xrb/template.c"
 	switch( (*p) ) {
 		case 34: goto st37;
 		case 35: goto st39;
@@ -890,10 +909,10 @@ case 39:
 		case 34: goto st37;
 		case 35: goto st39;
 		case 39: goto st37;
-		case 123: goto tr69;
+		case 123: goto tr70;
 	}
 	goto st36;
-tr61:
+tr62:
 	cs = 54;
 #line 31 "ext/xrb/template.rl"
 	{
@@ -910,7 +929,7 @@ st54:
 	if ( ++p == pe )
 		goto _test_eof54;
 case 54:
-#line 914 "ext/xrb/template.c"
+#line 933 "ext/xrb/template.c"
 	switch( (*p) ) {
 		case 34: goto st34;
 		case 35: goto st40;
@@ -923,7 +942,7 @@ case 40:
 	switch( (*p) ) {
 		case 34: goto st34;
 		case 35: goto st40;
-		case 123: goto tr70;
+		case 123: goto tr71;
 	}
 	goto st33;
 st41:
@@ -933,7 +952,7 @@ case 41:
 	if ( (*p) == 39 )
 		goto st42;
 	goto st41;
-tr72:
+tr73:
 #line 17 "parsers/xrb/template.rl"
 	{{stack[top++] = 42;goto st21;}}
 	goto st42;
@@ -943,14 +962,14 @@ st42:
 	if ( ++p == pe )
 		goto _test_eof42;
 case 42:
-#line 947 "ext/xrb/template.c"
+#line 966 "ext/xrb/template.c"
 	switch( (*p) ) {
 		case 34: goto st36;
-		case 123: goto tr72;
-		case 125: goto tr73;
+		case 123: goto tr73;
+		case 125: goto tr74;
 	}
 	goto st42;
-tr73:
+tr74:
 	cs = 55;
 #line 31 "ext/xrb/template.rl"
 	{
@@ -967,11 +986,11 @@ st55:
 	if ( ++p == pe )
 		goto _test_eof55;
 case 55:
-#line 971 "ext/xrb/template.c"
+#line 990 "ext/xrb/template.c"
 	if ( (*p) == 39 )
 		goto st42;
 	goto st41;
-tr55:
+tr56:
 	cs = 56;
 #line 31 "ext/xrb/template.rl"
 	{
@@ -988,7 +1007,7 @@ st56:
 	if ( ++p == pe )
 		goto _test_eof56;
 case 56:
-#line 992 "ext/xrb/template.c"
+#line 1011 "ext/xrb/template.c"
 	goto st0;
 	}
 	_test_eof43: cs = 43; goto _test_eof; 
@@ -1052,22 +1071,22 @@ case 56:
 	if ( p == eof )
 	{
 	switch ( cs ) {
-	case 44: goto tr77;
-	case 45: goto tr80;
+	case 44: goto tr79;
+	case 45: goto tr82;
 	case 1: goto tr0;
 	case 2: goto tr0;
 	case 3: goto tr0;
-	case 4: goto tr5;
-	case 5: goto tr5;
-	case 46: goto tr77;
-	case 6: goto tr5;
-	case 7: goto tr5;
-	case 8: goto tr9;
-	case 9: goto tr9;
-	case 10: goto tr9;
-	case 11: goto tr14;
-	case 47: goto tr82;
-	case 48: goto tr83;
+	case 4: goto tr6;
+	case 5: goto tr6;
+	case 46: goto tr79;
+	case 6: goto tr6;
+	case 7: goto tr6;
+	case 8: goto tr10;
+	case 9: goto tr10;
+	case 10: goto tr10;
+	case 11: goto tr15;
+	case 47: goto tr84;
+	case 48: goto tr85;
 	case 14: 
 	case 15: 
 	case 16: 
@@ -1096,7 +1115,7 @@ case 56:
 		XRB_raise_error("failed to parse expression", buffer, p-s);
 	}
 	break;
-#line 1100 "ext/xrb/template.c"
+#line 1119 "ext/xrb/template.c"
 	}
 	}
 

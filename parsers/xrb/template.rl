@@ -20,7 +20,16 @@
 	parse_nested_expression := expression_value '}' @{fret;};
 	parse_expression := (expression_value %expression_end '}') @err(expression_error) @emit_expression @{fnext main;};
 	
-	pcdata = any - [#<] | '#' [^{] | '<' [^?];
+	action backtrack {
+		fprintf(stderr, "backtrack p=%s te=%s\n", p, te);
+		p -= 1;
+		te -= 1;
+	}
+	
+	pcdata = [^#<] |
+		('#' [^{] @backtrack) | 
+		('<' [^?] @backtrack)
+	;
 	
 	text = (pcdata - newline)*;
 	
