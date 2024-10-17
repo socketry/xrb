@@ -59,8 +59,3 @@ end
 def native_directory
 	"ext/xrb"
 end
-
-def system(*arguments, **options)
-	Console.info(self, arguments: arguments, options: options)
-	super
-end
