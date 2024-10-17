@@ -11,6 +11,8 @@ require_relative 'builder'
 module XRB
 	# The output variable that will be used in templates:
 	OUT = :_out
+	
+	# The default binding to use when compiling templates.
 	BINDING = binding
 	
 	class Builder
@@ -19,7 +21,9 @@ module XRB
 		end
 	end
 	
+	# An evaluatable text-format that can be used to generate output.
 	class Template
+		# Capture the output of a block from within a template.
 		# @returns [String] the output produced by calling the given block.
 		def self.capture(*arguments, output: nil, &block)
 			scope = block.binding
