@@ -81,20 +81,30 @@ module XRB
 		def initialize(buffer, binding: BINDING)
 			@buffer = buffer
 			@binding = binding
+			
+			@compiled = nil
 		end
 		
 		def freeze
 			return self if frozen?
 			
-			to_proc
+			compiled
 			
 			super
+		end
+		
+		def code
+			@code ||= compile!
+		end
+		
+		def compiled(scope = @binding.dup)
+			@compiled ||= eval("\# frozen_string_literal: true\nproc{|#{OUT}|;#{code}}", scope, @buffer.path, 0).freeze
 		end
 		
 		def to_string(scope = Object.new, output = nil)
 			builder = Builder.new(output, encoding: code.encoding)
 			
-			scope.instance_exec(builder, &to_proc)
+			scope.instance_exec(builder, &compiled)
 			
 			return builder.output
 		end
@@ -104,14 +114,12 @@ module XRB
 		end
 		
 		def to_proc(scope = @binding.dup)
-			@compiled_proc ||= eval("\# frozen_string_literal: true\nproc{|#{OUT}|;#{code}}", scope, @buffer.path, 0).freeze
+			proc do |output|
+				to_string(scope, output)
+			end
 		end
 		
 		protected
-		
-		def code
-			@code ||= compile!
-		end
 		
 		def make_assembler
 			Assembler.new
