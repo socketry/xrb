@@ -86,8 +86,8 @@ VALUE XRB_Native_parse_template(VALUE self, VALUE buffer, VALUE delegate) {
 	
 	// VALUE newline = rb_obj_freeze(rb_enc_str_new("\n", 1, encoding));
 	
-	const char *s, *p, *pe, *eof;
-	unsigned long cs, top = 0, stack[32] = {0};
+	const char *s, *p, *pe, *eof, *ts, *te;
+	unsigned long cs, top = 0, stack[32] = {0}, act;
 	
 	XRB_Token expression = {0}, instruction = {0}, text = {0}, token = {0};
 	
