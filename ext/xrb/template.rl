@@ -12,11 +12,10 @@
 	action instruction_end {
 		fprintf(stderr, "instruction end %.*s\n", (int)(p-instruction.begin), instruction.begin);
 		instruction.end = p;
-	}
-	
-	action emit_instruction {
-		fprintf(stderr, "instruction %.*s\n", (int)(instruction.end-instruction.begin), instruction.begin);
-		rb_funcall(delegate, id_instruction, 1, XRB_Token_string(instruction, encoding));
+		
+		if (instruction.end > instruction.begin) {
+			rb_funcall(delegate, id_instruction, 1, XRB_Token_string(instruction, encoding));
+		}
 	}
 	
 	action emit_instruction_line {
@@ -59,9 +58,16 @@
 		}
 	}
 	
-	action text_next {
-		fprintf(stderr, "text next %.*s\n", (int)(p-text.begin), text.begin);
-		text.end = p - 1;
+	action token_begin {
+		fprintf(stderr, "token begin %s\n", p);
+		token.begin = p;
+	}
+	
+	action token_end {
+		fprintf(stderr, "token end %.*s\n", (int)(p-token.begin), token.begin);
+		token.end = p;
+		
+		text.end = token.begin;
 		
 		if (text.end > text.begin) {
 			rb_funcall(delegate, id_text, 1, XRB_Token_string(text, encoding));
@@ -83,7 +89,7 @@ VALUE XRB_Native_parse_template(VALUE self, VALUE buffer, VALUE delegate) {
 	const char *s, *p, *pe, *eof;
 	unsigned long cs, top = 0, stack[32] = {0};
 	
-	XRB_Token expression = {0}, instruction = {0}, text = {0};
+	XRB_Token expression = {0}, instruction = {0}, text = {0}, token = {0};
 	
 	s = p = RSTRING_PTR(string);
 	eof = pe = p + RSTRING_LEN(string);

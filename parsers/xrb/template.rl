@@ -23,20 +23,17 @@
 	
 	# Instructions:
 	instruction_value = (any - [?] | '?' [^>])*;
-
-	parse_instruction := (
-		('r' space+ instruction_value >instruction_begin %instruction_end '?>') |
-		(identifier - 'r' space+ instruction_value '?>') >text_begin %emit_text
-	) @err(instruction_error) @{fnext main;};
+	
+	parse_instruction := (instruction_value >instruction_begin %instruction_end '?>') @err(instruction_error) @{fnext main;};
 	
 	text = any+ >text_begin (
-		'#{' @text_next @{fnext parse_expression;}
-		'<?' @text_next @{fnext parse_instruction;}
+		'#{' >token_begin @token_end @{fnext parse_expression;} |
+		'<?r' >token_begin space+ @token_end @{fnext parse_instruction;}
 	)? %text_end;
 	
 	# Top level:
 	expression = '#{' @{fnext parse_expression;};
-	instruction = '<?' @{fnext parse_instruction;};
+	instruction = '<?r' space+ @{fnext parse_instruction;};
 	
 	main := (text | expression | instruction)**;
 }%%
