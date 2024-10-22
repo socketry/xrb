@@ -19,24 +19,24 @@
 	expression_value = ([^"'{}]+ | expression_quoted | expression_nested)*;
 	
 	parse_nested_expression := expression_value '}' @{fret;};
-	parse_expression := (expression_value %expression_end '}') @err(expression_error) @emit_expression @{fnext main;};
+	parse_expression := (expression_value >expression_begin %expression_end '}') @err(expression_error) @{fnext main;};
 	
 	# Instructions:
 	instruction_value = (any - [?] | '?' [^>])*;
-	
+
 	parse_instruction := (
 		('r' space+ instruction_value >instruction_begin %instruction_end '?>') |
 		(identifier - 'r' space+ instruction_value '?>') >text_begin %emit_text
 	) @err(instruction_error) @{fnext main;};
 	
+	text = any+ >text_begin (
+		'#{' @text_next @{fnext parse_expression;}
+		'<?' @text_next @{fnext parse_instruction;}
+	)? %text_end;
+	
 	# Top level:
-	text = (any+ -- ('#{' | '<?')) >text_begin %text_end %emit_text;
 	expression = '#{' @{fnext parse_expression;};
 	instruction = '<?' @{fnext parse_instruction;};
 	
-	main := (
-		text |
-		expression |
-		instruction
-	)**;
+	main := (text | expression | instruction)**;
 }%%

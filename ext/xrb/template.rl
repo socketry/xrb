@@ -35,11 +35,10 @@
 	action expression_end {
 		fprintf(stderr, "expression end %.*s\n", (int)(p-expression.begin), expression.begin);
 		expression.end = p;
-	}
-	
-	action emit_expression {
-		fprintf(stderr, "expression %.*s\n", (int)(expression.end-expression.begin), expression.begin);
-		rb_funcall(delegate, id_expression, 1, XRB_Token_string(expression, encoding));
+		
+		if (expression.end > expression.begin) {
+			rb_funcall(delegate, id_expression, 1, XRB_Token_string(expression, encoding));
+		}
 	}
 	
 	action expression_error {
@@ -54,10 +53,16 @@
 	action text_end {
 		fprintf(stderr, "text end %.*s\n", (int)(p-text.begin), text.begin);
 		text.end = p;
+		
+		if (text.end > text.begin) {
+			rb_funcall(delegate, id_text, 1, XRB_Token_string(text, encoding));
+		}
 	}
 	
-	action emit_text {
-		fprintf(stderr, "text %.*s\n", (int)(text.end-text.begin), text.begin);
+	action text_next {
+		fprintf(stderr, "text next %.*s\n", (int)(p-text.begin), text.begin);
+		text.end = p - 1;
+		
 		if (text.end > text.begin) {
 			rb_funcall(delegate, id_text, 1, XRB_Token_string(text, encoding));
 		}
