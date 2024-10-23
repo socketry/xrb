@@ -69,6 +69,10 @@
 		delegate.text(data.byteslice(text_begin...text_end))
 	}
 	
+	action emit_multiline_text {
+		delegate.text(data.byteslice(ts...te))
+	}
+	
 	# This magic ensures that we process bytes.
 	getkey bytes[p];
 	
@@ -88,6 +92,9 @@ module XRB
 			p = 0
 			pe = eof = data.bytesize
 			stack = []
+			
+			ts = te = nil
+			act = nil
 			
 			expression_begin = expression_end = nil
 			instruction_begin = instruction_end = nil
