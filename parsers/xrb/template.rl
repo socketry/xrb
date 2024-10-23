@@ -40,7 +40,7 @@
 	
 	multiline_text = (
 		pcdata? newline
-	)* >text_begin %text_end;
+	)*;
 	
 	# Top level:
 	instruction = '<?r' space+ >instruction_begin instruction_remainder;
@@ -48,7 +48,7 @@
 	
 	main := |*
 		multiline_instruction => emit_multiline_instruction;
-		multiline_text => emit_text;
+		multiline_text => emit_multiline_text;
 		expression_start => {fcall parse_expression;};
 		instruction => emit_instruction;
 		text => emit_text;

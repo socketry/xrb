@@ -5,22 +5,18 @@
 	machine XRB_template_parser;
 	
 	action instruction_begin {
-		// fprintf(stderr, "instruction begin %s\n", p);
 		instruction.begin = p;
 	}
 	
 	action instruction_end {
-		// fprintf(stderr, "instruction end %.*s\n", (int)(p-instruction.begin), instruction.begin);
 		instruction.end = p;
 	}
 	
 	action emit_instruction {
-		// fprintf(stderr, "\033[32m => emit instruction %.*s\033[0m\n", (int)(instruction.end-instruction.begin), instruction.begin);
 		rb_funcall(delegate, id_instruction, 1, XRB_Token_string(instruction, encoding));
 	}
 	
 	action emit_multiline_instruction {
-		// fprintf(stderr, "\033[32m => emit multiline instruction %.*s\033[0m\n", (int)(instruction.end-instruction.begin), instruction.begin);
 		rb_funcall(delegate, id_instruction, 2, XRB_Token_string(instruction, encoding), newline);
 	}
 	
@@ -29,18 +25,14 @@
 	}
 	
 	action expression_begin {
-		// fprintf(stderr, "expression begin %s\n", p);
 		expression.begin = p;
 	}
 	
 	action expression_end {
-		// fprintf(stderr, "expression end %.*s\n", (int)(p-expression.begin), expression.begin);
 		expression.end = p;
 	}
 	
 	action emit_expression {
-		// fprintf(stderr, "\033[32m => emit expression %.*s\033[0m\n", (int)(expression.end-expression.begin), expression.begin);
-		
 		if (expression.end > expression.begin) {
 			rb_funcall(delegate, id_expression, 1, XRB_Token_string(expression, encoding));
 		}
@@ -51,7 +43,6 @@
 	}
 	
 	action text_begin {
-		// fprintf(stderr, "text begin %s\n", p);
 		text.begin = p;
 		
 		delimiter.begin = NULL;
@@ -59,17 +50,14 @@
 	}
 	
 	action text_end {
-		// fprintf(stderr, "text end %.*s\n", (int)(p-text.begin), text.begin);
 		text.end = p;
 	}
 	
 	action text_delimiter_begin {
-		// fprintf(stderr, "\033[34m text delimiter begin %s\033[0m\n", p);
 		delimiter.begin = p;
 	}
 	
 	action text_delimiter_end {
-		// fprintf(stderr, "\033[34m text delimiter end %s\033[0m\n", p);
 		delimiter.end = p;
 	}
 	
@@ -81,12 +69,17 @@
 			p = delimiter.begin - 1;
 		}
 		
-		fprintf(stderr, "\033[32m => emit text \"%.*s\"\033[0m\n", (int)(text.end-text.begin), text.begin);
+		rb_funcall(delegate, id_text, 1, XRB_Token_string(text, encoding));
+	}
+	
+	action emit_multiline_text {
+		text.begin = ts;
+		text.end = te;
+		
 		rb_funcall(delegate, id_text, 1, XRB_Token_string(text, encoding));
 	}
 	
 	action emit_newline {
-		// fprintf(stderr, "\033[32m => emit newline\033[0m\n");
 		rb_funcall(delegate, id_instruction, 1, newline);
 	}
 	

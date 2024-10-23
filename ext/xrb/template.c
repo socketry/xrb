@@ -14,7 +14,7 @@ static const int XRB_template_parser_en_parse_expression = 37;
 static const int XRB_template_parser_en_main = 49;
 
 
-#line 96 "ext/xrb/template.rl"
+#line 89 "ext/xrb/template.rl"
 
 
 VALUE XRB_Native_parse_template(VALUE self, VALUE buffer, VALUE delegate) {
@@ -140,26 +140,19 @@ tr0:
 	{	switch( act ) {
 	case 1:
 	{{p = ((te))-1;}
-		// fprintf(stderr, "\033[32m => emit multiline instruction %.*s\033[0m\n", (int)(instruction.end-instruction.begin), instruction.begin);
 		rb_funcall(delegate, id_instruction, 2, XRB_Token_string(instruction, encoding), newline);
 	}
 	break;
 	case 2:
 	{{p = ((te))-1;}
-		if (delimiter.begin && delimiter.end) {
-			text.end = delimiter.begin;
-			
-			// Backtrack:
-			p = delimiter.begin - 1;
-		}
+		text.begin = ts;
+		text.end = te;
 		
-		fprintf(stderr, "\033[32m => emit text \"%.*s\"\033[0m\n", (int)(text.end-text.begin), text.begin);
 		rb_funcall(delegate, id_text, 1, XRB_Token_string(text, encoding));
 	}
 	break;
 	case 4:
 	{{p = ((te))-1;}
-		// fprintf(stderr, "\033[32m => emit instruction %.*s\033[0m\n", (int)(instruction.end-instruction.begin), instruction.begin);
 		rb_funcall(delegate, id_instruction, 1, XRB_Token_string(instruction, encoding));
 	}
 	break;
@@ -172,7 +165,6 @@ tr0:
 			p = delimiter.begin - 1;
 		}
 		
-		fprintf(stderr, "\033[32m => emit text \"%.*s\"\033[0m\n", (int)(text.end-text.begin), text.begin);
 		rb_funcall(delegate, id_text, 1, XRB_Token_string(text, encoding));
 	}
 	break;
@@ -180,7 +172,7 @@ tr0:
 	}
 	goto st49;
 tr7:
-#line 27 "ext/xrb/template.rl"
+#line 23 "ext/xrb/template.rl"
 	{
 		XRB_raise_error("failed to parse instruction", buffer, p-s);
 	}
@@ -188,26 +180,19 @@ tr7:
 	{	switch( act ) {
 	case 1:
 	{{p = ((te))-1;}
-		// fprintf(stderr, "\033[32m => emit multiline instruction %.*s\033[0m\n", (int)(instruction.end-instruction.begin), instruction.begin);
 		rb_funcall(delegate, id_instruction, 2, XRB_Token_string(instruction, encoding), newline);
 	}
 	break;
 	case 2:
 	{{p = ((te))-1;}
-		if (delimiter.begin && delimiter.end) {
-			text.end = delimiter.begin;
-			
-			// Backtrack:
-			p = delimiter.begin - 1;
-		}
+		text.begin = ts;
+		text.end = te;
 		
-		fprintf(stderr, "\033[32m => emit text \"%.*s\"\033[0m\n", (int)(text.end-text.begin), text.begin);
 		rb_funcall(delegate, id_text, 1, XRB_Token_string(text, encoding));
 	}
 	break;
 	case 4:
 	{{p = ((te))-1;}
-		// fprintf(stderr, "\033[32m => emit instruction %.*s\033[0m\n", (int)(instruction.end-instruction.begin), instruction.begin);
 		rb_funcall(delegate, id_instruction, 1, XRB_Token_string(instruction, encoding));
 	}
 	break;
@@ -220,7 +205,6 @@ tr7:
 			p = delimiter.begin - 1;
 		}
 		
-		fprintf(stderr, "\033[32m => emit text \"%.*s\"\033[0m\n", (int)(text.end-text.begin), text.begin);
 		rb_funcall(delegate, id_text, 1, XRB_Token_string(text, encoding));
 	}
 	break;
@@ -228,18 +212,17 @@ tr7:
 	}
 	goto st49;
 tr11:
-#line 22 "ext/xrb/template.rl"
+#line 19 "ext/xrb/template.rl"
 	{te = p+1;{
-		// fprintf(stderr, "\033[32m => emit multiline instruction %.*s\033[0m\n", (int)(instruction.end-instruction.begin), instruction.begin);
 		rb_funcall(delegate, id_instruction, 2, XRB_Token_string(instruction, encoding), newline);
 	}}
 	goto st49;
 tr12:
-#line 27 "ext/xrb/template.rl"
+#line 23 "ext/xrb/template.rl"
 	{
 		XRB_raise_error("failed to parse instruction", buffer, p-s);
 	}
-#line 76 "ext/xrb/template.rl"
+#line 64 "ext/xrb/template.rl"
 	{{p = ((te))-1;}{
 		if (delimiter.begin && delimiter.end) {
 			text.end = delimiter.begin;
@@ -248,40 +231,32 @@ tr12:
 			p = delimiter.begin - 1;
 		}
 		
-		fprintf(stderr, "\033[32m => emit text \"%.*s\"\033[0m\n", (int)(text.end-text.begin), text.begin);
 		rb_funcall(delegate, id_text, 1, XRB_Token_string(text, encoding));
 	}}
 	goto st49;
 tr14:
-#line 27 "ext/xrb/template.rl"
+#line 23 "ext/xrb/template.rl"
 	{
 		XRB_raise_error("failed to parse instruction", buffer, p-s);
 	}
-#line 76 "ext/xrb/template.rl"
+#line 75 "ext/xrb/template.rl"
 	{{p = ((te))-1;}{
-		if (delimiter.begin && delimiter.end) {
-			text.end = delimiter.begin;
-			
-			// Backtrack:
-			p = delimiter.begin - 1;
-		}
+		text.begin = ts;
+		text.end = te;
 		
-		fprintf(stderr, "\033[32m => emit text \"%.*s\"\033[0m\n", (int)(text.end-text.begin), text.begin);
 		rb_funcall(delegate, id_text, 1, XRB_Token_string(text, encoding));
 	}}
 	goto st49;
-tr92:
-#line 61 "ext/xrb/template.rl"
+tr91:
+#line 52 "ext/xrb/template.rl"
 	{
-		// fprintf(stderr, "text end %.*s\n", (int)(p-text.begin), text.begin);
 		text.end = p;
 	}
-#line 66 "ext/xrb/template.rl"
+#line 56 "ext/xrb/template.rl"
 	{
-		// fprintf(stderr, "\033[34m text delimiter begin %s\033[0m\n", p);
 		delimiter.begin = p;
 	}
-#line 76 "ext/xrb/template.rl"
+#line 64 "ext/xrb/template.rl"
 	{te = p;p--;{
 		if (delimiter.begin && delimiter.end) {
 			text.end = delimiter.begin;
@@ -290,66 +265,15 @@ tr92:
 			p = delimiter.begin - 1;
 		}
 		
-		fprintf(stderr, "\033[32m => emit text \"%.*s\"\033[0m\n", (int)(text.end-text.begin), text.begin);
 		rb_funcall(delegate, id_text, 1, XRB_Token_string(text, encoding));
 	}}
 	goto st49;
-tr97:
-#line 61 "ext/xrb/template.rl"
+tr96:
+#line 60 "ext/xrb/template.rl"
 	{
-		// fprintf(stderr, "text end %.*s\n", (int)(p-text.begin), text.begin);
-		text.end = p;
-	}
-#line 1 "NONE"
-	{	switch( act ) {
-	case 1:
-	{{p = ((te))-1;}
-		// fprintf(stderr, "\033[32m => emit multiline instruction %.*s\033[0m\n", (int)(instruction.end-instruction.begin), instruction.begin);
-		rb_funcall(delegate, id_instruction, 2, XRB_Token_string(instruction, encoding), newline);
-	}
-	break;
-	case 2:
-	{{p = ((te))-1;}
-		if (delimiter.begin && delimiter.end) {
-			text.end = delimiter.begin;
-			
-			// Backtrack:
-			p = delimiter.begin - 1;
-		}
-		
-		fprintf(stderr, "\033[32m => emit text \"%.*s\"\033[0m\n", (int)(text.end-text.begin), text.begin);
-		rb_funcall(delegate, id_text, 1, XRB_Token_string(text, encoding));
-	}
-	break;
-	case 4:
-	{{p = ((te))-1;}
-		// fprintf(stderr, "\033[32m => emit instruction %.*s\033[0m\n", (int)(instruction.end-instruction.begin), instruction.begin);
-		rb_funcall(delegate, id_instruction, 1, XRB_Token_string(instruction, encoding));
-	}
-	break;
-	case 5:
-	{{p = ((te))-1;}
-		if (delimiter.begin && delimiter.end) {
-			text.end = delimiter.begin;
-			
-			// Backtrack:
-			p = delimiter.begin - 1;
-		}
-		
-		fprintf(stderr, "\033[32m => emit text \"%.*s\"\033[0m\n", (int)(text.end-text.begin), text.begin);
-		rb_funcall(delegate, id_text, 1, XRB_Token_string(text, encoding));
-	}
-	break;
-	}
-	}
-	goto st49;
-tr98:
-#line 71 "ext/xrb/template.rl"
-	{
-		// fprintf(stderr, "\033[34m text delimiter end %s\033[0m\n", p);
 		delimiter.end = p;
 	}
-#line 76 "ext/xrb/template.rl"
+#line 64 "ext/xrb/template.rl"
 	{te = p+1;{
 		if (delimiter.begin && delimiter.end) {
 			text.end = delimiter.begin;
@@ -358,61 +282,46 @@ tr98:
 			p = delimiter.begin - 1;
 		}
 		
-		fprintf(stderr, "\033[32m => emit text \"%.*s\"\033[0m\n", (int)(text.end-text.begin), text.begin);
+		rb_funcall(delegate, id_text, 1, XRB_Token_string(text, encoding));
+	}}
+	goto st49;
+tr106:
+#line 64 "ext/xrb/template.rl"
+	{te = p;p--;{
+		if (delimiter.begin && delimiter.end) {
+			text.end = delimiter.begin;
+			
+			// Backtrack:
+			p = delimiter.begin - 1;
+		}
+		
+		rb_funcall(delegate, id_text, 1, XRB_Token_string(text, encoding));
+	}}
+	goto st49;
+tr107:
+#line 75 "ext/xrb/template.rl"
+	{te = p;p--;{
+		text.begin = ts;
+		text.end = te;
+		
 		rb_funcall(delegate, id_text, 1, XRB_Token_string(text, encoding));
 	}}
 	goto st49;
 tr108:
-#line 76 "ext/xrb/template.rl"
-	{te = p;p--;{
-		if (delimiter.begin && delimiter.end) {
-			text.end = delimiter.begin;
-			
-			// Backtrack:
-			p = delimiter.begin - 1;
-		}
-		
-		fprintf(stderr, "\033[32m => emit text \"%.*s\"\033[0m\n", (int)(text.end-text.begin), text.begin);
-		rb_funcall(delegate, id_text, 1, XRB_Token_string(text, encoding));
-	}}
-	goto st49;
-tr109:
-#line 61 "ext/xrb/template.rl"
-	{
-		// fprintf(stderr, "text end %.*s\n", (int)(p-text.begin), text.begin);
-		text.end = p;
-	}
-#line 76 "ext/xrb/template.rl"
-	{te = p;p--;{
-		if (delimiter.begin && delimiter.end) {
-			text.end = delimiter.begin;
-			
-			// Backtrack:
-			p = delimiter.begin - 1;
-		}
-		
-		fprintf(stderr, "\033[32m => emit text \"%.*s\"\033[0m\n", (int)(text.end-text.begin), text.begin);
-		rb_funcall(delegate, id_text, 1, XRB_Token_string(text, encoding));
-	}}
-	goto st49;
-tr110:
 #line 52 "parsers/xrb/template.rl"
 	{te = p+1;{{stack[top++] = 49;goto st37;}}}
-#line 61 "ext/xrb/template.rl"
+#line 52 "ext/xrb/template.rl"
 	{
-		// fprintf(stderr, "text end %.*s\n", (int)(p-text.begin), text.begin);
 		text.end = p;
 	}
-#line 66 "ext/xrb/template.rl"
+#line 56 "ext/xrb/template.rl"
 	{
-		// fprintf(stderr, "\033[34m text delimiter begin %s\033[0m\n", p);
 		delimiter.begin = p;
 	}
 	goto st49;
-tr115:
-#line 17 "ext/xrb/template.rl"
+tr113:
+#line 15 "ext/xrb/template.rl"
 	{te = p;p--;{
-		// fprintf(stderr, "\033[32m => emit instruction %.*s\033[0m\n", (int)(instruction.end-instruction.begin), instruction.begin);
 		rb_funcall(delegate, id_instruction, 1, XRB_Token_string(instruction, encoding));
 	}}
 	goto st49;
@@ -424,20 +333,19 @@ st49:
 case 49:
 #line 1 "NONE"
 	{ts = p;}
-#line 428 "ext/xrb/template.c"
+#line 337 "ext/xrb/template.c"
 	switch( (*p) ) {
-		case 10: goto tr89;
+		case 10: goto tr2;
 		case 32: goto tr88;
-		case 35: goto tr90;
-		case 60: goto tr91;
+		case 35: goto tr89;
+		case 60: goto tr90;
 	}
 	if ( 9 <= (*p) && (*p) <= 13 )
 		goto tr88;
 	goto tr87;
 tr87:
-#line 53 "ext/xrb/template.rl"
+#line 45 "ext/xrb/template.rl"
 	{
-		// fprintf(stderr, "text begin %s\n", p);
 		text.begin = p;
 		
 		delimiter.begin = NULL;
@@ -448,63 +356,46 @@ st50:
 	if ( ++p == pe )
 		goto _test_eof50;
 case 50:
-#line 452 "ext/xrb/template.c"
+#line 360 "ext/xrb/template.c"
 	switch( (*p) ) {
-		case 10: goto tr94;
-		case 35: goto tr95;
-		case 60: goto tr96;
+		case 10: goto tr93;
+		case 35: goto tr94;
+		case 60: goto tr95;
 	}
 	goto st50;
 tr2:
 #line 1 "NONE"
 	{te = p+1;}
-#line 76 "ext/xrb/template.rl"
+#line 75 "ext/xrb/template.rl"
 	{act = 2;}
 	goto st51;
 tr23:
 #line 1 "NONE"
 	{te = p+1;}
-#line 22 "ext/xrb/template.rl"
+#line 19 "ext/xrb/template.rl"
 	{act = 1;}
 	goto st51;
-tr89:
+tr93:
 #line 1 "NONE"
 	{te = p+1;}
-#line 53 "ext/xrb/template.rl"
-	{
-		// fprintf(stderr, "text begin %s\n", p);
-		text.begin = p;
-		
-		delimiter.begin = NULL;
-		delimiter.end = NULL;
-	}
-#line 76 "ext/xrb/template.rl"
+#line 75 "ext/xrb/template.rl"
 	{act = 2;}
-	goto st51;
-tr94:
-#line 1 "NONE"
-	{te = p+1;}
-#line 76 "ext/xrb/template.rl"
-	{act = 2;}
-#line 61 "ext/xrb/template.rl"
+#line 52 "ext/xrb/template.rl"
 	{
-		// fprintf(stderr, "text end %.*s\n", (int)(p-text.begin), text.begin);
 		text.end = p;
 	}
-#line 66 "ext/xrb/template.rl"
+#line 56 "ext/xrb/template.rl"
 	{
-		// fprintf(stderr, "\033[34m text delimiter begin %s\033[0m\n", p);
 		delimiter.begin = p;
 	}
 	goto st51;
-tr101:
+tr99:
 #line 1 "NONE"
 	{te = p+1;}
-#line 76 "ext/xrb/template.rl"
+#line 75 "ext/xrb/template.rl"
 	{act = 2;}
-#line 71 "ext/xrb/template.rl"
+#line 60 "ext/xrb/template.rl"
 	{
-		// fprintf(stderr, "\033[34m text delimiter end %s\033[0m\n", p);
 		delimiter.end = p;
 	}
 	goto st51;
@@ -512,7 +403,7 @@ st51:
 	if ( ++p == pe )
 		goto _test_eof51;
 case 51:
-#line 516 "ext/xrb/template.c"
+#line 407 "ext/xrb/template.c"
 	switch( (*p) ) {
 		case 10: goto tr2;
 		case 35: goto st2;
@@ -575,15 +466,13 @@ case 5:
 	if ( 9 <= (*p) && (*p) <= 13 )
 		goto tr0;
 	goto st1;
-tr95:
-#line 61 "ext/xrb/template.rl"
+tr94:
+#line 52 "ext/xrb/template.rl"
 	{
-		// fprintf(stderr, "text end %.*s\n", (int)(p-text.begin), text.begin);
 		text.end = p;
 	}
-#line 66 "ext/xrb/template.rl"
+#line 56 "ext/xrb/template.rl"
 	{
-		// fprintf(stderr, "\033[34m text delimiter begin %s\033[0m\n", p);
 		delimiter.begin = p;
 	}
 	goto st52;
@@ -591,23 +480,21 @@ st52:
 	if ( ++p == pe )
 		goto _test_eof52;
 case 52:
-#line 595 "ext/xrb/template.c"
+#line 484 "ext/xrb/template.c"
 	switch( (*p) ) {
-		case 10: goto tr94;
-		case 35: goto tr95;
-		case 60: goto tr96;
-		case 123: goto tr98;
+		case 10: goto tr93;
+		case 35: goto tr94;
+		case 60: goto tr95;
+		case 123: goto tr96;
 	}
 	goto st50;
-tr96:
-#line 61 "ext/xrb/template.rl"
+tr95:
+#line 52 "ext/xrb/template.rl"
 	{
-		// fprintf(stderr, "text end %.*s\n", (int)(p-text.begin), text.begin);
 		text.end = p;
 	}
-#line 66 "ext/xrb/template.rl"
+#line 56 "ext/xrb/template.rl"
 	{
-		// fprintf(stderr, "\033[34m text delimiter begin %s\033[0m\n", p);
 		delimiter.begin = p;
 	}
 	goto st53;
@@ -615,11 +502,11 @@ st53:
 	if ( ++p == pe )
 		goto _test_eof53;
 case 53:
-#line 619 "ext/xrb/template.c"
+#line 506 "ext/xrb/template.c"
 	switch( (*p) ) {
-		case 10: goto tr94;
-		case 35: goto tr95;
-		case 60: goto tr96;
+		case 10: goto tr93;
+		case 35: goto tr94;
+		case 60: goto tr95;
 		case 63: goto st54;
 	}
 	goto st50;
@@ -628,9 +515,9 @@ st54:
 		goto _test_eof54;
 case 54:
 	switch( (*p) ) {
-		case 10: goto tr94;
-		case 35: goto tr95;
-		case 60: goto tr96;
+		case 10: goto tr93;
+		case 35: goto tr94;
+		case 60: goto tr95;
 		case 114: goto st55;
 	}
 	goto st50;
@@ -639,18 +526,17 @@ st55:
 		goto _test_eof55;
 case 55:
 	switch( (*p) ) {
-		case 10: goto tr101;
-		case 32: goto tr98;
-		case 35: goto tr95;
-		case 60: goto tr96;
+		case 10: goto tr99;
+		case 32: goto tr96;
+		case 35: goto tr94;
+		case 60: goto tr95;
 	}
 	if ( 9 <= (*p) && (*p) <= 13 )
-		goto tr98;
+		goto tr96;
 	goto st50;
 tr88:
-#line 53 "ext/xrb/template.rl"
+#line 45 "ext/xrb/template.rl"
 	{
-		// fprintf(stderr, "text begin %s\n", p);
 		text.begin = p;
 		
 		delimiter.begin = NULL;
@@ -661,25 +547,23 @@ st56:
 	if ( ++p == pe )
 		goto _test_eof56;
 case 56:
-#line 665 "ext/xrb/template.c"
+#line 551 "ext/xrb/template.c"
 	switch( (*p) ) {
-		case 10: goto tr94;
+		case 10: goto tr93;
 		case 32: goto st56;
-		case 35: goto tr95;
-		case 60: goto tr103;
+		case 35: goto tr94;
+		case 60: goto tr101;
 	}
 	if ( 9 <= (*p) && (*p) <= 13 )
 		goto st56;
 	goto st50;
-tr103:
-#line 61 "ext/xrb/template.rl"
+tr101:
+#line 52 "ext/xrb/template.rl"
 	{
-		// fprintf(stderr, "text end %.*s\n", (int)(p-text.begin), text.begin);
 		text.end = p;
 	}
-#line 66 "ext/xrb/template.rl"
+#line 56 "ext/xrb/template.rl"
 	{
-		// fprintf(stderr, "\033[34m text delimiter begin %s\033[0m\n", p);
 		delimiter.begin = p;
 	}
 	goto st57;
@@ -687,11 +571,11 @@ st57:
 	if ( ++p == pe )
 		goto _test_eof57;
 case 57:
-#line 691 "ext/xrb/template.c"
+#line 575 "ext/xrb/template.c"
 	switch( (*p) ) {
-		case 10: goto tr94;
-		case 35: goto tr95;
-		case 60: goto tr96;
+		case 10: goto tr93;
+		case 35: goto tr94;
+		case 60: goto tr95;
 		case 63: goto st58;
 	}
 	goto st50;
@@ -700,9 +584,9 @@ st58:
 		goto _test_eof58;
 case 58:
 	switch( (*p) ) {
-		case 10: goto tr94;
-		case 35: goto tr95;
-		case 60: goto tr96;
+		case 10: goto tr93;
+		case 35: goto tr94;
+		case 60: goto tr95;
 		case 114: goto st59;
 	}
 	goto st50;
@@ -711,35 +595,33 @@ st59:
 		goto _test_eof59;
 case 59:
 	switch( (*p) ) {
-		case 10: goto tr107;
-		case 32: goto tr106;
-		case 35: goto tr95;
-		case 60: goto tr96;
+		case 10: goto tr105;
+		case 32: goto tr104;
+		case 35: goto tr94;
+		case 60: goto tr95;
 	}
 	if ( 9 <= (*p) && (*p) <= 13 )
-		goto tr106;
+		goto tr104;
 	goto st50;
-tr106:
+tr104:
 #line 1 "NONE"
 	{te = p+1;}
 #line 7 "ext/xrb/template.rl"
 	{
-		// fprintf(stderr, "instruction begin %s\n", p);
 		instruction.begin = p;
 	}
-#line 71 "ext/xrb/template.rl"
+#line 60 "ext/xrb/template.rl"
 	{
-		// fprintf(stderr, "\033[34m text delimiter end %s\033[0m\n", p);
 		delimiter.end = p;
 	}
-#line 76 "ext/xrb/template.rl"
+#line 64 "ext/xrb/template.rl"
 	{act = 5;}
 	goto st60;
 st60:
 	if ( ++p == pe )
 		goto _test_eof60;
 case 60:
-#line 743 "ext/xrb/template.c"
+#line 625 "ext/xrb/template.c"
 	switch( (*p) ) {
 		case 32: goto st9;
 		case 63: goto tr9;
@@ -755,9 +637,8 @@ case 6:
 		goto tr9;
 	goto st6;
 tr9:
-#line 12 "ext/xrb/template.rl"
+#line 11 "ext/xrb/template.rl"
 	{
-		// fprintf(stderr, "instruction end %.*s\n", (int)(p-instruction.begin), instruction.begin);
 		instruction.end = p;
 	}
 	goto st7;
@@ -765,7 +646,7 @@ st7:
 	if ( ++p == pe )
 		goto _test_eof7;
 case 7:
-#line 769 "ext/xrb/template.c"
+#line 650 "ext/xrb/template.c"
 	if ( (*p) == 62 )
 		goto st8;
 	goto st6;
@@ -794,22 +675,20 @@ case 9:
 tr16:
 #line 1 "NONE"
 	{te = p+1;}
-#line 76 "ext/xrb/template.rl"
+#line 75 "ext/xrb/template.rl"
 	{act = 2;}
 	goto st61;
-tr107:
+tr105:
 #line 1 "NONE"
 	{te = p+1;}
 #line 7 "ext/xrb/template.rl"
 	{
-		// fprintf(stderr, "instruction begin %s\n", p);
 		instruction.begin = p;
 	}
-#line 76 "ext/xrb/template.rl"
+#line 75 "ext/xrb/template.rl"
 	{act = 2;}
-#line 71 "ext/xrb/template.rl"
+#line 60 "ext/xrb/template.rl"
 	{
-		// fprintf(stderr, "\033[34m text delimiter end %s\033[0m\n", p);
 		delimiter.end = p;
 	}
 	goto st61;
@@ -817,7 +696,7 @@ st61:
 	if ( ++p == pe )
 		goto _test_eof61;
 case 61:
-#line 821 "ext/xrb/template.c"
+#line 700 "ext/xrb/template.c"
 	switch( (*p) ) {
 		case 10: goto tr16;
 		case 35: goto st11;
@@ -860,9 +739,8 @@ case 12:
 	}
 	goto st10;
 tr20:
-#line 12 "ext/xrb/template.rl"
+#line 11 "ext/xrb/template.rl"
 	{
-		// fprintf(stderr, "instruction end %.*s\n", (int)(p-instruction.begin), instruction.begin);
 		instruction.end = p;
 	}
 	goto st13;
@@ -870,7 +748,7 @@ st13:
 	if ( ++p == pe )
 		goto _test_eof13;
 case 13:
-#line 874 "ext/xrb/template.c"
+#line 752 "ext/xrb/template.c"
 	switch( (*p) ) {
 		case 10: goto tr16;
 		case 35: goto st11;
@@ -907,9 +785,8 @@ case 15:
 		goto st6;
 	goto st10;
 tr19:
-#line 12 "ext/xrb/template.rl"
+#line 11 "ext/xrb/template.rl"
 	{
-		// fprintf(stderr, "instruction end %.*s\n", (int)(p-instruction.begin), instruction.begin);
 		instruction.end = p;
 	}
 	goto st16;
@@ -917,7 +794,7 @@ st16:
 	if ( ++p == pe )
 		goto _test_eof16;
 case 16:
-#line 921 "ext/xrb/template.c"
+#line 798 "ext/xrb/template.c"
 	switch( (*p) ) {
 		case 10: goto tr16;
 		case 35: goto st11;
@@ -925,10 +802,9 @@ case 16:
 		case 62: goto st14;
 	}
 	goto st10;
-tr90:
-#line 53 "ext/xrb/template.rl"
+tr89:
+#line 45 "ext/xrb/template.rl"
 	{
-		// fprintf(stderr, "text begin %s\n", p);
 		text.begin = p;
 		
 		delimiter.begin = NULL;
@@ -939,18 +815,17 @@ st62:
 	if ( ++p == pe )
 		goto _test_eof62;
 case 62:
-#line 943 "ext/xrb/template.c"
+#line 819 "ext/xrb/template.c"
 	switch( (*p) ) {
-		case 10: goto tr94;
-		case 35: goto tr95;
-		case 60: goto tr96;
-		case 123: goto tr110;
+		case 10: goto tr93;
+		case 35: goto tr94;
+		case 60: goto tr95;
+		case 123: goto tr108;
 	}
 	goto st50;
-tr91:
-#line 53 "ext/xrb/template.rl"
+tr90:
+#line 45 "ext/xrb/template.rl"
 	{
-		// fprintf(stderr, "text begin %s\n", p);
 		text.begin = p;
 		
 		delimiter.begin = NULL;
@@ -961,11 +836,11 @@ st63:
 	if ( ++p == pe )
 		goto _test_eof63;
 case 63:
-#line 965 "ext/xrb/template.c"
+#line 840 "ext/xrb/template.c"
 	switch( (*p) ) {
-		case 10: goto tr94;
-		case 35: goto tr95;
-		case 60: goto tr96;
+		case 10: goto tr93;
+		case 35: goto tr94;
+		case 60: goto tr95;
 		case 63: goto st64;
 	}
 	goto st50;
@@ -974,46 +849,43 @@ st64:
 		goto _test_eof64;
 case 64:
 	switch( (*p) ) {
-		case 10: goto tr94;
-		case 35: goto tr95;
-		case 60: goto tr96;
-		case 114: goto tr112;
+		case 10: goto tr93;
+		case 35: goto tr94;
+		case 60: goto tr95;
+		case 114: goto tr110;
 	}
 	goto st50;
-tr112:
+tr110:
 #line 1 "NONE"
 	{te = p+1;}
-#line 76 "ext/xrb/template.rl"
+#line 64 "ext/xrb/template.rl"
 	{act = 5;}
 	goto st65;
 st65:
 	if ( ++p == pe )
 		goto _test_eof65;
 case 65:
-#line 994 "ext/xrb/template.c"
+#line 869 "ext/xrb/template.c"
 	switch( (*p) ) {
-		case 10: goto tr114;
-		case 32: goto tr113;
-		case 35: goto tr95;
-		case 60: goto tr96;
+		case 10: goto tr112;
+		case 32: goto tr111;
+		case 35: goto tr94;
+		case 60: goto tr95;
 	}
 	if ( 9 <= (*p) && (*p) <= 13 )
-		goto tr113;
+		goto tr111;
 	goto st50;
-tr113:
+tr111:
 #line 7 "ext/xrb/template.rl"
 	{
-		// fprintf(stderr, "instruction begin %s\n", p);
 		instruction.begin = p;
 	}
-#line 61 "ext/xrb/template.rl"
+#line 52 "ext/xrb/template.rl"
 	{
-		// fprintf(stderr, "text end %.*s\n", (int)(p-text.begin), text.begin);
 		text.end = p;
 	}
-#line 66 "ext/xrb/template.rl"
+#line 56 "ext/xrb/template.rl"
 	{
-		// fprintf(stderr, "\033[34m text delimiter begin %s\033[0m\n", p);
 		delimiter.begin = p;
 	}
 	goto st17;
@@ -1021,7 +893,7 @@ st17:
 	if ( ++p == pe )
 		goto _test_eof17;
 case 17:
-#line 1025 "ext/xrb/template.c"
+#line 897 "ext/xrb/template.c"
 	switch( (*p) ) {
 		case 32: goto st17;
 		case 63: goto tr26;
@@ -1037,9 +909,8 @@ case 18:
 		goto tr26;
 	goto st18;
 tr26:
-#line 12 "ext/xrb/template.rl"
+#line 11 "ext/xrb/template.rl"
 	{
-		// fprintf(stderr, "instruction end %.*s\n", (int)(p-instruction.begin), instruction.begin);
 		instruction.end = p;
 	}
 	goto st19;
@@ -1047,52 +918,49 @@ st19:
 	if ( ++p == pe )
 		goto _test_eof19;
 case 19:
-#line 1051 "ext/xrb/template.c"
+#line 922 "ext/xrb/template.c"
 	if ( (*p) == 62 )
 		goto tr27;
 	goto st18;
 tr27:
 #line 1 "NONE"
 	{te = p+1;}
-#line 17 "ext/xrb/template.rl"
+#line 15 "ext/xrb/template.rl"
 	{act = 4;}
 	goto st66;
 st66:
 	if ( ++p == pe )
 		goto _test_eof66;
 case 66:
-#line 1065 "ext/xrb/template.c"
+#line 936 "ext/xrb/template.c"
 	switch( (*p) ) {
 		case 10: goto tr11;
 		case 32: goto st8;
 	}
 	if ( 9 <= (*p) && (*p) <= 13 )
 		goto st8;
-	goto tr115;
+	goto tr113;
 tr29:
 #line 1 "NONE"
 	{te = p+1;}
-#line 76 "ext/xrb/template.rl"
+#line 75 "ext/xrb/template.rl"
 	{act = 2;}
 	goto st67;
-tr114:
+tr112:
 #line 1 "NONE"
 	{te = p+1;}
 #line 7 "ext/xrb/template.rl"
 	{
-		// fprintf(stderr, "instruction begin %s\n", p);
 		instruction.begin = p;
 	}
-#line 76 "ext/xrb/template.rl"
+#line 75 "ext/xrb/template.rl"
 	{act = 2;}
-#line 61 "ext/xrb/template.rl"
+#line 52 "ext/xrb/template.rl"
 	{
-		// fprintf(stderr, "text end %.*s\n", (int)(p-text.begin), text.begin);
 		text.end = p;
 	}
-#line 66 "ext/xrb/template.rl"
+#line 56 "ext/xrb/template.rl"
 	{
-		// fprintf(stderr, "\033[34m text delimiter begin %s\033[0m\n", p);
 		delimiter.begin = p;
 	}
 	goto st67;
@@ -1100,7 +968,7 @@ st67:
 	if ( ++p == pe )
 		goto _test_eof67;
 case 67:
-#line 1104 "ext/xrb/template.c"
+#line 972 "ext/xrb/template.c"
 	switch( (*p) ) {
 		case 10: goto tr29;
 		case 35: goto st21;
@@ -1143,9 +1011,8 @@ case 22:
 	}
 	goto st20;
 tr33:
-#line 12 "ext/xrb/template.rl"
+#line 11 "ext/xrb/template.rl"
 	{
-		// fprintf(stderr, "instruction end %.*s\n", (int)(p-instruction.begin), instruction.begin);
 		instruction.end = p;
 	}
 	goto st23;
@@ -1153,7 +1020,7 @@ st23:
 	if ( ++p == pe )
 		goto _test_eof23;
 case 23:
-#line 1157 "ext/xrb/template.c"
+#line 1024 "ext/xrb/template.c"
 	switch( (*p) ) {
 		case 10: goto tr29;
 		case 35: goto st21;
@@ -1165,14 +1032,14 @@ case 23:
 tr34:
 #line 1 "NONE"
 	{te = p+1;}
-#line 17 "ext/xrb/template.rl"
+#line 15 "ext/xrb/template.rl"
 	{act = 4;}
 	goto st68;
 st68:
 	if ( ++p == pe )
 		goto _test_eof68;
 case 68:
-#line 1176 "ext/xrb/template.c"
+#line 1043 "ext/xrb/template.c"
 	switch( (*p) ) {
 		case 10: goto tr23;
 		case 32: goto st14;
@@ -1197,9 +1064,8 @@ case 24:
 		goto st18;
 	goto st20;
 tr32:
-#line 12 "ext/xrb/template.rl"
+#line 11 "ext/xrb/template.rl"
 	{
-		// fprintf(stderr, "instruction end %.*s\n", (int)(p-instruction.begin), instruction.begin);
 		instruction.end = p;
 	}
 	goto st25;
@@ -1207,7 +1073,7 @@ st25:
 	if ( ++p == pe )
 		goto _test_eof25;
 case 25:
-#line 1211 "ext/xrb/template.c"
+#line 1077 "ext/xrb/template.c"
 	switch( (*p) ) {
 		case 10: goto tr29;
 		case 35: goto st21;
@@ -1225,7 +1091,7 @@ st26:
 	if ( ++p == pe )
 		goto _test_eof26;
 case 26:
-#line 1229 "ext/xrb/template.c"
+#line 1095 "ext/xrb/template.c"
 	switch( (*p) ) {
 		case 34: goto st27;
 		case 39: goto st35;
@@ -1243,7 +1109,7 @@ st27:
 	if ( ++p == pe )
 		goto _test_eof27;
 case 27:
-#line 1247 "ext/xrb/template.c"
+#line 1113 "ext/xrb/template.c"
 	switch( (*p) ) {
 		case 34: goto st28;
 		case 35: goto st34;
@@ -1265,7 +1131,7 @@ st28:
 	if ( ++p == pe )
 		goto _test_eof28;
 case 28:
-#line 1269 "ext/xrb/template.c"
+#line 1135 "ext/xrb/template.c"
 	switch( (*p) ) {
 		case 35: goto st29;
 		case 39: goto st30;
@@ -1294,7 +1160,7 @@ st30:
 	if ( ++p == pe )
 		goto _test_eof30;
 case 30:
-#line 1298 "ext/xrb/template.c"
+#line 1164 "ext/xrb/template.c"
 	switch( (*p) ) {
 		case 34: goto st31;
 		case 35: goto st33;
@@ -1317,7 +1183,7 @@ st31:
 	if ( ++p == pe )
 		goto _test_eof31;
 case 31:
-#line 1321 "ext/xrb/template.c"
+#line 1187 "ext/xrb/template.c"
 	switch( (*p) ) {
 		case 35: goto st32;
 		case 123: goto tr51;
@@ -1342,7 +1208,7 @@ st69:
 	if ( ++p == pe )
 		goto _test_eof69;
 case 69:
-#line 1346 "ext/xrb/template.c"
+#line 1212 "ext/xrb/template.c"
 	switch( (*p) ) {
 		case 34: goto st31;
 		case 35: goto st33;
@@ -1368,7 +1234,7 @@ st70:
 	if ( ++p == pe )
 		goto _test_eof70;
 case 70:
-#line 1372 "ext/xrb/template.c"
+#line 1238 "ext/xrb/template.c"
 	switch( (*p) ) {
 		case 34: goto st28;
 		case 35: goto st34;
@@ -1401,7 +1267,7 @@ st36:
 	if ( ++p == pe )
 		goto _test_eof36;
 case 36:
-#line 1405 "ext/xrb/template.c"
+#line 1271 "ext/xrb/template.c"
 	switch( (*p) ) {
 		case 34: goto st30;
 		case 123: goto tr57;
@@ -1416,7 +1282,7 @@ st71:
 	if ( ++p == pe )
 		goto _test_eof71;
 case 71:
-#line 1420 "ext/xrb/template.c"
+#line 1286 "ext/xrb/template.c"
 	if ( (*p) == 39 )
 		goto st36;
 	goto st35;
@@ -1428,7 +1294,7 @@ st72:
 	if ( ++p == pe )
 		goto _test_eof72;
 case 72:
-#line 1432 "ext/xrb/template.c"
+#line 1298 "ext/xrb/template.c"
 	goto st0;
 st0:
 cs = 0;
@@ -1439,7 +1305,7 @@ st37:
 	if ( ++p == pe )
 		goto _test_eof37;
 case 37:
-#line 1443 "ext/xrb/template.c"
+#line 1309 "ext/xrb/template.c"
 	switch( (*p) ) {
 		case 34: goto tr60;
 		case 39: goto tr61;
@@ -1452,16 +1318,14 @@ tr67:
 	{{stack[top++] = 38;goto st26;}}
 	goto st38;
 tr59:
-#line 31 "ext/xrb/template.rl"
+#line 27 "ext/xrb/template.rl"
 	{
-		// fprintf(stderr, "expression begin %s\n", p);
 		expression.begin = p;
 	}
 	goto st38;
 tr62:
-#line 31 "ext/xrb/template.rl"
+#line 27 "ext/xrb/template.rl"
 	{
-		// fprintf(stderr, "expression begin %s\n", p);
 		expression.begin = p;
 	}
 #line 18 "parsers/xrb/template.rl"
@@ -1473,7 +1337,7 @@ st38:
 	if ( ++p == pe )
 		goto _test_eof38;
 case 38:
-#line 1477 "ext/xrb/template.c"
+#line 1341 "ext/xrb/template.c"
 	switch( (*p) ) {
 		case 34: goto st39;
 		case 39: goto st47;
@@ -1486,9 +1350,8 @@ tr83:
 	{{stack[top++] = 39;goto st26;}}
 	goto st39;
 tr60:
-#line 31 "ext/xrb/template.rl"
+#line 27 "ext/xrb/template.rl"
 	{
-		// fprintf(stderr, "expression begin %s\n", p);
 		expression.begin = p;
 	}
 	goto st39;
@@ -1498,7 +1361,7 @@ st39:
 	if ( ++p == pe )
 		goto _test_eof39;
 case 39:
-#line 1502 "ext/xrb/template.c"
+#line 1365 "ext/xrb/template.c"
 	switch( (*p) ) {
 		case 34: goto st40;
 		case 35: goto st46;
@@ -1520,7 +1383,7 @@ st40:
 	if ( ++p == pe )
 		goto _test_eof40;
 case 40:
-#line 1524 "ext/xrb/template.c"
+#line 1387 "ext/xrb/template.c"
 	switch( (*p) ) {
 		case 35: goto st41;
 		case 39: goto st42;
@@ -1549,7 +1412,7 @@ st42:
 	if ( ++p == pe )
 		goto _test_eof42;
 case 42:
-#line 1553 "ext/xrb/template.c"
+#line 1416 "ext/xrb/template.c"
 	switch( (*p) ) {
 		case 34: goto st43;
 		case 35: goto st45;
@@ -1572,7 +1435,7 @@ st43:
 	if ( ++p == pe )
 		goto _test_eof43;
 case 43:
-#line 1576 "ext/xrb/template.c"
+#line 1439 "ext/xrb/template.c"
 	switch( (*p) ) {
 		case 35: goto st44;
 		case 123: goto tr79;
@@ -1590,15 +1453,12 @@ case 44:
 	}
 	goto st43;
 tr80:
-#line 36 "ext/xrb/template.rl"
+#line 31 "ext/xrb/template.rl"
 	{
-		// fprintf(stderr, "expression end %.*s\n", (int)(p-expression.begin), expression.begin);
 		expression.end = p;
 	}
-#line 41 "ext/xrb/template.rl"
+#line 35 "ext/xrb/template.rl"
 	{
-		// fprintf(stderr, "\033[32m => emit expression %.*s\033[0m\n", (int)(expression.end-expression.begin), expression.begin);
-		
 		if (expression.end > expression.begin) {
 			rb_funcall(delegate, id_expression, 1, XRB_Token_string(expression, encoding));
 		}
@@ -1610,7 +1470,7 @@ st73:
 	if ( ++p == pe )
 		goto _test_eof73;
 case 73:
-#line 1614 "ext/xrb/template.c"
+#line 1474 "ext/xrb/template.c"
 	switch( (*p) ) {
 		case 34: goto st43;
 		case 35: goto st45;
@@ -1629,15 +1489,12 @@ case 45:
 	}
 	goto st42;
 tr74:
-#line 36 "ext/xrb/template.rl"
+#line 31 "ext/xrb/template.rl"
 	{
-		// fprintf(stderr, "expression end %.*s\n", (int)(p-expression.begin), expression.begin);
 		expression.end = p;
 	}
-#line 41 "ext/xrb/template.rl"
+#line 35 "ext/xrb/template.rl"
 	{
-		// fprintf(stderr, "\033[32m => emit expression %.*s\033[0m\n", (int)(expression.end-expression.begin), expression.begin);
-		
 		if (expression.end > expression.begin) {
 			rb_funcall(delegate, id_expression, 1, XRB_Token_string(expression, encoding));
 		}
@@ -1649,7 +1506,7 @@ st74:
 	if ( ++p == pe )
 		goto _test_eof74;
 case 74:
-#line 1653 "ext/xrb/template.c"
+#line 1510 "ext/xrb/template.c"
 	switch( (*p) ) {
 		case 34: goto st40;
 		case 35: goto st46;
@@ -1666,9 +1523,8 @@ case 46:
 	}
 	goto st39;
 tr61:
-#line 31 "ext/xrb/template.rl"
+#line 27 "ext/xrb/template.rl"
 	{
-		// fprintf(stderr, "expression begin %s\n", p);
 		expression.begin = p;
 	}
 	goto st47;
@@ -1676,7 +1532,7 @@ st47:
 	if ( ++p == pe )
 		goto _test_eof47;
 case 47:
-#line 1680 "ext/xrb/template.c"
+#line 1536 "ext/xrb/template.c"
 	if ( (*p) == 39 )
 		goto st48;
 	goto st47;
@@ -1690,7 +1546,7 @@ st48:
 	if ( ++p == pe )
 		goto _test_eof48;
 case 48:
-#line 1694 "ext/xrb/template.c"
+#line 1550 "ext/xrb/template.c"
 	switch( (*p) ) {
 		case 34: goto st42;
 		case 123: goto tr85;
@@ -1698,15 +1554,12 @@ case 48:
 	}
 	goto st48;
 tr86:
-#line 36 "ext/xrb/template.rl"
+#line 31 "ext/xrb/template.rl"
 	{
-		// fprintf(stderr, "expression end %.*s\n", (int)(p-expression.begin), expression.begin);
 		expression.end = p;
 	}
-#line 41 "ext/xrb/template.rl"
+#line 35 "ext/xrb/template.rl"
 	{
-		// fprintf(stderr, "\033[32m => emit expression %.*s\033[0m\n", (int)(expression.end-expression.begin), expression.begin);
-		
 		if (expression.end > expression.begin) {
 			rb_funcall(delegate, id_expression, 1, XRB_Token_string(expression, encoding));
 		}
@@ -1718,25 +1571,21 @@ st75:
 	if ( ++p == pe )
 		goto _test_eof75;
 case 75:
-#line 1722 "ext/xrb/template.c"
+#line 1575 "ext/xrb/template.c"
 	if ( (*p) == 39 )
 		goto st48;
 	goto st47;
 tr63:
-#line 31 "ext/xrb/template.rl"
+#line 27 "ext/xrb/template.rl"
 	{
-		// fprintf(stderr, "expression begin %s\n", p);
 		expression.begin = p;
 	}
-#line 36 "ext/xrb/template.rl"
+#line 31 "ext/xrb/template.rl"
 	{
-		// fprintf(stderr, "expression end %.*s\n", (int)(p-expression.begin), expression.begin);
 		expression.end = p;
 	}
-#line 41 "ext/xrb/template.rl"
+#line 35 "ext/xrb/template.rl"
 	{
-		// fprintf(stderr, "\033[32m => emit expression %.*s\033[0m\n", (int)(expression.end-expression.begin), expression.begin);
-		
 		if (expression.end > expression.begin) {
 			rb_funcall(delegate, id_expression, 1, XRB_Token_string(expression, encoding));
 		}
@@ -1745,15 +1594,12 @@ tr63:
 	{{cs = stack[--top];goto _again;}}
 	goto st76;
 tr68:
-#line 36 "ext/xrb/template.rl"
+#line 31 "ext/xrb/template.rl"
 	{
-		// fprintf(stderr, "expression end %.*s\n", (int)(p-expression.begin), expression.begin);
 		expression.end = p;
 	}
-#line 41 "ext/xrb/template.rl"
+#line 35 "ext/xrb/template.rl"
 	{
-		// fprintf(stderr, "\033[32m => emit expression %.*s\033[0m\n", (int)(expression.end-expression.begin), expression.begin);
-		
 		if (expression.end > expression.begin) {
 			rb_funcall(delegate, id_expression, 1, XRB_Token_string(expression, encoding));
 		}
@@ -1765,7 +1611,7 @@ st76:
 	if ( ++p == pe )
 		goto _test_eof76;
 case 76:
-#line 1769 "ext/xrb/template.c"
+#line 1615 "ext/xrb/template.c"
 	goto st0;
 	}
 	_test_eof49: cs = 49; goto _test_eof; 
@@ -1849,27 +1695,27 @@ case 76:
 	if ( p == eof )
 	{
 	switch ( cs ) {
-	case 50: goto tr92;
-	case 51: goto tr97;
+	case 50: goto tr91;
+	case 51: goto tr0;
 	case 1: goto tr0;
 	case 2: goto tr0;
 	case 3: goto tr0;
 	case 4: goto tr0;
 	case 5: goto tr0;
-	case 52: goto tr92;
-	case 53: goto tr92;
-	case 54: goto tr92;
-	case 55: goto tr92;
-	case 56: goto tr92;
-	case 57: goto tr92;
-	case 58: goto tr92;
-	case 59: goto tr92;
-	case 60: goto tr108;
+	case 52: goto tr91;
+	case 53: goto tr91;
+	case 54: goto tr91;
+	case 55: goto tr91;
+	case 56: goto tr91;
+	case 57: goto tr91;
+	case 58: goto tr91;
+	case 59: goto tr91;
+	case 60: goto tr106;
 	case 6: goto tr7;
 	case 7: goto tr7;
 	case 8: goto tr0;
 	case 9: goto tr12;
-	case 61: goto tr109;
+	case 61: goto tr107;
 	case 10: goto tr14;
 	case 11: goto tr14;
 	case 12: goto tr14;
@@ -1877,20 +1723,20 @@ case 76:
 	case 14: goto tr0;
 	case 15: goto tr14;
 	case 16: goto tr14;
-	case 62: goto tr92;
-	case 63: goto tr92;
-	case 64: goto tr92;
-	case 65: goto tr92;
+	case 62: goto tr91;
+	case 63: goto tr91;
+	case 64: goto tr91;
+	case 65: goto tr91;
 	case 17: goto tr12;
 	case 18: goto tr7;
 	case 19: goto tr7;
-	case 66: goto tr115;
-	case 67: goto tr109;
+	case 66: goto tr113;
+	case 67: goto tr107;
 	case 20: goto tr14;
 	case 21: goto tr14;
 	case 22: goto tr14;
 	case 23: goto tr14;
-	case 68: goto tr115;
+	case 68: goto tr113;
 	case 24: goto tr14;
 	case 25: goto tr14;
 	case 37: 
@@ -1905,34 +1751,19 @@ case 76:
 	case 46: 
 	case 47: 
 	case 48: 
-#line 49 "ext/xrb/template.rl"
+#line 41 "ext/xrb/template.rl"
 	{
 		XRB_raise_error("failed to parse expression", buffer, p-s);
 	}
 	break;
-	case 49: 
-#line 53 "ext/xrb/template.rl"
-	{
-		// fprintf(stderr, "text begin %s\n", p);
-		text.begin = p;
-		
-		delimiter.begin = NULL;
-		delimiter.end = NULL;
-	}
-#line 61 "ext/xrb/template.rl"
-	{
-		// fprintf(stderr, "text end %.*s\n", (int)(p-text.begin), text.begin);
-		text.end = p;
-	}
-	break;
-#line 1929 "ext/xrb/template.c"
+#line 1760 "ext/xrb/template.c"
 	}
 	}
 
 	_out: {}
 	}
 
-#line 116 "ext/xrb/template.rl"
+#line 109 "ext/xrb/template.rl"
 
 	
 	if (p != eof) {
