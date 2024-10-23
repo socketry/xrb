@@ -81,7 +81,7 @@
 			p = delimiter.begin - 1;
 		}
 		
-		// fprintf(stderr, "\033[32m => emit text %.*s\033[0m\n", (int)(text.end-text.begin), text.begin);
+		fprintf(stderr, "\033[32m => emit text \"%.*s\"\033[0m\n", (int)(text.end-text.begin), text.begin);
 		rb_funcall(delegate, id_text, 1, XRB_Token_string(text, encoding));
 	}
 	

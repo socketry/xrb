@@ -24,17 +24,23 @@
 	instruction_value = (any - [?] | '?' [^>])*;
 	instruction_remainder = (instruction_value %instruction_end '?>') @err(instruction_error);
 	
+	pcdata = any+ -- (
+		expression_start |
+		('<?r' space) |
+		newline
+	);
+	
 	text = (
-		(any+ -- (
-			expression_start |
-			('<?r' space) |
-			newline
-		)) >text_begin %text_end
+		pcdata >text_begin %text_end
 		(
 			expression_start |
 			('<?r' space)
 		)? >text_delimiter_begin @text_delimiter_end
 	);
+	
+	multiline_text = (
+		pcdata? newline
+	)* >text_begin %text_end;
 	
 	# Top level:
 	instruction = '<?r' space+ >instruction_begin instruction_remainder;
@@ -42,9 +48,9 @@
 	
 	main := |*
 		multiline_instruction => emit_multiline_instruction;
+		multiline_text => emit_text;
 		expression_start => {fcall parse_expression;};
 		instruction => emit_instruction;
-		newline => emit_newline;
 		text => emit_text;
 	*|;
 }%%
