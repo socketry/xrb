@@ -7,7 +7,7 @@
 	newline = [\n];
 	
 	# Expressions:
-	expression_start = '#{' %expression_begin;
+	expression_start = '#{';
 	
 	# This expression handles both single quoted and double quoted strings in Ruby. As Ruby supports nested string interpolations, we need to handle this too.
 	expression_quoted = 
@@ -17,28 +17,29 @@
 	
 	expression_nested = '{' @{fcall parse_nested_expression;};
 	expression_value = ([^"'{}]+ | expression_quoted | expression_nested)*;
-	
 	parse_nested_expression := expression_value '}' @{fret;};
-	parse_expression := (expression_value >expression_begin %expression_end '}') @err(expression_error) @{fnext main;};
+	parse_expression := (expression_value >expression_begin %expression_end '}') @err(expression_error) @emit_expression @{fret;};
 	
 	# Instructions:
 	instruction_value = (any - [?] | '?' [^>])*;
 	instruction_remainder = (instruction_value %instruction_end '?>') @err(instruction_error);
 	
-	text = any+ >text_begin (
-		'#{' >token_begin @token_end @{fnext parse_expression;} |
-		'<?r' >token_begin @token_end space+ >instruction_begin instruction_remainder
-	)? %text_end;
+	text = (
+		any+ >text_begin %text_end |
+		(
+			expression_start |
+			('<?r' space)
+		) >text_delimiter_begin @text_delimiter_end
+	);
 	
 	# Top level:
-	multiline_instruction = (space - newline)* instruction (space - newline)* newline;
-	expression = '#{' @{fnext parse_expression;};
 	instruction = '<?r' space+ >instruction_begin instruction_remainder;
+	multiline_instruction = (space - newline)* instruction (space - newline)* newline;
 	
 	main := |*
 		multiline_instruction => emit_multiline_instruction;
+		expression_start => {fcall parse_expression;};
+		# instruction => emit_instruction;
 		text => emit_text;
-		expression => emit_expression;
-		instruction => emit_instruction;
 	*|;
 }%%
