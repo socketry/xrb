@@ -1,0 +1,7 @@
+<section>
+	<div>
+		<?r if title = "Hello World" ?>
+		<heading>#{title}</heading>
+		<?r end ?>
+	</div>
+</section>
