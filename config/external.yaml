@@ -1,0 +1,6 @@
+xrb-sanitize:
+  url: https://github.com/socketry/xrb-sanitize
+  command: bundle exec sus
+xrb-formatters:
+  url: https://github.com/socketry/xrb-formatters
+  command: bundle exec sus
