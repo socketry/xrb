@@ -63,7 +63,7 @@
 		if delimiter_begin
 			text_end = delimiter_begin
 			
-			p = delimiter.begin - 1;
+			p = delimiter_begin - 1;
 		end
 		
 		delegate.text(data.byteslice(text_begin...text_end))
