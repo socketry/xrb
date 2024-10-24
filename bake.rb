@@ -27,5 +27,6 @@ def template(path)
 	
 	template = XRB::Template.load_file(path)
 	
+	puts "-------------------------------------------------"
 	puts template.code
 end

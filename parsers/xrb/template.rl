@@ -6,7 +6,8 @@
 	
 	newline = [\n];
 	
-	expression_start = '#{' %expression_begin;
+	# Expressions:
+	expression_start = '#{';
 	
 	# This expression handles both single quoted and double quoted strings in Ruby. As Ruby supports nested string interpolations, we need to handle this too.
 	expression_quoted = 
@@ -16,45 +17,40 @@
 	
 	expression_nested = '{' @{fcall parse_nested_expression;};
 	expression_value = ([^"'{}]+ | expression_quoted | expression_nested)*;
-	
 	parse_nested_expression := expression_value '}' @{fret;};
-	parse_expression := (expression_value %expression_end '}') @err(expression_error) @emit_expression @{fnext main;};
+	parse_expression := (expression_value >expression_begin %expression_end '}') @err(expression_error) @emit_expression @{fret;};
 	
-	pcdata = any - [#<] | '#' [^{] | '<' [^?];
+	# Instructions:
+	instruction_value = (any - [?] | '?' [^>])*;
+	instruction_remainder = (instruction_value %instruction_end '?>') @err(instruction_error);
 	
-	text = (pcdata - newline)*;
+	pcdata = any+ -- (
+		expression_start |
+		('<?r' space) |
+		newline
+	);
 	
-	text_lines = (
-		text newline
+	text = (
+		pcdata >text_begin %text_end
+		(
+			expression_start |
+			('<?r' space)
+		)? >text_delimiter_begin @text_delimiter_end
+	);
+	
+	multiline_text = (
+		pcdata? newline
 	)*;
 	
-	# We are only interested in instructions that start with r:
-	instruction = '<?r' (
-		(space+ (any - [?] | '?' [^>])*) >instruction_begin %instruction_end
-		'?>') @err(instruction_error);
-	
-	instruction_line = (space - newline)* instruction (space - newline)* newline;
-	
-	other_instruction = '<?' (
-		(identifier - 'r') space+ (any - [?] | '?' [^>])* '?>'
-	) @err(instruction_error);
+	# Top level:
+	instruction = '<?r' space+ >instruction_begin instruction_remainder;
+	multiline_instruction = (space - newline)* instruction (space - newline)* newline;
 	
 	main := |*
-		# Matches a full instruction line (consume whitespace and newline):
-		instruction_line => emit_instruction_line;
-		
-		# Matches multiple lines of only text:
-		text_lines => emit_text;
-		
-		# Matches a single instruction: <?r bar?>
+		multiline_instruction => emit_multiline_instruction;
+		multiline_text => emit_multiline_text;
+		expression_start => {fcall parse_expression;};
 		instruction => emit_instruction;
-		
-		# Matches a single expression: #{foo}
-		expression_start => {fnext parse_expression;};
-		
-		other_instruction => emit_text;
-		
-		# Matches text:
 		text => emit_text;
 	*|;
 }%%

@@ -13,7 +13,7 @@
 	}
 	
 	action pcdata_begin {
-		pcdata = ""
+		pcdata = String.new(encoding: encoding)
 		has_entities = false
 	}
 	
@@ -131,7 +131,7 @@
 	
 	action attribute_begin {
 		has_value = false
-		pcdata = ""
+		pcdata = String.new(encoding: encoding)
 	}
 
 	action attribute_value {
@@ -198,6 +198,7 @@ module XRB
 		def self.parse_markup(buffer, delegate, entities)
 			data = buffer.read
 			bytes = data.bytes
+			encoding = data.encoding
 			
 			p = 0
 			# Must set pe here or it gets incorrectly set to data.length

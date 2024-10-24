@@ -1,6 +1,4 @@
 # frozen_string_literal: true
-# Released under the MIT License.
-# Copyright, 2020-2024, by Samuel Williams.
 
 # line 1 "lib/xrb/fallback/query.rl"
 # Released under the MIT License.

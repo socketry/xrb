@@ -16,7 +16,7 @@
 		delegate.instruction(data.byteslice(instruction_begin...instruction_end))
 	}
 	
-	action emit_instruction_line {
+	action emit_multiline_instruction {
 		delegate.instruction(data.byteslice(instruction_begin...instruction_end), "\n")
 	}
 	
@@ -40,7 +40,36 @@
 		raise ParseError.new("failed to parse expression", buffer, p)
 	}
 	
+	action text_begin {
+		text_begin = p
+		
+		delimiter_begin = nil
+		delimiter_end = nil
+	}
+	
+	action text_end {
+		text_end = p
+	}
+	
+	action text_delimiter_begin {
+		delimiter_begin = p
+	}
+	
+	action text_delimiter_end {
+		delimiter_end = p
+	}
+	
 	action emit_text {
+		if delimiter_begin
+			text_end = delimiter_begin
+			
+			p = delimiter_begin - 1;
+		end
+		
+		delegate.text(data.byteslice(text_begin...text_end))
+	}
+	
+	action emit_multiline_text {
 		delegate.text(data.byteslice(ts...te))
 	}
 	
@@ -64,8 +93,13 @@ module XRB
 			pe = eof = data.bytesize
 			stack = []
 			
+			ts = te = nil
+			act = nil
+			
 			expression_begin = expression_end = nil
 			instruction_begin = instruction_end = nil
+			text_begin = text_end = nil
+			delimiter_begin = delimiter_end = nil
 			
 			%% write init;
 			%% write exec;
