@@ -21,12 +21,16 @@
 	parse_expression := (expression_value >expression_begin %expression_end '}') @err(expression_error) @emit_expression @{fret;};
 	
 	# Instructions:
+	instruction_start = '<?r' space;
 	instruction_value = (any - [?] | '?' [^>])*;
 	instruction_remainder = (instruction_value %instruction_end '?>') @err(instruction_error);
+	instruction = '<?r' space+ >instruction_begin instruction_remainder;
+	multiline_instruction = (space - newline)* instruction (space - newline)* newline;
 	
-	pcdata = any+ -- (
+	# Text:
+	pcdata = any* -- (
 		expression_start |
-		('<?r' space) |
+		instruction_start |
 		newline
 	);
 	
@@ -34,23 +38,26 @@
 		pcdata >text_begin %text_end
 		(
 			expression_start |
-			('<?r' space)
+			instruction_start
 		)? >text_delimiter_begin @text_delimiter_end
 	);
 	
 	multiline_text = (
-		pcdata? newline
+		(any* newline) -- (
+			expression_start |
+			instruction_start
+		) 
 	)*;
 	
 	# Top level:
-	instruction = '<?r' space+ >instruction_begin instruction_remainder;
-	multiline_instruction = (space - newline)* instruction (space - newline)* newline;
-	
 	main := |*
 		multiline_instruction => emit_multiline_instruction;
+		
 		multiline_text => emit_multiline_text;
+		
 		expression_start => {fcall parse_expression;};
 		instruction => emit_instruction;
+		
 		text => emit_text;
 	*|;
 }%%
