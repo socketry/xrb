@@ -421,6 +421,7 @@ module XRB
 		def self.parse_markup(buffer, delegate, entities)
 			data = buffer.read
 			bytes = data.bytes
+			encoding = data.encoding
 							
 			p = 0
 			# Must set pe here or it gets incorrectly set to data.length
@@ -438,7 +439,7 @@ module XRB
 			has_entities = has_value = false
 							
 							
-			# line 441 "lib/xrb/fallback/markup.rb"
+			# line 442 "lib/xrb/fallback/markup.rb"
 			begin
 				p ||= 0
 				pe ||= data.length
@@ -446,9 +447,9 @@ module XRB
 				top = 0
 			end
 
-			# line 218 "lib/xrb/fallback/markup.rl"
+			# line 219 "lib/xrb/fallback/markup.rl"
 							
-			# line 451 "lib/xrb/fallback/markup.rb"
+			# line 452 "lib/xrb/fallback/markup.rb"
 			begin
 				testEof = false
 				_slen, _trans, _keys, _inds, _acts, _nacts = nil
@@ -600,7 +601,7 @@ module XRB
 								# line 15 "lib/xrb/fallback/markup.rl"
 								begin
 
-									pcdata = ""
+									pcdata = String.new(encoding: encoding)
 									has_entities = false
 								end
 								# line 32 "lib/xrb/fallback/markup.rl"
@@ -612,7 +613,7 @@ module XRB
 								# line 15 "lib/xrb/fallback/markup.rl"
 								begin
 
-									pcdata = ""
+									pcdata = String.new(encoding: encoding)
 									has_entities = false
 								end
 								# line 10 "parsers/xrb/entities.rl"
@@ -716,7 +717,7 @@ module XRB
 								begin
 
 									has_value = false
-									pcdata = ""
+									pcdata = String.new(encoding: encoding)
 								end
 								# line 7 "lib/xrb/fallback/markup.rl"
 								begin
@@ -811,7 +812,7 @@ module XRB
 								# line 15 "lib/xrb/fallback/markup.rl"
 								begin
 
-									pcdata = ""
+									pcdata = String.new(encoding: encoding)
 									has_entities = false
 								end
 								# line 32 "lib/xrb/fallback/markup.rl"
@@ -827,7 +828,7 @@ module XRB
 								# line 15 "lib/xrb/fallback/markup.rl"
 								begin
 
-									pcdata = ""
+									pcdata = String.new(encoding: encoding)
 									has_entities = false
 								end
 								# line 10 "parsers/xrb/entities.rl"
@@ -903,7 +904,7 @@ module XRB
 								# line 15 "lib/xrb/fallback/markup.rl"
 								begin
 
-									pcdata = ""
+									pcdata = String.new(encoding: encoding)
 									has_entities = false
 								end
 								# line 32 "lib/xrb/fallback/markup.rl"
@@ -926,7 +927,7 @@ module XRB
 								# line 15 "lib/xrb/fallback/markup.rl"
 								begin
 
-									pcdata = ""
+									pcdata = String.new(encoding: encoding)
 									has_entities = false
 								end
 								# line 10 "parsers/xrb/entities.rl"
@@ -954,7 +955,7 @@ module XRB
 								# line 15 "lib/xrb/fallback/markup.rl"
 								begin
 
-									pcdata = ""
+									pcdata = String.new(encoding: encoding)
 									has_entities = false
 								end
 								# line 32 "lib/xrb/fallback/markup.rl"
@@ -977,7 +978,7 @@ module XRB
 								# line 15 "lib/xrb/fallback/markup.rl"
 								begin
 
-									pcdata = ""
+									pcdata = String.new(encoding: encoding)
 									has_entities = false
 								end
 								# line 10 "parsers/xrb/entities.rl"
@@ -1003,7 +1004,7 @@ module XRB
 								# line 15 "lib/xrb/fallback/markup.rl"
 								begin
 
-									pcdata = ""
+									pcdata = String.new(encoding: encoding)
 									has_entities = false
 								end
 								# line 32 "lib/xrb/fallback/markup.rl"
@@ -1024,7 +1025,7 @@ module XRB
 								# line 15 "lib/xrb/fallback/markup.rl"
 								begin
 
-									pcdata = ""
+									pcdata = String.new(encoding: encoding)
 									has_entities = false
 								end
 								# line 10 "parsers/xrb/entities.rl"
@@ -1050,7 +1051,7 @@ module XRB
 								# line 15 "lib/xrb/fallback/markup.rl"
 								begin
 
-									pcdata = ""
+									pcdata = String.new(encoding: encoding)
 									has_entities = false
 								end
 								# line 32 "lib/xrb/fallback/markup.rl"
@@ -1071,7 +1072,7 @@ module XRB
 								# line 15 "lib/xrb/fallback/markup.rl"
 								begin
 
-									pcdata = ""
+									pcdata = String.new(encoding: encoding)
 									has_entities = false
 								end
 								# line 10 "parsers/xrb/entities.rl"
@@ -1097,7 +1098,7 @@ module XRB
 								# line 15 "lib/xrb/fallback/markup.rl"
 								begin
 
-									pcdata = ""
+									pcdata = String.new(encoding: encoding)
 									has_entities = false
 								end
 								# line 32 "lib/xrb/fallback/markup.rl"
@@ -1118,7 +1119,7 @@ module XRB
 								# line 15 "lib/xrb/fallback/markup.rl"
 								begin
 
-									pcdata = ""
+									pcdata = String.new(encoding: encoding)
 									has_entities = false
 								end
 								# line 10 "parsers/xrb/entities.rl"
@@ -1146,7 +1147,7 @@ module XRB
 								# line 15 "lib/xrb/fallback/markup.rl"
 								begin
 
-									pcdata = ""
+									pcdata = String.new(encoding: encoding)
 									has_entities = false
 								end
 								# line 32 "lib/xrb/fallback/markup.rl"
@@ -1169,7 +1170,7 @@ module XRB
 								# line 15 "lib/xrb/fallback/markup.rl"
 								begin
 
-									pcdata = ""
+									pcdata = String.new(encoding: encoding)
 									has_entities = false
 								end
 								# line 10 "parsers/xrb/entities.rl"
@@ -1508,7 +1509,7 @@ module XRB
 
 									cdata_begin = p
 								end
-								# line 1511 "lib/xrb/fallback/markup.rb"
+								# line 1512 "lib/xrb/fallback/markup.rb"
 							end
 						end
 					end
@@ -1635,7 +1636,7 @@ module XRB
 												
 									delegate.text(pcdata)
 								end
-								# line 1638 "lib/xrb/fallback/markup.rb"
+								# line 1639 "lib/xrb/fallback/markup.rb"
 							end
 						end
 
@@ -1646,7 +1647,7 @@ module XRB
 				end
 			end
 
-			# line 219 "lib/xrb/fallback/markup.rl"
+			# line 220 "lib/xrb/fallback/markup.rl"
 							
 			if p != eof
 				raise ParseError.new("could not consume all input", buffer, p)
