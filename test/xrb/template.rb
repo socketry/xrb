@@ -28,6 +28,22 @@ describe XRB::Template do
 					File.write(output_path, output)
 				end
 			end
+			
+			it "generates correct output with custom output buffer" do
+				template_path = File.expand_path(path, ROOT)
+				output_path = File.expand_path("#{name}.xml", ROOT)
+				
+				template = subject.load_file(template_path)
+				output = StringIO.new
+				
+				template.to_string(Object.new, output)
+				
+				if File.exist?(output_path)
+					expect(output.string).to be == File.read(output_path)
+				else
+					File.write(output_path, output.string)
+				end
+			end
 		end
 	end
 	

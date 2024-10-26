@@ -114,7 +114,7 @@ VALUE XRB_Tag_append_attributes(VALUE self, VALUE buffer, VALUE attributes, VALU
 	return Qnil;
 }
 
-VALUE XRB_Tag_append_tag(VALUE self, VALUE buffer, VALUE name, VALUE attributes, VALUE content) {
+VALUE XRB_Tag_append_tag_string(VALUE self, VALUE buffer, VALUE name, VALUE attributes, VALUE content) {
 	StringValue(name);
 	
 	rb_str_cat_cstr(buffer, "<");
@@ -139,26 +139,37 @@ VALUE XRB_Tag_append_tag(VALUE self, VALUE buffer, VALUE name, VALUE attributes,
 	return Qnil;
 }
 
+VALUE XRB_Tag_append_tag(VALUE self, VALUE output, VALUE name, VALUE attributes, VALUE content) {
+	size_t estimated_length = RSTRING_LEN(name) + 256;
+	
+	if (rb_type(content) == T_STRING) {
+		estimated_length += RSTRING_LEN(content);
+	}
+	
+	if (rb_type(output) == T_STRING) {
+		rb_str_modify_expand(output, estimated_length);
+		XRB_Tag_append_tag_string(self, output, name, attributes, content);
+	} else {
+		VALUE buffer = rb_str_buf_new(estimated_length);
+		XRB_Tag_append_tag_string(self, buffer, name, attributes, content);
+		rb_funcall(output, id_concat, 1, buffer);
+	}
+	
+	return Qnil;
+}
+
 VALUE XRB_Tag_format_tag(VALUE self, VALUE name, VALUE attributes, VALUE content) {
 	rb_encoding *encoding = rb_enc_get(name);
 	
 	VALUE buffer = rb_enc_str_new(0, 0, encoding);
 	rb_str_modify_expand(buffer, 256);
 	
-	XRB_Tag_append_tag(self, buffer, name, attributes, content);
+	XRB_Tag_append_tag_string(self, buffer, name, attributes, content);
 	
 	return buffer;
 }
 
-VALUE XRB_Tag_write_opening_tag(VALUE self, VALUE buffer) {
-	VALUE name = rb_struct_getmember(self, id_name);
-	VALUE attributes = rb_struct_getmember(self, id_attributes);
-	VALUE closed = rb_struct_getmember(self, id_closed);
-
-	StringValue(name);
-	
-	rb_str_modify_expand(buffer, RSTRING_LEN(name) + 256);
-	
+VALUE XRB_Tag_write_opening_tag_string(VALUE self, VALUE buffer, VALUE name, VALUE attributes, VALUE closed) {
 	rb_str_cat_cstr(buffer, "<");
 	rb_str_buf_append(buffer, name);
 	
@@ -173,16 +184,45 @@ VALUE XRB_Tag_write_opening_tag(VALUE self, VALUE buffer) {
 	return Qnil;
 }
 
-VALUE XRB_Tag_write_closing_tag(VALUE self, VALUE buffer) {
+VALUE XRB_Tag_write_opening_tag(VALUE self, VALUE output) {
 	VALUE name = rb_struct_getmember(self, id_name);
-	
 	StringValue(name);
 	
-	rb_str_modify_expand(buffer, RSTRING_LEN(name) + 3);
+	VALUE attributes = rb_struct_getmember(self, id_attributes);
+	VALUE closed = rb_struct_getmember(self, id_closed);
 	
+	if (rb_type(output) == T_STRING) {
+		rb_str_modify_expand(output, RSTRING_LEN(name) + 256);
+		XRB_Tag_write_opening_tag_string(self, output, name, attributes, closed);
+	} else {
+		VALUE buffer = rb_str_buf_new(RSTRING_LEN(name) + 256);
+		XRB_Tag_write_opening_tag_string(self, buffer, name, attributes, closed);
+		rb_funcall(output, id_concat, 1, buffer);
+	}
+	
+	return Qnil;
+}
+
+VALUE XRB_Tag_write_closing_tag_string(VALUE self, VALUE buffer, VALUE name) {
 	rb_str_cat_cstr(buffer, "</");
 	rb_str_buf_append(buffer, name);
 	rb_str_cat_cstr(buffer, ">");
+	
+	return buffer;
+}
+
+VALUE XRB_Tag_write_closing_tag(VALUE self, VALUE output) {
+	VALUE name = rb_struct_getmember(self, id_name);
+	StringValue(name);
+	
+	if (rb_type(output) == T_STRING) {
+		rb_str_modify_expand(output, RSTRING_LEN(name) + 3);
+		XRB_Tag_write_closing_tag_string(self, output, name);
+	} else {
+		VALUE buffer = rb_str_buf_new(RSTRING_LEN(name) + 3);
+		XRB_Tag_write_closing_tag_string(self, buffer, name);
+		rb_funcall(output, id_concat, 1, buffer);
+	}
 	
 	return Qnil;
 }
