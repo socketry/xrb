@@ -1,6 +1,6 @@
 <section>
 	<div>
-		<?r if title = "Hello World" ?>
+		<?r title = "Hello World"; if title ?>
 		<heading>#{title}</heading>
 		<?r end ?>
 	</div>
