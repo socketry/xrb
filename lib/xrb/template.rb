@@ -54,6 +54,7 @@ module XRB
 			attr :code
 			
 			# Output raw text to the template.
+			# Raw text should be escaped, e.g. it can't contain tags or other special characters.
 			def text(text)
 				# We have to use an approach which preserves newlines and tabs as raw characters.
 				text = text.gsub("'", "\\\\'")
