@@ -12,6 +12,10 @@ module XRB
 			MarkupString.raw(string)
 		end
 		
+		def self.append(output, value)
+			value.append_markup(output)
+		end
+		
 		def append_markup(output)
 			output << ::CGI.escape_html(self.to_s)
 		end
