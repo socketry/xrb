@@ -1,0 +1,13 @@
+<?r
+class MyElement
+	def build_markup(builder)
+		builder.inline(:div) do
+			builder.inline(:p) do
+				builder.text("Hello ")
+				builder.inline(:strong) { builder.text("World") }
+			end
+		end
+	end
+end
+?>
+#{MyElement.new}

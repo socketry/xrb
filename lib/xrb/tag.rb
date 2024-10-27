@@ -8,8 +8,6 @@ require_relative 'markup'
 module XRB
 	# This represents an individual SGML tag, e.g. <a>, </a> or <a />, with attributes. Attribute values must be escaped.
 	Tag = Struct.new(:name, :closed, :attributes) do
-		include XRB::Markup
-		
 		def self.split(qualified_name)
 			if i = qualified_name.index(':')
 				return qualified_name.slice(0...i), qualified_name.slice(i+1..-1)
@@ -80,7 +78,7 @@ module XRB
 			else
 				buffer << '>'
 				unless content == true
-					Markup.append(buffer, content)
+					content.append_markup(buffer)
 				end
 				buffer << '</' << name.to_s << '>'
 			end
@@ -108,7 +106,7 @@ module XRB
 					buffer << ' ' << attribute_key.to_s
 				else
 					buffer << ' ' << attribute_key.to_s << '="'
-					Markup.append(buffer, value)
+					value.append_markup(buffer)
 					buffer << '"'
 				end
 			end

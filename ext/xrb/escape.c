@@ -2,18 +2,6 @@
 #include "escape.h"
 #include <assert.h>
 
-inline static int XRB_Markup_is_markup(VALUE value) {
-	if (RB_IMMEDIATE_P(value))
-		return 0;
-	
-	// This is a short-cut:
-	if (rb_class_of(value) == rb_XRB_MarkupString) {
-		return 1;
-	}
-	
-	return rb_funcall(value, id_is_a, 1, rb_XRB_Markup) == Qtrue;
-}
-
 VALUE XRB_MarkupString_raw(VALUE self, VALUE string) {
 	string = rb_str_dup(string);
 	
@@ -91,7 +79,7 @@ static inline VALUE XRB_Markup_append_buffer(VALUE buffer, const char * s, const
 }
 
 // Escape and append a string to the output buffer.
-VALUE XRB_Markup_append_string(VALUE buffer, VALUE string) {
+static VALUE XRB_Markup_append_string(VALUE buffer, VALUE string) {
 	const char * begin = RSTRING_PTR(string);
 	const char * end = begin + RSTRING_LEN(string);
 	
@@ -103,8 +91,11 @@ VALUE XRB_Markup_append_string(VALUE buffer, VALUE string) {
 	return XRB_Markup_append_buffer(buffer, s, p, end);
 }
 
-VALUE XRB_Markup_append(VALUE self, VALUE output, VALUE value) {
-	if (value == Qnil) return Qnil;
+// Append self to the output buffer efficiently, escaping special characters.
+VALUE XRB_Markup_append_markup(VALUE self, VALUE output) {
+	if (self == Qnil) return output;
+	
+	VALUE value = self;
 	
 	// Ensure value is a string:
 	if (rb_type(value) != T_STRING) {
@@ -115,19 +106,10 @@ VALUE XRB_Markup_append(VALUE self, VALUE output, VALUE value) {
 	if (RB_TYPE_P(output, T_STRING)) {
 		// Fast path:
 		rb_str_modify_expand(output, RSTRING_LEN(value));
-		
-		// The output buffer is a string, so we can append directly:
-		if (XRB_Markup_is_markup(value)) {
-			rb_str_append(output, value);
-		} else {
-			XRB_Markup_append_string(output, value);
-		}
+		XRB_Markup_append_string(output, value);
 	} else {
 		// Slow path (generates temporary strings):
-		if (!XRB_Markup_is_markup(value)) {
-			value = XRB_Markup_escape_string(Qnil, value);
-		}
-		
+		value = XRB_Markup_escape_string(Qnil, value);
 		rb_funcall(output, id_concat, 1, value);
 	}
 	
@@ -155,14 +137,8 @@ VALUE XRB_Markup_escape_string(VALUE self, VALUE string) {
 }
 
 void Init_XRB_escape(void) {
-	rb_XRB_MarkupString = rb_define_class_under(rb_XRB, "MarkupString", rb_cString);
-	rb_include_module(rb_XRB_MarkupString, rb_XRB_Markup);
-	
-	rb_undef_method(rb_class_of(rb_XRB_Markup), "escape_string");
-	rb_define_singleton_method(rb_XRB_Markup, "escape_string", XRB_Markup_escape_string, 1);
-	
-	rb_undef_method(rb_class_of(rb_XRB_Markup), "append");
-	rb_define_singleton_method(rb_XRB_Markup, "append", XRB_Markup_append, 2);
+	rb_undef_method(rb_XRB_Markup, "append_markup");
+	rb_define_method(rb_XRB_Markup, "append_markup", XRB_Markup_append_markup, 1);
 	
 	rb_undef_method(rb_class_of(rb_XRB_Markup), "raw");
 	rb_define_singleton_method(rb_XRB_Markup, "raw", XRB_MarkupString_raw, 1);

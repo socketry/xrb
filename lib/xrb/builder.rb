@@ -9,8 +9,6 @@ require_relative 'tag'
 module XRB
 	# Build markup quickly and efficiently.
 	class Builder
-		include Markup
-		
 		INDENT = "\t"
 		
 		class Fragment
@@ -19,18 +17,20 @@ module XRB
 				@builder = nil
 			end
 			
-			def call(builder)
+			def append_markup(output)
+				builder = Builder.new(output)
+				
+				self.build_markup(builder)
+				
+				return builder.output
+			end
+			
+			def build_markup(builder)
 				@block.call(builder)
 			end
 			
 			def to_s
-				unless @builder
-					@builder = Builder.new
-					
-					self.call(@builder)
-				end
-				
-				return @builder.to_s
+				self.append_markup(nil)
 			end
 			
 			def == other
@@ -82,6 +82,10 @@ module XRB
 			
 			@level = [0]
 			@children = [0]
+		end
+		
+		def build_markup(builder)
+			builder.append(@output)
 		end
 		
 		attr :output
@@ -149,7 +153,7 @@ module XRB
 				@output << indentation
 			end
 			
-			Markup.append(@output, content)
+			content.build_markup(self)
 			
 			if @indent
 				@output << "\n"
@@ -161,15 +165,7 @@ module XRB
 		end
 		
 		def <<(content)
-			return unless content
-			
-			if content.is_a?(Fragment)
-				inline! do
-					content.call(self)
-				end
-			else
-				Markup.append(@output, content)
-			end
+			content&.build_markup(self)
 		end
 		
 		# Append pre-existing markup:

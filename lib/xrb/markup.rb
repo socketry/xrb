@@ -8,34 +8,33 @@ require 'cgi'
 module XRB
 	# A wrapper which indicates that `value` can be appended to the output buffer without any changes.
 	module Markup
-		# Converts special characters `<`, `>`, `&`, and `"` into their equivalent entities.
-		# @return [String] May return the original string if no changes were made.
-		def self.escape_string(string)
-			CGI.escape_html(string)
+		def self.raw(string)
+			MarkupString.raw(string)
 		end
 		
-		# Appends a string to the output buffer, escaping if if necessary.
-		def self.append(buffer, value)
-			value = value.to_s
-			
-			if value.is_a? Markup
-				buffer << value
-			elsif value
-				buffer << self.escape_string(value)
-			end
+		def self.append(output, value)
+			value.append_markup(output)
+		end
+		
+		def append_markup(output)
+			output << ::CGI.escape_html(self.to_s)
+		end
+		
+		def build_markup(builder)
+			append_markup(builder.output)
 		end
 	end
 	
+	::Object.prepend(Markup)
+	
 	# Initialized from text which is escaped to use HTML entities.
 	class MarkupString < String
-		include Markup
-		
 		# @param string [String] the string value itself.
 		# @param escape [Boolean] whether or not to escape the string.
 		def initialize(string = nil, escape = true)
 			if string
 				if escape
-					string = Markup.escape_string(string)
+					string = ::CGI.escape_html(string)
 				end
 				
 				super(string)
@@ -53,6 +52,10 @@ module XRB
 		# This predicate is used by Rails' `ActionView::OutputBuffer` to determine if the string should be escaped or not.
 		def html_safe?
 			true
+		end
+		
+		def append_markup(output)
+			output << self
 		end
 	end
 	
