@@ -103,37 +103,29 @@ VALUE XRB_Markup_append_string(VALUE buffer, VALUE string) {
 	return XRB_Markup_append_buffer(buffer, s, p, end);
 }
 
-VALUE XRB_Markup_append_slow(VALUE self, VALUE output, VALUE value) {
-	// if (value == Qnil) return Qnil;
-	
-	if (!XRB_Markup_is_markup(value)) {
-		value = rb_funcall(value, id_to_s, 0);
-		value = XRB_Markup_escape_string(Qnil, value);
-	}
-	
-	rb_funcall(output, id_concat, 1, value);
-	
-	return output;
-}
-
 VALUE XRB_Markup_append(VALUE self, VALUE output, VALUE value) {
 	if (value == Qnil) return Qnil;
 	
-	if (RB_TYPE_P(output, T_STRING)) {
-		rb_str_modify(output);
-	} else {
-		return XRB_Markup_append_slow(self, output, value);
-	}
+	// Ensure value is a string:
+	StringValue(value);
 	
-	// The output buffer is a string, so we can append directly:
-	if (XRB_Markup_is_markup(value)) {
-		rb_str_append(output, value);
+	if (RB_TYPE_P(output, T_STRING)) {
+		// Fast path:
+		rb_str_modify_expand(output, RSTRING_LEN(value));
+		
+		// The output buffer is a string, so we can append directly:
+		if (XRB_Markup_is_markup(value)) {
+			rb_str_append(output, value);
+		} else {
+			XRB_Markup_append_string(output, value);
+		}
 	} else {
-		if (rb_type(value) != T_STRING) {
-			value = rb_funcall(value, id_to_s, 0);
+		// Slow path (generates temporary strings):
+		if (!XRB_Markup_is_markup(value)) {
+			value = XRB_Markup_escape_string(Qnil, value);
 		}
 		
-		XRB_Markup_append_string(output, value);
+		rb_funcall(output, id_concat, 1, value);
 	}
 	
 	return output;

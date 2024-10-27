@@ -16,10 +16,12 @@ module XRB
 		
 		# Appends a string to the output buffer, escaping if if necessary.
 		def self.append(buffer, value)
+			value = value.to_s
+			
 			if value.is_a? Markup
 				buffer << value
 			elsif value
-				buffer << self.escape_string(value.to_s)
+				buffer << self.escape_string(value)
 			end
 		end
 	end
