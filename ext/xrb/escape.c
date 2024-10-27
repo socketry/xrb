@@ -107,7 +107,10 @@ VALUE XRB_Markup_append(VALUE self, VALUE output, VALUE value) {
 	if (value == Qnil) return Qnil;
 	
 	// Ensure value is a string:
-	StringValue(value);
+	if (rb_type(value) != T_STRING) {
+		value = rb_funcall(value, id_to_s, 0);
+		rb_string_value(&value);
+	}
 	
 	if (RB_TYPE_P(output, T_STRING)) {
 		// Fast path:
