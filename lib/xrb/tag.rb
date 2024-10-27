@@ -24,6 +24,14 @@ module XRB
 			self.new(name, false, attributes)
 		end
 		
+		def append_markup(output)
+			self.write(output)
+		end
+		
+		def build_markup(builder)
+			self.append_markup(builder.output)
+		end
+		
 		def [] key
 			attributes[key]
 		end
