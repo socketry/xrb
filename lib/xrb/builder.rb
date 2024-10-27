@@ -19,18 +19,17 @@ module XRB
 				@builder = nil
 			end
 			
-			def call(builder)
+			def to_markup(builder)
 				@block.call(builder)
 			end
 			
+
 			def to_s
-				unless @builder
-					@builder = Builder.new
-					
-					self.call(@builder)
-				end
+				builder = Builder.new
 				
-				return @builder.to_s
+				self.to_markup(builder)
+				
+				return builder.to_s
 			end
 			
 			def == other
@@ -161,15 +160,7 @@ module XRB
 		end
 		
 		def <<(content)
-			return unless content
-			
-			if content.is_a?(Fragment)
-				inline! do
-					content.call(self)
-				end
-			else
-				Markup.append(@output, content)
-			end
+			content&.to_markup(self)
 		end
 		
 		# Append pre-existing markup:

@@ -61,4 +61,12 @@ module XRB
 			MarkupString.new(JSON.dump(value), false)
 		end
 	end
+	
+	module ToMarkup
+		def to_markup(builder)
+			::XRB::Markup.append(builder.output, self.to_s)
+		end
+	end
+	
+	::Object.prepend(ToMarkup)
 end
