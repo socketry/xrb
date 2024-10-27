@@ -67,7 +67,7 @@ static void XRB_Tag_append_tag_attribute(VALUE buffer, VALUE key, VALUE value, V
 		
 		if (value != Qtrue) {
 			rb_str_cat_cstr(buffer, "=\"");
-			XRB_Markup_append(Qnil, buffer, value);
+			XRB_Markup_append_markup(value, buffer);
 			rb_str_cat_cstr(buffer, "\"");
 		}
 	}
@@ -160,7 +160,7 @@ VALUE XRB_Tag_append_tag_string(VALUE self, VALUE buffer, VALUE name, VALUE attr
 		rb_str_cat_cstr(buffer, ">");
 		
 		if (content != Qtrue) {
-			XRB_Markup_append(self, buffer, content);
+			XRB_Markup_append_markup(content, buffer);
 		}
 		
 		rb_str_cat_cstr(buffer, "</");

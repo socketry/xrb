@@ -51,6 +51,7 @@ void Init_XRB_Extension(void) {
 	
 	rb_XRB = rb_define_module("XRB");
 	rb_XRB_Markup = rb_define_module_under(rb_XRB, "Markup");
+	rb_XRB_MarkupString = rb_define_class_under(rb_XRB, "MarkupString", rb_cString);
 	rb_XRB_Native = rb_define_module_under(rb_XRB, "Native");
 	
 	Init_XRB_escape();

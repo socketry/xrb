@@ -32,7 +32,7 @@ describe XRB::MarkupString do
 	it "should convert nil to empty string" do
 		markup_string = XRB::MarkupString.new
 		
-		XRB::Markup.append(markup_string, nil)
+		nil.append_markup(markup_string)
 		
 		expect(markup_string).to be(:empty?)
 	end

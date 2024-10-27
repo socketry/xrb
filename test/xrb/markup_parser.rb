@@ -102,8 +102,8 @@ describe "<foo bar=\"20\" baz>Hello World</foo>" do
 	end
 	
 	it "should track entities" do
-		expect(events[1][2]).to be_a XRB::Markup
-		expect(events[4][1]).to be_a XRB::Markup
+		expect(events[1][2]).to be_a XRB::MarkupString
+		expect(events[4][1]).to be_a XRB::MarkupString
 	end
 end
 
@@ -156,8 +156,8 @@ describe "<p attr=\"foo&amp;bar\">&quot;</p>" do
 	end
 	
 	it "should track entities" do
-		expect(events[1][2]).not.to be_a XRB::Markup
-		expect(events[3][1]).not.to be_a XRB::Markup
+		expect(events[1][2]).not.to be_a XRB::MarkupString
+		expect(events[3][1]).not.to be_a XRB::MarkupString
 	end
 end
 
