@@ -4,5 +4,5 @@
 # Copyright, 2012-2024, by Samuel Williams.
 
 module XRB
-	VERSION = "0.10.1"
+	VERSION = "0.10.2"
 end
