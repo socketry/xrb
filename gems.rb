@@ -3,7 +3,7 @@
 # Released under the MIT License.
 # Copyright, 2012-2024, by Samuel Williams.
 
-source 'https://rubygems.org'
+source "https://rubygems.org"
 
 gemspec
 
@@ -23,7 +23,7 @@ group :test do
 	gem "bake-test"
 	gem "bake-test-external"
 	
-	gem 'ruby-prof', platforms: [:mri]
+	gem "ruby-prof", platforms: [:mri]
 	gem "benchmark-ips"
 	
 	gem "rack"

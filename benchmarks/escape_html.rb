@@ -3,8 +3,8 @@
 # Released under the MIT License.
 # Copyright, 2017-2024, by Samuel Williams.
 
-require 'benchmark/ips'
-require 'xrb/markup'
+require "benchmark/ips"
+require "xrb/markup"
 
 describe XRB::Markup do
 	let(:code_string) {'javascript:if (foo < bar) {alert("Hello World")}'}

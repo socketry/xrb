@@ -5,5 +5,5 @@
 
 $LOAD_PATH << ::File.expand_path("../ext", __dir__)
 
-require 'covered/sus'
+require "covered/sus"
 include Covered::Sus

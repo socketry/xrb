@@ -3,7 +3,7 @@
 # Released under the MIT License.
 # Copyright, 2016-2024, by Samuel Williams.
 
-require_relative 'buffer'
+require_relative "buffer"
 
 module XRB
 	class Error < StandardError

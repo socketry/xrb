@@ -3,10 +3,10 @@
 # Released under the MIT License.
 # Copyright, 2012-2024, by Samuel Williams.
 
-require 'xrb/template'
-require 'xrb/parsers'
+require "xrb/template"
+require "xrb/parsers"
 
-require 'xrb/parse_delegate'
+require "xrb/parse_delegate"
 
 describe XRB::Template do
 	ROOT = File.expand_path(".template", __dir__)
@@ -67,7 +67,7 @@ ATemplateParser = Sus::Shared("template parser") do
 	end
 	
 	it "should fail to parse incomplete instruction" do
-		buffer = XRB::Buffer.new('<?r foo')
+		buffer = XRB::Buffer.new("<?r foo")
 		
 		expect{
 			subject.parse_template(buffer, delegate)

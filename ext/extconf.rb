@@ -5,7 +5,7 @@
 
 return if RUBY_DESCRIPTION =~ /jruby/
 
-require 'mkmf'
+require "mkmf"
 
 $CFLAGS << " -O3 -Wall -Wno-unknown-pragmas -std=c99"
 
@@ -17,4 +17,4 @@ $VPATH << "$(srcdir)/xrb"
 
 create_header
 
-create_makefile('XRB_Extension')
+create_makefile("XRB_Extension")

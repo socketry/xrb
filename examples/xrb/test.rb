@@ -4,7 +4,7 @@
 # Released under the MIT License.
 # Copyright, 2024, by Samuel Williams.
 
-require 'xrb'
+require "xrb"
 
 class Formatter
 	def title_for(options)
@@ -28,7 +28,7 @@ class Formatter
 	end
 end
 
-template = XRB::Template.load_file('test.xrb')
+template = XRB::Template.load_file("test.xrb")
 
 puts template.send(:code)
 

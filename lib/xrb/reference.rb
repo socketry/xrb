@@ -3,7 +3,7 @@
 # Released under the MIT License.
 # Copyright, 2020-2024, by Samuel Williams.
 
-require_relative 'query'
+require_relative "query"
 
 module XRB
 	class Reference
@@ -26,11 +26,11 @@ module XRB
 			buffer << escape_path(@path)
 			
 			unless @query.empty?
-				buffer << '?' << query_string
+				buffer << "?" << query_string
 			end
 			
 			if @fragment
-				buffer << '#' << escape(@fragment)
+				buffer << "#" << escape(@fragment)
 			end
 			
 			return buffer
@@ -55,7 +55,7 @@ module XRB
 		def escape_path(path)
 			encoding = path.encoding
 			path.b.gsub(NON_PCHAR) do |m|
-				'%' + m.unpack('H2' * m.bytesize).join('%').upcase
+				"%" + m.unpack("H2" * m.bytesize).join("%").upcase
 			end.force_encoding(encoding)
 		end
 		
@@ -63,7 +63,7 @@ module XRB
 		def escape(string)
 			encoding = string.encoding
 			string.b.gsub(/([^a-zA-Z0-9_.\-]+)/) do |m|
-				'%' + m.unpack('H2' * m.bytesize).join('%').upcase
+				"%" + m.unpack("H2" * m.bytesize).join("%").upcase
 			end.force_encoding(encoding)
 		end
 		
@@ -80,7 +80,7 @@ module XRB
 			when Hash
 				value.map { |k, v|
 					build_nested_query(v, prefix ? "#{prefix}[#{escape(k.to_s)}]" : escape(k.to_s))
-				}.reject(&:empty?).join('&')
+				}.reject(&:empty?).join("&")
 			when nil
 				prefix
 			else
@@ -91,9 +91,9 @@ module XRB
 	end
 	
 	# Generate a URI from a path and user parameters. The path may contain a `#fragment` or `?query=parameters`.
-	def self.Reference(path = '', **parameters)
-		base, fragment = path.split('#', 2)
-		path, query_string = base.split('?', 2)
+	def self.Reference(path = "", **parameters)
+		base, fragment = path.split("#", 2)
+		path, query_string = base.split("?", 2)
 		
 		if query_string
 			query = Query.parse(Buffer.new(query_string))

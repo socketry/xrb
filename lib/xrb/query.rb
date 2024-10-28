@@ -3,10 +3,10 @@
 # Released under the MIT License.
 # Copyright, 2020-2024, by Samuel Williams.
 
-require_relative 'buffer'
-require_relative 'parsers'
+require_relative "buffer"
+require_relative "parsers"
 
-require 'uri'
+require "uri"
 
 module XRB
 	module Query

@@ -3,7 +3,7 @@
 # Released under the MIT License.
 # Copyright, 2024, by Samuel Williams.
 
-require 'xrb/error'
+require "xrb/error"
 
 describe XRB::Location do
 	let(:location) {subject.new("Hello\nWorld\nFoo\nBar!", 7)}

@@ -3,10 +3,10 @@
 # Released under the MIT License.
 # Copyright, 2012-2024, by Samuel Williams.
 
-require_relative 'parsers'
-require_relative 'markup'
-require_relative 'buffer'
-require_relative 'builder'
+require_relative "parsers"
+require_relative "markup"
+require_relative "buffer"
+require_relative "builder"
 
 module XRB
 	# The output variable that will be used in templates:
@@ -63,7 +63,7 @@ module XRB
 
 			# Output a ruby expression (or part of).
 			def instruction(text, postfix = nil)
-				@code << text << (postfix || ';')
+				@code << text << (postfix || ";")
 			end
 			
 			# Output a string interpolation.

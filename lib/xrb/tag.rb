@@ -3,13 +3,13 @@
 # Released under the MIT License.
 # Copyright, 2017-2024, by Samuel Williams.
 
-require_relative 'markup'
+require_relative "markup"
 
 module XRB
 	# This represents an individual SGML tag, e.g. <a>, </a> or <a />, with attributes. Attribute values must be escaped.
 	Tag = Struct.new(:name, :closed, :attributes) do
 		def self.split(qualified_name)
-			if i = qualified_name.index(':')
+			if i = qualified_name.index(":")
 				return qualified_name.slice(0...i), qualified_name.slice(i+1..-1)
 			else
 				return nil, qualified_name
@@ -49,19 +49,19 @@ module XRB
 		end
 		
 		def write_opening_tag(buffer)
-			buffer << '<' << name
+			buffer << "<" << name
 			
 			self.class.append_attributes(buffer, attributes, nil)
 			
 			if self_closed?
-				buffer << '/>'
+				buffer << "/>"
 			else
-				buffer << '>'
+				buffer << ">"
 			end
 		end
 		
 		def write_closing_tag(buffer)
-			buffer << '</' << name << '>'
+			buffer << "</" << name << ">"
 		end
 		
 		def write(buffer, content = nil)
@@ -77,18 +77,18 @@ module XRB
 		end
 		
 		def self.append_tag(buffer, name, attributes, content)
-			buffer << '<' << name.to_s
+			buffer << "<" << name.to_s
 			
 			self.append_attributes(buffer, attributes, nil)
 			
 			if !content
-				buffer << '/>'
+				buffer << "/>"
 			else
-				buffer << '>'
+				buffer << ">"
 				unless content == true
 					content.append_markup(buffer)
 				end
-				buffer << '</' << name.to_s << '>'
+				buffer << "</" << name.to_s << ">"
 			end
 			
 			return nil
@@ -111,9 +111,9 @@ module XRB
 						self.append_attributes(buffer, [attribute], attribute_key)
 					end
 				when TrueClass
-					buffer << ' ' << attribute_key.to_s
+					buffer << " " << attribute_key.to_s
 				else
-					buffer << ' ' << attribute_key.to_s << '="'
+					buffer << " " << attribute_key.to_s << '="'
 					value.append_markup(buffer)
 					buffer << '"'
 				end

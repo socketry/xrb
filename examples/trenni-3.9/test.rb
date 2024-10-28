@@ -4,8 +4,8 @@
 # Released under the MIT License.
 # Copyright, 2024, by Samuel Williams.
 
-require 'trenni'
-require 'trenni/version'
+require "trenni"
+require "trenni/version"
 
 class Formatter
 	def title_for(options)
@@ -31,5 +31,5 @@ end
 
 puts "Trenni version: #{Trenni::VERSION}"
 
-template = Trenni::Template.load_file('test.trenni')
+template = Trenni::Template.load_file("test.trenni")
 puts template.to_string(binding)

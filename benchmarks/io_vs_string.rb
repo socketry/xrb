@@ -3,8 +3,8 @@
 # Released under the MIT License.
 # Copyright, 2016-2024, by Samuel Williams.
 
-require 'benchmark/ips'
-require 'stringio'
+require "benchmark/ips"
+require "stringio"
 
 describe "String\#<< vs Array\#<< vs StringIO" do
 	it "should be fast to concatenate strings" do

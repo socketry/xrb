@@ -3,7 +3,7 @@
 # Released under the MIT License.
 # Copyright, 2016-2024, by Samuel Williams.
 
-require 'benchmark/ips'
+require "benchmark/ips"
 
 describe "block.call vs yield with block vs yield" do
 	def do_call(&block)

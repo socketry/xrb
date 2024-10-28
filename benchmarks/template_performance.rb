@@ -3,10 +3,10 @@
 # Released under the MIT License.
 # Copyright, 2016-2024, by Samuel Williams.
 
-require 'benchmark/ips'
-require 'xrb/parsers'
-require 'xrb/template'
-require 'erb'
+require "benchmark/ips"
+require "xrb/parsers"
+require "xrb/template"
+require "erb"
 
 class Model
 	def name
@@ -38,7 +38,7 @@ describe XRB::Template do
 	# 	expect(object_time).to be < binding_time
 	# end
 	
-	let(:interpolations_path) {File.expand_path('.corpus/interpolations.xrb', __dir__)}
+	let(:interpolations_path) {File.expand_path(".corpus/interpolations.xrb", __dir__)}
 	
 	it "should be fast for lots of interpolations" do
 		xrb_template = XRB::Template.new(XRB::Buffer.load_file(interpolations_path))

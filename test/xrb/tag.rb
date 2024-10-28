@@ -3,9 +3,9 @@
 # Released under the MIT License.
 # Copyright, 2017-2024, by Samuel Williams.
 
-require 'xrb/tag'
+require "xrb/tag"
 
-describe XRB::Tag.new("body", false, class: 'main') do
+describe XRB::Tag.new("body", false, class: "main") do
 	it "should have name" do
 		expect(subject.name).to be == "body"
 	end
@@ -16,18 +16,18 @@ describe XRB::Tag.new("body", false, class: 'main') do
 	
 	it "should have an attribute" do
 		expect(subject.attributes).to be(:include?, :class)
-		expect(subject[:class]).to be == 'main'
+		expect(subject[:class]).to be == "main"
 		expect(subject.to_s).to be(:include?, 'class="main"')
 	end
 end
 
-describe XRB::Tag.new("button", true, 'onclick' => 'javascript:alert("Hello World")') do
+describe XRB::Tag.new("button", true, "onclick" => 'javascript:alert("Hello World")') do
 	it "should have name" do
 		expect(subject.name).to be == "button"
 	end
 	
 	it "should have an attribute" do
-		expect(subject.attributes).to be(:include?, 'onclick')
+		expect(subject.attributes).to be(:include?, "onclick")
 	end
 	
 	it "should generate valid string" do
@@ -43,12 +43,12 @@ end
 
 describe "namespace:name" do
 	it "should have namespace" do
-		expect(XRB::Tag.split(subject)).to be == ['namespace', 'name']
+		expect(XRB::Tag.split(subject)).to be == ["namespace", "name"]
 	end
 end
 
 describe "name" do
 	it "should not have namespace" do
-		expect(XRB::Tag.split(subject)).to be == [nil, 'name']
+		expect(XRB::Tag.split(subject)).to be == [nil, "name"]
 	end
 end

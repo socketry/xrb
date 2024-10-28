@@ -4,7 +4,7 @@
 # Released under the MIT License.
 # Copyright, 2012-2024, by Samuel Williams.
 
-require 'xrb/strings'
+require "xrb/strings"
 
 describe XRB::Strings do
 	it "should escape html sensitive characters" do
@@ -24,7 +24,7 @@ describe XRB::Strings do
 	end
 	
 	it "should generate quoted attributes" do
-		text = XRB::Strings.to_attribute(:foo, 'bar')
+		text = XRB::Strings.to_attribute(:foo, "bar")
 		expect(text).to be == %Q{foo="bar"}
 	
 		text = XRB::Strings.to_simple_attribute(:foo, false)

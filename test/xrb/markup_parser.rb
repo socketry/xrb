@@ -4,11 +4,11 @@
 # Released under the MIT License.
 # Copyright, 2012-2024, by Samuel Williams.
 
-require 'xrb/parsers'
-require 'xrb/entities'
-require 'xrb/template'
-require 'xrb/markup'
-require 'xrb/parse_delegate'
+require "xrb/parsers"
+require "xrb/entities"
+require "xrb/template"
+require "xrb/markup"
+require "xrb/parse_delegate"
 
 HTMLParsers = Sus::Shared("HTML Parsers") do
 	let(:delegate) {XRB::ParseDelegate.new}
@@ -164,8 +164,8 @@ end
 ValidMarkupFile = Sus::Shared("valid markup file") do |base|
 	include_context ValidMarkup
 	
-	let(:xhtml_path) {File.join(__dir__, base + '.xhtml')}
-	let(:events_path) {File.join(__dir__, base + '.rb')}
+	let(:xhtml_path) {File.join(__dir__, base + ".xhtml")}
+	let(:events_path) {File.join(__dir__, base + ".rb")}
 	
 	let(:buffer) {XRB::FileBuffer.new(xhtml_path)}
 	let(:expected_events) {eval(File.read(events_path), nil, events_path)}

@@ -1,14 +1,12 @@
 # frozen_string_literal: true
 
-# line 1 "lib/xrb/fallback/query.rl"
 # Released under the MIT License.
-# Copyright, 2016-2024, by Samuel Williams.
-
+# Copyright, 2020-2024, by Samuel Williams.
 
 # line 57 "lib/xrb/fallback/query.rl"
 
 
-require_relative '../error'
+require_relative "../error"
 
 module XRB
 	module Fallback

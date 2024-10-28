@@ -3,7 +3,7 @@
 # Released under the MIT License.
 # Copyright, 2016-2024, by Samuel Williams.
 
-require 'cgi'
+require "cgi"
 
 module XRB
 	# A wrapper which indicates that `value` can be appended to the output buffer without any changes.

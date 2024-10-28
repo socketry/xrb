@@ -10,8 +10,8 @@ Gem::Specification.new do |spec|
 	spec.authors = ["Samuel Williams", "Adam Daniels", "Cyril Roelandt", "Jean Boussier"]
 	spec.license = "MIT"
 	
-	spec.cert_chain  = ['release.cert']
-	spec.signing_key = File.expand_path('~/.gem/release.pem')
+	spec.cert_chain  = ["release.cert"]
+	spec.signing_key = File.expand_path("~/.gem/release.pem")
 	
 	spec.homepage = "https://github.com/ioquatix/xrb"
 	
@@ -21,8 +21,8 @@ Gem::Specification.new do |spec|
 		"source_code_uri" => "https://github.com/ioquatix/xrb.git",
 	}
 	
-	spec.files = Dir.glob(['{bake,ext,lib}/**/*', '*.md'], File::FNM_DOTMATCH, base: __dir__)
-	spec.require_paths = ['lib']
+	spec.files = Dir.glob(["{bake,ext,lib}/**/*", "*.md"], File::FNM_DOTMATCH, base: __dir__)
+	spec.require_paths = ["lib"]
 	
 	spec.extensions = ["ext/extconf.rb"]
 	

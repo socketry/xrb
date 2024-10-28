@@ -37,8 +37,10 @@ jobs:
       timeout-minutes: 5
       run: bundle exec bake test
     
-    - uses: actions/upload-artifact@v3
+    - uses: actions/upload-artifact@v4
       with:
+        include-hidden-files: true
+        if-no-files-found: error
         name: coverage-${{matrix.os}}-${{matrix.ruby}}-${{matrix.env}}
         path: .covered.db
   
@@ -53,7 +55,7 @@ jobs:
         ruby-version: "3.3"
         bundler-cache: true
     
-    - uses: actions/download-artifact@v3
+    - uses: actions/download-artifact@v4
     
     - name: Validate coverage
       timeout-minutes: 5

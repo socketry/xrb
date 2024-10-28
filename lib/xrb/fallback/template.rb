@@ -1,14 +1,12 @@
 # frozen_string_literal: true
 
-# line 1 "lib/xrb/fallback/template.rl"
 # Released under the MIT License.
 # Copyright, 2016-2024, by Samuel Williams.
-
 
 # line 80 "lib/xrb/fallback/template.rl"
 
 
-require_relative '../error'
+require_relative "../error"
 
 module XRB
 	module Fallback

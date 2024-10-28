@@ -5,7 +5,7 @@
 
 module XRB
 	class Buffer
-		def initialize(string, path: '<string>')
+		def initialize(string, path: "<string>")
 			@string = string
 			@path = path
 		end

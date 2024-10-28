@@ -3,8 +3,8 @@
 # Released under the MIT License.
 # Copyright, 2012-2024, by Samuel Williams.
 
-require_relative 'markup'
-require_relative 'tag'
+require_relative "markup"
+require_relative "tag"
 
 module XRB
 	# Build markup quickly and efficiently.
@@ -109,11 +109,11 @@ module XRB
 			if @indent
 				INDENT * (@level.size - 1)
 			else
-				''
+				""
 			end
 		end
 		
-		def doctype(attributes = 'html')
+		def doctype(attributes = "html")
 			@output << "<!doctype #{attributes}>\n"
 		end
 		

@@ -4,20 +4,20 @@
 # Released under the MIT License.
 # Copyright, 2012-2024, by Samuel Williams.
 
-require 'xrb/builder'
+require "xrb/builder"
 
 describe XRB::Builder do
 	let(:builder) {subject.new}
 	
 	it "should produce valid html" do
 		builder.doctype
-		builder.tag('html') do
-			builder.tag('head') do
-				builder.inline('title') do
-					builder.text('Hello World')
+		builder.tag("html") do
+			builder.tag("head") do
+				builder.inline("title") do
+					builder.text("Hello World")
 				end
 			end
-			builder.tag('body') do
+			builder.tag("body") do
 			end
 		end
 		
@@ -33,7 +33,7 @@ describe XRB::Builder do
 		HTML
 	end
 	
-	with '.fragment' do
+	with ".fragment" do
 		it "should use an existing builder" do
 			result = XRB::Builder.fragment do |builder|
 			end
@@ -51,9 +51,9 @@ describe XRB::Builder do
 		end
 	end
 	
-	with '#tag' do
+	with "#tag" do
 		it "should format nested attributes" do
-			builder.tag('div', data: {id: 10})
+			builder.tag("div", data: {id: 10})
 			
 			expect(builder.output).to be == '<div data-id="10"/>'
 		end
@@ -61,7 +61,7 @@ describe XRB::Builder do
 		it "should indent self-closing tag correctly" do
 			builder = XRB::Builder.new
 			
-			builder.tag('foo') {builder.tag('bar')}
+			builder.tag("foo") {builder.tag("bar")}
 			
 			expect(builder.output).to be == <<~XML.chomp
 			<foo>
@@ -102,7 +102,7 @@ describe XRB::Builder do
 		end
 	end
 	
-	with '#inline' do
+	with "#inline" do
 		it "should produce inline html" do
 			builder.inline("div") do
 				builder.tag("strong") do
@@ -117,11 +117,11 @@ describe XRB::Builder do
 		
 		it "can inline fragments" do
 			builder.inline! do
-				builder.inline('a') do
+				builder.inline("a") do
 					builder << "Hello"
 				end
 				
-				builder.inline('a') do
+				builder.inline("a") do
 					builder << "World"
 				end
 			end
@@ -138,9 +138,9 @@ describe XRB::Builder do
 		end
 	end
 	
-	with '#<<' do
-		it 'can append text' do
-			builder << 'text'
+	with "#<<" do
+		it "can append text" do
+			builder << "text"
 			expect(builder.output).to be == "text"
 		end
 		
@@ -150,12 +150,12 @@ describe XRB::Builder do
 		end
 	end
 	
-	with '#append' do
-		it 'should be able to append nil' do
+	with "#append" do
+		it "should be able to append nil" do
 			expect{builder.append(nil)}.not.to raise_exception
 		end
 		
-		it 'should append existing markup' do
+		it "should append existing markup" do
 			builder.tag("outer") do
 				builder.append("<inner>\n\t<nested/>\n</inner>")
 			end
@@ -170,12 +170,12 @@ describe XRB::Builder do
 		end
 	end
 	
-	with '#to_s' do
+	with "#to_s" do
 		it "generates html safe string" do
 			# This test is specifically for Rails compatibility.
 			fragment = XRB::Builder.fragment do |builder|
-				builder.tag('div') do
-					builder.text('Hello World')
+				builder.tag("div") do
+					builder.text("Hello World")
 				end
 			end
 			
