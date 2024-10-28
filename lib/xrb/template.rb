@@ -119,6 +119,17 @@ module XRB
 		def to_proc(scope = @binding.dup)
 			proc do |output|
 				to_string(scope, output)
+			rescue Exception => error
+				# I find this a bit ugly but we only use this code path on errors, so it's not performance critical.
+				if output.method(:close_write).arity != 0
+					# Inform the output that an error occured and the output was not generated correctly.
+					output.close_write(error)
+					output = nil
+				end
+				
+				raise
+			ensure
+				output&.close_write
 			end
 		end
 		
