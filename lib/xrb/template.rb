@@ -41,7 +41,7 @@ module XRB
 			return output.to_str
 		end
 		
-		# Returns the buffer used for capturing output.
+		# @returns [Object] the buffer used for capturing output.
 		def self.buffer(binding)
 			binding.local_variable_get(OUT)
 		end
@@ -72,15 +72,19 @@ module XRB
 			end
 		end
 		
+		# Load a template from a file.
 		def self.load_file(path, **options)
 			self.new(FileBuffer.new(path), **options).freeze
 		end
 		
+		# Load a template from a string.
 		def self.load(string, *arguments, **options)
 			self.new(Buffer.new(string), **options).freeze
 		end
 		
-		# @param binding [Binding] The binding in which the template is compiled. e.g. `TOPLEVEL_BINDING`.
+		# Initialize a new template.
+		# @parameter buffer [Buffer] The buffer containing the template.
+		# @parameter binding [Binding] The binding in which the template is compiled. e.g. `TOPLEVEL_BINDING`.
 		def initialize(buffer, binding: BINDING)
 			@buffer = buffer
 			@binding = binding
@@ -96,14 +100,23 @@ module XRB
 			super
 		end
 		
+		# The compiled code for the template.
+		# @returns [String] the compiled Ruby code.
 		def code
 			@code ||= compile!
 		end
 		
+		# The compiled template as a proc.
+		# @parameter scope [Object] The scope in which the template will be compiled.
+		# @returns [Proc] a proc that can be called with an output object.
 		def compiled(scope = @binding.dup)
 			@compiled ||= eval("\# frozen_string_literal: true\nproc{|#{OUT}|;#{code}}", scope, @buffer.path, 0).freeze
 		end
 		
+		# Renders the template to a string.
+		#
+		# @parameter scope [Object] The scope in which the template will be evaluated.
+		# @parameter output [String | Nil] The output string to append to.
 		def to_string(scope = Object.new, output = nil)
 			builder = Builder.new(output, encoding: code.encoding)
 			
@@ -112,10 +125,15 @@ module XRB
 			return builder.output
 		end
 		
+		# Renders the template to a buffer.
 		def to_buffer(scope)
 			Buffer.new(to_string(scope), path: @buffer.path)
 		end
 		
+		# Convert the template to a proc that can be called with an output object. The proc renders the template using `to_string` and writes the output to the given output object. The output should implement `<<` and `close_write(error = nil)` methods.
+		#
+		# @parameter scope [Object] The scope in which the template will be evaluated.
+		# @returns [Proc] a proc that can be called with an output object.
 		def to_proc(scope = @binding.dup)
 			proc do |output|
 				to_string(scope, output)
