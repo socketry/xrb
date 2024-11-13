@@ -89,6 +89,7 @@ module XRB
 			@buffer = buffer
 			@binding = binding
 			
+			@code = nil
 			@compiled = nil
 		end
 		
