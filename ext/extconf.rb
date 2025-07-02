@@ -7,7 +7,7 @@ return if RUBY_DESCRIPTION =~ /jruby/
 
 require "mkmf"
 
-$CFLAGS << " -O3 -Wall -Wno-unknown-pragmas -std=c99"
+append_cflags(["-Wall", "-Wno-unknown-pragmas", "-std=c99"])
 
 have_func("rb_sym2str")
 have_func("rb_str_cat_cstr")
