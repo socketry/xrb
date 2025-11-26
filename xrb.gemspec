@@ -13,12 +13,12 @@ Gem::Specification.new do |spec|
 	spec.cert_chain  = ["release.cert"]
 	spec.signing_key = File.expand_path("~/.gem/release.pem")
 	
-	spec.homepage = "https://github.com/ioquatix/xrb"
+	spec.homepage = "https://github.com/socketry/xrb"
 	
 	spec.metadata = {
 		"documentation_uri" => "https://socketry.github.io/xrb/",
 		"funding_uri" => "https://github.com/sponsors/ioquatix",
-		"source_code_uri" => "https://github.com/ioquatix/xrb.git",
+		"source_code_uri" => "https://github.com/socketry/xrb.git",
 	}
 	
 	spec.files = Dir.glob(["{bake,ext,lib}/**/*", "*.md"], File::FNM_DOTMATCH, base: __dir__)
