@@ -50,6 +50,10 @@ Please see the [project documentation](https://socketry.github.io/xrb/) for more
 
 Please see the [project releases](https://socketry.github.io/xrb/releases/index) for all releases.
 
+### v0.12.0
+
+  - [URL Helpers](https://socketry.github.io/xrb/releases/index#url-helpers)
+
 ## See Also
 
   - [xrb-rails](https://github.com/socketry/xrb-rails) - A Rails ActionView integration for rendering XRB templates.

@@ -1,0 +1,22 @@
+# Automatically generated context index for Utopia::Project guides.
+# Do not edit then files in this directory directly, instead edit the guides and then run `bake utopia:project:agent:context:update`.
+---
+description: A fast native templating system that compiles directly to Ruby code.
+metadata:
+  bug_tracker_uri: https://github.com/socketry/xrb/issues
+  documentation_uri: https://socketry.github.io/xrb/
+  funding_uri: https://github.com/sponsors/ioquatix
+  source_code_uri: https://github.com/socketry/xrb.git
+files:
+- path: getting-started.md
+  title: Getting Started
+  description: This guide gives a brief overview of the XRB templating system and
+    how to use it.
+- path: capturing-output.md
+  title: Capturing Output
+  description: This guide explains how to capture intermediate output during template
+    rendering.
+- path: markup-parser.md
+  title: Markup Parser
+  description: This guide explains how to parse and manipulate Markup using the XRB
+    templating system.

@@ -1,6 +1,6 @@
 # Releases
 
-## Unreleased
+## v0.12.0
 
 ### URL Helpers
 
@@ -10,7 +10,7 @@ Add `gem "protocol-url"` to your application dependencies and replace `require "
 
 Replace `XRB::Reference(path, **parameters)` with:
 
-```ruby
+``` ruby
 reference = Protocol::URL::Reference.parse(path)
 reference.parse_query!.update(parameters)
 ```
