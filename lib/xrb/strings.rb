@@ -7,11 +7,11 @@ module XRB
 	module Strings
 		HTML_ESCAPE = {"&" => "&amp;", "<" => "&lt;", ">" => "&gt;", "\"" => "&quot;"}
 		HTML_ESCAPE_PATTERN = Regexp.new("[" + Regexp.quote(HTML_ESCAPE.keys.join) + "]")
-
+		
 		def self.to_html(string)
 			string.gsub(HTML_ESCAPE_PATTERN){|c| HTML_ESCAPE[c]}
 		end
-
+		
 		def self.to_quoted_string(string)
 			string = string.gsub('"', '\\"')
 			string.gsub!(/\r/, "\\r")

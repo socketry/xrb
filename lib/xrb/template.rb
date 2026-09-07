@@ -60,7 +60,7 @@ module XRB
 				text = text.gsub("'", "\\\\'")
 				@code << "#{OUT}.raw('#{text}');"
 			end
-
+			
 			# Output a ruby expression (or part of).
 			def instruction(text, postfix = nil)
 				@code << text << (postfix || ";")

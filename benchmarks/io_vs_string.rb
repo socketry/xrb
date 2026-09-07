@@ -40,11 +40,11 @@ describe "String\#<< vs Array\#<< vs StringIO" do
 			x.compare!
 		end
 	end
-
+	
 	it "should be fast to concatenate strings several times" do
 		# Adjust N to consider the cost of allocation vs the cost of appending.
 		n = 5
-
+		
 		Benchmark.ips do |x|
 			# These next two tests consider that multiple writes may be done per buffer allocation.
 			

@@ -18,7 +18,7 @@ describe XRB::Strings do
 	it "should generate quoted strings" do
 		text = XRB::Strings.to_quoted_string(%Q{"Hello World"})
 		expect(text).to be == %q{"\"Hello World\""}
-	
+		
 		text = XRB::Strings.to_quoted_string(%Q{"Hello\r\nWorld"})
 		expect(text).to be == %q{"\"Hello\r\nWorld\""}
 	end
@@ -26,10 +26,10 @@ describe XRB::Strings do
 	it "should generate quoted attributes" do
 		text = XRB::Strings.to_attribute(:foo, "bar")
 		expect(text).to be == %Q{foo="bar"}
-	
+		
 		text = XRB::Strings.to_simple_attribute(:foo, false)
 		expect(text).to be == %Q{foo}
-	
+		
 		text = XRB::Strings.to_simple_attribute(:foo, true)
 		expect(text).to be == %Q{foo="foo"}
 	end

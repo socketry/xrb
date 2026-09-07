@@ -74,11 +74,11 @@ module XRB
 		def build_nested_query(value, prefix = nil)
 			case value
 			when Array
-				value.map { |v|
+				value.map{|v|
 					build_nested_query(v, "#{prefix}[]")
 				}.join("&")
 			when Hash
-				value.map { |k, v|
+				value.map{|k, v|
 					build_nested_query(v, prefix ? "#{prefix}[#{escape(k.to_s)}]" : escape(k.to_s))
 				}.reject(&:empty?).join("&")
 			when nil

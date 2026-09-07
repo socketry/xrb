@@ -13,10 +13,10 @@ This guide explains how to parse and manipulate Markup using the XRB templating 
 The markup parser takes a string buffer and a delegate object, and calls methods on the delegate object as it encounters different parts of the markup. The delegate object can be used to accumulate events or pass them on somewhere else.
 
 ``` ruby
-require 'xrb'
+require "xrb"
 
 # Custom entities, or could use XRB::Entities::HTML5
-entities = {'amp' => '&', 'lt' => '<', 'gt' => '>', 'quot' => '"'}
+entities = {"amp" => "&", "lt" => "<", "gt" => ">", "quot" => '"'}
 
 class MyDelegate
 	# Called when encountering an open tag: `<` name
@@ -96,8 +96,8 @@ In your delegate class, you can extract namespaces from the tag name and use the
 ``` ruby
 class MyDelegate
 	def open_tag_begin(name, offset)
-		namespace, name = name.split(':', 2)
-		if namespace == 'my'
+		namespace, name = name.split(":", 2)
+		if namespace == "my"
 			# Handle custom tag
 		else
 			# Handle standard tag

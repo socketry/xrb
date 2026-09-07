@@ -17,12 +17,12 @@ class Formatter
 	
 	def row(options = {}, &block)
 		XRB::Builder.fragment do |builder|
-			builder.inline(:dt) { builder.text title_for(options) }
+			builder.inline(:dt){builder.text title_for(options)}
 			
 			if block_given?
-				builder.inline(:dd) { builder.capture(self, &block) }
+				builder.inline(:dd){builder.capture(self, &block)}
 			else
-				builder.inline(:dd) { builder.text value_for(options) }
+				builder.inline(:dd){builder.text value_for(options)}
 			end
 		end >> block
 	end

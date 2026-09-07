@@ -61,17 +61,17 @@ ATemplateParser = Sus::Shared("template parser") do
 	it "should fail to parse incomplete expression" do
 		buffer = XRB::Buffer.new('<img src="#{product.photo.thumbnail_url" />')
 		
-		expect{
+		expect do
 			subject.parse_template(buffer, delegate)
-		}.to raise_exception(XRB::ParseError)
+		end.to raise_exception(XRB::ParseError)
 	end
 	
 	it "should fail to parse incomplete instruction" do
 		buffer = XRB::Buffer.new("<?r foo")
 		
-		expect{
+		expect do
 			subject.parse_template(buffer, delegate)
-		}.to raise_exception(XRB::ParseError)
+		end.to raise_exception(XRB::ParseError)
 	end
 end
 

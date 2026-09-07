@@ -207,7 +207,7 @@ end
 
 describe "<p>\nこんにちは World<p" do
 	include_context InvalidMarkup
-
+	
 	let(:error) {events rescue $!}
 	
 	it "should fail on line 2" do

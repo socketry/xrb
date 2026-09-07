@@ -72,15 +72,15 @@ end
 
 # Compile time:
 Benchmark.ips do |x|
-	x.report("ERB (erubi)") { Erubi::Engine.new(ERB_SRC, freeze_template_literals: false, chain_appends: true).src}
-	x.report("XRB") { XRB::Template.new(XRB::Buffer.load(XRB_SRC)).code }
+	x.report("ERB (erubi)"){Erubi::Engine.new(ERB_SRC, freeze_template_literals: false, chain_appends: true).src}
+	x.report("XRB"){XRB::Template.new(XRB::Buffer.load(XRB_SRC)).code}
 	x.compare!
 end
 
 Benchmark.ips do |x|
-	x.report("ERB (eval)") { ERB_TEMPLATE.result }
-	x.report("XRB") { XRB_TEMPLATE.to_string }
-	x.report("XRB (method)") { Templates.xrb_render }
-	x.report("ERB (erubi)") { Templates.erubi_render }
+	x.report("ERB (eval)"){ERB_TEMPLATE.result}
+	x.report("XRB"){XRB_TEMPLATE.to_string}
+	x.report("XRB (method)"){Templates.xrb_render}
+	x.report("ERB (erubi)"){Templates.erubi_render}
 	x.compare!
 end

@@ -61,7 +61,7 @@ describe XRB::Builder do
 		it "should indent self-closing tag correctly" do
 			builder = XRB::Builder.new
 			
-			builder.tag("foo") {builder.tag("bar")}
+			builder.tag("foo"){builder.tag("bar")}
 			
 			expect(builder.output).to be == <<~XML.chomp
 			<foo>

@@ -6,7 +6,6 @@ permissions:
   contents: read
 
 env:
-  CONSOLE_OUTPUT: XTerm
   COVERAGE: PartialSummary
 
 jobs:
@@ -18,16 +17,17 @@ jobs:
       matrix:
         os:
           - ubuntu
+          - macos
         
         ruby:
-          - "3.4"
+          - ruby
     
         env:
           - ""
           - "XRB_PREFER_FALLBACK=1"
           
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v7
     - uses: ruby/setup-ruby@v1
       with:
         ruby-version: ${{matrix.ruby}}
@@ -37,11 +37,11 @@ jobs:
       timeout-minutes: 5
       run: bundle exec bake test
     
-    - uses: actions/upload-artifact@v4
+    - uses: actions/upload-artifact@v7
       with:
         include-hidden-files: true
         if-no-files-found: error
-        name: coverage-${{matrix.os}}-${{matrix.ruby}}-${{matrix.env}}
+        name: coverage-${{matrix.os}}-${{matrix.ruby}}
         path: .covered.db
   
   validate:
@@ -49,13 +49,13 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v7
     - uses: ruby/setup-ruby@v1
       with:
-        ruby-version: "3.4"
+        ruby-version: ruby
         bundler-cache: true
     
-    - uses: actions/download-artifact@v4
+    - uses: actions/download-artifact@v8
     
     - name: Validate coverage
       timeout-minutes: 5

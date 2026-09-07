@@ -24,7 +24,7 @@ XRB is a template language which adopts a Ruby-native approach to string interpo
 The most common use case is to render a template with some data:
 
 ``` ruby
-require 'xrb'
+require "xrb"
 
 buffer = XRB::Buffer('<?r self.each do |item| ?>#{item}<?r end ?>')
 template = XRB::Template.new(buffer)
@@ -43,11 +43,11 @@ The `to_string` method accepts a single argument, which is the context in which 
 #### Using a Object
 
 ``` ruby
-require 'xrb'
+require "xrb"
 
 Person = Struct.new(:name, :age)
 Controller = Struct.new(:people)
-controller = Controller.new([Person.new('Alice', 30), Person.new('Bob', 40)])
+controller = Controller.new([Person.new("Alice", 30), Person.new("Bob", 40)])
 
 buffer = XRB::Buffer('<?r self.people.each do |person| ?>#{person.name} is #{person.age} years old.<br/><?r end ?>')
 template = XRB::Template.new(buffer)
@@ -59,12 +59,12 @@ template.to_string(controller)
 #### Using a Binding
 
 ``` ruby
-require 'xrb'
+require "xrb"
 
 Person = Struct.new(:name, :age)
 Controller = Struct.new(:people)
 def people
-	[Person.new('Alice', 30), Person.new('Bob', 40)]
+	[Person.new("Alice", 30), Person.new("Bob", 40)]
 end
 
 buffer = XRB::Buffer('<?r self.people.each do |person| ?>#{person.name} is #{person.age} years old.<br/><?r end ?>')

@@ -5,9 +5,6 @@ on: [push, pull_request]
 permissions:
   contents: read
 
-env:
-  CONSOLE_OUTPUT: XTerm
-
 jobs:
   test:
     name: ${{matrix.ruby}} on ${{matrix.os}} ${{matrix.env}}
@@ -21,9 +18,9 @@ jobs:
           - macos
         
         ruby:
-          - "3.2"
           - "3.3"
           - "3.4"
+          - "4.0"
         
         env:
           - ""
@@ -43,7 +40,7 @@ jobs:
             experimental: true
     
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v7
     - uses: ruby/setup-ruby@v1
       with:
         ruby-version: ${{matrix.ruby}}
@@ -51,4 +48,4 @@ jobs:
     
     - name: Run tests
       timeout-minutes: 10
-      run: ${{matrix.env}} bundle exec bake build test
+      run: ${{matrix.env}} bundle exec bake test
