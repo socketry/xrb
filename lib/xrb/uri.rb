@@ -4,7 +4,7 @@
 # Copyright, 2017-2024, by Samuel Williams.
 
 module XRB
-	# This class is superceeded by `XRB::Reference`.
+	# This class is deprecated. Use `Protocol::URL::Reference` from the `protocol-url` gem instead.
 	class URI
 		def initialize(path, query_string, fragment, parameters)
 			@path = path

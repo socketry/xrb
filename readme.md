@@ -48,7 +48,7 @@ Please see the [project documentation](https://socketry.github.io/xrb/) for more
 
 ## Releases
 
-There are no documented releases.
+Please see the [project releases](https://socketry.github.io/xrb/releases/index) for all releases.
 
 ## See Also
 
