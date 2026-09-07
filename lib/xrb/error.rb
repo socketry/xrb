@@ -6,10 +6,16 @@
 require_relative "buffer"
 
 module XRB
+	# The base class for XRB errors.
 	class Error < StandardError
 	end
 	
+	# Raised when an XRB parser encounters invalid input.
 	class ParseError < Error
+		# Initialize a parse error at a specific byte offset within a buffer.
+		# @parameter message [String] The error message.
+		# @parameter buffer [Buffer] The input buffer being parsed.
+		# @parameter offset [Integer] The byte offset where parsing failed.
 		def initialize(message, buffer, offset)
 			super(message)
 			
@@ -17,6 +23,8 @@ module XRB
 			@offset = offset
 		end
 		
+		# Compute the location of the parse error within the input buffer.
+		# @returns [Location] The line and byte location of the error.
 		def location
 			@location ||= Location.new(@buffer.read, @offset)
 		end
@@ -24,12 +32,19 @@ module XRB
 		attr :buffer
 		attr :path
 		
+		# Format the error with its path, location, message, and source line.
+		# @returns [String] The formatted parse error.
 		def to_s
 			"#{buffer.path}#{location}: #{super}\n#{location.line_text}"
 		end
 	end
 	
+	# A byte offset resolved to a line within an input string.
 	class Location
+		# Initialize a location for a byte offset within an input string.
+		# @parameter input [String] The complete input string.
+		# @parameter offset [Integer] The byte offset within the input string.
+		# @raises [ArgumentError] If the offset is past the end of the input.
 		def initialize(input, offset)
 			raise ArgumentError.new("Offset #{index} is past end of input #{input.bytesize}") if offset > input.bytesize
 			
@@ -52,10 +67,14 @@ module XRB
 			end
 		end
 		
+		# Convert the location to its absolute byte offset.
+		# @returns [Integer] The byte offset within the input string.
 		def to_i
 			@offset
 		end
 		
+		# Format the location as a one-based line number and zero-based line offset.
+		# @returns [String] The formatted location.
 		def to_s
 			"[#{self.line_number}:#{self.line_offset}]"
 		end

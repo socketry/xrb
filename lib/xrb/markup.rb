@@ -6,20 +6,33 @@
 require "cgi"
 
 module XRB
-	# A wrapper which indicates that `value` can be appended to the output buffer without any changes.
+	# Provides the default markup rendering protocol, escaping object string representations.
 	module Markup
+		# Wrap a string as markup without escaping it.
+		# @parameter string [String] The already-safe markup string.
+		# @returns [MarkupString] The unescaped markup string.
 		def self.raw(string)
 			MarkupString.raw(string)
 		end
 		
+		# Append a value to an output buffer using its markup representation.
+		# @parameter output [Interface(:<<)] The output buffer.
+		# @parameter value [Interface(:append_markup)] The value to append.
+		# @returns [Object] The result of appending the value.
 		def self.append(output, value)
 			value.append_markup(output)
 		end
 		
+		# Append the escaped string representation of the receiver to an output buffer.
+		# @parameter output [Interface(:<<)] The output buffer.
+		# @returns [Object] The output buffer.
 		def append_markup(output)
 			output << ::CGI.escape_html(self.to_s)
 		end
 		
+		# Append the escaped string representation of the receiver using a builder.
+		# @parameter builder [Builder] The builder receiving the escaped markup.
+		# @returns [Object] The builder's output buffer.
 		def build_markup(builder)
 			append_markup(builder.output)
 		end
@@ -29,8 +42,8 @@ module XRB
 	
 	# Initialized from text which is escaped to use HTML entities.
 	class MarkupString < String
-		# @param string [String] the string value itself.
-		# @param escape [Boolean] whether or not to escape the string.
+		# @parameter string [String | Nil] The string value itself.
+		# @parameter escape [Boolean] Whether to escape the string.
 		def initialize(string = nil, escape = true)
 			if string
 				if escape
@@ -54,12 +67,19 @@ module XRB
 			true
 		end
 		
+		# Append this already-safe markup string to an output buffer.
+		# @parameter output [Interface(:<<)] The output buffer.
+		# @returns [Object] The output buffer.
 		def append_markup(output)
 			output << self
 		end
 	end
 	
+	# Helpers for constructing script-compatible markup values.
 	module Script
+		# Serialize a value as raw JSON markup without HTML escaping it.
+		# @parameter value [Object] The value to serialize.
+		# @returns [MarkupString] The serialized JSON markup.
 		def self.json(value)
 			MarkupString.new(JSON.dump(value), false)
 		end

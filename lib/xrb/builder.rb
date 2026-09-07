@@ -75,6 +75,11 @@ module XRB
 			return nil
 		end
 		
+		# Create a markup fragment containing a single inline tag.
+		# @parameter name [String | Symbol] The tag name.
+		# @parameter content [Object] The tag content, which will be escaped as required.
+		# @parameter attributes [Hash] The tag attributes.
+		# @returns [Fragment] The generated markup fragment.
 		def self.tag(name, content, **attributes)
 			self.fragment do |builder|
 				builder.inline(name, attributes) do
@@ -83,6 +88,10 @@ module XRB
 			end
 		end
 		
+		# Initialize a builder which appends markup to the given output buffer.
+		# @parameter output [String | Nil] The output buffer, or `nil` to create a new markup string.
+		# @parameter indent [Boolean] Whether generated markup should be indented.
+		# @parameter encoding [Encoding] The encoding for a newly created output buffer.
 		def initialize(output = nil, indent: true, encoding: Encoding::UTF_8)
 			# This field gets togged in #inline so we keep track of it separately from @indentation.
 			@indent = indent
@@ -114,10 +123,15 @@ module XRB
 		
 		alias to_s to_str
 		
+		# Compare the generated output with another string-like object.
+		# @parameter other [Object] The object to compare with the output.
+		# @returns [Boolean] Whether the generated output is equal to the other object as a string.
 		def == other
 			@output == String(other)
 		end
 		
+		# Compute the indentation for the current nesting level.
+		# @returns [String] The current indentation, or an empty string when indentation is disabled.
 		def indentation
 			if @indent
 				INDENT * (@level.size - 1)
@@ -150,6 +164,9 @@ module XRB
 		
 		alias inline inline_tag
 		
+		# Temporarily disable indentation while yielding to the block.
+		# @yields {} The block which generates inline content.
+		# @returns [Object] The value returned by the block.
 		def inline!
 			original_indent = @indent
 			@indent = false
@@ -175,6 +192,9 @@ module XRB
 			end
 		end
 		
+		# Append unescaped content directly to the output buffer.
+		# @parameter content [String] The raw markup to append.
+		# @returns [String] The output buffer.
 		def raw(content)
 			@output << content
 		end
