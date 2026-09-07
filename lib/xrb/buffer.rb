@@ -17,6 +17,8 @@ module XRB
 		# @attribute [String] the path name of the buffer.
 		attr :path
 		
+		# Freeze the buffer and its contents.
+		# @returns [Buffer] The frozen buffer.
 		def freeze
 			return self if frozen?
 			

@@ -192,6 +192,7 @@
 require_relative '../error'
 
 module XRB
+	# @namespace
 	module Fallback
 		%% write data;
 		

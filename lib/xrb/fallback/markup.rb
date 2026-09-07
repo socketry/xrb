@@ -11,6 +11,7 @@
 require_relative "../error"
 
 module XRB
+	# @namespace
 	module Fallback
 		
 # line 16 "lib/xrb/fallback/markup.rb"
