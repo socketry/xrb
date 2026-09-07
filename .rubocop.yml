@@ -2,6 +2,10 @@ plugins:
   - rubocop-md
   - rubocop-socketry
 
+inherit_mode:
+  merge:
+    - Exclude
+
 AllCops:
   DisabledByDefault: true
   Exclude:
